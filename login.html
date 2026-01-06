@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Connexion commerçant</title>
-</head>
-<body>
-
-<h2>Connexion commerçant</h2>
-
-<input type="email" id="email" placeholder="Email"><br><br>
-<input type="password" id="password" placeholder="Mot de passe"><br><br>
-
-<button onclick="login()">Se connecter</button>
-
-<p id="message"></p>
-
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey: "TA_API_KEY",
-    authDomain: "TON_AUTH_DOMAIN",
-    projectId: "TON_PROJECT_ID",
-    storageBucket: "TON_STORAGE",
-    messagingSenderId: "TON_SENDER_ID",
-    appId: "TON_APP_ID"
+    apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+    authDomain: "livraison-sablaise.firebaseapp.com",
+    projectId: "livraison-sablaise",
+    storageBucket: "livraison-sablaise.firebasestorage.app",
+    messagingSenderId: "930839535214",
+    appId: "1:930839535214:web:a3235919aa88d066bc507f",
+    measurementId: "G-R3ZCGLQ69E"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -44,6 +28,3 @@
       });
   }
 </script>
-
-</body>
-</html>
