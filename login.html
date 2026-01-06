@@ -1,30 +1,51 @@
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion commerçant</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 2rem; max-width: 400px; margin:auto;">
+  
+  <h2>Connexion commerçant</h2>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
-    authDomain: "livraison-sablaise.firebaseapp.com",
-    projectId: "livraison-sablaise",
-    storageBucket: "livraison-sablaise.firebasestorage.app",
-    messagingSenderId: "930839535214",
-    appId: "1:930839535214:web:a3235919aa88d066bc507f",
-    measurementId: "G-R3ZCGLQ69E"
-  };
+  <input type="email" id="email" placeholder="Email" style="width:100%; padding:0.5rem; margin:0.5rem 0;">
+  <input type="password" id="password" placeholder="Mot de passe" style="width:100%; padding:0.5rem; margin:0.5rem 0;">
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  <button onclick="login()" style="width:100%; padding:0.7rem; margin-top:1rem; background:#0077b6; color:white; border:none; cursor:pointer;">Se connecter</button>
 
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  <p id="message" style="color:red; margin-top:1rem;"></p>
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        window.location.href = "dashboard.html";
-      })
-      .catch(err => {
-        document.getElementById("message").innerText = err.message;
-      });
-  }
-</script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+    // 🔑 REMPLACE avec TES vraies valeurs Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+      authDomain: "livraison-sablaise.firebaseapp.com",
+      projectId: "livraison-sablaise",
+      storageBucket: "livraison-sablaise.firebasestorage.app",
+      messagingSenderId: "930839535214",
+      appId: "1:930839535214:web:a3235919aa88d066bc507f",
+      measurementId: "G-R3ZCGLQ69E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          window.location.href = "dashboard.html"; // redirige vers le dashboard
+        })
+        .catch(err => {
+          document.getElementById("message").innerText = err.message;
+        });
+    }
+  </script>
+
+</body>
+</html>
