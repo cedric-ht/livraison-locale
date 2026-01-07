@@ -1,128 +1,119 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard Commerçant</title>
-  <style>
-    body {font-family: Arial, sans-serif; max-width: 600px; margin:auto; padding:2rem;}
-    h2, h3 {color:#0077b6;}
-    ul {list-style:none; padding:0;}
-    li {margin:0.5rem 0; display:flex; justify-content:space-between; align-items:center;}
-    button {padding:0.3rem 0.6rem; cursor:pointer; margin-left:0.3rem;}
-    .available {background:#2d6a4f; color:white; border:none;}
-    .unavailable {background:#d00000; color:white; border:none;}
-    .form-group {margin-bottom:1rem;}
-    input[type=text], input[type=number] {padding:0.4rem; width:60%; margin-right:0.5rem;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Commerçant - Livraison Locale</title>
+<style>
+body {font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; margin:0; padding:0;}
+header {background:#00b4d8; color:white; text-align:center; padding:2rem;}
+header h1 {font-size:2.5rem; margin-bottom:0.5rem;}
+header p {font-size:1.2rem;}
+section {padding:2rem; max-width:1000px; margin:auto;}
+button {padding:0.5rem 1rem; border:none; border-radius:10px; background:#0077b6; color:white; cursor:pointer; transition:0.3s; margin:0.3rem 0;}
+button:hover {background:#0096c7;}
+#productList {display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; margin-top:2rem;}
+.productCard {background:white; padding:1rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between;}
+.productCard span {font-weight:600;}
+.unavailable {color:#999; font-style:italic;}
+form input {width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:10px; border:1px solid #ccc;}
+form {margin-top:1rem;}
+#logout {background:#ff595e;}
+#logout:hover {background:#ff2e33;}
+</style>
 </head>
 <body>
 
+<header>
+<h1>Dashboard Commerçant</h1>
+<p>Gérez vos produits en temps réel</p>
+<button id="logout">Se déconnecter</button>
+</header>
+
+<section>
+<h2>Ajouter un produit</h2>
+<form id="addProductForm">
+<input type="text" id="productName" placeholder="Nom du produit" required>
+<input type="text" id="productPrice" placeholder="Prix (€)" required>
+<label><input type="checkbox" id="productAvailable" checked> Disponible</label><br>
+<button type="submit">Ajouter produit</button>
+</form>
+
 <h2>Mes produits</h2>
-<ul id="productList"></ul>
-
-<h3>Ajouter un produit</h3>
-<div class="form-group">
-  <input type="text" id="newName" placeholder="Nom du produit">
-  <input type="number" id="newPrice" placeholder="Prix (ex: 1.2)">
-  <label>
-    Disponible <input type="checkbox" id="newAvailable" checked>
-  </label>
-  <button onclick="addProduct()">Ajouter</button>
-</div>
-
-<button onclick="logout()" style="margin-top:2rem;">Se déconnecter</button>
+<div id="productList"></div>
+</section>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-  import { getFirestore, collection, doc, getDocs, updateDoc, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, doc, deleteDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // 🔑 REMPLACE avec TES valeurs Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
-    authDomain: "livraison-sablaise.firebaseapp.com",
-    projectId: "livraison-sablaise",
-    storageBucket: "livraison-sablaise.firebasestorage.app",
-    messagingSenderId: "930839535214",
-    appId: "1:930839535214:web:a3235919aa88d066bc507f",
-    measurementId: "G-R3ZCGLQ69E"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain: "livraison-sablaise.firebaseapp.com",
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f",
+  measurementId: "G-R3ZCGLQ69E"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  onAuthStateChanged(auth, async user => {
-    if (!user) {
-      window.location.href = "login.html"; 
-      return;
-    }
+let uid; // UID de l'utilisateur connecté
 
+onAuthStateChanged(auth, user => {
+  if(user){
+    uid = user.uid;
+    loadProducts();
+  } else {
+    window.location.href="login.html";
+  }
+});
+
+document.getElementById("logout").addEventListener("click", ()=> signOut(auth).then(()=> window.location.href="login.html"));
+
+// Ajouter produit
+document.getElementById("addProductForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const name = document.getElementById("productName").value;
+  const price = document.getElementById("productPrice").value;
+  const available = document.getElementById("productAvailable").checked;
+  try{
+    await addDoc(collection(db,"commerces",uid,"produits"),{name,price,available});
+    e.target.reset();
+  } catch(err){console.error(err);}
+});
+
+// Affichage produits en temps réel
+function loadProducts(){
+  const productsRef = collection(db,"commerces",uid,"produits");
+  onSnapshot(productsRef, snapshot=>{
     const productList = document.getElementById("productList");
-    productList.innerHTML = "";
-
-    const productsRef = collection(db, "commerces", user.uid, "produits");
-    const snapshot = await getDocs(productsRef);
-
-    snapshot.forEach(docSnap => {
-      const product = docSnap.data();
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span>${product.name} - ${product.price}€</span>
-        <div>
-          <button class="${product.available ? 'available' : 'unavailable'}">${product.available ? 'Disponible' : 'Indisponible'}</button>
-          <button style="background:#555;color:white;border:none;">Supprimer</button>
-        </div>
+    productList.innerHTML="";
+    snapshot.forEach(docSnap=>{
+      const p = docSnap.data();
+      const div = document.createElement("div");
+      div.className="productCard";
+      div.innerHTML=`
+        <span>${p.name} - ${p.price}€ ${!p.available ? "(Non disponible)" : ""}</span>
+        <label><input type="checkbox" ${p.available ? "checked":""} class="toggleAvailable"> Disponible</label>
+        <button class="deleteBtn">Supprimer</button>
       `;
-      
-      const dispoBtn = li.querySelector("button:first-of-type");
-      const delBtn = li.querySelector("button:last-of-type");
-
-      // Basculer Disponible / Indisponible
-      dispoBtn.onclick = async () => {
-        const newStatus = !product.available;
-        await updateDoc(doc(db, "commerces", user.uid, "produits", docSnap.id), {available: newStatus});
-        dispoBtn.innerText = newStatus ? "Disponible" : "Indisponible";
-        dispoBtn.className = newStatus ? "available" : "unavailable";
-        product.available = newStatus; 
-      };
-
-      // Supprimer le produit
-      delBtn.onclick = async () => {
-        if(confirm(`Supprimer le produit "${product.name}" ?`)) {
-          await deleteDoc(doc(db, "commerces", user.uid, "produits", docSnap.id));
-          li.remove();
-        }
-      };
-
-      productList.appendChild(li);
+      // toggle disponible
+      div.querySelector(".toggleAvailable").addEventListener("change", async e=>{
+        await updateDoc(doc(db,"commerces",uid,"produits",docSnap.id),{available:e.target.checked});
+      });
+      // supprimer produit
+      div.querySelector(".deleteBtn").addEventListener("click", async ()=>{
+        if(confirm("Supprimer ce produit ?")) await deleteDoc(doc(db,"commerces",uid,"produits",docSnap.id));
+      });
+      productList.appendChild(div);
     });
   });
-
-  // Ajouter un produit
-  window.addProduct = async function() {
-    const name = document.getElementById("newName").value.trim();
-    const price = parseFloat(document.getElementById("newPrice").value);
-    const available = document.getElementById("newAvailable").checked;
-
-    if (!name || isNaN(price)) {
-      alert("Nom et prix valides requis !");
-      return;
-    }
-
-    const productsRef = collection(db, "commerces", auth.currentUser.uid, "produits");
-    await addDoc(productsRef, { name, price, available });
-
-    alert("Produit ajouté !");
-    location.reload(); // recharge pour voir le nouveau produit
-  };
-
-  // Déconnexion
-  window.logout = function() {
-    signOut(auth).then(() => {
-      window.location.href = "login.html";
-    }).catch(err => alert("Erreur déconnexion : " + err.message));
-  }
+}
 </script>
 
 </body>
