@@ -205,16 +205,27 @@ async function loadCommerces(){
 function loadProducts(commerceId){
   productList.innerHTML=`<h3>Produits</h3>`;
   const productsRef = collection(db, "commerces", commerceId, "produits");
+
   onSnapshot(productsRef, snapshot=>{
-    productList.innerHTML=`<h3>Produits</h3>`;
+    productList.innerHTML=`<h3>Produits</h3>`; // reset
     snapshot.forEach(docSnap=>{
       const p = docSnap.data();
+
+      // Nom et disponibilité
+      const name = p.Nom || "Produit inconnu";
+      const available = p.Disponible !== undefined ? p.Disponible : true;
+
+      // Prix sécurisé (si format "1,1" ou "1.1" on convertit en nombre)
+      let price = 0;
+      if(p.Prix){
+        price = parseFloat(p.Prix.toString().replace(",", "."));
+      }
+
       const div = document.createElement("div");
       div.className="product";
-      const available = p.Disponible ?? true;
-      const price = p.Prix.toString().replace(",", ".");
-      div.innerHTML = `<span>${p.Nom} - ${price.replace(".", ",")}€ ${!available ? "(Non disponible)" : ""}</span>
-        <button onclick="addToCart('${commerceId}','${docSnap.id}','${p.Nom}','${price}')">Ajouter au panier</button>`;
+      div.innerHTML = `<span>${name} - ${price.toFixed(2).replace(".", ",")}€ ${!available ? "(Non disponible)" : ""}</span>
+        <button onclick="addToCart('${commerceId}','${docSnap.id}','${name}','${price}')">Ajouter au panier</button>`;
+
       if(!available) div.querySelector("span").classList.add("unavailable");
       productList.appendChild(div);
     });
@@ -233,3 +244,4 @@ document.getElementById("contactForm").addEventListener("submit", e=>{
 
 </body>
 </html>
+
