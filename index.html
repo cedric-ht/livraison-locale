@@ -7,8 +7,6 @@
 <style>
 /* RESET */
 * {margin:0; padding:0; box-sizing:border-box;}
-
-/* FONT & COLORS */
 body {font-family: 'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; color:#03045e;}
 h1,h2,h3 {color:#0077b6;}
 a {text-decoration:none; color:#0077b6; transition:0.3s;}
@@ -31,8 +29,6 @@ section {padding:3rem 1rem; max-width:1000px; margin:auto;}
 /* CARD STYLE */
 .commerce, .product {background:white; padding:1rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.2s, box-shadow 0.2s; cursor:pointer;}
 .commerce:hover, .product:hover {transform:translateY(-5px); box-shadow:0 6px 18px rgba(0,0,0,0.15);}
-
-/* PRODUCTS */
 .product span {font-weight:600;}
 .product .unavailable {color:#999; font-style:italic;}
 
@@ -168,7 +164,7 @@ function renderCart() {
   if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
   let total = 0;
   cart.forEach(item=>{
-    total += item.price*item.quantity;
+    total += parseFloat(item.price)*item.quantity;
     container.innerHTML += `
       <div>
         <strong>${item.name}</strong> – ${item.price}€<br>
@@ -195,7 +191,7 @@ async function loadCommerces(){
     const commerce = docSnap.data();
     const div = document.createElement("div");
     div.className="commerce";
-    div.innerText = commerce.Nom;
+    div.innerText = commerce.Nom; // nom du commerce depuis Firestore
     div.onclick = ()=> loadProducts(docSnap.id);
     commerceList.appendChild(div);
   });
@@ -213,14 +209,9 @@ function loadProducts(commerceId){
       div.className="product";
       div.innerHTML = `
         <span>${p.Nom} - ${p.Prix}€ ${!p.Disponible?"(Non disponible)":""}</span><br>
-        ${
-          p.Disponible
-            ? `<button onclick="addToCart('${commerceId}','${productId}','${p.Nom}',${parseFloat(p.Prix)})">
-                Ajouter au panier
-              </button>`
-            : ""
-        }
+        ${p.Disponible?`<button onclick="addToCart('${commerceId}','${productId}','${p.Nom}',${parseFloat(p.Prix)})">Ajouter au panier</button>`:""}
       `;
+      if(!p.Disponible) div.querySelector("span").classList.add("unavailable");
       productList.appendChild(div);
     });
   });
@@ -228,7 +219,7 @@ function loadProducts(commerceId){
 
 loadCommerces();
 
-// ==================== VALIDER COMMANDE ====================
+// ==================== VALIDATION COMMANDE ====================
 async function validateOrder(){
   const cart = getCart();
   if(cart.length===0){alert("Le panier est vide !"); return;}
@@ -248,5 +239,6 @@ document.getElementById("contactForm").addEventListener("submit",e=>{
   e.target.reset();
 });
 </script>
+
 </body>
 </html>
