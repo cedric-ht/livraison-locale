@@ -12,7 +12,7 @@
 body {font-family: 'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; color:#03045e;}
 h1,h2,h3 {color:#0077b6;}
 a {text-decoration:none; color:#0077b6; transition:0.3s;}
-a:hover {color:#023e8a;}
+a:hover {color:#00b4d8;}
 
 /* HEADER */
 header {background:#00b4d8; padding:2rem; text-align:center; color:white;}
@@ -35,12 +35,12 @@ section {padding:3rem 1rem; max-width:1000px; margin:auto;}
 /* PRODUCTS */
 .product span {font-weight:600;}
 .product .unavailable {color:#999; font-style:italic;}
-.product button {margin-top:5px; background:#0077b6; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; cursor:pointer;}
+.product button {margin-top:5px; background:#0077b6; color:white; border:none; padding:0.4rem 0.8rem; border-radius:8px; cursor:pointer;}
 .product button:hover {background:#0096c7;}
 
 /* CART */
-#cart div {margin-bottom:1rem; padding:0.5rem; background:white; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-#cart button {margin:0 5px; padding:2px 6px; border-radius:5px; font-size:0.9rem;}
+#cart div {border-bottom:1px solid #ddd; padding:10px 0;}
+#cart button {margin:0 3px;}
 
 /* FORM */
 form {background:white; padding:1.5rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-width:500px; margin:auto;}
@@ -101,7 +101,7 @@ footer {text-align:center; padding:2rem 1rem; background:#03045e; color:white; m
 <section style="max-width: 800px; margin: 40px auto;">
   <h2>🛒 Votre panier</h2>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="margin-top:10px; background:#e63946;">Vider le panier</button>
+  <button onclick="clearCart()" style="background:red;color:white;">Vider le panier</button>
 </section>
 
 <footer>
@@ -109,66 +109,61 @@ footer {text-align:center; padding:2rem 1rem; background:#03045e; color:white; m
 </footer>
 
 <script>
-/* ---------- PANIER ---------- */
-function getCart() { return JSON.parse(localStorage.getItem("panier")) || []; }
-function saveCart(cart) { localStorage.setItem("panier", JSON.stringify(cart)); }
-
-function addToCart(commerceId, productId, name, price){
-  let cart = getCart();
-  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-  if(existing){ existing.quantity += 1; } 
-  else{ cart.push({commerceId, productId, name, price, quantity:1}); }
-  saveCart(cart); renderCart();
-}
-
-function removeFromCart(productId, commerceId){
-  let cart = getCart();
-  cart = cart.filter(p => !(p.productId===productId && p.commerceId===commerceId));
-  saveCart(cart); renderCart();
-}
-
-function updateQuantity(productId, commerceId, qty){
-  let cart = getCart();
-  const item = cart.find(p => p.productId===productId && p.commerceId===commerceId);
-  if(item){ item.quantity = Math.max(1, qty); }
-  saveCart(cart); renderCart();
-}
-
-function clearCart(){ localStorage.removeItem("panier"); renderCart(); }
-
-function renderCart(){
-  const container = document.getElementById("cart"); if(!container) return;
-  const cart = getCart(); container.innerHTML = "";
-  if(cart.length===0){ container.innerHTML = "<p>Panier vide</p>"; return; }
-  let total = 0;
-  cart.forEach(item=>{
-    total += item.price * item.quantity;
-    container.innerHTML += `
-      <div>
-        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".", ",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.productId}','${item.commerceId}', ${item.quantity-1})">-</button>
-        ${item.quantity}
-        <button onclick="updateQuantity('${item.productId}','${item.commerceId}', ${item.quantity+1})">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.productId}','${item.commerceId}')">Supprimer</button>
-      </div>
-    `;
-  });
-  container.innerHTML += `<h3>Total : ${total.toFixed(2).replace(".", ",")} €</h3>`;
-}
-document.addEventListener("DOMContentLoaded", renderCart);
-
-/* ---------- NAVIGATION ---------- */
+// MENU
 function showPage(page){
   ['accueil','apropos','contact','commander'].forEach(p=>document.getElementById(p).style.display='none');
   document.getElementById(page).style.display='block';
 }
+window.showPage = showPage;
 
-/* ---------- FIRESTORE ---------- */
+// PANIER
+function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
+function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
+function addToCart(commerceId, productId, name, price){
+  let cart = getCart();
+  price = parseFloat(price.toString().replace(",","."));
+  const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
+  if(existing) existing.quantity+=1;
+  else cart.push({commerceId,productId,name,price,quantity:1});
+  saveCart(cart); renderCart();
+}
+function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); saveCart(cart); renderCart();}
+function updateQuantity(productId, qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){item.quantity=Math.max(1,qty);} saveCart(cart); renderCart();}
+function clearCart(){localStorage.removeItem("panier"); renderCart();}
+function renderCart(){
+  const container=document.getElementById("cart");
+  const cart=getCart();
+  container.innerHTML="";
+  if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
+  let total=0;
+  cart.forEach(item=>{
+    total+=item.price*item.quantity;
+    container.innerHTML+=`
+      <div>
+        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
+        Quantité :
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity-1})">-</button>
+        ${item.quantity}
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button>
+        <br>
+        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+      </div>`;
+  });
+  container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
+}
+document.addEventListener("DOMContentLoaded", renderCart);
+
+// FORMULAIRE CONTACT
+document.getElementById("contactForm").addEventListener("submit", e=>{
+  e.preventDefault(); alert("Merci, nous avons reçu votre message !"); e.target.reset();
+});
+</script>
+
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
+// 🔑 Ton config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
@@ -178,58 +173,47 @@ const firebaseConfig = {
   appId: "1:930839535214:web:a3235919aa88d066bc507f",
   measurementId: "G-R3ZCGLQ69E"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* ---------- COMMERCE ET PRODUITS ---------- */
-const commerceList = document.getElementById("commerceList");
-const productList = document.getElementById("productList");
+// COMMERCE LISTE & PRODUITS EN TEMPS RÉEL
+const commerceList=document.getElementById("commerceList");
+const productList=document.getElementById("productList");
 
 async function loadCommerces(){
-  const snapshot = await getDocs(collection(db,"commerces"));
+  const snapshot=await getDocs(collection(db,"commerces"));
   commerceList.innerHTML="";
   snapshot.forEach(docSnap=>{
-    const c = docSnap.data();
-    const div = document.createElement("div");
+    const commerce=docSnap.data();
+    const div=document.createElement("div");
     div.className="commerce";
-    div.innerText = c.name || "Commerce inconnu";
-    div.onclick = ()=> loadProducts(docSnap.id);
+    div.innerText=commerce.name; // nom du commerce
+    div.onclick=()=>loadProducts(docSnap.id);
     commerceList.appendChild(div);
   });
 }
 
 function loadProducts(commerceId){
-  productList.innerHTML=`<h3>Produits</h3>`;
-  const productsRef = collection(db,"commerces",commerceId,"produits");
-  onSnapshot(productsRef, snapshot=>{
-    productList.innerHTML=`<h3>Produits</h3>`;
+  const productsRef=collection(db,"commerces",commerceId,"produits");
+  onSnapshot(productsRef,snapshot=>{
+    productList.innerHTML="<h3>Produits</h3>";
     snapshot.forEach(docSnap=>{
-      const p = docSnap.data();
-      const name = p.name || "Produit inconnu";
-      const available = p.available !== undefined ? p.available : true;
-      let price = 0;
-      if(p.price) price = parseFloat(p.price.toString().replace(",", "."));
-      const div = document.createElement("div");
+      const p=docSnap.data();
+      const div=document.createElement("div");
       div.className="product";
-      div.innerHTML = `<span>${name} - ${price.toFixed(2).replace(".", ",")}€ ${!available?"(Non disponible)":""}</span>
-        ${available?`<button onclick="addToCart('${commerceId}','${docSnap.id}','${name}','${price}')">Ajouter au panier</button>`:""}`;
-      if(!available) div.querySelector("span").classList.add("unavailable");
+      const price=p.price.toString().replace(".",",");
+      div.innerHTML=`<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":""}</span>`;
+      const button=document.createElement("button");
+      button.innerText="Ajouter au panier";
+      if(!p.available) button.disabled=true;
+      button.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price);
+      div.appendChild(button);
       productList.appendChild(div);
     });
   });
 }
 
 loadCommerces();
-
-/* ---------- FORMULAIRE CONTACT ---------- */
-document.getElementById("contactForm").addEventListener("submit", e=>{
-  e.preventDefault();
-  alert("Merci, nous avons reçu votre message !");
-  e.target.reset();
-});
-
-window.showPage = showPage;
 </script>
 
 </body>
