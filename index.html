@@ -6,73 +6,50 @@
 <title>Livraison Locale - Les Sables d'Olonne</title>
 
 <style>
-/* RESET */
-* {margin:0; padding:0; box-sizing:border-box;}
-
-/* BASE */
-body {
-  font-family:'Segoe UI', Tahoma, sans-serif;
-  background:#f4f6f8;
-  color:#03045e;
-}
-h1,h2,h3 {color:#0077b6;}
-a {text-decoration:none; color:#0077b6;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f4f6f8;color:#03045e}
+h1,h2,h3{color:#0077b6}
 
 /* HEADER */
-header {
+header{
   background:linear-gradient(135deg,#00b4d8,#0096c7);
   color:white;
   text-align:center;
   padding:2.5rem 1rem;
 }
-header h1 {font-size:2.5rem;}
-header p {font-size:1.2rem; opacity:0.95;}
 
-/* NAVBAR */
-nav {
+/* NAV */
+nav{
   display:flex;
+  flex-wrap:wrap;
   justify-content:center;
-  align-items:center;
   gap:1rem;
   background:white;
   padding:1rem;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
   position:sticky;
   top:0;
   z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
-
-nav a {
+nav a{
   padding:0.6rem 1rem;
   border-radius:10px;
   font-weight:600;
   cursor:pointer;
-  transition:0.3s;
 }
-
-nav a:hover {background:#eef6f9;}
-
-/* CTA COMMANDER */
-nav a.commander-btn {
+nav a:hover{background:#eef6f9}
+nav .cta{
   background:#00b4d8;
   color:white;
   font-size:1.1rem;
   padding:0.8rem 1.4rem;
-  box-shadow:0 4px 12px rgba(0,180,216,0.4);
-}
-
-nav a.commander-btn:hover {
-  background:#0096c7;
 }
 
 /* SECTIONS */
-section {
-  padding:3rem 1rem;
-  max-width:1100px;
-  margin:auto;
-}
+section{padding:3rem 1rem;max-width:1100px;margin:auto}
 
-#commerceList, #productList {
+/* GRID */
+#commerceList,#productList{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:1.5rem;
@@ -80,29 +57,14 @@ section {
 }
 
 /* CARDS */
-.commerce, .product {
+.commerce,.product{
   background:white;
   padding:1.2rem;
   border-radius:16px;
   box-shadow:0 6px 18px rgba(0,0,0,0.1);
-  transition:0.25s;
 }
-
-.commerce:hover, .product:hover {
-  transform:translateY(-5px);
-}
-
-.product span {
-  font-weight:600;
-}
-
-.unavailable {
-  color:#999;
-  font-style:italic;
-}
-
-/* BOUTONS PRODUITS */
-.product button {
+.commerce:hover,.product:hover{transform:translateY(-5px)}
+.product button{
   margin-top:0.6rem;
   width:100%;
   background:#0077b6;
@@ -110,73 +72,23 @@ section {
   border:none;
   padding:0.6rem;
   border-radius:10px;
-  cursor:pointer;
 }
-
-.product button:disabled {
-  background:#ccc;
-  cursor:not-allowed;
-}
+.product button:disabled{background:#ccc}
 
 /* PANIER */
-#cart {
-  background:white;
-  border-radius:16px;
-  padding:1.5rem;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-}
+#cart{background:white;padding:1.5rem;border-radius:16px}
+#cart div{border-bottom:1px solid #eee;padding:1rem 0}
 
-#cart div {
-  border-bottom:1px solid #eee;
-  padding:1rem 0;
-}
-
-#cart button {
-  margin:0 4px;
-  padding:0.3rem 0.7rem;
-}
-
-/* FORM */
-form {
-  background:white;
-  padding:1.5rem;
-  border-radius:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-  max-width:500px;
-  margin:auto;
-}
-
-form input, form textarea {
-  width:100%;
-  padding:0.8rem;
-  margin-bottom:1rem;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-
-form button {
-  background:#0077b6;
-  color:white;
-  border:none;
-  padding:0.8rem;
-  border-radius:10px;
-  font-weight:600;
-}
-
-/* FOOTER */
-footer {
+footer{
   background:#03045e;
   color:white;
   text-align:center;
-  padding:2rem 1rem;
-  margin-top:4rem;
+  padding:2rem;
+  margin-top:3rem;
 }
 
-/* MOBILE */
 @media(max-width:768px){
-  nav {flex-direction:column;}
-  nav a {width:90%; text-align:center; font-size:1.1rem;}
-  nav a.commander-btn {font-size:1.3rem; padding:1rem;}
+  nav a{width:90%;text-align:center;font-size:1.1rem}
 }
 </style>
 </head>
@@ -185,34 +97,34 @@ footer {
 
 <header>
   <h1>Livraison Locale</h1>
-  <p>Vos commerces locaux directement chez vous aux Sables d'Olonne</p>
+  <p>Vos commerces locaux aux Sables d’Olonne</p>
 </header>
 
 <nav>
   <a onclick="showPage('accueil')">Accueil</a>
   <a onclick="showPage('apropos')">À propos</a>
   <a onclick="showPage('contact')">Nous contacter</a>
-  <a class="commander-btn" onclick="showPage('commander')">🛒 Commander</a>
+  <a class="cta" onclick="showPage('commander')">🛒 Commander</a>
   <a href="inscription.html">Nous rejoindre</a>
 </nav>
 
 <section id="accueil">
   <h2>Bienvenue 👋</h2>
-  <p>Commandez chez vos commerçants de quartier en quelques clics.</p>
+  <p>Commandez chez vos commerçants locaux.</p>
 </section>
 
 <section id="apropos" style="display:none;">
   <h2>À propos</h2>
-  <p>Nous connectons les commerces locaux et leurs clients pour une livraison rapide, humaine et locale.</p>
+  <p>Une plateforme locale, humaine et rapide.</p>
 </section>
 
 <section id="contact" style="display:none;">
   <h2>Nous contacter</h2>
-  <form id="contactForm">
-    <input type="text" placeholder="Nom" required>
-    <input type="email" placeholder="Email" required>
-    <textarea placeholder="Message" required></textarea>
-    <button type="submit">Envoyer</button>
+  <form>
+    <input placeholder="Nom" required>
+    <input placeholder="Email" required>
+    <textarea placeholder="Message"></textarea>
+    <button>Envoyer</button>
   </form>
 </section>
 
@@ -222,24 +134,94 @@ footer {
   <div id="productList"></div>
 </section>
 
-<section style="max-width:900px;margin:auto;">
-  <h2>🛒 Votre panier</h2>
+<section style="max-width:900px;margin:auto">
+  <h2>🛒 Panier</h2>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="margin-top:1rem;background:#ff595e;color:white;">Vider le panier</button>
+  <button onclick="clearCart()" style="background:#ff595e;color:white">Vider</button>
 </section>
 
 <footer>
-  <p>© 2026 Livraison Locale – Les Sables d'Olonne</p>
+  <p>© Livraison Locale</p>
 </footer>
 
-<!-- LOGIQUE PANIER + FIRESTORE = IDENTIQUE À TON CODE ACTUEL -->
-<!-- TU N'AS RIEN CASSÉ -->
-
+<!-- NAV -->
 <script>
 function showPage(page){
-  ['accueil','apropos','contact','commander'].forEach(p=>document.getElementById(p).style.display='none');
+  ['accueil','apropos','contact','commander']
+    .forEach(p=>document.getElementById(p).style.display='none');
   document.getElementById(page).style.display='block';
 }
+</script>
+
+<!-- PANIER -->
+<script>
+function getCart(){return JSON.parse(localStorage.getItem("panier"))||[]}
+function saveCart(c){localStorage.setItem("panier",JSON.stringify(c))}
+function addToCart(cid,pid,name,price){
+  let c=getCart();
+  price=parseFloat(price.toString().replace(",","."));
+  let i=c.find(p=>p.productId===pid);
+  i?i.quantity++:c.push({productId:pid,name,price,quantity:1});
+  saveCart(c);renderCart();
+}
+function clearCart(){localStorage.removeItem("panier");renderCart()}
+function renderCart(){
+  const d=document.getElementById("cart");
+  const c=getCart();
+  d.innerHTML=c.length?c.map(i=>`${i.name} x${i.quantity}`).join("<br>"):"Panier vide";
+}
+document.addEventListener("DOMContentLoaded",renderCart);
+</script>
+
+<!-- 🔥 FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain:"livraison-sablaise.firebaseapp.com",
+  projectId:"livraison-sablaise"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const commerceList=document.getElementById("commerceList");
+const productList=document.getElementById("productList");
+
+async function loadCommerces(){
+  const snap=await getDocs(collection(db,"commerces"));
+  commerceList.innerHTML="";
+  snap.forEach(d=>{
+    const c=d.data();
+    const div=document.createElement("div");
+    div.className="commerce";
+    div.textContent=c.name;
+    div.onclick=()=>loadProducts(d.id);
+    commerceList.appendChild(div);
+  });
+}
+
+function loadProducts(cid){
+  onSnapshot(collection(db,"commerces",cid,"produits"),snap=>{
+    productList.innerHTML="<h3>Produits</h3>";
+    snap.forEach(d=>{
+      const p=d.data();
+      const div=document.createElement("div");
+      div.className="product";
+      div.innerHTML=`<strong>${p.name}</strong><br>${p.price}€`;
+      const b=document.createElement("button");
+      b.textContent="Ajouter au panier";
+      b.disabled=!p.available;
+      b.onclick=()=>addToCart(cid,d.id,p.name,p.price);
+      div.appendChild(b);
+      productList.appendChild(div);
+    });
+  });
+}
+
+loadCommerces();
 </script>
 
 </body>
