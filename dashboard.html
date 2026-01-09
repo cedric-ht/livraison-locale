@@ -5,38 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Commerçant - Livraison Locale</title>
 <style>
-body {font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; margin:0; padding:0;}
+body {font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; margin:0;}
 header {background:#00b4d8; color:white; text-align:center; padding:2rem;}
-header h1 {font-size:2.5rem; margin-bottom:0.5rem;}
-header p {font-size:1.2rem;}
+header h1 {font-size:2.5rem;}
 section {padding:2rem; max-width:1000px; margin:auto;}
-button {padding:0.5rem 1rem; border:none; border-radius:10px; background:#0077b6; color:white; cursor:pointer; transition:0.3s; margin:0.3rem 0;}
+button {padding:0.5rem 1rem; border:none; border-radius:10px; background:#0077b6; color:white; cursor:pointer;}
 button:hover {background:#0096c7;}
-#productList {display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; margin-top:2rem;}
-.productCard {background:white; padding:1rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between;}
-.productCard span {font-weight:600;}
-.unavailable {color:#999; font-style:italic;}
-form input {width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:10px; border:1px solid #ccc;}
-form {margin-top:1rem;}
 #logout {background:#ff595e;}
 #logout:hover {background:#ff2e33;}
+#productList {display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem;}
+.productCard {background:white; padding:1rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.stockControls {display:flex; gap:10px; align-items:center; margin:10px 0;}
+.unavailable {color:#999; font-style:italic;}
+form input {width:100%; padding:0.6rem; margin-bottom:0.6rem; border-radius:10px; border:1px solid #ccc;}
 </style>
 </head>
 <body>
 
 <header>
-<h1>Dashboard Commerçant</h1>
-<p>Gérez vos produits en temps réel</p>
-<button id="logout">Se déconnecter</button>
+  <h1>Dashboard Commerçant</h1>
+  <p>Gestion des produits et du stock</p>
+  <button id="logout">Se déconnecter</button>
 </header>
 
 <section>
 <h2>Ajouter un produit</h2>
 <form id="addProductForm">
-<input type="text" id="productName" placeholder="Nom du produit" required>
-<input type="text" id="productPrice" placeholder="Prix (€)" required>
-<label><input type="checkbox" id="productAvailable" checked> Disponible</label><br>
-<button type="submit">Ajouter produit</button>
+  <input type="text" id="productName" placeholder="Nom du produit" required>
+  <input type="text" id="productPrice" placeholder="Prix (€)" required>
+  <input type="number" id="productStock" placeholder="Stock initial" min="0" required>
+  <button type="submit">Ajouter produit</button>
 </form>
 
 <h2>Mes produits</h2>
@@ -54,16 +52,16 @@ const firebaseConfig = {
   projectId: "livraison-sablaise",
   storageBucket: "livraison-sablaise.firebasestorage.app",
   messagingSenderId: "930839535214",
-  appId: "1:930839535214:web:a3235919aa88d066bc507f",
-  measurementId: "G-R3ZCGLQ69E"
+  appId: "1:930839535214:web:a3235919aa88d066bc507f"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let uid; // UID de l'utilisateur connecté
+let uid;
 
+// Auth
 onAuthStateChanged(auth, user => {
   if(user){
     uid = user.uid;
@@ -73,47 +71,72 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-document.getElementById("logout").addEventListener("click", ()=> signOut(auth).then(()=> window.location.href="login.html"));
+// Logout
+document.getElementById("logout").onclick = () =>
+  signOut(auth).then(()=> window.location.href="login.html");
 
 // Ajouter produit
 document.getElementById("addProductForm").addEventListener("submit", async e=>{
   e.preventDefault();
-  const name = document.getElementById("productName").value;
-  const price = document.getElementById("productPrice").value;
-  const available = document.getElementById("productAvailable").checked;
-  try{
-    await addDoc(collection(db,"commerces",uid,"produits"),{name,price,available});
-    e.target.reset();
-  } catch(err){console.error(err);}
+  const name = productName.value;
+  const price = productPrice.value.replace(",", ".");
+  const stock = parseInt(productStock.value);
+
+  await addDoc(collection(db,"commerces",uid,"produits"),{
+    name,
+    price,
+    stock,
+    available: stock > 0
+  });
+
+  e.target.reset();
 });
 
-// Affichage produits en temps réel
+// Modifier stock
+async function updateStock(productId, currentStock, delta){
+  const newStock = Math.max(0, currentStock + delta);
+  await updateDoc(doc(db,"commerces",uid,"produits",productId),{
+    stock: newStock,
+    available: newStock > 0
+  });
+}
+
+// Affichage produits
 function loadProducts(){
-  const productsRef = collection(db,"commerces",uid,"produits");
-  onSnapshot(productsRef, snapshot=>{
-    const productList = document.getElementById("productList");
+  onSnapshot(collection(db,"commerces",uid,"produits"), snapshot=>{
     productList.innerHTML="";
     snapshot.forEach(docSnap=>{
       const p = docSnap.data();
       const div = document.createElement("div");
       div.className="productCard";
       div.innerHTML=`
-        <span>${p.name} - ${p.price}€ ${!p.available ? "(Non disponible)" : ""}</span>
-        <label><input type="checkbox" ${p.available ? "checked":""} class="toggleAvailable"> Disponible</label>
-        <button class="deleteBtn">Supprimer</button>
+        <h3>${p.name}</h3>
+        <p>Prix : ${p.price} €</p>
+        <p>Stock restant : <strong>${p.stock}</strong></p>
+
+        <div class="stockControls">
+          <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
+          <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
+        </div>
+
+        <p class="${p.available ? '' : 'unavailable'}">
+          ${p.available ? 'Disponible' : 'Indisponible'}
+        </p>
+
+        <button onclick="deleteProduct('${docSnap.id}')">Supprimer</button>
       `;
-      // toggle disponible
-      div.querySelector(".toggleAvailable").addEventListener("change", async e=>{
-        await updateDoc(doc(db,"commerces",uid,"produits",docSnap.id),{available:e.target.checked});
-      });
-      // supprimer produit
-      div.querySelector(".deleteBtn").addEventListener("click", async ()=>{
-        if(confirm("Supprimer ce produit ?")) await deleteDoc(doc(db,"commerces",uid,"produits",docSnap.id));
-      });
       productList.appendChild(div);
     });
   });
 }
+
+window.updateStock = updateStock;
+
+window.deleteProduct = async id => {
+  if(confirm("Supprimer ce produit ?")){
+    await deleteDoc(doc(db,"commerces",uid,"produits",id));
+  }
+};
 </script>
 
 </body>
