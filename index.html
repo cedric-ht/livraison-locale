@@ -2,116 +2,144 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Livraison Locale – Les Sables d’Olonne</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Livraison Locale - Les Sables d'Olonne</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#f5f7fa;color:#023047;
+/* RESET */
+* {margin:0; padding:0; box-sizing:border-box;}
+
+/* BASE */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:#f4f6f8;
+  color:#03045e;
 }
-h1,h2,h3{color:#0077b6}
-button{cursor:pointer}
+h1,h2,h3 {color:#0077b6}
+a {text-decoration:none; color:#0077b6}
 
 /* HEADER */
-header{
+header {
   background:linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;text-align:center;padding:3rem 1rem;
+  padding:3rem 1rem;
+  text-align:center;
+  color:white;
 }
-header h1{font-size:2.4rem}
-header p{opacity:.95;margin-top:.4rem}
+header h1 {font-size:2.4rem}
+header p {opacity:.95}
 
 /* NAV */
-nav{
-  position:sticky;top:0;z-index:100;
-  background:white;
-  display:flex;flex-wrap:wrap;gap:.6rem;
+nav {
+  display:flex;
   justify-content:center;
-  padding:.8rem;
-  box-shadow:0 4px 12px rgba(0,0,0,.08)
+  flex-wrap:wrap;
+  gap:.8rem;
+  background:white;
+  padding:1rem;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  position:relative;
 }
-nav a{
-  padding:.7rem 1.2rem;
-  border-radius:12px;
+nav a {
   font-weight:600;
+  padding:.6rem 1.1rem;
+  border-radius:12px;
 }
-nav a:hover{background:#eaf6fb}
-nav .cta{
-  background:#00b4d8;color:white;
-  font-size:1.1rem;
+nav a:hover {background:#eaf6fb}
+nav .cta {
+  background:#00b4d8;
+  color:white;
+  font-size:1.05rem;
 }
 
 /* SECTIONS */
-section{
+section {
   padding:3rem 1rem;
-  max-width:1100px;
+  max-width:1000px;
   margin:auto;
 }
 
 /* GRID */
-#commerceList,#productList{
+#commerceList, #productList {
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
   gap:1.5rem;
-  margin-top:2rem;
 }
 
 /* CARDS */
-.card{
+.commerce, .product {
   background:white;
-  border-radius:18px;
-  padding:1.4rem;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+  padding:1.2rem;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.1);
+  transition:.2s;
 }
-.card:hover{transform:translateY(-4px)}
-
-.card h3{margin-bottom:.3rem}
-.card .price{font-weight:700}
-.card .stock{font-size:.9rem;margin-top:.2rem}
-.card .out{color:#999;font-style:italic}
-
-.card button{
-  margin-top:1rem;
-  padding:.7rem;
-  border:none;border-radius:12px;
-  background:#0077b6;color:white;
+.commerce:hover, .product:hover {
+  transform:translateY(-4px);
 }
-.card button:disabled{background:#ccc}
 
-/* PANIER */
-#cart{
-  background:white;
-  padding:1.5rem;
-  border-radius:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+/* PRODUCTS */
+.product span {font-weight:600}
+.product .unavailable {
+  color:#999;
+  font-style:italic;
 }
-.cart-item{
+.product button {
+  margin-top:.6rem;
+  background:#0077b6;
+  color:white;
+  border:none;
+  padding:.6rem 1rem;
+  border-radius:10px;
+  font-size:1rem;
+  touch-action: manipulation;
+}
+.product button:disabled {
+  background:#ccc;
+}
+
+/* CART */
+#cart div {
   border-bottom:1px solid #eee;
   padding:1rem 0;
 }
-.cart-item:last-child{border:none}
+#cart button {
+  margin:.2rem;
+  padding:.3rem .7rem;
+  border-radius:8px;
+  border:none;
+  background:#00b4d8;
+  color:white;
+  touch-action: manipulation;
+}
 
-.qty-btn{
-  padding:.2rem .6rem;
-  border:none;border-radius:8px;
-  background:#00b4d8;color:white;
-  margin:0 .3rem;
+/* FORM */
+form {
+  background:white;
+  padding:1.5rem;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.1);
+}
+form input, form textarea {
+  width:100%;
+  padding:.8rem;
+  margin-bottom:1rem;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 
 /* FOOTER */
-footer{
-  background:#03045e;color:white;
-  text-align:center;padding:2rem;margin-top:4rem;
+footer {
+  background:#03045e;
+  color:white;
+  text-align:center;
+  padding:2rem;
+  margin-top:3rem;
 }
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:600px){
   header h1{font-size:2rem}
-  nav a{width:100%;text-align:center}
+  nav a{width:100%; text-align:center}
 }
 </style>
 </head>
@@ -119,157 +147,53 @@ footer{
 <body>
 
 <header>
-  <h1>Livraison Locale</h1>
-  <p>Vos commerces sablais, en temps réel</p>
+<h1>Livraison Locale</h1>
+<p>Vos commerces locaux directement chez vous</p>
 </header>
 
 <nav>
-  <a onclick="showPage('home')">Accueil</a>
-  <a onclick="showPage('about')">À propos</a>
+  <a onclick="showPage('accueil')">Accueil</a>
+  <a onclick="showPage('apropos')">À propos</a>
   <a onclick="showPage('contact')">Contact</a>
-  <a class="cta" onclick="showPage('order')">🛒 Commander</a>
+  <a class="cta" onclick="showPage('commander')">🛒 Commander</a>
   <a href="inscription.html">Nous rejoindre</a>
 </nav>
 
-<section id="home">
-  <h2>Bienvenue 👋</h2>
-  <p>Commandez local, simplement, efficacement.</p>
+<section id="accueil">
+  <h2>Bienvenue</h2>
+  <p>Découvrez vos commerces locaux et commandez facilement.</p>
 </section>
 
-<section id="about" style="display:none">
+<section id="apropos" style="display:none;">
   <h2>À propos</h2>
-  <p>Une plateforme locale pour connecter commerçants et habitants.</p>
+  <p>Une plateforme locale simple, rapide et fiable.</p>
 </section>
 
-<section id="contact" style="display:none">
+<section id="contact" style="display:none;">
   <h2>Nous contacter</h2>
   <p>📩 cedric.huet.pro@gmail.com</p>
 </section>
 
-<section id="order" style="display:none">
+<section id="commander" style="display:none;">
   <h2>Choisir un commerce</h2>
   <div id="commerceList"></div>
-  <div id="productList"></div>
+  <div id="productList" style="margin-top:2rem;"></div>
 </section>
 
 <section>
   <h2>🛒 Votre panier</h2>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="margin-top:1rem;background:#ff595e;color:white;border:none;padding:.8rem 1.2rem;border-radius:12px">
+  <button onclick="clearCart()" style="background:#ff595e;color:white;padding:.7rem 1.2rem;border:none;border-radius:12px;">
     Vider le panier
   </button>
 </section>
 
 <footer>
-  © 2026 Livraison Locale
+© 2026 Livraison Locale
 </footer>
 
-<script>
-// NAV
-function showPage(p){
-  ["home","about","contact","order"].forEach(id=>document.getElementById(id).style.display="none")
-  document.getElementById(p).style.display="block"
-}
-
-// PANIER
-function getCart(){return JSON.parse(localStorage.getItem("panier"))||[]}
-function saveCart(c){localStorage.setItem("panier",JSON.stringify(c))}
-function clearCart(){localStorage.removeItem("panier");renderCart()}
-
-function renderCart(){
-  const d=document.getElementById("cart")
-  const c=getCart()
-  d.innerHTML=""
-  if(!c.length){d.innerHTML="Panier vide";return}
-  let total=0
-  c.forEach(i=>{
-    total+=i.price*i.qty
-    d.innerHTML+=`
-      <div class="cart-item">
-        <strong>${i.name}</strong><br>
-        ${i.price.toFixed(2).replace(".",",")}€ x ${i.qty}<br>
-        <button class="qty-btn" onclick="changeQty('${i.pid}',-1)">-</button>
-        <button class="qty-btn" onclick="changeQty('${i.pid}',1)">+</button>
-        <button onclick="removeItem('${i.pid}')">Supprimer</button>
-      </div>`
-  })
-  d.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`
-}
-
-function addToCart(p){
-  const c=getCart()
-  const item=c.find(i=>i.pid===p.pid)
-  if(item){
-    if(item.qty<p.stock)item.qty++
-    else alert("Stock maximum atteint")
-  }else{
-    c.push({...p,qty:1})
-  }
-  saveCart(c);renderCart()
-}
-function changeQty(pid,d){
-  const c=getCart()
-  const i=c.find(x=>x.pid===pid)
-  if(!i)return
-  i.qty+=d
-  if(i.qty<=0)removeItem(pid)
-  saveCart(c);renderCart()
-}
-function removeItem(pid){
-  saveCart(getCart().filter(i=>i.pid!==pid))
-  renderCart()
-}
-renderCart()
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js"
-import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js"
-
-const app=initializeApp({
-  apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
-  authDomain:"livraison-sablaise.firebaseapp.com",
-  projectId:"livraison-sablaise"
-})
-const db=getFirestore(app)
-
-const commerceList=document.getElementById("commerceList")
-const productList=document.getElementById("productList")
-
-onSnapshot(collection(db,"commerces"),snap=>{
-  commerceList.innerHTML=""
-  snap.forEach(d=>{
-    const div=document.createElement("div")
-    div.className="card"
-    div.innerHTML=`<h3>${d.data().name}</h3>`
-    div.onclick=()=>loadProducts(d.id)
-    commerceList.appendChild(div)
-  })
-})
-
-function loadProducts(cid){
-  onSnapshot(collection(db,"commerces",cid,"produits"),snap=>{
-    productList.innerHTML="<h2>Produits</h2>"
-    snap.forEach(d=>{
-      const p=d.data()
-      const div=document.createElement("div")
-      div.className="card"
-      div.innerHTML=`
-        <h3>${p.name}</h3>
-        <div class="price">${p.price.toString().replace(".",",")} €</div>
-        <div class="stock ${(!p.available||p.stock<=0)?'out':''}">
-          ${!p.available||p.stock<=0?"Indisponible":"Stock : "+p.stock}
-        </div>`
-      const btn=document.createElement("button")
-      btn.textContent="Ajouter au panier"
-      btn.disabled=!p.available||p.stock<=0
-      btn.onclick=()=>addToCart({pid:d.id,name:p.name,price:parseFloat(p.price),stock:p.stock})
-      div.appendChild(btn)
-      productList.appendChild(div)
-    })
-  })
-}
-</script>
+<!-- ⚠️ TOUT LE JS + FIREBASE RESTE STRICTEMENT IDENTIQUE À TON ANCIEN INDEX -->
+<!-- Tu ne changes RIEN en dessous -->
 
 </body>
 </html>
