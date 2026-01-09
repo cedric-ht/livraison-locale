@@ -6,129 +6,93 @@
 <title>Livraison Locale - Les Sables d'Olonne</title>
 
 <style>
-/* RESET */
-* {margin:0; padding:0; box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* BASE */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:#f4f6f8;
   color:#03045e;
 }
-h1,h2,h3 {color:#0077b6}
-a {text-decoration:none; color:#0077b6}
 
-/* HEADER */
-header {
+h1,h2,h3{color:#0077b6}
+
+header{
   background:linear-gradient(135deg,#00b4d8,#0077b6);
-  padding:3rem 1rem;
-  text-align:center;
   color:white;
+  text-align:center;
+  padding:3rem 1rem;
 }
-header h1 {font-size:2.4rem}
-header p {opacity:.95}
 
-/* NAV */
-nav {
+nav{
   display:flex;
-  justify-content:center;
   flex-wrap:wrap;
-  gap:.8rem;
+  justify-content:center;
+  gap:.7rem;
   background:white;
   padding:1rem;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  position:relative;
-}
-nav a {
-  font-weight:600;
-  padding:.6rem 1.1rem;
-  border-radius:12px;
-}
-nav a:hover {background:#eaf6fb}
-nav .cta {
-  background:#00b4d8;
-  color:white;
-  font-size:1.05rem;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 
-/* SECTIONS */
-section {
+nav a{
+  padding:.6rem 1.1rem;
+  font-weight:600;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+nav a:hover{background:#eaf6fb}
+
+nav .cta{
+  background:#00b4d8;
+  color:white;
+}
+
+section{
   padding:3rem 1rem;
   max-width:1000px;
   margin:auto;
 }
 
-/* GRID */
-#commerceList, #productList {
+#commerceList,#productList{
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:1.5rem;
 }
 
-/* CARDS */
-.commerce, .product {
+.commerce,.product{
   background:white;
   padding:1.2rem;
   border-radius:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-  transition:.2s;
-}
-.commerce:hover, .product:hover {
-  transform:translateY(-4px);
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
 }
 
-/* PRODUCTS */
-.product span {font-weight:600}
-.product .unavailable {
+.product span{font-weight:600}
+
+.unavailable{
   color:#999;
   font-style:italic;
 }
-.product button {
-  margin-top:.6rem;
+
+button{
   background:#0077b6;
   color:white;
   border:none;
   padding:.6rem 1rem;
   border-radius:10px;
-  font-size:1rem;
-  touch-action: manipulation;
+  cursor:pointer;
+  touch-action:manipulation;
 }
-.product button:disabled {
+
+button:disabled{
   background:#ccc;
 }
 
-/* CART */
-#cart div {
+#cart div{
   border-bottom:1px solid #eee;
   padding:1rem 0;
 }
-#cart button {
-  margin:.2rem;
-  padding:.3rem .7rem;
-  border-radius:8px;
-  border:none;
-  background:#00b4d8;
-  color:white;
-  touch-action: manipulation;
-}
 
-/* FORM */
-form {
-  background:white;
-  padding:1.5rem;
-  border-radius:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
-}
-form input, form textarea {
-  width:100%;
-  padding:.8rem;
-  margin-bottom:1rem;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-
-/* FOOTER */
-footer {
+footer{
   background:#03045e;
   color:white;
   text-align:center;
@@ -136,10 +100,8 @@ footer {
   margin-top:3rem;
 }
 
-/* MOBILE */
 @media(max-width:600px){
-  header h1{font-size:2rem}
-  nav a{width:100%; text-align:center}
+  nav a{width:100%;text-align:center}
 }
 </style>
 </head>
@@ -160,40 +122,154 @@ footer {
 </nav>
 
 <section id="accueil">
-  <h2>Bienvenue</h2>
-  <p>Découvrez vos commerces locaux et commandez facilement.</p>
+<h2>Bienvenue</h2>
+<p>Découvrez vos commerces locaux préférés.</p>
 </section>
 
-<section id="apropos" style="display:none;">
-  <h2>À propos</h2>
-  <p>Une plateforme locale simple, rapide et fiable.</p>
+<section id="apropos" style="display:none">
+<h2>À propos</h2>
+<p>Plateforme locale simple et efficace.</p>
 </section>
 
-<section id="contact" style="display:none;">
-  <h2>Nous contacter</h2>
-  <p>📩 cedric.huet.pro@gmail.com</p>
+<section id="contact" style="display:none">
+<h2>Contact</h2>
+<p>📩 cedric.huet.pro@gmail.com</p>
 </section>
 
-<section id="commander" style="display:none;">
-  <h2>Choisir un commerce</h2>
-  <div id="commerceList"></div>
-  <div id="productList" style="margin-top:2rem;"></div>
+<section id="commander" style="display:none">
+<h2>Choisir un commerce</h2>
+<div id="commerceList"></div>
+<div id="productList" style="margin-top:2rem"></div>
 </section>
 
 <section>
-  <h2>🛒 Votre panier</h2>
-  <div id="cart"></div>
-  <button onclick="clearCart()" style="background:#ff595e;color:white;padding:.7rem 1.2rem;border:none;border-radius:12px;">
-    Vider le panier
-  </button>
+<h2>🛒 Votre panier</h2>
+<div id="cart"></div>
+<button onclick="clearCart()" style="background:#ff595e">Vider le panier</button>
 </section>
 
 <footer>
 © 2026 Livraison Locale
 </footer>
 
-<!-- ⚠️ TOUT LE JS + FIREBASE RESTE STRICTEMENT IDENTIQUE À TON ANCIEN INDEX -->
-<!-- Tu ne changes RIEN en dessous -->
+<script>
+// MENU
+function showPage(page){
+  ["accueil","apropos","contact","commander"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+  document.getElementById(page).style.display="block";
+}
+
+// PANIER
+function getCart(){return JSON.parse(localStorage.getItem("panier"))||[]}
+function saveCart(c){localStorage.setItem("panier",JSON.stringify(c))}
+function clearCart(){localStorage.removeItem("panier");renderCart()}
+
+function addToCart(commerceId,productId,name,price,stock){
+  let cart=getCart()
+  price=parseFloat(price.toString().replace(",","."))
+
+  const item=cart.find(p=>p.productId===productId)
+  if(item){
+    if(item.quantity>=stock) return alert("Stock insuffisant")
+    item.quantity++
+  }else{
+    cart.push({commerceId,productId,name,price,quantity:1,stock})
+  }
+  saveCart(cart)
+  renderCart()
+}
+
+function updateQty(id,delta){
+  let cart=getCart()
+  const item=cart.find(p=>p.productId===id)
+  if(!item) return
+  const newQty=item.quantity+delta
+  if(newQty<1||newQty>item.stock) return
+  item.quantity=newQty
+  saveCart(cart)
+  renderCart()
+}
+
+function removeItem(id){
+  saveCart(getCart().filter(p=>p.productId!==id))
+  renderCart()
+}
+
+function renderCart(){
+  const c=document.getElementById("cart")
+  const cart=getCart()
+  c.innerHTML=""
+  if(!cart.length){c.innerHTML="<p>Panier vide</p>";return}
+  let total=0
+  cart.forEach(p=>{
+    total+=p.price*p.quantity
+    c.innerHTML+=`
+      <div>
+        <strong>${p.name}</strong><br>
+        ${p.price.toFixed(2).replace(".",",")}€<br>
+        <button onclick="updateQty('${p.productId}',-1)">-</button>
+        ${p.quantity}
+        <button onclick="updateQty('${p.productId}',1)">+</button>
+        <br>
+        <button onclick="removeItem('${p.productId}')">Supprimer</button>
+      </div>`
+  })
+  c.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`
+}
+
+document.addEventListener("DOMContentLoaded",renderCart)
+</script>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import {getFirestore,collection,getDocs,onSnapshot} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const app=initializeApp({
+  apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain:"livraison-sablaise.firebaseapp.com",
+  projectId:"livraison-sablaise"
+})
+
+const db=getFirestore(app)
+const commerceList=document.getElementById("commerceList")
+const productList=document.getElementById("productList")
+
+async function loadCommerces(){
+  const snap=await getDocs(collection(db,"commerces"))
+  commerceList.innerHTML=""
+  snap.forEach(d=>{
+    const div=document.createElement("div")
+    div.className="commerce"
+    div.textContent=d.data().name
+    div.onclick=()=>loadProducts(d.id)
+    commerceList.appendChild(div)
+  })
+}
+
+function loadProducts(id){
+  onSnapshot(collection(db,"commerces",id,"produits"),snap=>{
+    productList.innerHTML="<h3>Produits</h3>"
+    snap.forEach(p=>{
+      const d=p.data()
+      const div=document.createElement("div")
+      div.className="product"
+      div.innerHTML=`
+        <span>${d.name} - ${d.price}€ ${!d.available?"<span class='unavailable'>(Indisponible)</span>":""}</span>
+      `
+      const b=document.createElement("button")
+      b.textContent="Ajouter"
+      b.disabled=!d.available||d.stock<=0
+      b.onclick=()=>addToCart(id,p.id,d.name,d.price,d.stock)
+      div.appendChild(b)
+      productList.appendChild(div)
+    })
+  })
+}
+
+loadCommerces()
+</script>
 
 </body>
 </html>
