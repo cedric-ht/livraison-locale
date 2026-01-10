@@ -152,60 +152,57 @@ h2 {margin-bottom:1rem;}
 
 <script>
 // MENU
-function toggleMenu(){
+function toggleMenu() {
   const m=document.getElementById("mobileMenu");
   const o=document.getElementById("mobileMenuOverlay");
-  [m,o].forEach(el=>el.style.display = el.style.display==="block"?"none":"block");
+  [m,o].forEach(el=>el.style.display=el.style.display==="block"?"none":"block");
 }
-function nav(page){toggleMenu(); showPage(page);}
-function showPage(page){
-  ['accueil','apropos','contact','commander'].forEach(id => document.getElementById(id).style.display='none');
+function nav(page) { toggleMenu(); showPage(page); }
+function showPage(page) {
+  ['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');
   document.getElementById(page).style.display='block';
 }
 
 // MESSAGES
-function showMessage(msg){
+function showMessage(msg) {
   const el=document.getElementById("errorMessage");
   el.innerText=msg; el.classList.add("show");
   setTimeout(()=>el.classList.remove("show"),2000);
 }
-function showAddedMessage(){
+function showAddedMessage() {
   const el=document.getElementById("addedMessage");
   el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),1000);
 }
 
 // PANIER
-let selectedCommerceId=null;
-const getCart=()=>JSON.parse(localStorage.getItem("panier"))||[];
-const saveCart=cart=>{localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
-function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
+let selectedCommerceId = null;
+const getCart = () => JSON.parse(localStorage.getItem("panier"))||[];
+const saveCart = cart => { localStorage.setItem("panier",JSON.stringify(cart)); renderCart(); }
+function clearCart() { localStorage.removeItem("panier"); selectedCommerceId=null; renderCart(); }
 
-function addToCart(commerceId,productId,name,price,stock){
+function addToCart(commerceId, productId, name, price, stock){
   if(selectedCommerceId && selectedCommerceId!==commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return; }
   selectedCommerceId = commerceId;
   const cart=getCart();
   price=parseFloat(price.toString().replace(",","."));
-  const existing=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
+  const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   if(existing){ if(existing.quantity>=stock){ showMessage("Stock limité"); return;} existing.quantity++; }
   else { if(stock<1){ showMessage("Produit non disponible"); return;} cart.push({commerceId,productId,name,price,quantity:1,stock}); }
   saveCart(cart); showAddedMessage();
 }
-function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
-function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){showMessage("Stock limité"); return;} item.quantity=Math.max(1,qty);} saveCart(cart);}
+
+function removeFromCart(productId){ let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
+function updateQuantity(productId, qty){ let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){showMessage("Stock limité"); return;} item.quantity=Math.max(1, qty);} saveCart(cart);}
 function renderCart(){
-  const container=document.getElementById("cartContent");
-  const cart=getCart(); container.innerHTML="";
-  if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
+  const container=document.getElementById("cartContent"); const cart=getCart(); container.innerHTML="";
+  if(cart.length===0){ container.innerHTML="<p>Panier vide</p>"; return; }
   let total=0;
   cart.forEach(item=>{
     total+=item.price*item.quantity;
     container.innerHTML+=`
     <div>
       <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
-      Quantité:
-      <button onclick="updateQuantity('${item.productId}',${item.quantity-1})">-</button>
-      ${item.quantity}
-      <button onclick="updateQuantity('${item.productId}',${item.quantity+1})">+</button><br>
+      Quantité: <button onclick="updateQuantity('${item.productId}',${item.quantity-1})">-</button> ${item.quantity} <button onclick="updateQuantity('${item.productId}',${item.quantity+1})">+</button><br>
       <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
     </div>`;
   });
@@ -213,7 +210,6 @@ function renderCart(){
 }
 document.addEventListener("DOMContentLoaded", renderCart);
 
-// MINI PANIER EXPAND/RETRACT
 document.getElementById("cartHeader").onclick=()=>{
   const cart=document.getElementById("cart");
   cart.classList.toggle("expanded");
@@ -242,71 +238,50 @@ const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
 
 let categoriesSet = new Set();
-let commerceCategories = {};
+
+function createToggleDiv(text, parent, callback){
+  const div = document.createElement("div");
+  div.className = parent.id==="categoryList"?"category":"commerce";
+  div.dataset.opened="false";
+  div.innerHTML=`${text} <span style="float:right;cursor:pointer">&#9654;</span>`;
+  div.onclick=()=>{
+    const opened = div.dataset.opened==="true";
+    [...parent.children].forEach(c=>{ c.dataset.opened="false"; c.classList.remove("selected"); });
+    if(!opened){ div.dataset.opened="true"; div.classList.add("selected"); callback(); }
+    else { if(parent.id==="categoryList"){ commerceList.innerHTML=""; productList.innerHTML=""; } else productList.innerHTML=""; }
+  };
+  parent.appendChild(div);
+}
 
 async function loadCategories(){
   const snapshot = await getDocs(collection(db,"commerces"));
-  snapshot.forEach(docSnap=>{
-    const c=docSnap.data();
-    const cat=c.category || "Autres";
-    categoriesSet.add(cat);
-    commerceCategories[docSnap.id]=cat;
-  });
-
+  snapshot.forEach(doc=>categoriesSet.add(doc.data().category||"Autres"));
   categoryList.innerHTML="";
-  [...categoriesSet].sort().forEach(cat=>{
-    const div=document.createElement("div");
-    div.className="category";
-    div.dataset.opened="false";
-    div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
-    div.onclick=()=>{
-      const opened=div.dataset.opened==="true";
-      [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");});
-      if(!opened){ div.dataset.opened="true"; div.classList.add("selected"); showCommercesByCategory(cat); }
-      else { commerceList.innerHTML=""; productList.innerHTML=""; }
-    };
-    categoryList.appendChild(div);
-  });
+  [...categoriesSet].sort().forEach(cat => createToggleDiv(cat, categoryList, ()=>showCommerces(cat)));
 }
 
-function showCommercesByCategory(cat){
-  productList.innerHTML="";
-  commerceList.innerHTML="<h3>Commerces</h3>";
-  getDocs(collection(db,"commerces")).then(snapshot=>{
-    snapshot.forEach(docSnap=>{
-      if((docSnap.data().category || "Autres")===cat){
-        const div=document.createElement("div");
-        div.className="commerce";
-        div.dataset.opened="false";
-        div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
-        div.onclick=()=>{
-          const opened=div.dataset.opened==="true";
-          [...commerceList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");});
-          if(!opened){ div.dataset.opened="true"; div.classList.add("selected"); showProducts(docSnap.id); }
-          else { productList.innerHTML=""; }
-        };
-        commerceList.appendChild(div);
-      }
-    });
+async function showCommerces(cat){
+  commerceList.innerHTML="<h3>Commerces</h3>"; productList.innerHTML="";
+  const snapshot = await getDocs(collection(db,"commerces"));
+  snapshot.forEach(doc=>{
+    if((doc.data().category||"Autres")===cat){
+      createToggleDiv(doc.data().name, commerceList, ()=>showProducts(doc.id));
+    }
   });
 }
 
 function showProducts(commerceId){
+  productList.innerHTML="<h3>Produits</h3>";
   const productsRef = collection(db,"commerces",commerceId,"produits");
-  onSnapshot(productsRef,snapshot=>{
+  onSnapshot(productsRef, snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
-    snapshot.forEach(docSnap=>{
-      const p=docSnap.data();
-      const stock=p.stock || 10;
-      const div=document.createElement("div");
-      div.className="product";
+    snapshot.forEach(doc=>{
+      const p=doc.data(); const stock=p.stock||10;
+      const div=document.createElement("div"); div.className="product";
       div.innerHTML=`<span>${p.name} - ${p.price.toString().replace(".",",")}€</span><span class="stock">Stock : ${stock}</span>`;
-      const btn=document.createElement("button");
-      btn.innerText="Ajouter au panier";
-      btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
-      div.appendChild(btn);
-      productList.appendChild(div);
+      const btn=document.createElement("button"); btn.innerText="Ajouter au panier"; btn.disabled=!p.available || stock<1;
+      btn.onclick=()=>addToCart(commerceId,doc.id,p.name,p.price,stock);
+      div.appendChild(btn); productList.appendChild(div);
     });
   });
 }
