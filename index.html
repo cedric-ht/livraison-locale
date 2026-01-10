@@ -9,8 +9,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
-  color:#222;
+  background: linear-gradient(135deg, #fff8e7, #fff1d6, #ffe8c5);
+  color:#333;
   min-height:100vh;
   line-height:1.5;
   overflow-x:hidden;
@@ -21,7 +21,7 @@ body{
 
 /* HEADER */
 header{
-  background: rgba(0,150,180,0.85);
+  background: rgba(255,200,150,0.85);
   backdrop-filter: blur(10px);
   color:#ffffffcc;
   padding:2rem 1rem;
@@ -37,7 +37,7 @@ header p{opacity:.9;font-size:.95rem}
   flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;
 }
 #orderBtn{
-  background: linear-gradient(135deg,#4dd0e1,#26c6da);
+  background: linear-gradient(135deg,#ffcc80,#ffb74d);
   color:white;
 }
 #orderBtn:hover{
@@ -45,11 +45,11 @@ header p{opacity:.9;font-size:.95rem}
   box-shadow:0 8px 20px rgba(0,0,0,0.1);
 }
 #menuBtn{
-  background: rgba(255,255,255,.2);
-  color:white;
+  background: rgba(255,255,255,.3);
+  color:#333;
 }
 #menuBtn:hover{
-  background: rgba(255,255,255,.4);
+  background: rgba(255,255,255,.5);
   transform:scale(1.03);
 }
 
@@ -59,11 +59,11 @@ header p{opacity:.9;font-size:.95rem}
   z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 #mobileMenu a{
-  display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;
+  display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#ff8c42;
   border-bottom:1px solid #eee;cursor:pointer;
 }
 #mobileMenuOverlay{
-  display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.2);
   z-index:998;
 }
 
@@ -76,7 +76,7 @@ h2{margin-bottom:1rem}
   display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;
 }
 .category,.commerce,.product{
-  background: rgba(255,255,255,0.35);
+  background: rgba(255,245,230,0.5);
   backdrop-filter: blur(8px);
   padding:1rem;
   border-radius:16px;
@@ -89,12 +89,12 @@ h2{margin-bottom:1rem}
   transform:translateY(-5px);
   box-shadow:0 15px 30px rgba(0,0,0,0.08);
 }
-.category.selected,.commerce.selected{background: rgba(202,240,248,0.7);}
+.category.selected,.commerce.selected{background: rgba(255,230,200,0.7);}
 .product span{font-weight:600;display:block}
 .stock{font-size:.85rem;color:#666;margin:.3rem 0}
 .product button{
   margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;
-  background: linear-gradient(135deg,#4dd0e1,#26c6da);
+  background: linear-gradient(135deg,#ffcc80,#ffb74d);
   color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease;
 }
 .product button:hover:not(:disabled){
@@ -110,7 +110,7 @@ h2{margin-bottom:1rem}
   left: 1rem;
   right: 1rem;
   z-index: 500;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,250,240,0.85);
   border-radius: 20px;
   max-height: 80px;
   overflow:hidden;
@@ -130,7 +130,7 @@ h2{margin-bottom:1rem}
   padding:0.8rem;
   border-radius:12px;
   margin-bottom:0.5rem;
-  background: rgba(224,247,250,0.7);
+  background: rgba(255,240,220,0.7);
   box-shadow:0 6px 15px rgba(0,0,0,0.05);
   transition: transform 0.3s ease;
 }
@@ -138,12 +138,12 @@ h2{margin-bottom:1rem}
   transform: translateY(-2px);
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
-#cart h3{text-align:right;color:#0077b6;margin-top:0.5rem;}
-#cart button{margin:0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background: linear-gradient(135deg,#4dd0e1,#26c6da); color:white; font-weight:600; transition:all 0.3s ease;}
+#cart h3{text-align:right;color:#ff8c42;margin-top:0.5rem;}
+#cart button{margin:0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background: linear-gradient(135deg,#ffcc80,#ffb74d); color:white; font-weight:600; transition:all 0.3s ease;}
 #cart button:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.1);}
 #cart .clear-btn{
   width:100%;
-  background:#ff8a80;
+  background:#ffb3a7;
   color:white;
   border:none;
   padding:0.7rem;
@@ -161,8 +161,8 @@ h2{margin-bottom:1rem}
   box-shadow:0 6px 20px rgba(0,0,0,.2); text-align:center;
   opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;
 }
-#addedMessage{background:#81c784; color:white;}
-#errorMessage{background:#e57373;color:white;}
+#addedMessage{background:#a3d9a5; color:white;}
+#errorMessage{background:#f5a3a3;color:white;}
 #addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
 
 /* MOBILE GRID */
