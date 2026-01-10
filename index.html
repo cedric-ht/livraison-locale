@@ -173,7 +173,7 @@ document.getElementById("checkoutForm").onsubmit = async e => {
   const cart = getCart();
 
   try{
-    const res = await fetch("/create-checkout-session", { // <-- endpoint backend à créer
+    const res = await fetch("/create-checkout-session", { // <-- endpoint backend Firebase
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ cart, customer })
