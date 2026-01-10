@@ -94,7 +94,7 @@ h2{
   margin-bottom:1rem;
 }
 
-/* LISTS */
+/* CATEGORY BUTTONS */
 #categoryList{
   margin-bottom:1rem;
 }
@@ -116,6 +116,7 @@ h2{
   background:#00b4d8;
 }
 
+/* LISTS */
 #commerceList,#productList{
   display:grid;
   grid-template-columns:1fr;
@@ -257,7 +258,6 @@ function addToCart(commerceId, productId, name, price, stock){
   let cart = getCart();
   price = parseFloat(price.toString().replace(",","."));
 
-  // vérifier si déjà un autre commerce
   if(currentCommerce && currentCommerce!==commerceId){
     showMessage("Vous ne pouvez commander qu'un seul magasin à la fois !");
     return;
@@ -268,7 +268,7 @@ function addToCart(commerceId, productId, name, price, stock){
     if(existing.quantity<stock) existing.quantity+=1;
     else { showMessage("Stock maximum atteint !"); return; }
   }
-  else cart.push({commerceId,productId,name,price,quantity:1});
+  else cart.push({commerceId,productId,name,price,quantity:1,stock});
 
   currentCommerce = commerceId;
   saveCart(cart); renderCart();
@@ -310,9 +310,9 @@ function renderCart(){
       <div>
         <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
         Quantité :
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity-1}, ${item.stock || 99})">-</button>
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity-1}, ${item.stock})">-</button>
         ${item.quantity}
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity+1}, ${item.stock || 99})">+</button>
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity+1}, ${item.stock})">+</button>
         <br>
         <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
       </div>`;
@@ -398,7 +398,7 @@ function loadProducts(commerceId){
       const div = document.createElement("div");
       div.className="product";
       const price = p.price.toString().replace(".",",");
-      const stock = p.stock || 99; // par défaut si pas défini
+      const stock = p.stock || 99;
       div.innerHTML = `<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":" "} <span class="stock">Stock: ${stock}</span></span>`;
       const btn = document.createElement("button");
       btn.innerText="Ajouter au panier";
