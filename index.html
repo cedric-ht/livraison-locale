@@ -223,6 +223,13 @@ h2{margin-bottom:1rem}
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
 </div>
 
+<button 
+  onclick="checkout()" 
+  style="width:100%;margin-top:0.5rem;background:#00b4d8;color:white;border:none;padding:.9rem;border-radius:12px;font-weight:700;">
+  Valider la commande
+</button>
+
+  
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
@@ -281,6 +288,61 @@ function renderCart(){
 }
 document.addEventListener("DOMContentLoaded", renderCart);
 
+async function checkout(){
+  const cart = JSON.parse(localStorage.getItem("panier")) || [];
+
+  if(cart.length === 0){
+    showMessage("Panier vide");
+    return;
+  }
+
+  const commerceId = cart[0].commerceId;
+
+  try{
+    await runTransaction(db, async (transaction) => {
+
+      // 🔁 Vérification & décrémentation du stock
+      for(const item of cart){
+        const productRef = doc(db,"commerces",commerceId,"produits",item.productId);
+        const snap = await transaction.get(productRef);
+
+        if(!snap.exists()) throw "Produit introuvable";
+
+        const stock = snap.data().stock || 0;
+        if(stock < item.quantity){
+          throw `Stock insuffisant pour ${item.name}`;
+        }
+
+        transaction.update(productRef,{
+          stock: stock - item.quantity
+        });
+      }
+
+      // 🧾 Création commande
+      const total = cart.reduce((t,i)=>t+i.price*i.quantity,0);
+
+      await addDoc(collection(db,"orders"),{
+        commerceId,
+        items: cart,
+        total,
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+    });
+
+    // ✅ Succès
+    localStorage.removeItem("panier");
+    selectedCommerceId = null;
+    renderCart();
+    showMessage("Commande validée ✅");
+
+  }catch(err){
+    console.error(err);
+    showMessage(typeof err === "string" ? err : "Erreur commande");
+  }
+}
+
+
 // MINI PANIER EXPAND/RETRACT
 document.getElementById("cartHeader").onclick = ()=>{
   const cart=document.getElementById("cart");
@@ -291,8 +353,17 @@ document.getElementById("cartHeader").onclick = ()=>{
 </script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  runTransaction,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -387,3 +458,4 @@ loadCategories();
 
 </body>
 </html>
+
