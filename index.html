@@ -250,21 +250,29 @@ function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
 function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
 function addToCart(commerceId, productId, name, price, stock){
-  if(selectedCommerceId && selectedCommerceId!==commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); }
-  selectedCommerceId = commerceId;
-  let cart=getCart();
-  price=parseFloat(price.toString().replace(",","."));  
-  const existing=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
-  if(existing){
-    if(existing.quantity>=stock){ showMessage("Stock limité"); return; }
-    existing.quantity+=1;
-  }else{
-    if(stock<1){ showMessage("Produit non disponible"); return; }
-    cart.push({commerceId,productId,name,price,quantity:1,stock});
+  // Restriction commerce unique restaurée
+  if(selectedCommerceId && selectedCommerceId !== commerceId){
+    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");
+    return; // interdit juste l'ajout
   }
+
+  selectedCommerceId = commerceId;
+  let cart = getCart();
+  price = parseFloat(price.toString().replace(",","."));
+
+  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
+  if(existing){
+    if(existing.quantity >= stock){ showMessage("Stock limité"); return; }
+    existing.quantity += 1;
+  } else{
+    if(stock < 1){ showMessage("Produit non disponible"); return; }
+    cart.push({commerceId, productId, name, price, quantity:1, stock});
+  }
+
   saveCart(cart);
   showAddedMessage();
 }
+
 function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
 function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return; } item.quantity=Math.max(1,qty);} saveCart(cart);}
 function renderCart(){
@@ -380,15 +388,4 @@ function showProducts(commerceId){
       const btn=document.createElement("button");
       btn.innerText="Ajouter au panier";
       btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
-      div.appendChild(btn);
-      productList.appendChild(div);
-    });
-  });
-}
-
-loadCategories();
-</script>
-
-</body>
-</html>
+      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name
