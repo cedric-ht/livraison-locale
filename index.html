@@ -388,4 +388,15 @@ function showProducts(commerceId){
       const btn=document.createElement("button");
       btn.innerText="Ajouter au panier";
       btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name
+      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
+      div.appendChild(btn);
+      productList.appendChild(div);
+    });
+  });
+}
+
+loadCategories();
+</script>
+
+</body>
+</html>
