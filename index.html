@@ -10,30 +10,38 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 /* BASE */
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#f6f7f9;color:#1a1a1a}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#f6f7f9;color:#1a1a1a;line-height:1.5}
 
 /* HEADER */
-header{background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;padding:1.5rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px}
+header{background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;padding:1.5rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;position:relative}
 header h1{font-size:1.8rem;margin-bottom:.3rem}
 header p{opacity:.9;font-size:.95rem}
 #cta{margin-top:1rem;display:flex;gap:1rem}
-#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer}
+#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s}
 #orderBtn{background:white;color:#0077b6}
+#orderBtn:hover{background:#f0f0f0}
 #menuBtn{background:rgba(255,255,255,.2);color:white}
+#menuBtn:hover{background:rgba(255,255,255,.3)}
 
 /* MOBILE MENU */
-#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem}
-#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee}
+#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2)}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;cursor:pointer}
+#mobileMenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:998}
 
 /* SECTIONS */
 section{padding:1.5rem 1rem;max-width:900px;margin:auto}
 h2{margin-bottom:1rem}
-#categoryList,#commerceList,#productList{display:grid;grid-template-columns:1fr;gap:1rem}
-.commerce,.product,.category{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);cursor:pointer}
+
+/* GRID LISTES */
+#categoryList,#commerceList,#productList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.category,.commerce,.product{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+.category:hover,.commerce:hover,.product:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.1)}
+.category.selected,.commerce.selected{background:#caf0f8}
 .product span{font-weight:600;display:block}
 .stock{font-size:.85rem;color:#666;margin:.3rem 0}
-.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600}
-.product button:disabled{background:#ccc}
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;cursor:pointer;transition:background 0.2s}
+.product button:hover:not(:disabled){background:#0096d6}
+.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed}
 
 /* PANIER AMÉLIORÉ */
 #cart {
@@ -59,60 +67,26 @@ h2{margin-bottom:1rem}
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-#cart strong {
-  display: block;
-  margin-bottom: 0.3rem;
-  color: #0077b6;
-}
-
-#cart button {
-  margin: 0 0.2rem;
-  padding: 0.4rem 0.7rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #0077b6;
-  color: white;
-  font-weight: 600;
-  transition: background 0.2s, transform 0.1s;
-}
-
-#cart button:hover {
-  background: #0096d6;
-  transform: translateY(-1px);
-}
-
-#cart button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-#cart h3 {
-  margin-top: 1rem;
-  text-align: right;
-  color: #0077b6;
-}
+#cart strong { display:block; margin-bottom:0.3rem; color:#0077b6; }
+#cart button { margin:0 0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background:#0077b6; color:white; font-weight:600; transition: background 0.2s, transform 0.1s;}
+#cart button:hover { background:#0096d6; transform: translateY(-1px);}
+#cart button:disabled { background:#ccc; cursor:not-allowed;}
+#cart h3 { margin-top:1rem; text-align:right; color:#0077b6;}
 
 /* MESSAGE CENTRAL PRODUIT AJOUTÉ */
-#addedMessage{
-  position: fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  background:#4caf50;
-  color:white;
-  padding:1rem 2rem;
-  border-radius:12px;
-  font-weight:600;
-  font-size:1rem;
-  display:none;
-  z-index:1001;
-  box-shadow:0 6px 20px rgba(0,0,0,.3);
-  text-align:center;
+#addedMessage,#errorMessage{
+  position: fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+  padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1001;
+  box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center; opacity:0; transition:opacity 0.3s ease;
 }
+#addedMessage{background:#4caf50; color:white;}
+#addedMessage.show, #errorMessage.show{display:block; opacity:1;}
+#errorMessage{background:#d00000;color:white;}
 
-/* ERREUR */
-#errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#d00000;color:white;padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1000; box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;}
+/* MINI PANIER MOBILE */
+@media(max-width:767px){
+  #cart{position:fixed;bottom:0;left:0;right:0;z-index:500;max-height:200px;overflow-y:auto;margin:0;border-radius:12px;}
+}
 
 /* DESKTOP */
 @media(min-width:768px){#categoryList,#commerceList,#productList{grid-template-columns:repeat(2,1fr)}}
@@ -129,6 +103,7 @@ h2{margin-bottom:1rem}
   </div>
 </header>
 
+<div id="mobileMenuOverlay" onclick="toggleMenu()"></div>
 <div id="mobileMenu">
   <a onclick="nav('accueil')">Accueil</a>
   <a onclick="nav('apropos')">À propos</a>
@@ -171,13 +146,19 @@ Vider le panier
 
 <script>
 // MENU
-function toggleMenu(){const m=document.getElementById("mobileMenu"); m.style.display=m.style.display==="block"?"none":"block";}
+function toggleMenu(){
+  const m=document.getElementById("mobileMenu"); 
+  const o=document.getElementById("mobileMenuOverlay");
+  const show=m.style.display==="block";
+  m.style.display=show?"none":"block";
+  o.style.display=show?"none":"block";
+}
 function nav(p){toggleMenu(); showPage(p);}
 function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none'); document.getElementById(p).style.display='block';}
 
 // MESSAGE
-function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.style.display="block"; setTimeout(()=>{el.style.display="none";},2000);}
-function showAddedMessage(){const el=document.getElementById("addedMessage"); el.style.display="block"; setTimeout(()=>{el.style.display="none";},1000);}
+function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.classList.add("show"); setTimeout(()=>{el.classList.remove("show");},2000);}
+function showAddedMessage(){const el=document.getElementById("addedMessage"); el.classList.add("show"); setTimeout(()=>{el.classList.remove("show");},1000);}
 
 // PANIER
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
@@ -239,8 +220,8 @@ const categoryList=document.getElementById("categoryList");
 const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
 
-let categoriesSet = new Set(); // toutes catégories disponibles
-let commerceCategories = {}; // commerceId -> category
+let categoriesSet = new Set();
+let commerceCategories = {};
 
 async function loadCategories(){
   const snapshot = await getDocs(collection(db,"commerces"));
@@ -251,15 +232,15 @@ async function loadCategories(){
     commerceCategories[docSnap.id]=cat;
   });
   categoryList.innerHTML="";
-  categoriesSet.forEach(cat=>{
+  [...categoriesSet].sort().forEach(cat=>{
     const div=document.createElement("div");
     div.className="category";
     div.dataset.opened = "false";
     div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
     div.onclick=()=>{
-      if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; return; }
-      [...categoryList.children].forEach(c=>c.dataset.opened="false"); // fermer les autres
-      div.dataset.opened="true";
+      if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; }
+      [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");});
+      div.dataset.opened="true"; div.classList.add("selected");
       showCommercesByCategory(cat);
     };
     categoryList.appendChild(div);
@@ -270,7 +251,6 @@ function showCommercesByCategory(cat){
   productList.innerHTML="";
   commerceList.innerHTML="<h3>Commerces</h3>";
   getDocs(collection(db,"commerces")).then(snapshot=>{
-    commerceList.innerHTML="<h3>Commerces</h3>";
     snapshot.forEach(docSnap=>{
       if((docSnap.data().category || "Autres")===cat){
         const div=document.createElement("div");
@@ -278,9 +258,9 @@ function showCommercesByCategory(cat){
         div.dataset.opened="false";
         div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
         div.onclick=()=>{
-          if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; return; }
-          [...commerceList.children].forEach(c=>c.dataset.opened="false");
-          div.dataset.opened="true";
+          if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; }
+          [...commerceList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");});
+          div.dataset.opened="true"; div.classList.add("selected");
           showProducts(docSnap.id);
         };
         commerceList.appendChild(div);
