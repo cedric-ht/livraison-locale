@@ -255,9 +255,18 @@ function loadProducts(id){
       const d=p.data()
       const div=document.createElement("div")
       div.className="product"
-      div.innerHTML=`
-        <span>${d.name} - ${d.price}€ ${!d.available?"<span class='unavailable'>(Indisponible)</span>":""}</span>
-      `
+      div.innerHTML = `
+  <span>
+    ${d.name} - ${d.price}€<br>
+    ${!d.available 
+      ? "<span class='unavailable'>(Indisponible)</span>" 
+      : d.stock > 0 
+        ? "<small>Stock restant : <strong>" + d.stock + "</strong></small>"
+        : "<span class='unavailable'>Rupture de stock</span>"
+    }
+  </span>
+`;
+
       const b=document.createElement("button")
       b.textContent="Ajouter"
       b.disabled=!d.available||d.stock<=0
@@ -273,3 +282,4 @@ loadCommerces()
 
 </body>
 </html>
+
