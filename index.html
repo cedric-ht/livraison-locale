@@ -7,180 +7,59 @@
 <style>
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background: #ffffff;
-  color:#333;
-  min-height:100vh;
-  line-height:1.5;
-  overflow-x:hidden;
-  transition: background 0.3s ease-in-out;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; background:#fff;color:#333;min-height:100vh;line-height:1.5;overflow-x:hidden;transition: background 0.3s ease-in-out;}
 
 /* HEADER */
-header{
-  background: rgba(0,119,182,0.9);
-  backdrop-filter: blur(10px);
-  color:white;
-  padding:2rem 1rem;
-  border-bottom-left-radius:20px;
-  border-bottom-right-radius:20px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.15);
-  position:sticky;
-  top:0;
-  z-index:100;
-}
+header{background: rgba(0,119,182,0.9); backdrop-filter: blur(10px); color:white; padding:2rem 1rem; border-bottom-left-radius:20px; border-bottom-right-radius:20px; box-shadow:0 8px 30px rgba(0,0,0,0.15); position:sticky; top:0; z-index:100;}
 header h1{font-size:1.8rem;margin-bottom:.3rem}
 header p{opacity:.9;font-size:.95rem}
-#cta{margin-top:1rem;display:flex;gap:1rem}
-#cta button{
-  flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;
-}
-#orderBtn{
-  background: linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-}
-#orderBtn:hover{
-  transform:scale(1.05);
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-}
-#menuBtn{
-  background: rgba(255,255,255,.2);
-  color:white;
-}
-#menuBtn:hover{
-  background: rgba(255,255,255,.3);
-  transform:scale(1.03);
-}
+#cta{margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap}
+#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
+#orderBtn{background: linear-gradient(135deg,#00b4d8,#0077b6); color:white;}
+#orderBtn:hover{transform:scale(1.05); box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+#menuBtn{background: rgba(255,255,255,.2); color:white;}
+#menuBtn:hover{background: rgba(255,255,255,.3); transform:scale(1.03);}
 
 /* MOBILE MENU */
-#mobileMenu{
-  display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;
-  z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);
-}
-#mobileMenu a{
-  display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;
-  border-bottom:1px solid #eee;cursor:pointer;
-}
-#mobileMenuOverlay{
-  display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);
-  z-index:998;
-}
+#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;cursor:pointer;}
+#mobileMenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3); z-index:998;}
 
 /* SECTIONS */
 section{padding:1.5rem 1rem;max-width:900px;margin:auto}
 h2{margin-bottom:1rem}
 
 /* GRID LISTES */
-#categoryList,#commerceList,#productList{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;
-}
-.category,.commerce,.product{
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(8px);
-  padding:1rem;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
-  cursor:pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-bottom: 1rem;
-}
-.category:hover,.commerce:hover,.product:hover{
-  transform:translateY(-5px);
-  box-shadow:0 15px 30px rgba(0,0,0,0.08);
-}
+#categoryList,#commerceList,#productList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;}
+.category,.commerce,.product{background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); padding:1rem; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.05); cursor:pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; margin-bottom: 1rem;}
+.category:hover,.commerce:hover,.product:hover{transform:translateY(-5px); box-shadow:0 15px 30px rgba(0,0,0,0.08);}
 .category.selected,.commerce.selected{background: rgba(0,180,216,0.3);}
-.product span{font-weight:600;display:block}
-.stock{font-size:.85rem;color:#666;margin:.3rem 0}
-.product button{
-  margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;
-  background: linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease;
-}
-.product button:hover:not(:disabled){
-  transform:scale(1.05);
-  box-shadow:0 5px 15px rgba(0,0,0,0.15);
-}
-.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed}
+.product span{font-weight:600;display:block;}
+.stock{font-size:.85rem;color:#666;margin:.3rem 0;}
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background: linear-gradient(135deg,#00b4d8,#0077b6); color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
+.product button:hover:not(:disabled){transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
+.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed;}
 
 /* MINI PANIER FLOTANT */
-#cart{
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
-  z-index: 500;
-  background: rgba(255,255,255,0.95);
-  border-radius: 20px;
-  max-height: 80px;
-  overflow:hidden;
-  padding:0.5rem 1rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
-#cart.expanded{max-height: 350px; padding:1rem;}
-#cartHeader{
-  display:flex; justify-content: space-between; align-items: center;
-  cursor:pointer;
-}
-#cartContent{
-  margin-top:0.5rem;
-}
-#cartContent div{
-  padding:0.8rem;
-  border-radius:12px;
-  margin-bottom:0.5rem;
-  background: rgba(224,247,250,0.7);
-  box-shadow:0 6px 15px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-#cartContent div:hover{
-  transform: translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-}
+#cart{position: fixed; bottom: 1rem; left: 1rem; right: 1rem; z-index: 500; background: rgba(255,255,255,0.95); border-radius: 20px; max-height: 80px; overflow:hidden; padding:0.5rem 1rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1); transition: max-height 0.3s ease, padding 0.3s ease;}
+#cart.expanded{max-height: 400px; padding:1rem;}
+#cartHeader{display:flex; justify-content: space-between; align-items: center; cursor:pointer;}
+#cartContent{margin-top:0.5rem;}
+#cartContent div{padding:0.8rem; border-radius:12px; margin-bottom:0.5rem; background: rgba(224,247,250,0.7); box-shadow:0 6px 15px rgba(0,0,0,0.05);}
+#cartContent div:hover{transform: translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,0.12);}
 #cart h3{text-align:right;color:#0077b6;margin-top:0.5rem;}
 #cart button{margin:0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background: linear-gradient(135deg,#00b4d8,#0077b6); color:white; font-weight:600; transition:all 0.3s ease;}
 #cart button:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
-#cart .clear-btn{
-  width:100%;
-  background:#ff595e;
-  color:white;
-  border:none;
-  padding:0.7rem;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:600;
-  margin-top:0.5rem;
-}
+#cart .clear-btn{width:100%; background:#ff595e; color:white; border:none; padding:0.7rem; border-radius:12px; cursor:pointer; font-weight:600; margin-top:0.5rem;}
 
-/* FORM CHECKOUT */
-#checkoutForm input{
-  width:100%;
-  padding:.7rem;
-  margin-bottom:.8rem;
-  border-radius:12px;
-  border:1px solid #ccc;
-}
-#checkoutForm button{
-  width:100%;
-  padding:.8rem;
-  border:none;
-  border-radius:12px;
-  background: linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-  transition:all 0.3s ease;
-}
-#checkoutForm button:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
+/* FORMULAIRE CHECKOUT */
+#checkoutForm{display:none; margin-top:1rem; background:#f4f6f8; padding:1rem 1.5rem; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+#checkoutForm input{width:100%; padding:.6rem; margin-bottom:.7rem; border-radius:10px; border:1px solid #ccc;}
+#checkoutForm button{width:100%; padding:.7rem; border:none; border-radius:12px; font-weight:600; background:#00b4d8; color:white; cursor:pointer; transition:0.3s;}
+#checkoutForm button:hover{background:#0077b6;}
 
 /* MOBILE GRID */
-@media(max-width:767px){
-  #categoryList,#commerceList,#productList{
-    grid-template-columns:1fr; gap:1.2rem;
-  }
-  section{padding-bottom:150px;}
-}
+@media(max-width:767px){#categoryList,#commerceList,#productList{grid-template-columns:1fr; gap:1.2rem;} section{padding-bottom:180px;}}
 </style>
 </head>
 <body>
@@ -222,6 +101,17 @@ h2{margin-bottom:1rem}
 <div id="categoryList"></div>
 <div id="commerceList"></div>
 <div id="productList"></div>
+<button id="validateCartBtn" onclick="showCheckout()" style="margin-top:1rem;display:none;">Valider le panier</button>
+
+<form id="checkoutForm">
+<h3>Validation du panier</h3>
+<input type="text" id="firstName" placeholder="Prénom" required>
+<input type="text" id="lastName" placeholder="Nom" required>
+<input type="email" id="email" placeholder="Email" required>
+<input type="text" id="address" placeholder="Adresse" required>
+<input type="tel" id="phone" placeholder="Téléphone" required>
+<button type="submit">Confirmer la commande</button>
+</form>
 </section>
 
 <!-- MINI-PANIER FLOTANT -->
@@ -234,38 +124,10 @@ h2{margin-bottom:1rem}
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
 </div>
 
-<!-- FORMULAIRE CHECKOUT -->
-<section id="checkout" style="max-width:800px;margin:20px auto">
-<h2>✅ Valider le panier</h2>
-<form id="checkoutForm">
-  <input type="text" id="clientFirstName" placeholder="Prénom" required>
-  <input type="text" id="clientLastName" placeholder="Nom" required>
-  <input type="email" id="clientEmail" placeholder="Email" required>
-  <input type="text" id="clientAddress" placeholder="Adresse" required>
-  <input type="text" id="clientPhone" placeholder="Téléphone" required>
-  <button type="submit">Valider la commande</button>
-</form>
-</section>
-
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot, doc, getDoc, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
-  authDomain: "livraison-sablaise.firebaseapp.com",
-  projectId: "livraison-sablaise",
-  storageBucket: "livraison-sablaise.firebasestorage.app",
-  messagingSenderId: "930839535214",
-  appId: "1:930839535214:web:a3235919aa88d066bc507f",
-  measurementId: "G-R3ZCGLQ69E"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+<script>
 // MENU
 function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
 function nav(p){toggleMenu(); showPage(p);}
@@ -279,21 +141,27 @@ function showAddedMessage(){const el=document.getElementById("addedMessage"); el
 let selectedCommerceId=null;
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
-function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
+function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart(); document.getElementById("validateCartBtn").style.display="none"; document.getElementById("checkoutForm").style.display="none";}
+
 function addToCart(commerceId, productId, name, price, stock){
-  if(selectedCommerceId && selectedCommerceId !== commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");return;}
+  if(selectedCommerceId && selectedCommerceId !== commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return;}
   selectedCommerceId = commerceId;
   let cart = getCart();
   price = parseFloat(price.toString().replace(",","."));  
   const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-  if(existing){if(existing.quantity>=stock){showMessage("Stock limité"); return;} existing.quantity += 1;}
-  else{if(stock<1){showMessage("Produit non disponible"); return;} cart.push({commerceId,productId,name,price,quantity:1,stock});}
+  if(existing){ if(existing.quantity >= stock){ showMessage("Stock limité"); return; } existing.quantity += 1; }
+  else{ if(stock < 1){ showMessage("Produit non disponible"); return; } cart.push({commerceId, productId, name, price, quantity:1, stock}); }
   saveCart(cart); showAddedMessage();
+  document.getElementById("validateCartBtn").style.display="block";
 }
-function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
-function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return;} item.quantity=Math.max(1,qty);} saveCart(cart);}
+
+function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart); if(cart.length===0) document.getElementById("validateCartBtn").style.display="none";}
+
+function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return; } item.quantity=Math.max(1,qty);} saveCart(cart);}
+
 function renderCart(){
-  const container=document.getElementById("cartContent"); const cart=getCart(); container.innerHTML="";
+  const container=document.getElementById("cartContent");
+  const cart=getCart(); container.innerHTML="";
   if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
   let total=0;
   cart.forEach(item=>{total+=item.price*item.quantity; container.innerHTML+=`
@@ -308,10 +176,57 @@ function renderCart(){
   </div>`;});
   container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
 }
-document.addEventListener("DOMContentLoaded", renderCart);
-document.getElementById("cartHeader").onclick=()=>{const cart=document.getElementById("cart");cart.classList.toggle("expanded"); const arrow=document.getElementById("toggleCart"); arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";};
 
-// FIRESTORE COMMERCE / PRODUITS
+document.addEventListener("DOMContentLoaded", renderCart);
+
+// MINI PANIER EXPAND/RETRACT
+document.getElementById("cartHeader").onclick = ()=>{
+  const cart=document.getElementById("cart");
+  cart.classList.toggle("expanded");
+  const arrow=document.getElementById("toggleCart");
+  arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
+}
+
+// SHOW CHECKOUT
+function showCheckout(){document.getElementById("checkoutForm").style.display="block"; window.scrollTo({top:document.getElementById("checkoutForm").offsetTop-20, behavior:'smooth'});}
+
+// SUBMIT CHECKOUT
+document.getElementById("checkoutForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const cart = getCart();
+  if(cart.length===0){showMessage("Panier vide"); return;}
+  const order = {
+    firstName:document.getElementById("firstName").value,
+    lastName:document.getElementById("lastName").value,
+    email:document.getElementById("email").value,
+    address:document.getElementById("address").value,
+    phone:document.getElementById("phone").value,
+    items:cart,
+    total:cart.reduce((sum,p)=>sum+p.price*p.quantity,0)
+  };
+  console.log("Commande validée:", order); // ici tu peux envoyer à Firebase ou serveur
+  clearCart();
+  document.getElementById("checkoutForm").reset();
+  alert("Merci, votre commande est enregistrée !");
+});
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain: "livraison-sablaise.firebaseapp.com",
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f",
+  measurementId: "G-R3ZCGLQ69E"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const categoryList=document.getElementById("categoryList");
 const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
@@ -389,54 +304,6 @@ function showProducts(commerceId){
 }
 
 loadCategories();
-
-// CHECKOUT FORM
-document.getElementById("checkoutForm").addEventListener("submit", async e=>{
-  e.preventDefault();
-  const cart=getCart();
-  if(cart.length===0){showMessage("Le panier est vide !"); return;}
-
-  const firstName=document.getElementById("clientFirstName").value.trim();
-  const lastName=document.getElementById("clientLastName").value.trim();
-  const email=document.getElementById("clientEmail").value.trim();
-  const address=document.getElementById("clientAddress").value.trim();
-  const phone=document.getElementById("clientPhone").value.trim();
-
-  // Vérifier le stock en temps réel
-  let stockOk=true;
-  for(const item of cart){
-    const docRef=doc(db,"commerces",item.commerceId,"produits",item.productId);
-    const docSnap=await getDoc(docRef);
-    if(!docSnap.exists()){showMessage(`Produit ${item.name} non trouvé.`); stockOk=false; break;}
-    const stock=docSnap.data().stock || 0;
-    if(item.quantity>stock){showMessage(`Stock insuffisant pour ${item.name}`); stockOk=false; break;}
-  }
-  if(!stockOk) return;
-
-  // Créer commande Firestore
-  try{
-    await addDoc(collection(db,"commandes"),{
-      client:{firstName,lastName,email,address,phone},
-      items:cart,
-      createdAt:new Date()
-    });
-
-    // Décrémenter stock
-    for(const item of cart){
-      const docRef=doc(db,"commerces",item.commerceId,"produits",item.productId);
-      const docSnap=await getDoc(docRef);
-      const newStock=(docSnap.data().stock||0)-item.quantity;
-      await updateDoc(docRef,{stock:newStock});
-    }
-
-    alert("Commande validée ! Merci.");
-    clearCart();
-    document.getElementById("checkoutForm").reset();
-  }catch(err){
-    console.error(err);
-    showMessage("Erreur lors de la validation, réessayez.");
-  }
-});
 </script>
 
 </body>
