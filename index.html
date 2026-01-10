@@ -34,8 +34,84 @@ h2{margin-bottom:1rem}
 .stock{font-size:.85rem;color:#666;margin:.3rem 0}
 .product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600}
 .product button:disabled{background:#ccc}
-#cart div{padding:.7rem 0;border-bottom:1px solid #eee}
-#cart button{margin:0 .2rem}
+
+/* PANIER AMÉLIORÉ */
+#cart {
+  background: #fefefe;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+
+#cart div {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#cart div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+#cart strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #0077b6;
+}
+
+#cart button {
+  margin: 0 0.2rem;
+  padding: 0.4rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #0077b6;
+  color: white;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+}
+
+#cart button:hover {
+  background: #0096d6;
+  transform: translateY(-1px);
+}
+
+#cart button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+#cart h3 {
+  margin-top: 1rem;
+  text-align: right;
+  color: #0077b6;
+}
+
+/* MESSAGE CENTRAL PRODUIT AJOUTÉ */
+#addedMessage{
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  background:#4caf50;
+  color:white;
+  padding:1rem 2rem;
+  border-radius:12px;
+  font-weight:600;
+  font-size:1rem;
+  display:none;
+  z-index:1001;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+  text-align:center;
+}
+
+/* ERREUR */
 #errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#d00000;color:white;padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1000; box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;}
 
 /* DESKTOP */
@@ -91,6 +167,7 @@ Vider le panier
 </section>
 
 <div id="errorMessage"></div>
+<div id="addedMessage">Produit ajouté ✅</div>
 
 <script>
 // MENU
@@ -100,6 +177,7 @@ function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>doc
 
 // MESSAGE
 function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.style.display="block"; setTimeout(()=>{el.style.display="none";},2000);}
+function showAddedMessage(){const el=document.getElementById("addedMessage"); el.style.display="block"; setTimeout(()=>{el.style.display="none";},1000);}
 
 // PANIER
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
@@ -110,7 +188,7 @@ function addToCart(commerceId, productId, name, price, stock){
   if(selectedCommerceId && selectedCommerceId!==commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return; }
   selectedCommerceId = commerceId;
   let cart = getCart();
-  price=parseFloat(price.toString().replace(",","."));
+  price=parseFloat(price.toString().replace(",","."));  
   const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   if(existing){
     if(existing.quantity>=stock){ showMessage("Stock limité"); return; }
@@ -119,7 +197,8 @@ function addToCart(commerceId, productId, name, price, stock){
     if(stock<1){ showMessage("Produit non disponible"); return; }
     cart.push({commerceId,productId,name,price,quantity:1,stock});
   }
-  saveCart(cart); renderCart();
+  saveCart(cart); 
+  showAddedMessage();
 }
 function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
 function updateQuantity(productId, qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){
@@ -142,7 +221,7 @@ document.addEventListener("DOMContentLoaded", renderCart);
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -175,8 +254,14 @@ async function loadCategories(){
   categoriesSet.forEach(cat=>{
     const div=document.createElement("div");
     div.className="category";
+    div.dataset.opened = "false";
     div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
-    div.onclick=()=>showCommercesByCategory(cat);
+    div.onclick=()=>{
+      if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; return; }
+      [...categoryList.children].forEach(c=>c.dataset.opened="false"); // fermer les autres
+      div.dataset.opened="true";
+      showCommercesByCategory(cat);
+    };
     categoryList.appendChild(div);
   });
 }
@@ -190,8 +275,14 @@ function showCommercesByCategory(cat){
       if((docSnap.data().category || "Autres")===cat){
         const div=document.createElement("div");
         div.className="commerce";
+        div.dataset.opened="false";
         div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
-        div.onclick=()=>showProducts(docSnap.id);
+        div.onclick=()=>{
+          if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; return; }
+          [...commerceList.children].forEach(c=>c.dataset.opened="false");
+          div.dataset.opened="true";
+          showProducts(docSnap.id);
+        };
         commerceList.appendChild(div);
       }
     });
