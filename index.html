@@ -2,12 +2,19 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Livraison Locale - Les Sables d'Olonne</title>
 
 <style>
 /* RESET */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
 /* BASE */
 body{
@@ -21,23 +28,22 @@ a{text-decoration:none;color:#0077b6}
 /* HEADER */
 header{
   background:#00b4d8;
-  padding:2rem 1rem;
+  padding:2rem;
   text-align:center;
   color:white;
 }
-header h1{font-size:2.3rem}
-header p{opacity:.95}
+header h1{font-size:2.4rem}
 
-/* NAV */
+/* NAV (ancien menu) */
 nav{
-  position:sticky;
-  top:0;
-  background:white;
   display:flex;
   justify-content:center;
-  gap:1.5rem;
+  gap:2rem;
+  background:white;
   padding:1rem;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
+  position:sticky;
+  top:0;
   z-index:100;
 }
 nav a{
@@ -48,51 +54,56 @@ nav a:hover{color:#00b4d8}
 
 /* SECTIONS */
 section{
-  padding:2.5rem 1rem;
+  padding:3rem 1rem;
   max-width:1000px;
   margin:auto;
 }
 #commerceList,#productList{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:1.2rem;
+  gap:1.5rem;
 }
 
 /* CARDS */
 .commerce,.product{
   background:white;
   padding:1rem;
-  border-radius:14px;
+  border-radius:15px;
   box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
-.commerce{cursor:pointer;font-weight:600;text-align:center}
-.commerce:hover{transform:translateY(-3px)}
-
-.product span{font-weight:600;display:block}
-.stock{font-size:.9rem;color:#555;margin-top:5px}
+.commerce{
+  cursor:pointer;
+  font-weight:600;
+  text-align:center;
+}
+.product span{font-weight:600}
 
 /* BUTTONS */
 button{
   background:#0077b6;
   color:white;
   border:none;
-  padding:.5rem .9rem;
+  padding:.45rem .9rem;
   border-radius:8px;
   cursor:pointer;
+  touch-action:manipulation;
 }
-button:disabled{background:#ccc;cursor:not-allowed}
+button:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}
+
+/* STOCK */
+.stock{
+  font-size:.9rem;
+  margin:6px 0;
+  color:#555;
+}
 
 /* CART */
-#cart div{border-bottom:1px solid #ddd;padding:10px 0}
-#cartMessage{
-  display:none;
-  background:#ff595e;
-  color:white;
-  padding:10px;
-  border-radius:10px;
-  text-align:center;
-  font-weight:600;
-  margin-bottom:10px;
+#cart div{
+  border-bottom:1px solid #ddd;
+  padding:10px 0;
 }
 
 /* FOOTER */
@@ -102,11 +113,6 @@ footer{
   background:#03045e;
   color:white;
   margin-top:3rem;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-  header h1{font-size:1.9rem}
 }
 </style>
 </head>
@@ -121,19 +127,19 @@ footer{
 <nav>
   <a onclick="showPage('accueil')">Accueil</a>
   <a onclick="showPage('apropos')">À propos</a>
-  <a onclick="showPage('contact')">Contact</a>
+  <a onclick="showPage('contact')">Nous contacter</a>
   <a onclick="showPage('commander')">Commander</a>
   <a href="inscription.html">Nous rejoindre</a>
 </nav>
 
 <section id="accueil">
   <h2>Bienvenue</h2>
-  <p>Commandez chez vos commerçants de proximité en quelques clics.</p>
+  <p>Commandez chez vos commerçants locaux en quelques clics.</p>
 </section>
 
 <section id="apropos" style="display:none">
   <h2>À propos</h2>
-  <p>Nous connectons les commerces locaux avec leurs clients.</p>
+  <p>Plateforme de mise en relation entre clients et commerces locaux.</p>
 </section>
 
 <section id="contact" style="display:none">
@@ -149,9 +155,10 @@ footer{
 
 <section style="max-width:800px;margin:auto">
   <h2>🛒 Panier</h2>
-  <div id="cartMessage"></div>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="background:#ff595e;margin-top:10px">Vider le panier</button>
+  <button onclick="clearCart()" style="background:#ff595e;margin-top:10px">
+    Vider le panier
+  </button>
 </section>
 
 <footer>
@@ -159,7 +166,7 @@ footer{
 </footer>
 
 <script>
-/* NAV */
+/* MENU */
 function showPage(p){
   ['accueil','apropos','contact','commander'].forEach(id=>{
     document.getElementById(id).style.display='none';
@@ -170,30 +177,16 @@ function showPage(p){
 /* PANIER */
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[]}
 function saveCart(c){localStorage.setItem("panier",JSON.stringify(c))}
-function showCartMessage(t){
-  const m=document.getElementById("cartMessage");
-  m.innerText=t;
-  m.style.display="block";
-  setTimeout(()=>m.style.display="none",2500);
-}
 
 function addToCart(commerceId,productId,name,price,stock){
   let cart=getCart();
-
-  if(cart.length>0 && cart[0].commerceId!==commerceId){
-    showCartMessage("Vous ne pouvez commander que dans un seul commerce à la fois");
-    return;
-  }
-
   const item=cart.find(p=>p.productId===productId);
+
   if(item){
-    if(item.quantity>=stock){
-      showCartMessage("Stock maximum atteint");
-      return;
-    }
+    if(item.quantity>=stock) return;
     item.quantity++;
   }else{
-    cart.push({commerceId,productId,name,price,quantity:1});
+    cart.push({commerceId,productId,name,price,quantity:1,stock});
   }
 
   saveCart(cart);
@@ -202,10 +195,16 @@ function addToCart(commerceId,productId,name,price,stock){
 
 function updateQty(id,delta){
   let cart=getCart();
-  const i=cart.find(p=>p.productId===id);
-  if(!i)return;
-  i.quantity+=delta;
-  if(i.quantity<=0) cart=cart.filter(p=>p.productId!==id);
+  const item=cart.find(p=>p.productId===id);
+  if(!item) return;
+
+  if(delta>0 && item.quantity>=item.stock) return;
+
+  item.quantity+=delta;
+  if(item.quantity<=0){
+    cart=cart.filter(p=>p.productId!==id);
+  }
+
   saveCart(cart);
   renderCart();
 }
@@ -219,7 +218,11 @@ function renderCart(){
   const c=document.getElementById("cart");
   const cart=getCart();
   c.innerHTML="";
-  if(cart.length===0){c.innerHTML="<p>Panier vide</p>";return}
+  if(cart.length===0){
+    c.innerHTML="<p>Panier vide</p>";
+    return;
+  }
+
   let total=0;
   cart.forEach(i=>{
     total+=i.price*i.quantity;
@@ -228,9 +231,12 @@ function renderCart(){
         <strong>${i.name}</strong><br>
         <button onclick="updateQty('${i.productId}',-1)">-</button>
         ${i.quantity}
-        <button onclick="updateQty('${i.productId}',1)">+</button>
-      </div>`;
+        <button onclick="updateQty('${i.productId}',1)"
+          ${i.quantity>=i.stock?'disabled':''}>+</button>
+      </div>
+    `;
   });
+
   c.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
 }
 renderCart();
@@ -269,14 +275,19 @@ function loadProducts(cid){
       const p=d.data();
       const div=document.createElement("div");
       div.className="product";
+
       div.innerHTML=`
         <span>${p.name} - ${p.price}€</span>
         <div class="stock">Stock : ${p.stock}</div>
       `;
+
       const btn=document.createElement("button");
       btn.innerText="Ajouter";
       btn.disabled=!p.available||p.stock<=0;
-      btn.onclick=()=>addToCart(cid,d.id,p.name,parseFloat(p.price),p.stock);
+      btn.onclick=()=>addToCart(
+        cid,d.id,p.name,parseFloat(p.price),p.stock
+      );
+
       div.appendChild(btn);
       productList.appendChild(div);
     });
