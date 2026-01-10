@@ -10,40 +10,161 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 /* BASE */
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#f6f7f9;color:#1a1a1a;line-height:1.5}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f6f7f9;
+  color:#1a1a1a;
+  line-height:1.5;
+}
 
 /* HEADER */
-header{background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;padding:1.5rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;position:relative}
-header h1{font-size:1.8rem;margin-bottom:.3rem}
-header p{opacity:.9;font-size:.95rem}
-#cta{margin-top:1rem;display:flex;gap:1rem}
-#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s}
-#orderBtn{background:white;color:#0077b6}
-#orderBtn:hover{background:#f0f0f0}
-#menuBtn{background:rgba(255,255,255,.2);color:white}
-#menuBtn:hover{background:rgba(255,255,255,.3)}
+header{
+  background: linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  padding:2rem 1rem;
+  border-bottom-left-radius:24px;
+  border-bottom-right-radius:24px;
+  position:relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+header h1{
+  font-size:1.8rem;
+  margin-bottom:.3rem;
+}
+header p{
+  opacity:.9;
+  font-size:.95rem;
+}
+#cta{
+  margin-top:1rem;
+  display:flex;
+  gap:1rem;
+}
+#cta button{
+  flex:1;
+  padding:.9rem;
+  border:none;
+  border-radius:14px;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.2s, box-shadow 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+#orderBtn{
+  background:white;
+  color:#0077b6;
+}
+#orderBtn:hover{
+  background:#f0f0f0;
+  transform: translateY(-2px);
+}
+#menuBtn{
+  background:rgba(255,255,255,.2);
+  color:white;
+}
+#menuBtn:hover{
+  background:rgba(255,255,255,.3);
+  transform: translateY(-2px);
+}
 
 /* MOBILE MENU */
-#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2)}
-#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;cursor:pointer}
-#mobileMenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:998}
+#mobileMenu{
+  display:none;
+  background:white;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  z-index:999;
+  padding:2rem;
+  overflow-y:auto;
+  box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+#mobileMenu a{
+  display:block;
+  padding:1rem 0;
+  font-size:1.2rem;
+  font-weight:600;
+  color:#0077b6;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+#mobileMenuOverlay{
+  display:none;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.3);
+  z-index:998;
+}
 
 /* SECTIONS */
-section{padding:1.5rem 1rem;max-width:900px;margin:auto}
-h2{margin-bottom:1rem}
+section{
+  padding:2rem 1rem;
+  max-width:900px;
+  margin:auto;
+  margin-bottom:2rem;
+}
+h2{
+  margin-bottom:1.2rem;
+  font-size:1.6rem;
+  color:#0077b6;
+}
 
 /* GRID LISTES */
-#categoryList,#commerceList,#productList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
-.category,.commerce,.product{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
-.category:hover,.commerce:hover,.product:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.1)}
-.category.selected,.commerce.selected{background:#caf0f8}
-.product span{font-weight:600;display:block}
-.stock{font-size:.85rem;color:#666;margin:.3rem 0}
-.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;cursor:pointer;transition:background 0.2s}
-.product button:hover:not(:disabled){background:#0096d6}
-.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed}
+#categoryList,#commerceList,#productList{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:1rem;
+}
+.category,.commerce,.product{
+  background:white;
+  padding:1rem;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.06);
+  cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.category:hover,.commerce:hover,.product:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+.category.selected,.commerce.selected{
+  background:#90e0ef;
+  border:2px solid #0077b6;
+}
+.product span:first-child{
+  font-size:1.1rem;
+  font-weight:700;
+  display:block;
+  margin-bottom:0.3rem;
+}
+.stock{
+  font-size:.85rem;
+  color:#555;
+  margin:.3rem 0;
+  font-style:italic;
+}
+.product button{
+  margin-top:.6rem;
+  width:100%;
+  padding:.7rem;
+  border:none;
+  border-radius:12px;
+  background:#0077b6;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+.product button:hover:not(:disabled){
+  background: linear-gradient(135deg,#0096d6,#00b4d8);
+}
+.product button:disabled{
+  background:#ccc;
+  opacity:0.6;
+  cursor:not-allowed;
+}
 
-/* PANIER AMÉLIORÉ */
+/* PANIER */
 #cart {
   background: #fefefe;
   border-radius: 16px;
@@ -51,33 +172,40 @@ h2{margin-bottom:1rem}
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   margin-bottom: 1rem;
 }
-
 #cart div {
   padding: 1rem;
   border-bottom: 1px solid #eee;
   border-radius: 12px;
   margin-bottom: 0.8rem;
-  background: #fff;
+  background: #f8f9fa;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 #cart div:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
-
 #cart strong { display:block; margin-bottom:0.3rem; color:#0077b6; }
 #cart button { margin:0 0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background:#0077b6; color:white; font-weight:600; transition: background 0.2s, transform 0.1s;}
-#cart button:hover { background:#0096d6; transform: translateY(-1px);}
+#cart button:hover { background:#00b4d8; transform: translateY(-2px);}
 #cart button:disabled { background:#ccc; cursor:not-allowed;}
 #cart h3 { margin-top:1rem; text-align:right; color:#0077b6;}
 
-/* MESSAGE CENTRAL PRODUIT AJOUTÉ */
+/* MESSAGE CENTRAL PRODUIT AJOUTÉ / ERREUR */
 #addedMessage,#errorMessage{
-  position: fixed; top:50%; left:50%; transform:translate(-50%, -50%);
-  padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1001;
-  box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center; opacity:0; transition:opacity 0.3s ease;
+  position: fixed;
+  top:50%; left:50%;
+  transform:translate(-50%, -50%);
+  padding:0.8rem 1.5rem;
+  border-radius:10px;
+  font-weight:600;
+  font-size:0.95rem;
+  display:none;
+  z-index:1001;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+  text-align:center;
+  opacity:0;
+  transition:opacity 0.3s ease;
 }
 #addedMessage{background:#4caf50; color:white;}
 #addedMessage.show, #errorMessage.show{display:block; opacity:1;}
@@ -85,11 +213,27 @@ h2{margin-bottom:1rem}
 
 /* MINI PANIER MOBILE */
 @media(max-width:767px){
-  #cart{position:fixed;bottom:0;left:0;right:0;z-index:500;max-height:200px;overflow-y:auto;margin:0;border-radius:12px;}
+  #cart{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:500;
+    max-height:200px;
+    overflow-y:auto;
+    margin:0;
+    border-radius:12px;
+    background: rgba(255,255,255,0.95);
+    box-shadow:0 6px 25px rgba(0,0,0,0.15);
+  }
 }
 
 /* DESKTOP */
-@media(min-width:768px){#categoryList,#commerceList,#productList{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){
+  #categoryList,#commerceList,#productList{
+    grid-template-columns:repeat(2,1fr)
+  }
+}
 </style>
 </head>
 <body>
@@ -281,20 +425,4 @@ function showProducts(commerceId){
       const div=document.createElement("div");
       div.className="product";
       const price=p.price.toString().replace(".",",");
-      div.innerHTML=`<span>${p.name} - ${price}€</span>
-      <span class="stock">Stock : ${stock}</span>`;
-      const btn=document.createElement("button");
-      btn.innerText="Ajouter au panier";
-      btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
-      div.appendChild(btn);
-      productList.appendChild(div);
-    });
-  });
-}
-
-loadCategories();
-</script>
-
-</body>
-</html>
+      div.innerHTML=`<span>${p.name} - ${p
