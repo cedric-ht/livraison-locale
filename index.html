@@ -10,177 +10,36 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 /* BASE */
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:#f6f7f9;
-  color:#1a1a1a;
-  padding-bottom:3rem;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#f6f7f9;color:#1a1a1a}
 
 /* HEADER */
-header{
-  background:linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-  padding:1.5rem 1rem;
-  border-bottom-left-radius:20px;
-  border-bottom-right-radius:20px;
-}
-
-header h1{
-  font-size:1.8rem;
-  margin-bottom:.3rem;
-}
-
-header p{
-  opacity:.9;
-  font-size:.95rem;
-}
-
-/* TOP ACTION */
-#cta{
-  margin-top:1rem;
-  display:flex;
-  gap:1rem;
-}
-
-#cta button{
-  flex:1;
-  padding:.9rem;
-  border:none;
-  border-radius:14px;
-  font-size:1rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:.3s;
-}
-
-#orderBtn{
-  background:white;
-  color:#0077b6;
-}
-
-#menuBtn{
-  background:rgba(255,255,255,.2);
-  color:white;
-}
+header{background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;padding:1.5rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px}
+header h1{font-size:1.8rem;margin-bottom:.3rem}
+header p{opacity:.9;font-size:.95rem}
+#cta{margin-top:1rem;display:flex;gap:1rem}
+#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer}
+#orderBtn{background:white;color:#0077b6}
+#menuBtn{background:rgba(255,255,255,.2);color:white}
 
 /* MOBILE MENU */
-#mobileMenu{
-  display:none;
-  background:white;
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  z-index:999;
-  padding:2rem;
-}
-
-#mobileMenu a{
-  display:block;
-  padding:1rem 0;
-  font-size:1.2rem;
-  font-weight:600;
-  color:#0077b6;
-  border-bottom:1px solid #eee;
-}
+#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee}
 
 /* SECTIONS */
-section{
-  padding:1.5rem 1rem;
-  max-width:900px;
-  margin:auto;
-}
-
-h2{
-  margin-bottom:1rem;
-}
-
-/* CATEGORY BUTTONS */
-#categoryList{
-  margin-bottom:1rem;
-}
-.categoryBtn{
-  padding:.6rem 1rem;
-  border:none;
-  border-radius:12px;
-  margin:.3rem;
-  cursor:pointer;
-  background:#0077b6;
-  color:white;
-  font-weight:600;
-  transition:.3s;
-}
-.categoryBtn:hover{
-  background:#0096c7;
-}
-.categoryBtn.active{
-  background:#00b4d8;
-}
-
-/* LISTS */
-#commerceList,#productList{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1rem;
-}
-
-.commerce,.product{
-  background:white;
-  padding:1rem;
-  border-radius:16px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-}
-
-/* PRODUCT */
-.product span{
-  font-weight:600;
-  display:block;
-}
-
-.stock{
-  font-size:.85rem;
-  color:#666;
-  margin:.3rem 0;
-}
-
-.product button{
-  margin-top:.6rem;
-  width:100%;
-  padding:.7rem;
-  border:none;
-  border-radius:12px;
-  background:#0077b6;
-  color:white;
-  font-weight:600;
-}
-
-.product button:disabled{
-  background:#ccc;
-}
-
-/* CART */
-#cart div{
-  padding:.7rem 0;
-  border-bottom:1px solid #eee;
-}
-
-#cart button{
-  margin:0 .2rem;
-}
-
-/* MESSAGE */
-#message{
-  text-align:center;
-  color:#d00000;
-  margin:1rem;
-  display:none;
-}
+section{padding:1.5rem 1rem;max-width:900px;margin:auto}
+h2{margin-bottom:1rem}
+#categoryList,#commerceList,#productList{display:grid;grid-template-columns:1fr;gap:1rem}
+.commerce,.product,.category{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);cursor:pointer}
+.product span{font-weight:600;display:block}
+.stock{font-size:.85rem;color:#666;margin:.3rem 0}
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600}
+.product button:disabled{background:#ccc}
+#cart div{padding:.7rem 0;border-bottom:1px solid #eee}
+#cart button{margin:0 .2rem}
+#errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#d00000;color:white;padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1000; box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;}
 
 /* DESKTOP */
-@media(min-width:768px){
-  #commerceList,#productList{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+@media(min-width:768px){#categoryList,#commerceList,#productList{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -188,7 +47,6 @@ h2{
 <header>
   <h1>Livraison Locale</h1>
   <p>Commerces des Sables d’Olonne</p>
-
   <div id="cta">
     <button id="orderBtn" onclick="showPage('commander')">Commander</button>
     <button id="menuBtn" onclick="toggleMenu()">Menu</button>
@@ -218,11 +76,10 @@ h2{
 </section>
 
 <section id="commander" style="display:none">
-<h2>Choisir un commerce</h2>
+<h2>Choisir une catégorie</h2>
 <div id="categoryList"></div>
 <div id="commerceList"></div>
 <div id="productList"></div>
-<p id="message"></p>
 </section>
 
 <section>
@@ -233,106 +90,59 @@ Vider le panier
 </button>
 </section>
 
+<div id="errorMessage"></div>
+
 <script>
-/* MENU */
-function toggleMenu(){
-  const m=document.getElementById("mobileMenu");
-  m.style.display=m.style.display==="block"?"none":"block";
-}
-function nav(p){
-  toggleMenu();
-  showPage(p);
-}
-function showPage(p){
-  ['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById(p).style.display='block';
-}
+// MENU
+function toggleMenu(){const m=document.getElementById("mobileMenu"); m.style.display=m.style.display==="block"?"none":"block";}
+function nav(p){toggleMenu(); showPage(p);}
+function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none'); document.getElementById(p).style.display='block';}
 
-/* PANIER */
-let currentCommerce = null;
+// MESSAGE
+function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.style.display="block"; setTimeout(()=>{el.style.display="none";},2000);}
 
+// PANIER
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
-function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
-
+function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
+function clearCart(){localStorage.removeItem("panier"); renderCart(); selectedCommerceId=null;}
+let selectedCommerceId=null;
 function addToCart(commerceId, productId, name, price, stock){
+  if(selectedCommerceId && selectedCommerceId!==commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return; }
+  selectedCommerceId = commerceId;
   let cart = getCart();
-  price = parseFloat(price.toString().replace(",","."));
-
-  if(currentCommerce && currentCommerce!==commerceId){
-    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois !");
-    return;
-  }
-
+  price=parseFloat(price.toString().replace(",","."));
   const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   if(existing){
-    if(existing.quantity<stock) existing.quantity+=1;
-    else { showMessage("Stock maximum atteint !"); return; }
-  }
-  else cart.push({commerceId,productId,name,price,quantity:1,stock});
-
-  currentCommerce = commerceId;
-  saveCart(cart); renderCart();
-}
-
-function removeFromCart(productId){
-  let cart = getCart();
-  cart = cart.filter(p=>p.productId!==productId);
-  saveCart(cart);
-  if(cart.length===0) currentCommerce = null;
-  renderCart();
-}
-
-function updateQuantity(productId, qty, stock){
-  let cart = getCart();
-  const item = cart.find(p=>p.productId===productId);
-  if(item){
-    if(qty>stock){ showMessage("Stock maximum atteint !"); return;}
-    item.quantity = Math.max(1, qty);
+    if(existing.quantity>=stock){ showMessage("Stock limité"); return; }
+    existing.quantity+=1;
+  } else{
+    if(stock<1){ showMessage("Produit non disponible"); return; }
+    cart.push({commerceId,productId,name,price,quantity:1,stock});
   }
   saveCart(cart); renderCart();
 }
-
-function clearCart(){
-  localStorage.removeItem("panier");
-  currentCommerce = null;
-  renderCart();
-}
-
-function renderCart(){
-  const container = document.getElementById("cart");
-  const cart = getCart();
-  container.innerHTML="";
-  if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
-  let total=0;
-  cart.forEach(item=>{
-    total += item.price*item.quantity;
-    container.innerHTML+=`
-      <div>
-        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity-1}, ${item.stock})">-</button>
-        ${item.quantity}
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity+1}, ${item.stock})">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
-      </div>`;
-  });
-  container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
-}
-
-function showMessage(msg){
-  const el = document.getElementById("message");
-  el.innerText = msg;
-  el.style.display="block";
-  setTimeout(()=>{el.style.display="none";},2000);
-}
-
+function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
+function updateQuantity(productId, qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){
+  if(qty>item.stock){ showMessage("Stock limité"); return; }
+  item.quantity=Math.max(1, qty);
+} saveCart(cart);}
+function renderCart(){const container=document.getElementById("cart"); const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
+let total=0; cart.forEach(item=>{ total+=item.price*item.quantity; container.innerHTML+=`
+<div>
+  <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
+  Quantité :
+  <button onclick="updateQuantity('${item.productId}', ${item.quantity-1})">-</button>
+  ${item.quantity}
+  <button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button>
+  <br>
+  <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+</div>`; }); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;}
 document.addEventListener("DOMContentLoaded", renderCart);
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -346,64 +156,66 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* CATEGORIES */
-let selectedCategory = null;
+const categoryList=document.getElementById("categoryList");
+const commerceList=document.getElementById("commerceList");
+const productList=document.getElementById("productList");
+
+let categoriesSet = new Set(); // toutes catégories disponibles
+let commerceCategories = {}; // commerceId -> category
+
 async function loadCategories(){
   const snapshot = await getDocs(collection(db,"commerces"));
-  const categories = new Set();
   snapshot.forEach(docSnap=>{
-    const data = docSnap.data();
-    if(data.category) categories.add(data.category);
+    const c=docSnap.data();
+    const cat=c.category || "Autres";
+    categoriesSet.add(cat);
+    commerceCategories[docSnap.id]=cat;
   });
-  const categoryList = document.getElementById("categoryList");
   categoryList.innerHTML="";
-  categories.forEach(cat=>{
-    const btn = document.createElement("button");
-    btn.className="categoryBtn";
-    btn.innerText = cat;
-    btn.onclick = ()=>{
-      selectedCategory = cat;
-      Array.from(categoryList.children).forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      loadCommerces();
-    }
-    categoryList.appendChild(btn);
+  categoriesSet.forEach(cat=>{
+    const div=document.createElement("div");
+    div.className="category";
+    div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
+    div.onclick=()=>showCommercesByCategory(cat);
+    categoryList.appendChild(div);
   });
 }
 
-/* COMMERCES */
-async function loadCommerces(){
-  const snapshot = await getDocs(collection(db,"commerces"));
-  const commerceList = document.getElementById("commerceList");
-  commerceList.innerHTML="";
-  snapshot.forEach(docSnap=>{
-    const data = docSnap.data();
-    if(selectedCategory && data.category!==selectedCategory) return;
-    const div = document.createElement("div");
-    div.className="commerce";
-    div.innerText = data.name;
-    div.onclick = ()=> loadProducts(docSnap.id);
-    commerceList.appendChild(div);
+function showCommercesByCategory(cat){
+  productList.innerHTML="";
+  commerceList.innerHTML="<h3>Commerces</h3>";
+  getDocs(collection(db,"commerces")).then(snapshot=>{
+    commerceList.innerHTML="<h3>Commerces</h3>";
+    snapshot.forEach(docSnap=>{
+      if((docSnap.data().category || "Autres")===cat){
+        const div=document.createElement("div");
+        div.className="commerce";
+        div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
+        div.onclick=()=>showProducts(docSnap.id);
+        commerceList.appendChild(div);
+      }
+    });
   });
+  productList.innerHTML="";
 }
 
-/* PRODUITS */
-function loadProducts(commerceId){
-  const productList = document.getElementById("productList");
-  const productsRef = collection(db,"commerces",commerceId,"produits");
+function showProducts(commerceId){
+  productList.innerHTML="<h3>Produits</h3>";
+  const productsRef=collection(db,"commerces",commerceId,"produits");
   onSnapshot(productsRef,snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
     snapshot.forEach(docSnap=>{
-      const p = docSnap.data();
-      const div = document.createElement("div");
+      const p=docSnap.data();
+      const stock = p.stock || 10;
+      const div=document.createElement("div");
       div.className="product";
-      const price = p.price.toString().replace(".",",");
-      const stock = p.stock || 99;
-      div.innerHTML = `<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":" "} <span class="stock">Stock: ${stock}</span></span>`;
-      const btn = document.createElement("button");
+      const price=p.price.toString().replace(".",",");
+      div.innerHTML=`<span>${p.name} - ${price}€</span>
+      <span class="stock">Stock : ${stock}</span>`;
+      const btn=document.createElement("button");
       btn.innerText="Ajouter au panier";
-      if(!p.available || stock<=0) btn.disabled=true;
-      btn.onclick = ()=> addToCart(commerceId,docSnap.id,p.name,p.price,stock);
+      btn.disabled=!p.available || stock<1;
+      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
       div.appendChild(btn);
       productList.appendChild(div);
     });
@@ -411,7 +223,6 @@ function loadProducts(commerceId){
 }
 
 loadCategories();
-loadCommerces();
 </script>
 
 </body>
