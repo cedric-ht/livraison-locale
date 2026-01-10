@@ -72,7 +72,7 @@ h2{margin-bottom:1rem}
 
 /* GRID LISTES */
 #categoryList,#commerceList,#productList{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem;
 }
 .category,.commerce,.product{
   background: linear-gradient(145deg,#ffffff,#f0f8ff);
@@ -81,6 +81,7 @@ h2{margin-bottom:1rem}
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
   cursor:pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  margin-bottom: 1rem;
 }
 .category:hover,.commerce:hover,.product:hover{
   transform:translateY(-5px);
@@ -108,6 +109,13 @@ h2{margin-bottom:1rem}
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
   margin-bottom: 1rem;
   transition: all 0.3s ease;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 500;
 }
 #cart div{
   padding:1rem;
@@ -128,6 +136,24 @@ h2{margin-bottom:1rem}
 #cart button:disabled{ background:#ccc; cursor:not-allowed;}
 #cart h3{ margin-top:1rem; text-align:right; color:#0077b6;}
 
+/* BOUTON VIDER PANIER DANS LE CART */
+#cart .clear-btn {
+  width: 100%;
+  background: #ff595e;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+}
+#cart .clear-btn:hover{
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
 /* MESSAGE CENTRAL PRODUIT AJOUTÉ */
 #addedMessage,#errorMessage{
   position: fixed; top:50%; left:50%; transform:translate(-50%, -50%);
@@ -140,13 +166,13 @@ h2{margin-bottom:1rem}
 }
 #errorMessage{background:#d00000;color:white;}
 
-/* MINI PANIER MOBILE */
+/* MOBILE */
 @media(max-width:767px){
-  #cart{position:fixed;bottom:0;left:0;right:0;z-index:500;max-height:200px;overflow-y:auto;margin:0;border-radius:12px;}
+  #categoryList,#commerceList,#productList{
+    grid-template-columns: 1fr; /* une seule colonne */
+    gap: 1.2rem;
+  }
 }
-
-/* DESKTOP */
-@media(min-width:768px){#categoryList,#commerceList,#productList{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -192,10 +218,10 @@ h2{margin-bottom:1rem}
 
 <section>
 <h2>🛒 Panier</h2>
-<div id="cart"></div>
-<button onclick="clearCart()" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">
-Vider le panier
-</button>
+<div id="cart">
+  <!-- items du panier s'ajoutent ici -->
+  <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
+</div>
 </section>
 
 <div id="errorMessage"></div>
@@ -243,7 +269,7 @@ function updateQuantity(productId, qty){let cart=getCart(); const item=cart.find
   if(qty>item.stock){ showMessage("Stock limité"); return; }
   item.quantity=Math.max(1, qty);
 } saveCart(cart);}
-function renderCart(){const container=document.getElementById("cart"); const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
+function renderCart(){const container=document.getElementById("cart"); const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p><button class='clear-btn' onclick='clearCart()'>Vider le panier</button>"; return;}
 let total=0; cart.forEach(item=>{ total+=item.price*item.quantity; container.innerHTML+=`
 <div>
   <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
@@ -253,7 +279,7 @@ let total=0; cart.forEach(item=>{ total+=item.price*item.quantity; container.inn
   <button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button>
   <br>
   <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
-</div>`; }); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;}
+</div>`; }); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3><button class='clear-btn' onclick='clearCart()'>Vider le panier</button>`;}
 document.addEventListener("DOMContentLoaded", renderCart);
 </script>
 
