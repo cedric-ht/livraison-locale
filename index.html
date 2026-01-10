@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background: #ffffff; /* fond blanc */
+  background: #ffffff;
   color:#333;
   min-height:100vh;
   line-height:1.5;
@@ -26,7 +26,9 @@ header{
   border-bottom-left-radius:20px;
   border-bottom-right-radius:20px;
   box-shadow:0 8px 30px rgba(0,0,0,0.15);
-  position:relative;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 header h1{font-size:1.8rem;margin-bottom:.3rem}
 header p{opacity:.9;font-size:.95rem}
@@ -116,7 +118,7 @@ h2{margin-bottom:1rem}
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
-#cart.expanded{max-height: 300px; padding:1rem;}
+#cart.expanded{max-height: 350px; padding:1rem;}
 #cartHeader{
   display:flex; justify-content: space-between; align-items: center;
   cursor:pointer;
@@ -151,24 +153,33 @@ h2{margin-bottom:1rem}
   margin-top:0.5rem;
 }
 
-/* MESSAGE CENTRAL */
-#addedMessage,#errorMessage{
-  position: fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem;
-  display:none; z-index:1001;
-  box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;
-  opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;
+/* FORM CHECKOUT */
+#checkoutForm input{
+  width:100%;
+  padding:.7rem;
+  margin-bottom:.8rem;
+  border-radius:12px;
+  border:1px solid #ccc;
 }
-#addedMessage{background:#4caf50; color:white;}
-#errorMessage{background:#d00000;color:white;}
-#addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+#checkoutForm button{
+  width:100%;
+  padding:.8rem;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+#checkoutForm button:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
 
 /* MOBILE GRID */
 @media(max-width:767px){
   #categoryList,#commerceList,#productList{
     grid-template-columns:1fr; gap:1.2rem;
   }
-  section{padding-bottom:120px;} /* espace pour mini-panier */
+  section{padding-bottom:150px;}
 }
 </style>
 </head>
@@ -223,10 +234,38 @@ h2{margin-bottom:1rem}
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
 </div>
 
+<!-- FORMULAIRE CHECKOUT -->
+<section id="checkout" style="max-width:800px;margin:20px auto">
+<h2>✅ Valider le panier</h2>
+<form id="checkoutForm">
+  <input type="text" id="clientFirstName" placeholder="Prénom" required>
+  <input type="text" id="clientLastName" placeholder="Nom" required>
+  <input type="email" id="clientEmail" placeholder="Email" required>
+  <input type="text" id="clientAddress" placeholder="Adresse" required>
+  <input type="text" id="clientPhone" placeholder="Téléphone" required>
+  <button type="submit">Valider la commande</button>
+</form>
+</section>
+
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore, collection, getDocs, onSnapshot, doc, getDoc, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain: "livraison-sablaise.firebaseapp.com",
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f",
+  measurementId: "G-R3ZCGLQ69E"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 // MENU
 function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
 function nav(p){toggleMenu(); showPage(p);}
@@ -242,29 +281,19 @@ function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
 function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
 function addToCart(commerceId, productId, name, price, stock){
-  if(selectedCommerceId && selectedCommerceId !== commerceId){
-    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");
-    return;
-  }
+  if(selectedCommerceId && selectedCommerceId !== commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");return;}
   selectedCommerceId = commerceId;
   let cart = getCart();
   price = parseFloat(price.toString().replace(",","."));  
   const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-  if(existing){
-    if(existing.quantity >= stock){ showMessage("Stock limité"); return; }
-    existing.quantity += 1;
-  } else{
-    if(stock < 1){ showMessage("Produit non disponible"); return; }
-    cart.push({commerceId, productId, name, price, quantity:1, stock});
-  }
-  saveCart(cart);
-  showAddedMessage();
+  if(existing){if(existing.quantity>=stock){showMessage("Stock limité"); return;} existing.quantity += 1;}
+  else{if(stock<1){showMessage("Produit non disponible"); return;} cart.push({commerceId,productId,name,price,quantity:1,stock});}
+  saveCart(cart); showAddedMessage();
 }
 function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
-function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return; } item.quantity=Math.max(1,qty);} saveCart(cart);}
+function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return;} item.quantity=Math.max(1,qty);} saveCart(cart);}
 function renderCart(){
-  const container=document.getElementById("cartContent");
-  const cart=getCart(); container.innerHTML="";
+  const container=document.getElementById("cartContent"); const cart=getCart(); container.innerHTML="";
   if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
   let total=0;
   cart.forEach(item=>{total+=item.price*item.quantity; container.innerHTML+=`
@@ -280,32 +309,9 @@ function renderCart(){
   container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
 }
 document.addEventListener("DOMContentLoaded", renderCart);
+document.getElementById("cartHeader").onclick=()=>{const cart=document.getElementById("cart");cart.classList.toggle("expanded"); const arrow=document.getElementById("toggleCart"); arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";};
 
-// MINI PANIER EXPAND/RETRACT
-document.getElementById("cartHeader").onclick = ()=>{
-  const cart=document.getElementById("cart");
-  cart.classList.toggle("expanded");
-  const arrow=document.getElementById("toggleCart");
-  arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
-}
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
-  authDomain: "livraison-sablaise.firebaseapp.com",
-  projectId: "livraison-sablaise",
-  storageBucket: "livraison-sablaise.firebasestorage.app",
-  messagingSenderId: "930839535214",
-  appId: "1:930839535214:web:a3235919aa88d066bc507f",
-  measurementId: "G-R3ZCGLQ69E"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+// FIRESTORE COMMERCE / PRODUITS
 const categoryList=document.getElementById("categoryList");
 const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
@@ -383,6 +389,54 @@ function showProducts(commerceId){
 }
 
 loadCategories();
+
+// CHECKOUT FORM
+document.getElementById("checkoutForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const cart=getCart();
+  if(cart.length===0){showMessage("Le panier est vide !"); return;}
+
+  const firstName=document.getElementById("clientFirstName").value.trim();
+  const lastName=document.getElementById("clientLastName").value.trim();
+  const email=document.getElementById("clientEmail").value.trim();
+  const address=document.getElementById("clientAddress").value.trim();
+  const phone=document.getElementById("clientPhone").value.trim();
+
+  // Vérifier le stock en temps réel
+  let stockOk=true;
+  for(const item of cart){
+    const docRef=doc(db,"commerces",item.commerceId,"produits",item.productId);
+    const docSnap=await getDoc(docRef);
+    if(!docSnap.exists()){showMessage(`Produit ${item.name} non trouvé.`); stockOk=false; break;}
+    const stock=docSnap.data().stock || 0;
+    if(item.quantity>stock){showMessage(`Stock insuffisant pour ${item.name}`); stockOk=false; break;}
+  }
+  if(!stockOk) return;
+
+  // Créer commande Firestore
+  try{
+    await addDoc(collection(db,"commandes"),{
+      client:{firstName,lastName,email,address,phone},
+      items:cart,
+      createdAt:new Date()
+    });
+
+    // Décrémenter stock
+    for(const item of cart){
+      const docRef=doc(db,"commerces",item.commerceId,"produits",item.productId);
+      const docSnap=await getDoc(docRef);
+      const newStock=(docSnap.data().stock||0)-item.quantity;
+      await updateDoc(docRef,{stock:newStock});
+    }
+
+    alert("Commande validée ! Merci.");
+    clearCart();
+    document.getElementById("checkoutForm").reset();
+  }catch(err){
+    console.error(err);
+    showMessage("Erreur lors de la validation, réessayez.");
+  }
+});
 </script>
 
 </body>
