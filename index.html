@@ -2,117 +2,106 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Livraison Locale - Les Sables d'Olonne</title>
 
 <style>
-/* RESET */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* BASE */
 body{
-  font-family:'Segoe UI',Tahoma,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:#f4f6f8;
   color:#03045e;
 }
+
 h1,h2,h3{color:#0077b6}
-a{text-decoration:none;color:#0077b6}
 
-/* HEADER */
 header{
-  background:#00b4d8;
-  padding:2rem;
-  text-align:center;
+  background:linear-gradient(135deg,#00b4d8,#0077b6);
   color:white;
+  text-align:center;
+  padding:3rem 1rem;
 }
-header h1{font-size:2.4rem}
 
-/* NAV (ancien menu) */
 nav{
   display:flex;
+  flex-wrap:wrap;
   justify-content:center;
-  gap:2rem;
+  gap:.7rem;
   background:white;
   padding:1rem;
-  box-shadow:0 2px 6px rgba(0,0,0,.1);
-  position:sticky;
-  top:0;
-  z-index:100;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
+
 nav a{
+  padding:.6rem 1.1rem;
   font-weight:600;
+  border-radius:12px;
   cursor:pointer;
 }
-nav a:hover{color:#00b4d8}
 
-/* SECTIONS */
+nav a:hover{background:#eaf6fb}
+
+nav .cta{
+  background:#00b4d8;
+  color:white;
+}
+
 section{
   padding:3rem 1rem;
   max-width:1000px;
   margin:auto;
 }
+
 #commerceList,#productList{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:1.5rem;
 }
 
-/* CARDS */
 .commerce,.product{
   background:white;
-  padding:1rem;
-  border-radius:15px;
-  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  padding:1.2rem;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
 }
-.commerce{
-  cursor:pointer;
-  font-weight:600;
-  text-align:center;
-}
+
 .product span{font-weight:600}
 
-/* BUTTONS */
+.unavailable{
+  color:#999;
+  font-style:italic;
+}
+
 button{
   background:#0077b6;
   color:white;
   border:none;
-  padding:.45rem .9rem;
-  border-radius:8px;
+  padding:.6rem 1rem;
+  border-radius:10px;
   cursor:pointer;
   touch-action:manipulation;
 }
+
 button:disabled{
   background:#ccc;
-  cursor:not-allowed;
 }
 
-/* STOCK */
-.stock{
-  font-size:.9rem;
-  margin:6px 0;
-  color:#555;
-}
-
-/* CART */
 #cart div{
-  border-bottom:1px solid #ddd;
-  padding:10px 0;
+  border-bottom:1px solid #eee;
+  padding:1rem 0;
 }
 
-/* FOOTER */
 footer{
-  text-align:center;
-  padding:2rem;
   background:#03045e;
   color:white;
+  text-align:center;
+  padding:2rem;
   margin-top:3rem;
+}
+
+@media(max-width:600px){
+  nav a{width:100%;text-align:center}
 }
 </style>
 </head>
@@ -120,181 +109,166 @@ footer{
 <body>
 
 <header>
-  <h1>Livraison Locale</h1>
-  <p>Vos commerces locaux directement chez vous</p>
+<h1>Livraison Locale</h1>
+<p>Vos commerces locaux directement chez vous</p>
 </header>
 
 <nav>
   <a onclick="showPage('accueil')">Accueil</a>
   <a onclick="showPage('apropos')">À propos</a>
-  <a onclick="showPage('contact')">Nous contacter</a>
-  <a onclick="showPage('commander')">Commander</a>
+  <a onclick="showPage('contact')">Contact</a>
+  <a class="cta" onclick="showPage('commander')">🛒 Commander</a>
   <a href="inscription.html">Nous rejoindre</a>
 </nav>
 
 <section id="accueil">
-  <h2>Bienvenue</h2>
-  <p>Commandez chez vos commerçants locaux en quelques clics.</p>
+<h2>Bienvenue</h2>
+<p>Découvrez vos commerces locaux préférés.</p>
 </section>
 
 <section id="apropos" style="display:none">
-  <h2>À propos</h2>
-  <p>Plateforme de mise en relation entre clients et commerces locaux.</p>
+<h2>À propos</h2>
+<p>Plateforme locale simple et efficace.</p>
 </section>
 
 <section id="contact" style="display:none">
-  <h2>Contact</h2>
-  <p>Email : cedric.huet.pro@gmail.com</p>
+<h2>Contact</h2>
+<p>📩 cedric.huet.pro@gmail.com</p>
 </section>
 
 <section id="commander" style="display:none">
-  <h2>Choisir un commerce</h2>
-  <div id="commerceList"></div>
-  <div id="productList" style="margin-top:2rem"></div>
+<h2>Choisir un commerce</h2>
+<div id="commerceList"></div>
+<div id="productList" style="margin-top:2rem"></div>
 </section>
 
-<section style="max-width:800px;margin:auto">
-  <h2>🛒 Panier</h2>
-  <div id="cart"></div>
-  <button onclick="clearCart()" style="background:#ff595e;margin-top:10px">
-    Vider le panier
-  </button>
+<section>
+<h2>🛒 Votre panier</h2>
+<div id="cart"></div>
+<button onclick="clearCart()" style="background:#ff595e">Vider le panier</button>
 </section>
 
 <footer>
-  © 2026 Livraison Locale
+© 2026 Livraison Locale
 </footer>
 
 <script>
-/* MENU */
-function showPage(p){
-  ['accueil','apropos','contact','commander'].forEach(id=>{
-    document.getElementById(id).style.display='none';
+// MENU
+function showPage(page){
+  ["accueil","apropos","contact","commander"].forEach(id=>{
+    document.getElementById(id).style.display="none";
   });
-  document.getElementById(p).style.display='block';
+  document.getElementById(page).style.display="block";
 }
 
-/* PANIER */
+// PANIER
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[]}
 function saveCart(c){localStorage.setItem("panier",JSON.stringify(c))}
+function clearCart(){localStorage.removeItem("panier");renderCart()}
 
 function addToCart(commerceId,productId,name,price,stock){
-  let cart=getCart();
-  const item=cart.find(p=>p.productId===productId);
+  let cart=getCart()
+  price=parseFloat(price.toString().replace(",","."))
 
+  const item=cart.find(p=>p.productId===productId)
   if(item){
-    if(item.quantity>=stock) return;
-    item.quantity++;
+    if(item.quantity>=stock) return alert("Stock insuffisant")
+    item.quantity++
   }else{
-    cart.push({commerceId,productId,name,price,quantity:1,stock});
+    cart.push({commerceId,productId,name,price,quantity:1,stock})
   }
-
-  saveCart(cart);
-  renderCart();
+  saveCart(cart)
+  renderCart()
 }
 
 function updateQty(id,delta){
-  let cart=getCart();
-  const item=cart.find(p=>p.productId===id);
-  if(!item) return;
-
-  if(delta>0 && item.quantity>=item.stock) return;
-
-  item.quantity+=delta;
-  if(item.quantity<=0){
-    cart=cart.filter(p=>p.productId!==id);
-  }
-
-  saveCart(cart);
-  renderCart();
+  let cart=getCart()
+  const item=cart.find(p=>p.productId===id)
+  if(!item) return
+  const newQty=item.quantity+delta
+  if(newQty<1||newQty>item.stock) return
+  item.quantity=newQty
+  saveCart(cart)
+  renderCart()
 }
 
-function clearCart(){
-  localStorage.removeItem("panier");
-  renderCart();
+function removeItem(id){
+  saveCart(getCart().filter(p=>p.productId!==id))
+  renderCart()
 }
 
 function renderCart(){
-  const c=document.getElementById("cart");
-  const cart=getCart();
-  c.innerHTML="";
-  if(cart.length===0){
-    c.innerHTML="<p>Panier vide</p>";
-    return;
-  }
-
-  let total=0;
-  cart.forEach(i=>{
-    total+=i.price*i.quantity;
+  const c=document.getElementById("cart")
+  const cart=getCart()
+  c.innerHTML=""
+  if(!cart.length){c.innerHTML="<p>Panier vide</p>";return}
+  let total=0
+  cart.forEach(p=>{
+    total+=p.price*p.quantity
     c.innerHTML+=`
       <div>
-        <strong>${i.name}</strong><br>
-        <button onclick="updateQty('${i.productId}',-1)">-</button>
-        ${i.quantity}
-        <button onclick="updateQty('${i.productId}',1)"
-          ${i.quantity>=i.stock?'disabled':''}>+</button>
-      </div>
-    `;
-  });
-
-  c.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
+        <strong>${p.name}</strong><br>
+        ${p.price.toFixed(2).replace(".",",")}€<br>
+        <button onclick="updateQty('${p.productId}',-1)">-</button>
+        ${p.quantity}
+        <button onclick="updateQty('${p.productId}',1)">+</button>
+        <br>
+        <button onclick="removeItem('${p.productId}')">Supprimer</button>
+      </div>`
+  })
+  c.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`
 }
-renderCart();
+
+document.addEventListener("DOMContentLoaded",renderCart)
 </script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import {getFirestore,collection,getDocs,onSnapshot} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const app=initializeApp({
   apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain:"livraison-sablaise.firebaseapp.com",
   projectId:"livraison-sablaise"
-});
-const db=getFirestore(app);
+})
 
-const commerceList=document.getElementById("commerceList");
-const productList=document.getElementById("productList");
+const db=getFirestore(app)
+const commerceList=document.getElementById("commerceList")
+const productList=document.getElementById("productList")
 
 async function loadCommerces(){
-  const snap=await getDocs(collection(db,"commerces"));
-  commerceList.innerHTML="";
+  const snap=await getDocs(collection(db,"commerces"))
+  commerceList.innerHTML=""
   snap.forEach(d=>{
-    const div=document.createElement("div");
-    div.className="commerce";
-    div.innerText=d.data().name;
-    div.onclick=()=>loadProducts(d.id);
-    commerceList.appendChild(div);
-  });
+    const div=document.createElement("div")
+    div.className="commerce"
+    div.textContent=d.data().name
+    div.onclick=()=>loadProducts(d.id)
+    commerceList.appendChild(div)
+  })
 }
 
-function loadProducts(cid){
-  onSnapshot(collection(db,"commerces",cid,"produits"),snap=>{
-    productList.innerHTML="<h3>Produits</h3>";
-    snap.forEach(d=>{
-      const p=d.data();
-      const div=document.createElement("div");
-      div.className="product";
-
+function loadProducts(id){
+  onSnapshot(collection(db,"commerces",id,"produits"),snap=>{
+    productList.innerHTML="<h3>Produits</h3>"
+    snap.forEach(p=>{
+      const d=p.data()
+      const div=document.createElement("div")
+      div.className="product"
       div.innerHTML=`
-        <span>${p.name} - ${p.price}€</span>
-        <div class="stock">Stock : ${p.stock}</div>
-      `;
-
-      const btn=document.createElement("button");
-      btn.innerText="Ajouter";
-      btn.disabled=!p.available||p.stock<=0;
-      btn.onclick=()=>addToCart(
-        cid,d.id,p.name,parseFloat(p.price),p.stock
-      );
-
-      div.appendChild(btn);
-      productList.appendChild(div);
-    });
-  });
+        <span>${d.name} - ${d.price}€ ${!d.available?"<span class='unavailable'>(Indisponible)</span>":""}</span>
+      `
+      const b=document.createElement("button")
+      b.textContent="Ajouter"
+      b.disabled=!d.available||d.stock<=0
+      b.onclick=()=>addToCart(id,p.id,d.name,d.price,d.stock)
+      div.appendChild(b)
+      productList.appendChild(div)
+    })
+  })
 }
 
-loadCommerces();
+loadCommerces()
 </script>
 
 </body>
