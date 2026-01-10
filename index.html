@@ -26,110 +26,33 @@ header{
 }
 header h1{font-size:1.8rem;margin-bottom:.3rem;}
 header p{opacity:.9;font-size:.95rem;}
-
-/* TOP ACTION */
-#cta{
-  margin-top:1rem;
-  display:flex;
-  gap:1rem;
-}
-#cta button{
-  flex:1;
-  padding:.9rem;
-  border:none;
-  border-radius:14px;
-  font-size:1rem;
-  font-weight:600;
-  cursor:pointer;
-}
+#cta{margin-top:1rem;display:flex;gap:1rem;}
+#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;}
 #orderBtn{background:white;color:#0077b6;}
 #menuBtn{background:rgba(255,255,255,.2);color:white;}
 
 /* MOBILE MENU */
-#mobileMenu{
-  display:none;
-  background:white;
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  z-index:999;
-  padding:2rem;
-}
-#mobileMenu a{
-  display:block;
-  padding:1rem 0;
-  font-size:1.2rem;
-  font-weight:600;
-  color:#0077b6;
-  border-bottom:1px solid #eee;
-}
+#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;}
 
 /* SECTIONS */
-section{
-  padding:1.5rem 1rem;
-  max-width:900px;
-  margin:auto;
-}
+section{padding:1.5rem 1rem;max-width:900px;margin:auto;}
 h2{margin-bottom:1rem;}
-
-/* LISTS */
-#commerceList,#productList,#categoryList{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1rem;
-}
-
-.category, .commerce, .product{
-  background:white;
-  padding:1rem;
-  border-radius:16px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-  cursor:pointer;
-  position:relative;
-}
-
-/* FLECHES */
-.commerce span.arrow{
-  position:absolute;
-  right:1rem;
-  top:50%;
-  transform:translateY(-50%) rotate(0deg);
-  transition:transform 0.2s;
-}
-.commerce.open span.arrow{transform:translateY(-50%) rotate(180deg);}
-
-/* PRODUCT */
+#commerceList,#productList{display:grid;grid-template-columns:1fr;gap:1rem;}
+.commerce,.product{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);}
 .product span{font-weight:600;display:block;}
 .stock{font-size:.85rem;color:#666;margin:.3rem 0;}
-.product button{
-  margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;
-}
-.product button:disabled{background:#ccc;cursor:not-allowed;}
-
-/* CART */
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;}
+.product button:disabled{background:#ccc;}
 #cart div{padding:.7rem 0;border-bottom:1px solid #eee;}
 #cart button{margin:0 .2rem;}
-
-/* MESSAGE */
-#message{
-  text-align:center;color:#d00000;margin:1rem;display:none;padding:.5rem;border:1px solid #d00000;border-radius:8px;
-  background:#ffe5e5;
-  animation: fadeout 2s forwards;
-}
-@keyframes fadeout{
-  0%{opacity:1}
-  80%{opacity:1}
-  100%{opacity:0;display:none}
-}
+#errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#d00000;color:white;padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem; display:none; z-index:1000; box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;}
+#message{display:none;text-align:center;margin:1rem;color:#d00000;}
 
 /* DESKTOP */
-@media(min-width:768px){
-  #commerceList,#productList,#categoryList{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+@media(min-width:768px){#commerceList,#productList{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -164,8 +87,7 @@ h2{margin-bottom:1rem;}
 </section>
 
 <section id="commander" style="display:none">
-<h2>Choisir une catégorie</h2>
-<div id="categoryList"></div>
+<h2>Choisir un commerce</h2>
 <div id="commerceList"></div>
 <div id="productList"></div>
 <p id="message"></p>
@@ -179,18 +101,60 @@ Vider le panier
 </button>
 </section>
 
+<div id="errorMessage"></div>
+
 <script>
 // MENU
-function toggleMenu(){document.getElementById("mobileMenu").style.display=document.getElementById("mobileMenu").style.display==="block"?"none":"block";}
+function toggleMenu(){const m=document.getElementById("mobileMenu"); m.style.display=m.style.display==="block"?"none":"block";}
 function nav(p){toggleMenu(); showPage(p);}
-function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById(p).style.display='block';}
+function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none'); document.getElementById(p).style.display='block';}
+
+// MESSAGE
+function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.style.display="block"; setTimeout(()=>{el.style.display="none";},2000);}
+
+// PANIER
+function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
+function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
+function clearCart(){localStorage.removeItem("panier"); renderCart(); selectedCommerceId=null;}
+let selectedCommerceId=null;
+function addToCart(commerceId, productId, name, price, stock){
+  if(selectedCommerceId && selectedCommerceId!==commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return; }
+  selectedCommerceId = commerceId;
+  let cart = getCart();
+  price=parseFloat(price.toString().replace(",","."));
+  const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
+  if(existing){
+    if(existing.quantity>=stock){ showMessage("Stock limité"); return; }
+    existing.quantity+=1;
+  } else{
+    if(stock<1){ showMessage("Produit non disponible"); return; }
+    cart.push({commerceId,productId,name,price,quantity:1,stock});
+  }
+  saveCart(cart); renderCart();
+}
+function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
+function updateQuantity(productId, qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){
+  if(qty>item.stock){ showMessage("Stock limité"); return; }
+  item.quantity=Math.max(1, qty);
+} saveCart(cart);}
+function renderCart(){const container=document.getElementById("cart"); const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
+let total=0; cart.forEach(item=>{ total+=item.price*item.quantity; container.innerHTML+=`
+<div>
+  <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
+  Quantité :
+  <button onclick="updateQuantity('${item.productId}', ${item.quantity-1})">-</button>
+  ${item.quantity}
+  <button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button>
+  <br>
+  <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+</div>`; }); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;}
+document.addEventListener("DOMContentLoaded", renderCart);
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-// 🔑 CONFIG FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
@@ -203,132 +167,49 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// PANIER
-let currentShop=null;
-function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
-function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
-function addToCart(commerceId,productId,name,price,stock){
-  if(currentShop && currentShop!==commerceId){
-    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");
-    return;
-  }
-  let cart=getCart();
-  price=parseFloat(price.toString().replace(",","."));
-  const existing=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
-  if(existing){
-    if(existing.quantity>=stock){showMessage("Stock maximum atteint"); return;}
-    existing.quantity+=1;
-  }else{
-    cart.push({commerceId,productId,name,price,quantity:1});
-    currentShop=commerceId;
-  }
-  saveCart(cart); renderCart();
-}
-function updateQuantity(productId,qty,stock,commerceId){
-  let cart=getCart();
-  const item=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
-  if(item){
-    if(qty>stock){showMessage("Stock maximum atteint"); return;}
-    if(qty<1){cart=cart.filter(p=>!(p.productId===productId && p.commerceId===commerceId)); if(cart.length===0) currentShop=null;}
-    else item.quantity=qty;
-  }
-  saveCart(cart); renderCart();
-}
-function removeFromCart(productId,commerceId){
-  let cart=getCart();
-  cart=cart.filter(p=>!(p.productId===productId && p.commerceId===commerceId));
-  if(cart.length===0) currentShop=null;
-  saveCart(cart); renderCart();
-}
-function clearCart(){localStorage.removeItem("panier"); currentShop=null; renderCart();}
-function renderCart(){
-  const container=document.getElementById("cart"); const cart=getCart(); container.innerHTML="";
-  if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;}
-  let total=0;
-  cart.forEach(item=>{
-    total+=item.price*item.quantity;
-    container.innerHTML+=`
-      <div>
-        <strong>${item.name}</strong> – ${(item.price.toFixed(2)).replace(".",",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.productId}',${item.quantity-1},999,'${item.commerceId}')">-</button>
-        ${item.quantity}
-        <button onclick="updateQuantity('${item.productId}',${item.quantity+1},999,'${item.commerceId}')">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.productId}','${item.commerceId}')">Supprimer</button>
-      </div>`;
-  });
-  container.innerHTML+=`<h3>Total : ${(total.toFixed(2)).replace(".",",")} €</h3>`;
-}
-function showMessage(msg){
-  const m=document.getElementById("message"); m.innerText=msg; m.style.display="block";
-  setTimeout(()=>{m.style.display="none";},2000);
-}
-document.addEventListener("DOMContentLoaded",renderCart);
-
-// CATEGORIES ET COMMERCES
-const categoryList=document.getElementById("categoryList");
 const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
-let openedCommerce=null;
 
-async function loadCategories(){
-  const categories=['Pharmacie','Boulangerie','Patisserie']; 
-  categoryList.innerHTML="";
-  categories.forEach(cat=>{
+let categories = {}; // commerceId -> category
+
+async function loadCommerces(){
+  const snapshot = await getDocs(collection(db,"commerces"));
+  commerceList.innerHTML="";
+  snapshot.forEach(docSnap=>{
+    const c=docSnap.data();
+    categories[docSnap.id]=c.category || "Autres";
     const div=document.createElement("div");
-    div.className="category";
-    div.innerText=cat;
-    div.onclick=()=>showCommercesByCategory(cat);
-    categoryList.appendChild(div);
+    div.className="commerce";
+    div.innerHTML=`${c.name} <span style="float:right;cursor:pointer">&#9660;</span>`;
+    div.onclick=()=>showCategory(docSnap.id);
+    commerceList.appendChild(div);
   });
 }
 
-function showCommercesByCategory(cat){
-  productList.innerHTML=""; commerceList.innerHTML="<h3>Commerces</h3>";
-  getDocs(collection(db,"commerces")).then(snapshot=>{
-    commerceList.innerHTML="<h3>Commerces</h3>";
-    snapshot.forEach(docSnap=>{
-      if((docSnap.data().category||"Autres")===cat){
-        const div=document.createElement("div");
-        div.className="commerce";
-        div.innerHTML=`${docSnap.data().name} <span class="arrow">&#9660;</span>`;
-        div.onclick=()=>{
-          // Toggle ouverture
-          if(openedCommerce===docSnap.id){
-            productList.innerHTML=""; openedCommerce=null; div.classList.remove("open");
-            return;
-          }
-          // Fermer précédent
-          const allCom=document.querySelectorAll(".commerce"); allCom.forEach(c=>c.classList.remove("open"));
-          openedCommerce=docSnap.id; div.classList.add("open");
-          showProducts(docSnap.id);
-        };
-        commerceList.appendChild(div);
-      }
-    });
-  });
-}
-
-function showProducts(commerceId){
+function showCategory(commerceId){
+  const selectedCat = categories[commerceId];
   productList.innerHTML="<h3>Produits</h3>";
   const productsRef=collection(db,"commerces",commerceId,"produits");
   onSnapshot(productsRef,snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
     snapshot.forEach(docSnap=>{
-      const p=docSnap.data(); const stock=p.stock||10;
-      const div=document.createElement("div"); div.className="product";
+      const p=docSnap.data();
+      const div=document.createElement("div");
+      div.className="product";
       const price=p.price.toString().replace(".",",");
-      div.innerHTML=`<span>${p.name} - ${price}€</span><span class="stock">Stock : ${stock}</span>`;
-      const btn=document.createElement("button"); btn.innerText="Ajouter au panier"; btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
+      div.innerHTML=`<span>${p.name} - ${price}€</span>
+      <span class="stock">Stock : ${p.stock || 10}</span>`;
+      const btn=document.createElement("button");
+      btn.innerText="Ajouter au panier";
+      btn.disabled=!p.available || (p.stock||10)<1;
+      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,p.stock||10);
       div.appendChild(btn);
       productList.appendChild(div);
     });
   });
 }
 
-loadCategories();
+loadCommerces();
 </script>
 
 </body>
