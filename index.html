@@ -6,16 +6,8 @@
 <title>Livraison Locale</title>
 
 <style>
-/* RESET */
 *{margin:0;padding:0;box-sizing:border-box}
-
-/* BASE */
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:#f6f7f9;
-  color:#1a1a1a;
-  padding-bottom:3rem;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#f6f7f9;color:#1a1a1a;padding-bottom:3rem}
 
 /* HEADER */
 header{
@@ -25,44 +17,14 @@ header{
   border-bottom-left-radius:20px;
   border-bottom-right-radius:20px;
 }
+header h1{font-size:1.8rem;margin-bottom:.3rem}
+header p{opacity:.9;font-size:.95rem}
 
-header h1{
-  font-size:1.8rem;
-  margin-bottom:.3rem;
-}
-
-header p{
-  opacity:.9;
-  font-size:.95rem;
-}
-
-/* TOP ACTION */
-#cta{
-  margin-top:1rem;
-  display:flex;
-  gap:1rem;
-}
-
-#cta button{
-  flex:1;
-  padding:.9rem;
-  border:none;
-  border-radius:14px;
-  font-size:1rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:.3s;
-}
-
-#orderBtn{
-  background:white;
-  color:#0077b6;
-}
-
-#menuBtn{
-  background:rgba(255,255,255,.2);
-  color:white;
-}
+/* HEADER FLEX */
+#headerFlex{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:1rem;flex-wrap:wrap}
+#headerFlex button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:.3s}
+#orderBtn{background:white;color:#0077b6}
+#menuBtn{background:rgba(255,255,255,.2);color:white}
 
 /* MOBILE MENU */
 #mobileMenu{
@@ -73,123 +35,48 @@ header p{
   z-index:999;
   padding:2rem;
 }
-
-#mobileMenu a{
-  display:block;
-  padding:1rem 0;
-  font-size:1.2rem;
-  font-weight:600;
-  color:#0077b6;
-  border-bottom:1px solid #eee;
-}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee}
 
 /* SECTIONS */
-section{
-  padding:1.5rem 1rem;
-  max-width:900px;
-  margin:auto;
-}
-
-h2{
-  margin-bottom:1rem;
-}
+section{padding:1.5rem 1rem;max-width:900px;margin:auto}
+h2{margin-bottom:1rem}
 
 /* CATEGORY BUTTONS */
-#categoryList{
-  margin-bottom:1rem;
-}
-.categoryBtn{
-  padding:.6rem 1rem;
-  border:none;
-  border-radius:12px;
-  margin:.3rem;
-  cursor:pointer;
-  background:#0077b6;
-  color:white;
-  font-weight:600;
-  transition:.3s;
-}
-.categoryBtn:hover{
-  background:#0096c7;
-}
-.categoryBtn.active{
-  background:#00b4d8;
-}
+#categoryList{margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.categoryBtn{padding:.6rem 1rem;border:none;border-radius:12px;cursor:pointer;background:#0077b6;color:white;font-weight:600;transition:.3s}
+.categoryBtn:hover{background:#0096c7}
+.categoryBtn.active{background:#00b4d8}
 
 /* LISTS */
-#commerceList,#productList{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1rem;
-}
-
-.commerce,.product{
-  background:white;
-  padding:1rem;
-  border-radius:16px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-}
+#commerceList,#productList{display:grid;grid-template-columns:1fr;gap:1rem}
+.commerce,.product{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);cursor:pointer}
 
 /* PRODUCT */
-.product span{
-  font-weight:600;
-  display:block;
-}
-
-.stock{
-  font-size:.85rem;
-  color:#666;
-  margin:.3rem 0;
-}
-
-.product button{
-  margin-top:.6rem;
-  width:100%;
-  padding:.7rem;
-  border:none;
-  border-radius:12px;
-  background:#0077b6;
-  color:white;
-  font-weight:600;
-}
-
-.product button:disabled{
-  background:#ccc;
-}
+.product span{font-weight:600;display:block}
+.stock{font-size:.85rem;color:#666;margin:.3rem 0}
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600}
+.product button:disabled{background:#ccc}
 
 /* CART */
-#cart div{
-  padding:.7rem 0;
-  border-bottom:1px solid #eee;
-}
-
-#cart button{
-  margin:0 .2rem;
-}
+#cart div{padding:.7rem 0;border-bottom:1px solid #eee}
+#cart button{margin:0 .2rem}
 
 /* MESSAGE */
-#message{
-  text-align:center;
-  color:#d00000;
-  margin:1rem;
-  display:none;
-}
+#message{text-align:center;color:#d00000;margin:1rem;display:none}
 
 /* DESKTOP */
 @media(min-width:768px){
-  #commerceList,#productList{
-    grid-template-columns:repeat(2,1fr);
-  }
+  #commerceList,#productList{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
+
 <body>
 
 <header>
   <h1>Livraison Locale</h1>
   <p>Commerces des Sables d’Olonne</p>
-
-  <div id="cta">
+  <div id="headerFlex">
     <button id="orderBtn" onclick="showPage('commander')">Commander</button>
     <button id="menuBtn" onclick="toggleMenu()">Menu</button>
   </div>
@@ -239,39 +126,25 @@ function toggleMenu(){
   const m=document.getElementById("mobileMenu");
   m.style.display=m.style.display==="block"?"none":"block";
 }
-function nav(p){
-  toggleMenu();
-  showPage(p);
-}
-function showPage(p){
-  ['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById(p).style.display='block';
-}
+function nav(p){toggleMenu(); showPage(p);}
+function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none'); document.getElementById(p).style.display='block'}
 
 /* PANIER */
 let currentCommerce = null;
-
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
 
 function addToCart(commerceId, productId, name, price, stock){
   let cart = getCart();
   price = parseFloat(price.toString().replace(",","."));
-
-  if(currentCommerce && currentCommerce!==commerceId){
-    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois !");
-    return;
-  }
-
+  if(currentCommerce && currentCommerce!==commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois !"); return;}
   const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   if(existing){
     if(existing.quantity<stock) existing.quantity+=1;
-    else { showMessage("Stock maximum atteint !"); return; }
+    else {showMessage("Stock maximum atteint !"); return;}
   }
   else cart.push({commerceId,productId,name,price,quantity:1,stock});
-
-  currentCommerce = commerceId;
-  saveCart(cart); renderCart();
+  currentCommerce = commerceId; saveCart(cart); renderCart();
 }
 
 function removeFromCart(productId){
@@ -365,6 +238,7 @@ async function loadCategories(){
       selectedCategory = cat;
       Array.from(categoryList.children).forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
+      document.getElementById("productList").innerHTML=""; // fermer produits précédents
       loadCommerces();
     }
     categoryList.appendChild(btn);
@@ -390,6 +264,7 @@ async function loadCommerces(){
 /* PRODUITS */
 function loadProducts(commerceId){
   const productList = document.getElementById("productList");
+  productList.innerHTML="<h3>Produits</h3>";
   const productsRef = collection(db,"commerces",commerceId,"produits");
   onSnapshot(productsRef,snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
@@ -413,6 +288,5 @@ function loadProducts(commerceId){
 loadCategories();
 loadCommerces();
 </script>
-
 </body>
 </html>
