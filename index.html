@@ -84,7 +84,18 @@ h2{margin-bottom:1rem;}
   border-radius:16px;
   box-shadow:0 6px 20px rgba(0,0,0,.06);
   cursor:pointer;
+  position:relative;
 }
+
+/* FLECHES */
+.commerce span.arrow{
+  position:absolute;
+  right:1rem;
+  top:50%;
+  transform:translateY(-50%) rotate(0deg);
+  transition:transform 0.2s;
+}
+.commerce.open span.arrow{transform:translateY(-50%) rotate(180deg);}
 
 /* PRODUCT */
 .product span{font-weight:600;display:block;}
@@ -218,7 +229,7 @@ function updateQuantity(productId,qty,stock,commerceId){
   const item=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   if(item){
     if(qty>stock){showMessage("Stock maximum atteint"); return;}
-    if(qty<1){cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) currentShop=null;}
+    if(qty<1){cart=cart.filter(p=>!(p.productId===productId && p.commerceId===commerceId)); if(cart.length===0) currentShop=null;}
     else item.quantity=qty;
   }
   saveCart(cart); renderCart();
@@ -262,7 +273,7 @@ const productList=document.getElementById("productList");
 let openedCommerce=null;
 
 async function loadCategories(){
-  const categories=['Pharmacie','Boulangerie','Patisserie']; // tu peux compléter
+  const categories=['Pharmacie','Boulangerie','Patisserie']; 
   categoryList.innerHTML="";
   categories.forEach(cat=>{
     const div=document.createElement("div");
@@ -281,10 +292,17 @@ function showCommercesByCategory(cat){
       if((docSnap.data().category||"Autres")===cat){
         const div=document.createElement("div");
         div.className="commerce";
-        div.innerHTML=`${docSnap.data().name} <span style="float:right">&#9660;</span>`;
+        div.innerHTML=`${docSnap.data().name} <span class="arrow">&#9660;</span>`;
         div.onclick=()=>{
-          if(openedCommerce===docSnap.id){productList.innerHTML=""; openedCommerce=null; return;}
-          openedCommerce=docSnap.id; showProducts(docSnap.id);
+          // Toggle ouverture
+          if(openedCommerce===docSnap.id){
+            productList.innerHTML=""; openedCommerce=null; div.classList.remove("open");
+            return;
+          }
+          // Fermer précédent
+          const allCom=document.querySelectorAll(".commerce"); allCom.forEach(c=>c.classList.remove("open"));
+          openedCommerce=docSnap.id; div.classList.add("open");
+          showProducts(docSnap.id);
         };
         commerceList.appendChild(div);
       }
