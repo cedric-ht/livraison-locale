@@ -2,123 +2,186 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Livraison Locale - Les Sables d'Olonne</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Livraison Locale</title>
 <style>
 /* RESET */
-* {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif;}
-body {background:#f4f6f8; color:#03045e;}
-h1,h2,h3 {color:#0077b6;}
-a {text-decoration:none; color:#0077b6; transition:0.3s;}
-a:hover {color:#00b4d8;}
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* HEADER + MENU */
-header {background:#00b4d8; color:white; padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;}
-header h1 {font-size:1.8rem;}
-.nav-links {display:flex; gap:1rem; align-items:center;}
-.nav-links a {font-weight:600; cursor:pointer; font-size:1rem;}
-.menu-button {background:#0077b6; padding:0.5rem 1rem; border-radius:10px; color:white; font-weight:600; cursor:pointer; transition:0.3s;}
-.menu-button:hover {background:#0096c7;}
+/* BASE */
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f6f7f9;
+  color:#1a1a1a;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  padding:1.5rem 1rem;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+}
+
+header h1{ font-size:1.8rem; margin-bottom:.3rem; }
+header p{ opacity:.9; font-size:.95rem; }
+
+/* TOP ACTION */
+#cta{
+  margin-top:1rem;
+  display:flex;
+  gap:1rem;
+}
+#cta button{
+  flex:1;
+  padding:.9rem;
+  border:none;
+  border-radius:14px;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+}
+#orderBtn{ background:white; color:#0077b6; }
+#menuBtn{ background:rgba(255,255,255,.2); color:white; }
 
 /* MOBILE MENU */
-@media(max-width:768px){
-  .nav-links {display:none; flex-direction:column; background:white; position:absolute; right:1rem; top:60px; padding:1rem; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-  .nav-links.show {display:flex;}
+#mobileMenu{
+  display:none;
+  background:white;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:999;
+  padding:2rem;
+}
+#mobileMenu a{
+  display:block;
+  padding:1rem 0;
+  font-size:1.2rem;
+  font-weight:600;
+  color:#0077b6;
+  border-bottom:1px solid #eee;
 }
 
 /* SECTIONS */
-section {padding:2rem 1rem; max-width:1000px; margin:auto;}
-#commerceList, #productList {display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:1rem;}
+section{ padding:1.5rem 1rem; max-width:900px; margin:auto; }
+h2{ margin-bottom:1rem; }
 
-/* CARDS */
-.commerce, .product {background:white; padding:1rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; transition:0.2s;}
-.commerce:hover, .product:hover {transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.15);}
-.product span {font-weight:600;}
-.product .unavailable {color:#999; font-style:italic;}
-.product button {margin-top:5px; background:#0077b6; color:white; border:none; padding:0.5rem 0.8rem; border-radius:8px; cursor:pointer;}
-.product button:hover {background:#0096c7;}
-.product .stock {font-size:0.9rem; color:#555; margin-top:3px;}
+/* LISTS */
+#commerceList,#productList{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1rem;
+}
+.commerce,.product{
+  background:white;
+  padding:1rem;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
 
-/* PANIER */
-#cart div {border-bottom:1px solid #ddd; padding:10px 0;}
-#cart button {margin:0 3px;}
+/* PRODUCT */
+.product span{ font-weight:600; display:block; }
+.stock{ font-size:.85rem; color:#666; margin:.3rem 0; }
+.product button{
+  margin-top:.6rem;
+  width:100%;
+  padding:.7rem;
+  border:none;
+  border-radius:12px;
+  background:#0077b6;
+  color:white;
+  font-weight:600;
+}
+.product button:disabled{ background:#ccc; }
 
-/* FORM */
-form {background:white; padding:1.5rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-width:500px; margin:auto;}
-form input, form textarea {width:100%; padding:0.8rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:10px; font-size:1rem;}
-form button {background:#0077b6; color:white; border:none; padding:0.8rem 1.2rem; border-radius:10px; font-weight:600; cursor:pointer; transition:0.3s;}
-form button:hover {background:#0096c7;}
+/* CART */
+#cart div{ padding:.7rem 0; border-bottom:1px solid #eee; }
+#cart button{ margin:0 .2rem; }
 
-/* FOOTER */
-footer {text-align:center; padding:2rem 1rem; background:#03045e; color:white; margin-top:3rem;}
+/* MESSAGE */
+#messageAlert{
+  position:fixed;
+  top:80px;
+  right:20px;
+  background:#ff595e;
+  color:white;
+  padding:1rem;
+  border-radius:10px;
+  display:none;
+  z-index:999;
+}
 
-/* MESSAGE ALERT */
-#messageAlert {position:fixed; top:80px; right:20px; background:#ff595e; color:white; padding:1rem; border-radius:10px; display:none; z-index:999;}
+/* DESKTOP */
+@media(min-width:768px){
+  #commerceList,#productList{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 </style>
 </head>
+
 <body>
 
 <header>
   <h1>Livraison Locale</h1>
-  <div style="display:flex;gap:1rem;align-items:center;">
-    <button class="menu-button" onclick="toggleMenu()">Menu</button>
-    <div class="nav-links" id="navLinks">
-      <a onclick="showPage('accueil')">Accueil</a>
-      <a onclick="showPage('apropos')">À propos</a>
-      <a onclick="showPage('contact')">Nous contacter</a>
-      <a href="inscription.html">Nous rejoindre</a>
-    </div>
-    <button class="menu-button" onclick="showPage('commander')">Commander</button>
+  <p>Commerces des Sables d’Olonne</p>
+  <div id="cta">
+    <button id="orderBtn" onclick="showPage('commander')">Commander</button>
+    <button id="menuBtn" onclick="toggleMenu()">Menu</button>
   </div>
 </header>
 
+<div id="mobileMenu">
+  <a onclick="nav('accueil')">Accueil</a>
+  <a onclick="nav('apropos')">À propos</a>
+  <a onclick="nav('contact')">Contact</a>
+  <a href="inscription.html">Nous rejoindre</a>
+</div>
+
 <section id="accueil">
-  <h2>Bienvenue sur Livraison Locale</h2>
-  <p>Découvrez vos commerces locaux préférés et commandez vos produits en quelques clics.</p>
+  <h2>Bienvenue</h2>
+  <p>Commandez local, simplement.</p>
 </section>
 
-<section id="apropos" style="display:none;">
+<section id="apropos" style="display:none">
   <h2>À propos</h2>
-  <p>Notre mission : connecter les commerces locaux avec leurs clients pour une expérience rapide, fiable et conviviale.</p>
+  <p>Plateforme locale de livraison.</p>
 </section>
 
-<section id="contact" style="display:none;">
-  <h2>Nous contacter</h2>
-  <form id="contactForm">
-    <input type="text" placeholder="Nom" required>
-    <input type="email" placeholder="Email" required>
-    <textarea placeholder="Message" required></textarea>
-    <button type="submit">Envoyer</button>
-  </form>
+<section id="contact" style="display:none">
+  <h2>Contact</h2>
+  <p>cedric.huet.pro@gmail.com</p>
 </section>
 
-<section id="commander" style="display:none;">
+<section id="commander" style="display:none">
   <h2>Choisir un commerce</h2>
   <div id="commerceList"></div>
-  <div id="productList" style="margin-top:2rem;"></div>
+  <div id="productList"></div>
 </section>
 
-<section style="max-width: 800px; margin: 40px auto;">
-  <h2>🛒 Votre panier</h2>
-  <div id="cart"></div>
-  <button onclick="clearCart()" style="background:red;color:white;">Vider le panier</button>
+<section>
+<h2>🛒 Panier</h2>
+<div id="cart"></div>
+<button onclick="clearCart()" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">
+Vider le panier
+</button>
 </section>
 
 <div id="messageAlert"></div>
 
-<footer>
-  <p>© 2026 Livraison Locale | Contact : cedric.huet.pro@gmail.com</p>
-</footer>
-
 <script>
 // MENU
-function showPage(page){
-  ['accueil','apropos','contact','commander'].forEach(p=>document.getElementById(p).style.display='none');
-  document.getElementById(page).style.display='block';
+function toggleMenu(){
+  const m=document.getElementById("mobileMenu");
+  m.style.display=m.style.display==="block"?"none":"block";
 }
-window.showPage = showPage;
-
-function toggleMenu(){document.getElementById("navLinks").classList.toggle("show");}
+function nav(p){ toggleMenu(); showPage(p); }
+function showPage(p){
+  ['accueil','apropos','contact','commander']
+  .forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById(p).style.display='block';
+}
 
 // PANIER
 let currentCommerce=null;
@@ -128,8 +191,7 @@ function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
 function addToCart(commerceId, productId, name, price, stock){
   let cart = getCart();
   if(currentCommerce && currentCommerce!==commerceId){
-    showAlert("Vous ne pouvez commander qu'un seul magasin à la fois");
-    return;
+    showAlert("Vous ne pouvez commander qu'un seul magasin à la fois"); return;
   }
   const existing = cart.find(p=>p.productId===productId && p.commerceId===commerceId);
   price = parseFloat(price.toString().replace(",","."));
@@ -137,18 +199,20 @@ function addToCart(commerceId, productId, name, price, stock){
     if(existing.quantity<stock) existing.quantity+=1;
     else {showAlert("Stock maximum atteint"); return;}
   } else {
-    if(stock>0) cart.push({commerceId,productId,name,price,quantity:1});
+    if(stock>0) cart.push({commerceId,productId,name,price,quantity:1,stock});
     else {showAlert("Produit indisponible"); return;}
     currentCommerce=commerceId;
   }
   saveCart(cart); renderCart();
 }
+
 function removeFromCart(productId){
   let cart=getCart();
   cart=cart.filter(p=>p.productId!==productId);
   saveCart(cart); renderCart();
   if(cart.length===0) currentCommerce=null;
 }
+
 function updateQuantity(productId, qty, stock){
   let cart=getCart();
   const item=cart.find(p=>p.productId===productId);
@@ -159,6 +223,7 @@ function updateQuantity(productId, qty, stock){
   }
   saveCart(cart); renderCart();
 }
+
 function clearCart(){localStorage.removeItem("panier"); renderCart(); currentCommerce=null;}
 
 function renderCart(){
@@ -183,21 +248,19 @@ function renderCart(){
   container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
 }
 
-function showAlert(message){
+function showAlert(msg){
   const alertDiv=document.getElementById("messageAlert");
-  alertDiv.innerText=message;
+  alertDiv.innerText=msg;
   alertDiv.style.display="block";
   setTimeout(()=>{alertDiv.style.display="none";},2500);
 }
-document.addEventListener("DOMContentLoaded", renderCart);
 
-// FORMULAIRE CONTACT
-document.getElementById("contactForm").addEventListener("submit", e=>{e.preventDefault(); alert("Merci, nous avons reçu votre message !"); e.target.reset();});
+document.addEventListener("DOMContentLoaded", renderCart);
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -215,32 +278,33 @@ const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
 
 async function loadCommerces(){
-  const snapshot=await getDocs(collection(db,"commerces"));
-  commerceList.innerHTML="";
-  snapshot.forEach(docSnap=>{
-    const commerce=docSnap.data();
-    const div=document.createElement("div");
-    div.className="commerce";
-    div.innerText=commerce.name;
-    div.onclick=()=>loadProducts(docSnap.id);
-    commerceList.appendChild(div);
+  const snapshot = await collection(db,"commerces");
+  onSnapshot(snapshot, snap=>{
+    commerceList.innerHTML="";
+    snap.forEach(docSnap=>{
+      const div=document.createElement("div");
+      div.className="commerce";
+      div.innerText=docSnap.data().name;
+      div.onclick=()=>loadProducts(docSnap.id);
+      commerceList.appendChild(div);
+    });
   });
 }
 
 function loadProducts(commerceId){
-  const productsRef=collection(db,"commerces",commerceId,"produits");
-  onSnapshot(productsRef,snapshot=>{
+  const productsRef = collection(db,"commerces",commerceId,"produits");
+  onSnapshot(productsRef, snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
     snapshot.forEach(docSnap=>{
-      const p=docSnap.data();
+      const p = docSnap.data();
       const div=document.createElement("div");
       div.className="product";
-      const price=p.price.toString().replace(".",",");
-      div.innerHTML=`<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":"(Stock: "+p.stock+")"}</span>`;
+      const price = p.price.toString().replace(".",",");
+      div.innerHTML = `<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":"(Stock: "+p.stock+")"}</span>`;
       const button=document.createElement("button");
       button.innerText="Ajouter au panier";
       button.disabled=!p.available || p.stock===0;
-      button.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,p.stock);
+      button.onclick=()=>addToCart(commerceId, docSnap.id, p.name, p.price, p.stock);
       div.appendChild(button);
       productList.appendChild(div);
     });
@@ -249,6 +313,5 @@ function loadProducts(commerceId){
 
 loadCommerces();
 </script>
-
 </body>
 </html>
