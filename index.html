@@ -5,79 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Livraison Locale</title>
 <style>
-/* Ton style original - je ne change rien ici pour garder exactement le même look */
+/* Ton CSS original – inchangé */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; background:#fff;color:#333;min-height:100vh;line-height:1.5;overflow-x:hidden;}
-header{background:rgba(0,119,182,0.9);backdrop-filter:blur(10px);color:white;padding:2rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.15);position:sticky;top:0;z-index:100;}
-/* ... le reste de ton CSS original reste identique ... je ne le recopie pas pour gagner de la place ... */
-#checkoutForm { display:none; margin-top:1.5rem; background:#f8f9fa; padding:1.5rem; border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
-#checkoutForm input { width:100%; padding:0.8rem; margin:0.6rem 0; border:1px solid #ccc; border-radius:8px; font-size:1rem; }
-#checkoutForm button { width:100%; padding:1rem; background:#0077b6; color:white; border:none; border-radius:10px; font-size:1.1rem; font-weight:600; cursor:pointer; }
-#checkoutForm button:disabled { background:#aaa; cursor:not-allowed; }
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; background:#fff;color:#333;min-height:100vh;line-height:1.5;overflow-x:hidden;transition: background 0.3s ease-in-out;}
+header{background: rgba(0,119,182,0.9); backdrop-filter: blur(10px); color:white; padding:2rem 1rem; border-bottom-left-radius:20px; border-bottom-right-radius:20px; box-shadow:0 8px 30px rgba(0,0,0,0.15); position:sticky; top:0; z-index:100;}
+/* ... je ne recopie pas tout le CSS pour gagner de la place, garde le tien ... */
+
+/* Ajouts pour le formulaire */
+#checkoutForm{display:none; margin-top:1.5rem; background:#f4f6f8; padding:1.5rem; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+#checkoutForm input{width:100%; padding:.8rem; margin:.8rem 0; border:1px solid #ccc; border-radius:10px; font-size:1rem;}
+#checkoutForm button{width:100%; padding:1rem; background:linear-gradient(135deg,#00b4d8,#0077b6); color:white; border:none; border-radius:12px; font-size:1.1rem; font-weight:600; cursor:pointer;}
+#checkoutForm button:disabled{background:#aaa; cursor:not-allowed;}
 </style>
 </head>
 <body>
 
-<!-- Ton header + menu + sections accueil/apropos/contact identiques -->
+<!-- Ton header + mobileMenu + sections accueil/apropos/contact inchangés -->
 
 <section id="commander" style="display:none">
   <h2>Choisir une catégorie</h2>
   <div id="categoryList"></div>
   <div id="commerceList"></div>
   <div id="productList"></div>
-  
+
   <!-- Bouton qui apparaît quand panier non vide -->
-  <button id="validateCartBtn" style="display:none; margin:2rem auto; padding:1rem 2rem; background:linear-gradient(135deg,#00b4d8,#0077b6); color:white; border:none; border-radius:12px; font-size:1.2rem; font-weight:600; cursor:pointer;">
+  <button id="validateCartBtn" onclick="showCheckout()" style="display:none; margin:2rem auto; padding:1rem 2rem; background:linear-gradient(135deg,#00b4d8,#0077b6); color:white; border:none; border-radius:12px; font-size:1.2rem; font-weight:600; cursor:pointer;">
     Valider mon panier →
   </button>
 
-  <!-- Formulaire coordonnées -->
+  <!-- Formulaire (s'affiche quand on clique sur valider) -->
   <form id="checkoutForm">
-    <h3>Vos informations de livraison</h3>
+    <h3>Vos coordonnées de livraison</h3>
     <input type="text" id="firstName" placeholder="Prénom" required>
     <input type="text" id="lastName" placeholder="Nom" required>
     <input type="email" id="email" placeholder="Email" required>
     <input type="text" id="address" placeholder="Adresse complète" required>
     <input type="tel" id="phone" placeholder="Téléphone" required>
-    <button type="submit" id="submitOrder">Continuer vers le paiement</button>
+    <button type="submit" id="submitBtn">Envoyer la commande (test)</button>
   </form>
 </section>
 
-<!-- Ton mini panier + messages ajoutés identiques -->
+<!-- Ton mini-panier + messages error/added inchangés -->
 
 <script>
-// Ton code JS complet original (menu, panier, addToCart, renderCart, etc.) reste IDENTIQUE
-// Juste on ajoute ces 3 fonctions en plus :
+// TON JAVASCRIPT ORIGINAL COMPLET ICI (menu, panier, addToCart, renderCart, etc.)
+// → Copie-le depuis ton message précédent, ne change rien
+
+// Ajoute juste ces 3 morceaux à la fin du <script> normal (avant le script type="module") :
 
 function showCheckout() {
-  document.getElementById("checkoutForm").style.display = "block";
+  const form = document.getElementById("checkoutForm");
+  form.style.display = "block";
   document.getElementById("validateCartBtn").style.display = "none";
-  window.scrollTo({ top: document.getElementById("checkoutForm").offsetTop - 80, behavior: "smooth" });
+  window.scrollTo({top: form.offsetTop - 60, behavior: 'smooth'});
 }
 
-// Quand on clique sur "Valider mon panier"
-document.getElementById("validateCartBtn").onclick = showCheckout;
-
-// Quand on valide le formulaire (pour l'instant juste un message)
+// Soumission formulaire → juste un test pour l'instant
 document.getElementById("checkoutForm").addEventListener("submit", function(e) {
   e.preventDefault();
   
-  const btn = document.getElementById("submitOrder");
+  const btn = document.getElementById("submitBtn");
   btn.disabled = true;
-  btn.textContent = "Préparation...";
+  btn.textContent = "Envoi...";
 
-  // Ici on mettra Stripe plus tard
-  // Pour tester que tout marche :
+  // Ici plus tard : appel Stripe
   setTimeout(() => {
-    alert("Commande prête à être envoyée ! (Stripe sera ici dans la prochaine étape)");
+    alert("Commande reçue ! (mode test – Stripe viendra après)");
     btn.disabled = false;
-    btn.textContent = "Continuer vers le paiement";
-    // clearCart();  ← décommente quand tu veux vraiment vider après test
-  }, 1200);
+    btn.textContent = "Envoyer la commande (test)";
+    // clearCart(); // décommente pour vider après test
+  }, 1500);
 });
+
+// Pour que le bouton valider apparaisse quand panier non vide
+// (ajoute ça dans ta fonction saveCart() ou renderCart() si pas déjà fait)
+function saveCart(cart) {
+  localStorage.setItem("panier", JSON.stringify(cart));
+  renderCart();
+  document.getElementById("validateCartBtn").style.display = cart.length > 0 ? "block" : "none";
+}
 </script>
 
-<!-- Ton script Firebase + affichage catégories/commerces/produits reste IDENTIQUE -->
+<!-- Ton script type="module" Firebase + loadCategories etc. → INCHANGÉ -->
 
 </body>
 </html>
