@@ -3,47 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Livraison Locale</title>
+<title>Livraison Locale – App Premium</title>
+
 <style>
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box}
+
 /* BASE */
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; background:#f6f7f9;color:#1a1a1a;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f6f7f9;
+  color:#1a1a1a;
+}
+
 /* HEADER */
-header{background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;padding:1.5rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;}
-header h1{font-size:1.8rem;margin-bottom:.3rem;}
-header p{opacity:.9;font-size:.95rem;}
+header{
+  background:linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  padding:1.5rem 1rem;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+}
+
+header h1{
+  font-size:1.9rem;
+  margin-bottom:5px;
+}
+
+header p{
+  opacity:.9;
+  font-size:1rem;
+}
+
 /* TOP ACTION */
-#cta{margin-top:1rem;display:flex;gap:1rem;}
-#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;}
-#orderBtn{background:white;color:#0077b6;}
-#menuBtn{background:rgba(255,255,255,.2);color:white;}
+#cta{
+  margin-top:1rem;
+  display:flex;
+  gap:1rem;
+}
+
+#cta button{
+  flex:1;
+  padding:1rem;
+  border:none;
+  border-radius:16px;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+#orderBtn{
+  background:white;
+  color:#0077b6;
+}
+#orderBtn:hover{
+  background:#e6f0f9;
+}
+
+#menuBtn{
+  background:rgba(255,255,255,.3);
+  color:white;
+}
+#menuBtn:hover{
+  background:rgba(255,255,255,.45);
+}
+
 /* MOBILE MENU */
-#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;}
-#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;}
+#mobileMenu{
+  display:none;
+  background:rgba(255,255,255,0.95);
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:999;
+  padding:3rem 2rem;
+  overflow-y:auto;
+  transition:0.3s;
+}
+
+#mobileMenu a{
+  display:block;
+  padding:1rem 0;
+  font-size:1.3rem;
+  font-weight:600;
+  color:#0077b6;
+  border-bottom:1px solid #eee;
+}
+
 /* SECTIONS */
-section{padding:1.5rem 1rem;max-width:900px;margin:auto;}
-h2{margin-bottom:1rem;}
-/* LISTS */
-#commerceList,#productList{display:grid;grid-template-columns:1fr;gap:1rem;}
-.commerce,.product{background:white;padding:1rem;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);}
-.product span{font-weight:600;display:block;}
-.stock{font-size:.85rem;color:#666;margin:.3rem 0;}
-.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;}
-.product button:disabled{background:#ccc;}
-/* CART */
-#cart div{padding:.7rem 0;border-bottom:1px solid #eee;}
-#cart button{margin:0 .2rem;}
-#message{text-align:center;color:#d00000;margin:1rem;display:none;}
-/* DESKTOP */
-@media(min-width:768px){#commerceList,#productList{grid-template-columns:repeat(2,1fr);}}
+section{
+  padding:1.5rem 1rem;
+  max-width:900px;
+  margin:auto;
+}
+
+h2{
+  margin-bottom:1rem;
+  font-size:1.4rem;
+  color:#0077b6;
+}
+
+/* LISTES */
+#commerceList,#productList{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1rem;
+}
+
+.commerce,.product{
+  background:white;
+  padding:1rem;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  transition:0.2s;
+}
+.commerce:hover,.product:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 26px rgba(0,0,0,0.12);
+}
+
+/* PRODUCT */
+.product span{
+  font-weight:600;
+}
+
+.stock{
+  font-size:.9rem;
+  color:#555;
+  margin-top:5px;
+}
+
+.product button{
+  margin-top:.8rem;
+  width:100%;
+  padding:.7rem;
+  border:none;
+  border-radius:12px;
+  background:#0077b6;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.product button:hover{
+  background:#0096c7;
+}
+
+.product button:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}
+
+/* PANIER */
+#cart{background:white;padding:1rem;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,.08);margin-top:1rem;}
+#cart div{padding:.8rem 0;border-bottom:1px solid #eee;}
+#cart button{
+  margin:0 .3rem;
+  border:none;
+  background:#0077b6;
+  color:white;
+  border-radius:8px;
+  padding:4px 8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+#cart button:hover:not(:disabled){
+  background:#0096c7;
+}
+#cart button:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}
+
+/* ALERT */
+#alertBox{
+  position:fixed;
+  top:25px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff595e;
+  color:white;
+  padding:1rem 1.5rem;
+  border-radius:10px;
+  display:none;
+  z-index:1000;
+  font-weight:600;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* RESPONSIVE */
+@media(min-width:768px){
+  #commerceList,#productList{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 </style>
 </head>
 
 <body>
+
 <header>
   <h1>Livraison Locale</h1>
-  <p>Commerces des Sables d’Olonne</p>
+  <p>Vos commerces aux Sables d’Olonne</p>
+
   <div id="cta">
     <button id="orderBtn" onclick="showPage('commander')">Commander</button>
     <button id="menuBtn" onclick="toggleMenu()">Menu</button>
@@ -59,96 +223,141 @@ h2{margin-bottom:1rem;}
 
 <section id="accueil">
   <h2>Bienvenue</h2>
-  <p>Commandez local, simplement.</p>
+  <p>Commandez local, simplement et rapidement.</p>
 </section>
 
 <section id="apropos" style="display:none">
   <h2>À propos</h2>
-  <p>Plateforme locale de livraison.</p>
+  <p>Plateforme moderne pour vos commerces locaux.</p>
 </section>
 
 <section id="contact" style="display:none">
-  <h2>Contact</h2>
-  <p>cedric.huet.pro@gmail.com</p>
+  <h2>Nous contacter</h2>
+  <p>Email : cedric.huet.pro@gmail.com</p>
 </section>
 
 <section id="commander" style="display:none">
   <h2>Choisir un commerce</h2>
   <div id="commerceList"></div>
   <div id="productList"></div>
-  <p id="message"></p>
 </section>
 
 <section>
-  <h2>🛒 Panier</h2>
+  <h2>🛒 Votre panier</h2>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">Vider le panier</button>
+  <button onclick="clearCart()" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">
+    Vider le panier
+  </button>
 </section>
 
+<div id="alertBox"></div>
+
 <script>
-// MENU
+// MENU MOBILE
 function toggleMenu(){
   const m=document.getElementById("mobileMenu");
-  m.style.display=m.style.display==="block"?"none":"block";
+  m.style.display = m.style.display==="block"?"none":"block";
 }
-function nav(p){toggleMenu();showPage(p);}
-function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById(p).style.display='block';}
+function nav(p){ toggleMenu(); showPage(p); }
 
-// PANIER
-let currentStore = null;
+function showPage(p){
+  ['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById(p).style.display='block';
+}
+
+// ALERTE
+function showAlert(msg){
+  const a=document.getElementById("alertBox");
+  a.innerText=msg;
+  a.style.display="block";
+  setTimeout(()=>{a.style.display="none";}, 2500);
+}
+
+/* PANIER */
+let currentStore=null;
+
 function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart));}
+
 function renderCart(){
   const container=document.getElementById("cart");
-  const cart=getCart();
   container.innerHTML="";
-  if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; currentStore=null; return;}
+  const cart=getCart();
+  if(cart.length===0){ container.innerHTML="<p>Panier vide</p>"; return; }
   let total=0;
   cart.forEach(item=>{
-    total+=item.price*item.quantity;
-    container.innerHTML+=`
+    total += item.price*item.quantity;
+    container.innerHTML += `
       <div>
         <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.commerceId}','${item.productId}',${item.quantity-1})">-</button>
+        <button onclick="updateQty('${item.productId}', ${item.quantity-1}, ${item.stock})">-</button>
         ${item.quantity}
-        <button onclick="updateQuantity('${item.commerceId}','${item.productId}',${item.quantity+1})">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.commerceId}','${item.productId}')">Supprimer</button>
+        <button onclick="updateQty('${item.productId}', ${item.quantity+1}, ${item.stock})" ${item.quantity>=item.stock?'disabled':''}>+</button><br>
+        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
       </div>`;
   });
-  container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
+  container.innerHTML += `<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;
 }
-function clearCart(){localStorage.removeItem("panier"); currentStore=null; renderCart();}
-function addToCart(commerceId,productId,name,price,stock){
+
+function addToCart(storeId, productId, name, price, stock){
   let cart=getCart();
-  price=parseFloat(price.toString().replace(",","."));
-  if(currentStore && currentStore!==commerceId){showTempMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return;}
-  let existing=cart.find(p=>p.productId===productId && p.commerceId===commerceId);
-  let currentQty = existing?existing.quantity:0;
-  if(currentQty>=stock){showTempMessage("Stock limité"); return;}
-  if(existing){existing.quantity+=1;} else{cart.push({commerceId,productId,name,price,quantity:1}); currentStore=commerceId;}
-  saveCart(cart); renderCart();
+
+  if(currentStore && currentStore!==storeId){
+    showAlert("Vous ne pouvez commander que d'un seul magasin à la fois");
+    return;
+  }
+
+  const existing=cart.find(i => i.productId===productId);
+  price = parseFloat(price.toString().replace(",","."));
+
+  if(existing){
+    if(existing.quantity < existing.stock){
+      existing.quantity++;
+    } else {
+      showAlert("Stock maximum atteint");
+      return;
+    }
+  } else {
+    if(stock<=0){ showAlert("Produit indisponible"); return; }
+    cart.push({commerceId:storeId, productId, name, price, quantity:1, stock});
+    currentStore=storeId;
+  }
+
+  saveCart(cart);
+  renderCart();
 }
-function updateQuantity(commerceId,productId,newQty){
+
+function removeFromCart(productId){
+  let cart=getCart().filter(i=>i.productId!==productId);
+  saveCart(cart);
+  if(cart.length===0) currentStore=null;
+  renderCart();
+}
+
+function updateQty(productId, newQty, stock){
   let cart=getCart();
-  const item=cart.find(p=>p.commerceId===commerceId && p.productId===productId);
+  const item = cart.find(i=>i.productId===productId);
   if(!item) return;
-  if(newQty<1){removeFromCart(commerceId,productId); return;}
-  if(newQty>item.stock){showTempMessage("Stock limité"); return;}
-  item.quantity=newQty;
-  saveCart(cart); renderCart();
+
+  if(newQty < 1) newQty = 1;
+  if(newQty > stock){
+    showAlert("Stock maximum atteint");
+    newQty = stock;
+  }
+
+  item.quantity = newQty;
+  saveCart(cart);
+  renderCart();
 }
-function removeFromCart(commerceId,productId){let cart=getCart(); cart=cart.filter(p=>!(p.commerceId===commerceId && p.productId===productId)); saveCart(cart); renderCart();}
-function showTempMessage(msg){const m=document.getElementById("message");m.innerText=msg; m.style.display="block"; setTimeout(()=>{m.style.display="none"},2000);}
-document.addEventListener("DOMContentLoaded",renderCart);
+
+document.addEventListener("DOMContentLoaded", renderCart);
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-// CONFIG FIREBASE
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
@@ -161,39 +370,39 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// COMMERCE + PRODUITS
-const commerceList=document.getElementById("commerceList");
-const productList=document.getElementById("productList");
+const commerceList = document.getElementById("commerceList");
+const productList = document.getElementById("productList");
 
-async function loadCommerces(){
-  const snapshot = await getDocs(collection(db,"commerces"));
-  commerceList.innerHTML="";
-  snapshot.forEach(docSnap=>{
-    const c = docSnap.data();
-    const div=document.createElement("div");
-    div.className="commerce";
-    div.innerText=c.name;
-    div.onclick=()=>loadProducts(docSnap.id);
-    commerceList.appendChild(div);
+function loadCommerces(){
+  const ref = collection(db, "commerces");
+  onSnapshot(ref, snapshot=>{
+    commerceList.innerHTML="";
+    snapshot.forEach(docSnap=>{
+      const c=docSnap.data();
+      const div=document.createElement("div");
+      div.className="commerce";
+      div.innerText=c.name;
+      div.onclick=()=>loadProducts(docSnap.id);
+      commerceList.appendChild(div);
+    });
   });
 }
 
-function loadProducts(commerceId){
-  const productsRef=collection(db,"commerces",commerceId,"produits");
+function loadProducts(storeId){
+  const productsRef = collection(db, "commerces", storeId, "produits");
   onSnapshot(productsRef, snapshot=>{
-    productList.innerHTML="<h3>Produits</h3>";
+    productList.innerHTML="";
     snapshot.forEach(docSnap=>{
       const p = docSnap.data();
       const div=document.createElement("div");
       div.className="product";
       const price = p.price.toString().replace(".",",");
-      const stock = p.stock || 999; // par défaut si pas défini
-      div.innerHTML=`<span>${p.name} - ${price}€ ${!p.available?"(Non disponible)":""}</span>
-                       <div class="stock">Stock restant : ${stock}</div>`;
-      const btn=document.createElement("button");
-      btn.innerText="Ajouter au panier";
-      btn.disabled=!p.available;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
+      div.innerHTML = `<span>${p.name} - ${price}€</span>
+                       <div class="stock">Stock : ${p.stock}</div>`;
+      const btn = document.createElement("button");
+      btn.innerText = "Ajouter au panier";
+      btn.disabled = !p.available || p.stock<=0;
+      btn.onclick = ()=>addToCart(storeId, docSnap.id, p.name, p.price, p.stock);
       div.appendChild(btn);
       productList.appendChild(div);
     });
@@ -202,5 +411,6 @@ function loadProducts(commerceId){
 
 loadCommerces();
 </script>
+
 </body>
 </html>
