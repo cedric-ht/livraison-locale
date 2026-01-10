@@ -245,8 +245,10 @@ h2{
 <section>
   <h2>🛒 Votre panier</h2>
   <div id="cart"></div>
-  <button onclick="clearCart()" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">
-    Vider le panier
+  <button id="clearCartBtn" style="width:100%;background:#ff595e;color:white;border:none;padding:.8rem;border-radius:12px">
+Vider le panier
+</button>
+
   </button>
 </section>
 
@@ -326,6 +328,15 @@ function addToCart(storeId, productId, name, price, stock){
   saveCart(cart);
   renderCart();
 }
+
+function clearCart(){
+    localStorage.removeItem("panier");
+    currentStore = null;  // réinitialise le magasin courant
+    renderCart();
+}
+
+document.getElementById("clearCartBtn").addEventListener("click", clearCart);
+
 
 function removeFromCart(productId){
   let cart=getCart().filter(i=>i.productId!==productId);
@@ -414,3 +425,4 @@ loadCommerces();
 
 </body>
 </html>
+
