@@ -537,12 +537,22 @@ onAuthStateChanged(auth, user => {
   }
 });
 
+window.logout = function(){
+  auth.signOut().then(() => {
+    showMessage("Déconnecté ✅");
+  }).catch((error) => {
+    showMessage("Erreur déconnexion");
+    console.error(error);
+  });
+};
+
 
 loadCategories();
 </script>
 
 </body>
 </html>
+
 
 
 
