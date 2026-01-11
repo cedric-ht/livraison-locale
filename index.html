@@ -310,7 +310,12 @@ document.addEventListener("DOMContentLoaded", renderCart);
 function validateCart(){
   if(!window.currentUser){
     showMessage("Connecte-toi pour commander");
-    window.openLoginMenu(); // ouvre le formulaire de connexion
+    openLoginMenu(); // ouvre le formulaire
+    return;
+  }
+
+  if(window.currentUser.role !== "client"){
+    showMessage("Seuls les clients peuvent commander");
     return;
   }
 
@@ -319,6 +324,10 @@ function validateCart(){
     showMessage("Votre panier est vide");
     return;
   }
+
+  // ici tu peux créer la commande
+}
+
 
   // Exemple simple : afficher le résumé
   let total = 0;
@@ -445,28 +454,62 @@ function showProducts(commerceId){
   });
 }
 // LOGIN
-window.login = async function(){
+window.login = async function() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  try{
-    await signInWithEmailAndPassword(auth, email, password);
-  }catch(e){
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const uid = userCredential.user.uid;
+
+    // Vérifier si l'utilisateur est bien un client
+    const clientDoc = await getDoc(doc(db, "clients", uid));
+
+    if(clientDoc.exists()){
+      window.currentUser = { uid, role: "client", ...clientDoc.data() };
+      showMessage("Connecté en tant que client ✅");
+      document.getElementById("authBox").style.display = "none";
+    } else {
+      // ce n'est pas un client → on refuse
+      showMessage("Accès refusé : uniquement pour les clients");
+      await auth.signOut();
+    }
+
+  } catch (e) {
+    console.error(e);
     showMessage("Erreur de connexion");
   }
 }
 
+
 // REGISTER
-window.register = async function(){
+window.register = async function() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  try{
-    await createUserWithEmailAndPassword(auth, email, password);
-  }catch(e){
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const uid = userCredential.user.uid;
+
+    // Ajouter le client dans la collection 'clients'
+    await setDoc(doc(db, "clients", uid), {
+      email: email,
+      createdAt: new Date(),
+      role: "client"
+      // tu peux ajouter d'autres infos : name, adresse, etc.
+    });
+
+    window.currentUser = { uid, role: "client", email };
+
+    showMessage("Compte client créé ✅");
+    document.getElementById("authBox").style.display = "none";
+
+  } catch (e) {
+    console.error(e);
     showMessage("Erreur inscription");
   }
 }
+
 
 // ouvrir le formulaire login depuis le menu
 window.openLoginMenu = function(){
@@ -509,6 +552,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
