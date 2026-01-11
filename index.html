@@ -335,12 +335,12 @@ document.addEventListener("DOMContentLoaded", renderCart);
   
 function validateCart(){
   if(!window.currentUser){
-  showMessage("Connecte-toi pour commander");
-  return;
-}
+    showMessage("Connecte-toi pour commander");
+    window.openLoginMenu(); // ouvre le formulaire de connexion
+    return;
+  }
 
   const cart = getCart();
-
   if(cart.length === 0){
     showMessage("Votre panier est vide");
     return;
@@ -552,6 +552,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
