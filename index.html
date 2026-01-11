@@ -317,10 +317,26 @@ function validateCart(){
 
   alert(recap);
 
-  // PLUS TARD → envoyer vers Firebase / paiement / email
+import { addDoc, collection, serverTimestamp } from 
+"https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+async function validateCart(){
+  const cart = getCart();
+  if(cart.length === 0){
+    showMessage("Votre panier est vide");
+    return;
+  }
+
+  await addDoc(collection(db,"commandes"),{
+    commerceId: selectedCommerceId,
+    items: cart,
+    createdAt: serverTimestamp(),
+    status: "en attente"
+  });
+
+  alert("Commande envoyée au commerçant 🚀");
   clearCart();
 }
-
 
 // MINI PANIER EXPAND/RETRACT
 document.getElementById("cartHeader").onclick = ()=>{
@@ -428,6 +444,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
