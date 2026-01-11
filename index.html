@@ -201,7 +201,18 @@ h2{margin-bottom:1rem}
   <a onclick="nav('apropos')">À propos</a>
   <a onclick="nav('contact')">Contact</a>
   <a href="inscription.html">Nous rejoindre</a>
+  <a id="menuLoginBtn" onclick="openLoginMenu()">Connexion</a>
+  <a id="menuLogoutBtn" onclick="logout()" style="display:none">Déconnexion</a>
 </div>
+
+<div id="authBox" style="display:none; padding:1rem; max-width:400px; margin:auto; background:#f5f5f5; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1)">
+  <h3>Connexion</h3>
+  <input id="email" type="email" placeholder="Email" style="width:100%; padding:.7rem; margin:.4rem 0">
+  <input id="password" type="password" placeholder="Mot de passe" style="width:100%; padding:.7rem; margin:.4rem 0">
+  <button onclick="login()" style="width:100%; margin-top:.5rem">Se connecter</button>
+  <button onclick="register()" style="width:100%; margin-top:.5rem">Créer un compte</button>
+</div>
+
 
 <section id="accueil">
 <h2>Bienvenue</h2>
@@ -496,11 +507,43 @@ window.register = async function(){
   }
 }
 
+// ouvrir le formulaire login depuis le menu
+function openLoginMenu(){
+  toggleMenu(); // ouvre le menu si fermé
+  document.getElementById("authBox").style.display = "block";
+}
+
+// déconnexion
+function logout(){
+  auth.signOut();
+  showMessage("Déconnecté ✅");
+}
+
+// afficher/cacher boutons menu selon connexion
+onAuthStateChanged(auth, user => {
+  const authBox = document.getElementById("authBox");
+  const loginBtn = document.getElementById("menuLoginBtn");
+  const logoutBtn = document.getElementById("menuLogoutBtn");
+
+  if(user){
+    authBox.style.display = "none"; // cache le formulaire
+    window.currentUser = user;
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "block";
+  } else {
+    window.currentUser = null;
+    loginBtn.style.display = "block";
+    logoutBtn.style.display = "none";
+  }
+});
+
+
 loadCategories();
 </script>
 
 </body>
 </html>
+
 
 
 
