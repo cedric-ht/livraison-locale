@@ -150,6 +150,17 @@ h2{margin-bottom:1rem}
   font-weight:600;
   margin-top:0.5rem;
 }
+#cart .validate-btn{
+  width:100%;
+  background: linear-gradient(135deg,#38b000,#70e000);
+  color:white;
+  border:none;
+  padding:0.8rem;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
+  margin-top:0.5rem;
+}
 
 /* MESSAGE CENTRAL */
 #addedMessage,#errorMessage{
@@ -162,6 +173,7 @@ h2{margin-bottom:1rem}
 #addedMessage{background:#4caf50; color:white;}
 #errorMessage{background:#d00000;color:white;}
 #addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+  
 
 /* MOBILE GRID */
 @media(max-width:767px){
@@ -222,18 +234,6 @@ h2{margin-bottom:1rem}
   <div id="cartContent"></div>
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
   <button class="validate-btn" onclick="validateCart()">Valider la commande</button>
-  #cart .validate-btn{
-  width:100%;
-  background: linear-gradient(135deg,#38b000,#70e000);
-  color:white;
-  border:none;
-  padding:0.8rem;
-  border-radius:14px;
-  cursor:pointer;
-  font-weight:700;
-  margin-top:0.5rem;
-}
-
 
 </div>
 
@@ -401,5 +401,6 @@ loadCategories();
 
 </body>
 </html>
+
 
 
