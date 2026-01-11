@@ -444,19 +444,6 @@ function showProducts(commerceId){
     });
   });
 }
-// AUTH VISUEL + BLOQUAGE
-onAuthStateChanged(auth, user => {
-  const authBox = document.getElementById("authBox");
-
-  if(user){
-    authBox.style.display = "none";
-    window.currentUser = user;
-  } else {
-    authBox.style.display = "block";
-    window.currentUser = null;
-  }
-});
-
 // LOGIN
 window.login = async function(){
   const email = document.getElementById("email").value;
@@ -482,15 +469,19 @@ window.register = async function(){
 }
 
 // ouvrir le formulaire login depuis le menu
-function openLoginMenu(){
+window.openLoginMenu = function(){
   toggleMenu(); // ouvre le menu si fermé
   document.getElementById("authBox").style.display = "block";
 }
 
 // déconnexion
-function logout(){
-  auth.signOut();
-  showMessage("Déconnecté ✅");
+window.logout = function(){
+  auth.signOut().then(() => {
+    showMessage("Déconnecté ✅");
+  }).catch((error) => {
+    showMessage("Erreur déconnexion");
+    console.error(error);
+  });
 }
 
 // afficher/cacher boutons menu selon connexion
@@ -511,14 +502,6 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-window.logout = function(){
-  auth.signOut().then(() => {
-    showMessage("Déconnecté ✅");
-  }).catch((error) => {
-    showMessage("Erreur déconnexion");
-    console.error(error);
-  });
-};
 
 
 loadCategories();
@@ -526,6 +509,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
