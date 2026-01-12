@@ -3,70 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connexion Commerçant - Livraison Locale</title>
+<title>Livraison Locale</title>
+
 <style>
-body {font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; margin:0;}
-header {background:#00b4d8; color:white; text-align:center; padding:2rem; width:100%;}
-header h1 {font-size:2.5rem; margin-bottom:0.5rem;}
-header p {font-size:1.2rem;}
-section {background:white; padding:2rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-width:400px; width:90%;}
-h2 {color:#0077b6; text-align:center; margin-bottom:1rem;}
-input {width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:10px; border:1px solid #ccc; font-size:1rem;}
-button {width:100%; padding:0.8rem; border:none; border-radius:10px; background:#0077b6; color:white; font-weight:600; cursor:pointer; transition:0.3s;}
-button:hover {background:#0096c7;}
-#errorMessage {color:red; text-align:center; margin-top:0.5rem;}
-footer {text-align:center; padding:2rem 1rem; background:#03045e; color:white; margin-top:2rem; width:100%;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#fff;
+  color:#333;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  padding:2rem 1rem;
+  border-radius:0 0 20px 20px;
+  text-align:center;
+}
+header h1{font-size:1.8rem}
+header p{opacity:.9}
+
+/* BUTTONS */
+.btn{
+  padding:.7rem 1rem;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+.primary{background:#0077b6;color:white}
+.danger{background:#ff595e;color:white}
+
+/* SECTIONS */
+section{padding:1.5rem;max-width:900px;margin:auto}
+h2{margin-bottom:1rem}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1rem;
+}
+.card{
+  background:white;
+  border-radius:16px;
+  padding:1rem;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  cursor:pointer;
+}
+.card.selected{background:#caf0f8}
+
+/* PRODUCT */
+.product button{
+  margin-top:.5rem;
+  width:100%;
+}
+
+/* PANIER */
+#cart{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  box-shadow:0 -5px 20px rgba(0,0,0,.1);
+  padding:1rem;
+}
+#cart h3{text-align:right;color:#0077b6}
+
+/* LOGIN BOX */
+#authBox{
+  display:none;
+  max-width:400px;
+  margin:1rem auto;
+  background:#f5f5f5;
+  padding:1rem;
+  border-radius:16px;
+}
+#authBox input{
+  width:100%;
+  padding:.6rem;
+  margin:.3rem 0;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>Connexion Commerçant</h1>
-<p>Accédez à votre dashboard pour gérer vos produits</p>
+  <h1>Livraison Locale</h1>
+  <p>Commandez chez vos commerçants locaux</p>
+  <br>
+  <button class="btn primary" onclick="show('commander')">Commander</button>
+  <button class="btn" onclick="showLogin()">Connexion</button>
+  <button class="btn" id="dashboardBtn" style="display:none" onclick="goDashboard()">Dashboard</button>
 </header>
 
-<section>
-<h2>Se connecter</h2>
-<input type="email" id="email" placeholder="Email" required>
-<input type="password" id="password" placeholder="Mot de passe" required>
-<button onclick="login()">Se connecter</button>
-<p id="errorMessage"></p>
+<div id="authBox">
+  <h3>Connexion</h3>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button class="btn primary" onclick="login()">Se connecter</button>
+</div>
+
+<section id="commander" style="display:none">
+  <h2>Catégories</h2>
+  <div id="categories" class="grid"></div>
+
+  <h2>Commerces</h2>
+  <div id="commerces" class="grid"></div>
+
+  <h2>Produits</h2>
+  <div id="products" class="grid"></div>
 </section>
 
-<footer>
-<p>© 2026 Livraison Locale | Contact : cedric.huet.pro@gmail.com</p>
-</footer>
+<div id="cart">
+  <div id="cartItems"></div>
+  <h3 id="total">Total : 0 €</h3>
+  <button class="btn danger" onclick="clearCart()">Vider</button>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
-  projectId: "livraison-sablaise",
-  storageBucket: "livraison-sablaise.firebasestorage.app",
-  messagingSenderId: "930839535214",
-  appId: "1:930839535214:web:a3235919aa88d066bc507f",
-  measurementId: "G-R3ZCGLQ69E"
+  projectId: "livraison-sablaise"
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const auth = getAuth(app);
 
-window.login = function() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const errorEl = document.getElementById("errorMessage");
+let currentCommerce = null;
+let cart = [];
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch(err => {
-      console.error(err);
-      errorEl.textContent = "Email ou mot de passe incorrect";
+function show(id){
+  document.getElementById("commander").style.display = id==="commander"?"block":"none";
+}
+
+window.showLogin = ()=> document.getElementById("authBox").style.display="block";
+window.goDashboard = ()=> window.location.href="dashboard.html";
+
+window.login = async ()=>{
+  await signInWithEmailAndPassword(auth,email.value,password.value);
+  document.getElementById("authBox").style.display="none";
+}
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    dashboardBtn.style.display="inline-block";
+  }
+});
+
+function renderCart(){
+  const box=document.getElementById("cartItems");
+  box.innerHTML="";
+  let total=0;
+  cart.forEach(p=>{
+    total+=p.price*p.qty;
+    box.innerHTML+=`<div>${p.name} x${p.qty}</div>`;
+  });
+  document.getElementById("total").innerText=`Total : ${total.toFixed(2)} €`;
+}
+
+window.clearCart=()=>{
+  cart=[];
+  currentCommerce=null;
+  renderCart();
+}
+
+// LOAD DATA
+const cats=new Set();
+const commercesDiv=document.getElementById("commerces");
+const productsDiv=document.getElementById("products");
+
+const snap=await getDocs(collection(db,"commerces"));
+snap.forEach(d=>cats.add(d.data().category||"Autres"));
+
+cats.forEach(c=>{
+  const div=document.createElement("div");
+  div.className="card";
+  div.innerText=c;
+  div.onclick=()=>loadCommerces(c);
+  categories.appendChild(div);
+});
+
+function loadCommerces(cat){
+  commercesDiv.innerHTML="";
+  productsDiv.innerHTML="";
+  getDocs(collection(db,"commerces")).then(s=>{
+    s.forEach(d=>{
+      if((d.data().category||"Autres")===cat){
+        const div=document.createElement("div");
+        div.className="card";
+        div.innerText=d.data().name;
+        div.onclick=()=>loadProducts(d.id);
+        commercesDiv.appendChild(div);
+      }
     });
+  });
+}
+
+function loadProducts(id){
+  if(currentCommerce && currentCommerce!==id){
+    alert("Un seul commerce par commande");
+    return;
+  }
+  currentCommerce=id;
+  onSnapshot(collection(db,"commerces",id,"produits"),snap=>{
+    productsDiv.innerHTML="";
+    snap.forEach(d=>{
+      const p=d.data();
+      const div=document.createElement("div");
+      div.className="card product";
+      div.innerHTML=`<strong>${p.name}</strong><br>${p.price} €`;
+      const btn=document.createElement("button");
+      btn.className="btn primary";
+      btn.innerText="Ajouter";
+      btn.disabled=!p.available||p.stock<1;
+      btn.onclick=()=>{
+        const item=cart.find(i=>i.id===d.id);
+        item?item.qty++:cart.push({id:d.id,name:p.name,price:p.price,qty:1});
+        renderCart();
+      };
+      div.appendChild(btn);
+      productsDiv.appendChild(div);
+    });
+  });
 }
 </script>
 
