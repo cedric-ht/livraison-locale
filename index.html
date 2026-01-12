@@ -306,35 +306,32 @@ function renderCart(){
 }
 document.addEventListener("DOMContentLoaded", renderCart);
 
-  
-function validateCart(){
-  if(!window.currentUser){
-    showMessage("Connecte-toi pour commander");
-    window.openLoginMenu(); // ouvre le formulaire de connexion
-    return;
-  }
 
+import { addDoc, serverTimestamp } from 
+"https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+async function validateCart(){
   const cart = getCart();
   if(cart.length === 0){
     showMessage("Votre panier est vide");
     return;
   }
 
-  // Exemple simple : afficher le résumé
   let total = 0;
-  let recap = "Commande validée ✅\n\n";
+  cart.forEach(item => total += item.price * item.quantity);
 
-  cart.forEach(item=>{
-    recap += `• ${item.name} x${item.quantity}\n`;
-    total += item.price * item.quantity;
+  await addDoc(collection(db, "commandes"), {
+    commerceId: selectedCommerceId,
+    items: cart,
+    total,
+    status: "nouvelle",
+    createdAt: serverTimestamp()
   });
 
-  recap += `\nTotal : ${total.toFixed(2).replace(".",",")} €`;
-
-  alert(recap);
-  
+  alert("Commande envoyée au commerçant ✅");
   clearCart();
 }
+
 
 // MINI PANIER EXPAND/RETRACT
 document.getElementById("cartHeader").onclick = ()=>{
@@ -509,6 +506,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
