@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background: #ffffff; /* fond blanc */
+  background: #ffffff; 
   color:#333;
   min-height:100vh;
   line-height:1.5;
@@ -173,14 +173,29 @@ h2{margin-bottom:1rem}
 #addedMessage{background:#4caf50; color:white;}
 #errorMessage{background:#d00000;color:white;}
 #addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
-  
+
+/* CHECKOUT FORM */
+#checkoutForm{
+  display:none;
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.4);
+  z-index:1001;
+  justify-content:center;
+  align-items:center;
+}
+#checkoutForm div{
+  background:white; padding:2rem; border-radius:16px; max-width:400px; width:90%;
+  display:flex; flex-direction:column; gap:0.8rem;
+}
+#checkoutForm input{padding:0.7rem; border-radius:10px; border:1px solid #ccc; width:100%;}
 
 /* MOBILE GRID */
 @media(max-width:767px){
   #categoryList,#commerceList,#productList{
     grid-template-columns:1fr; gap:1.2rem;
   }
-  section{padding-bottom:120px;} /* espace pour mini-panier */
+  section{padding-bottom:120px;}
 }
 </style>
 </head>
@@ -213,7 +228,6 @@ h2{margin-bottom:1rem}
   <button onclick="register()" style="width:100%; margin-top:.5rem">Créer un compte</button>
 </div>
 
-
 <section id="accueil">
 <h2>Bienvenue</h2>
 <p>Commandez local, simplement.</p>
@@ -245,11 +259,24 @@ h2{margin-bottom:1rem}
   <div id="cartContent"></div>
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
   <button class="validate-btn" onclick="validateCart()">Valider la commande</button>
-
 </div>
 
+<!-- MESSAGES -->
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
+
+<!-- CHECKOUT FORM -->
+<div id="checkoutForm">
+  <div>
+    <h3>Informations de livraison</h3>
+    <input type="text" id="clientNom" placeholder="Nom" required>
+    <input type="text" id="clientPrenom" placeholder="Prénom" required>
+    <input type="text" id="clientAdresse" placeholder="Adresse complète" required>
+    <input type="text" id="clientTel" placeholder="Téléphone" required>
+    <button onclick="submitOrder()">Confirmer la commande</button>
+    <button onclick="closeCheckoutForm()">Annuler</button>
+  </div>
+</div>
 
 <script>
 // MENU
@@ -267,23 +294,14 @@ function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
 function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
 function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
 function addToCart(commerceId, productId, name, price, stock){
-  if(selectedCommerceId && selectedCommerceId !== commerceId){
-    showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");
-    return;
-  }
+  if(selectedCommerceId && selectedCommerceId !== commerceId){ showMessage("Vous ne pouvez commander qu'un seul magasin à la fois"); return; }
   selectedCommerceId = commerceId;
   let cart = getCart();
   price = parseFloat(price.toString().replace(",","."));  
   const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-  if(existing){
-    if(existing.quantity >= stock){ showMessage("Stock limité"); return; }
-    existing.quantity += 1;
-  } else{
-    if(stock < 1){ showMessage("Produit non disponible"); return; }
-    cart.push({commerceId, productId, name, price, quantity:1, stock});
-  }
-  saveCart(cart);
-  showAddedMessage();
+  if(existing){ if(existing.quantity >= stock){ showMessage("Stock limité"); return; } existing.quantity += 1; }
+  else{ if(stock < 1){ showMessage("Produit non disponible"); return; } cart.push({commerceId, productId, name, price, quantity:1, stock}); }
+  saveCart(cart); showAddedMessage();
 }
 function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
 function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return; } item.quantity=Math.max(1,qty);} saveCart(cart);}
@@ -306,33 +324,6 @@ function renderCart(){
 }
 document.addEventListener("DOMContentLoaded", renderCart);
 
-
-import { addDoc, serverTimestamp } from 
-"https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-async function validateCart(){
-  const cart = getCart();
-  if(cart.length === 0){
-    showMessage("Votre panier est vide");
-    return;
-  }
-
-  let total = 0;
-  cart.forEach(item => total += item.price * item.quantity);
-
-  await addDoc(collection(db, "commandes"), {
-    commerceId: selectedCommerceId,
-    items: cart,
-    total,
-    status: "nouvelle",
-    createdAt: serverTimestamp()
-  });
-
-  alert("Commande envoyée au commerçant ✅");
-  clearCart();
-}
-
-
 // MINI PANIER EXPAND/RETRACT
 document.getElementById("cartHeader").onclick = ()=>{
   const cart=document.getElementById("cart");
@@ -340,18 +331,41 @@ document.getElementById("cartHeader").onclick = ()=>{
   const arrow=document.getElementById("toggleCart");
   arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
 }
+
+// CHECKOUT FORM
+function validateCart(){
+  if(!window.currentUser){ showMessage("Connecte-toi pour commander"); openLoginMenu(); return; }
+  const cart = getCart();
+  if(cart.length === 0){ showMessage("Votre panier est vide"); return; }
+  document.getElementById("checkoutForm").style.display = "flex";
+}
+function closeCheckoutForm(){document.getElementById("checkoutForm").style.display="none";}
+async function submitOrder(){
+  const nom = document.getElementById("clientNom").value.trim();
+  const prenom = document.getElementById("clientPrenom").value.trim();
+  const adresse = document.getElementById("clientAdresse").value.trim();
+  const tel = document.getElementById("clientTel").value.trim();
+  if(!nom || !prenom || !adresse || !tel){ showMessage("Merci de remplir tous les champs"); return; }
+  const cart = getCart();
+  let total=0; cart.forEach(item=>total+=item.price*item.quantity);
+  await addDoc(collection(db,"commandes"),{
+    client:{nom, prenom, adresse, telephone:tel},
+    commerceId:selectedCommerceId,
+    produits:cart,
+    total,
+    status:"en attente",
+    timestamp:new Date()
+  });
+  showMessage("Commande envoyée ✅");
+  clearCart(); closeCheckoutForm();
+}
+
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-  
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -384,14 +398,12 @@ async function loadCategories(){
   categoryList.innerHTML="";
   [...categoriesSet].sort().forEach(cat=>{
     const div=document.createElement("div");
-    div.className="category";
-    div.dataset.opened="false";
+    div.className="category"; div.dataset.opened="false";
     div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
-    div.onclick=()=>{
-      if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return;}
+    div.onclick=()=>{ 
+      if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; }
       [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");});
-      div.dataset.opened="true"; div.classList.add("selected");
-      showCommercesByCategory(cat);
+      div.dataset.opened="true"; div.classList.add("selected"); showCommercesByCategory(cat);
     };
     categoryList.appendChild(div);
   });
@@ -404,8 +416,7 @@ function showCommercesByCategory(cat){
     snapshot.forEach(docSnap=>{
       if((docSnap.data().category || "Autres")===cat){
         const div=document.createElement("div");
-        div.className="commerce";
-        div.dataset.opened="false";
+        div.className="commerce"; div.dataset.opened="false";
         div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
         div.onclick=()=>{
           if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; }
@@ -426,96 +437,43 @@ function showProducts(commerceId){
   onSnapshot(productsRef,snapshot=>{
     productList.innerHTML="<h3>Produits</h3>";
     snapshot.forEach(docSnap=>{
-      const p=docSnap.data();
-      const stock = p.stock || 10;
-      const div=document.createElement("div");
-      div.className="product";
+      const p=docSnap.data(); const stock = p.stock || 10;
+      const div=document.createElement("div"); div.className="product";
       const price=p.price.toString().replace(".",",");
       div.innerHTML=`<span>${p.name} - ${price}€</span><span class="stock">Stock : ${stock}</span>`;
       const btn=document.createElement("button");
-      btn.innerText="Ajouter au panier";
-      btn.disabled=!p.available || stock<1;
+      btn.innerText="Ajouter au panier"; btn.disabled=!p.available || stock<1;
       btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
-      div.appendChild(btn);
-      productList.appendChild(div);
+      div.appendChild(btn); productList.appendChild(div);
     });
   });
 }
-// LOGIN
+
+// LOGIN / REGISTER
 window.login = async function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try{
-    await signInWithEmailAndPassword(auth, email, password);
-  }catch(e){
-    showMessage("Erreur de connexion");
-  }
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+  try{ await signInWithEmailAndPassword(auth,email,password); } catch(e){ showMessage("Erreur de connexion"); }
 }
-
-// REGISTER
 window.register = async function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try{
-    await createUserWithEmailAndPassword(auth, email, password);
-  }catch(e){
-    showMessage("Erreur inscription");
-  }
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+  try{ await createUserWithEmailAndPassword(auth,email,password); } catch(e){ showMessage("Erreur inscription"); }
 }
+window.openLoginMenu=function(){ toggleMenu(); document.getElementById("authBox").style.display="block"; }
+window.logout=function(){ auth.signOut().then(()=>{ showMessage("Déconnecté ✅"); }).catch(e=>{ showMessage("Erreur déconnexion"); console.error(e); }); }
 
-// ouvrir le formulaire login depuis le menu
-window.openLoginMenu = function(){
-  toggleMenu(); // ouvre le menu si fermé
-  document.getElementById("authBox").style.display = "block";
-}
-
-// déconnexion
-window.logout = function(){
-  auth.signOut().then(() => {
-    showMessage("Déconnecté ✅");
-  }).catch((error) => {
-    showMessage("Erreur déconnexion");
-    console.error(error);
-  });
-}
-
-// afficher/cacher boutons menu selon connexion
-onAuthStateChanged(auth, user => {
-  const authBox = document.getElementById("authBox");
-  const loginBtn = document.getElementById("menuLoginBtn");
-  const logoutBtn = document.getElementById("menuLogoutBtn");
-
-  if(user){
-    authBox.style.display = "none"; // cache le formulaire
-    window.currentUser = user;
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "block";
-  } else {
-    window.currentUser = null;
-    loginBtn.style.display = "block";
-    logoutBtn.style.display = "none";
-  }
+// Auth state
+onAuthStateChanged(auth,user=>{
+  const authBox=document.getElementById("authBox");
+  const loginBtn=document.getElementById("menuLoginBtn");
+  const logoutBtn=document.getElementById("menuLogoutBtn");
+  if(user){ authBox.style.display="none"; window.currentUser=user; loginBtn.style.display="none"; logoutBtn.style.display="block"; }
+  else{ window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
-
-
 
 loadCategories();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
