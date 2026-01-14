@@ -156,9 +156,17 @@ window.login = async ()=>{
   document.getElementById("authBox").style.display="none";
 }
 
-onAuthStateChanged(auth,user=>{
-  if(user){
-    dashboardBtn.style.display="inline-block";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+onAuthStateChanged(auth, async user => {
+  if(!user) return;
+
+  const snap = await getDoc(doc(db,"commerces",user.uid));
+
+  if(snap.exists()){
+    dashboardBtn.style.display = "inline-block";
+  } else {
+    dashboardBtn.style.display = "none";
   }
 });
 
