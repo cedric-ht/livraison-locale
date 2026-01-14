@@ -69,7 +69,7 @@ onAuthStateChanged(auth, async user => {
     return;
   }
 
-  const uid = user.uid;
+  uid = user.uid;
   const commerceRef = doc(db, "commerces", uid);
   const commerceSnap = await getDoc(commerceRef);
 
