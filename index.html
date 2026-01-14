@@ -221,51 +221,6 @@ function closeCheckoutForm(){
   document.getElementById("checkoutForm").style.display="none";
   document.getElementById("checkoutOverlay").style.display="none";
 }
-async function confirmOrder(){
-  const name = custName.value.trim();
-  const phone = custPhone.value.trim();
-  const address = custAddress.value.trim();
-
-  if(!name || !phone || !address){
-    showMessage("Veuillez remplir tous les champs");
-    return;
-  }
-
-  const cart = getCart();
-  if(cart.length === 0){
-    showMessage("Panier vide");
-    return;
-  }
-
-  const total = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
-
-  try{
-    // 1️⃣ créer la commande
-    await addDoc(collection(db,"commandes"),{
-      commerceId: selectedCommerceId,
-      client: { nom:name, tel:phone, adresse:address },
-      items: cart.map(i=>({
-        productId: i.productId,
-        name: i.name,
-        price: i.price,
-        qty: i.quantity
-      })),
-      total,
-      status: "en_attente",
-      createdAt: serverTimestamp()
-    });
-
-    showMessage("Commande envoyée ✅");
-
-    clearCart();
-    closeCheckoutForm();
-
-  }catch(e){
-    console.error(e);
-    showMessage("Erreur commande");
-  }
-}
-
 </script>
 
 <script type="module">
