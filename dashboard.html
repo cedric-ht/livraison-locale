@@ -94,6 +94,7 @@ onAuthStateChanged(auth, async user => {
 
   // ✅ commerçant autorisé
   loadProducts();
+  loadOrders();
 });
 
 // Logout
@@ -189,6 +190,11 @@ function loadOrders(){
 
       ordersList.appendChild(div);
     });
+  });
+}
+window.markReady = async function(orderId){
+  await updateDoc(doc(db,"commandes",orderId),{
+    status: "prete"
   });
 }
 </script>
