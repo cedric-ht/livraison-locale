@@ -305,11 +305,12 @@ window.confirmOrder = async function(){
     return;
   }
 
+  const commerceId = cart[0].commerceId;
   const total = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
 
   try{
     await addDoc(collection(db,"commandes"),{
-      commerceId: selectedCommerceId,
+      commerceId: commerceId,
       client: { nom:name, tel:phone, adresse:address },
       items: cart.map(i=>({
         productId: i.productId,
