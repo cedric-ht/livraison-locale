@@ -309,7 +309,20 @@ window.login = async function(){
 window.register = async function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  try{ await createUserWithEmailAndPassword(auth, email, password); } catch(e){ showMessage("Erreur inscription"); }
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: email,
+      role: "client",
+      createdAt: new Date()
+    });
+
+    showMessage("Compte créé ✅");
+  } catch(e){
+    showMessage("Erreur inscription");
+  }
 }
 
 window.openLoginMenu = function() {
