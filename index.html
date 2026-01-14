@@ -239,6 +239,10 @@ function confirmOrder(){
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, getDocs, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import {
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",authDomain:"livraison-sablaise.firebaseapp.com",projectId:"livraison-sablaise",storageBucket:"livraison-sablaise.firebasestorage.app",messagingSenderId:"930839535214",appId:"1:930839535214:web:a3235919aa88d066bc507f",measurementId:"G-R3ZCGLQ69E"};
 const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
