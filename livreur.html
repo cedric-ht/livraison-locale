@@ -170,41 +170,46 @@ function updateUI(){
 
 /* ================= COMMANDES ================= */
 function listenOrders(){
-  const q = query(
+  if(unsubscribeOrders) unsubscribeOrders();
+
+  unsubscribeOrders = onSnapshot(
     collection(db,"commandes"),
-    where("status","in",["prete","en_livraison"])
+    snap=>{
+      ordersBox.innerHTML = "";
+
+      snap.forEach(d=>{
+        const c = d.data();
+
+        // on ne montre que les commandes utiles
+        if(
+          c.status !== "prete" &&
+          !(c.status === "en_livraison" && c.livreurId === uid)
+        ) return;
+
+        const div = document.createElement("div");
+        div.className="order";
+        div.innerHTML=`
+          <h4>Commande ${d.id}</h4>
+          <small>${c.client.nom} – ${c.client.adresse}</small>
+          <p>Total : ${c.total} €</p>
+        `;
+
+        const btn = document.createElement("button");
+        btn.className="primary";
+
+        if(c.status === "prete"){
+          btn.innerText = "Prendre la commande";
+          btn.onclick = ()=>takeOrder(d.id);
+        }else{
+          btn.innerText = "Marquer livrée";
+          btn.onclick = ()=>finishOrder(d.id);
+        }
+
+        div.appendChild(btn);
+        ordersBox.appendChild(div);
+      });
+    }
   );
-
-  unsubscribeOrders = onSnapshot(q,snap=>{
-    ordersBox.innerHTML = "";
-    snap.forEach(d=>{
-      const c = d.data();
-      if(c.status==="en_livraison" && c.livreurId !== uid) return;
-
-      const div = document.createElement("div");
-      div.className="order";
-      div.innerHTML=`
-        <h4>Commande ${d.id}</h4>
-        <small>${c.client.nom} – ${c.client.adresse}</small>
-        <p>Total : ${c.total} €</p>
-      `;
-
-      const btn = document.createElement("button");
-
-      if(c.status==="prete"){
-        btn.innerText="Prendre la commande";
-        btn.className="primary";
-        btn.onclick=()=>takeOrder(d.id);
-      }else{
-        btn.innerText="Marquer livrée";
-        btn.className="primary";
-        btn.onclick=()=>finishOrder(d.id);
-      }
-
-      div.appendChild(btn);
-      ordersBox.appendChild(div);
-    });
-  });
 }
 
 function stopOrders(){
