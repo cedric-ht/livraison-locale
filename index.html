@@ -201,7 +201,31 @@ function addToCart(commerceId, productId, name, price, stock){
   saveCart(cart); showAddedMessage();
 }
 function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
-function updateQuantity(productId,qty){let cart=getCart(); const item=cart.find(p=>p.productId===productId); if(item){ if(qty>item.stock){ showMessage("Stock limité"); return; } item.quantity=Math.max(1,qty);} saveCart(cart);}
+function updateQuantity(productId, qty){
+  let cart = getCart();
+  const index = cart.findIndex(p => p.productId === productId);
+
+  if(index === -1) return;
+
+  const item = cart[index];
+
+  if(qty > item.stock){
+    showMessage("Stock limité");
+    return;
+  }
+
+  if(qty <= 0){
+    cart.splice(index, 1); // ❌ suppression propre
+  }else{
+    item.quantity = qty;
+  }
+
+  if(cart.length === 0){
+    selectedCommerceId = null;
+  }
+
+  saveCart(cart);
+}
 function renderCart(){const container=document.getElementById("cartContent");const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;} let total=0; cart.forEach(item=>{total+=item.price*item.quantity; container.innerHTML+=`<div><strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>Quantité:<button onclick="updateQuantity('${item.productId}', ${item.quantity-1})">-</button>${item.quantity}<button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button><br><button onclick="removeFromCart('${item.productId}')">Supprimer</button></div>`}); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;}
 document.addEventListener("DOMContentLoaded", renderCart);
 
