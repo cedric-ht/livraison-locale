@@ -208,9 +208,31 @@ function loadOrders(){
   });
 }
 window.markReady = async function(orderId){
-  await updateDoc(doc(db,"commandes",orderId),{
+  const ref = doc(db,"commandes",orderId);
+  const snap = await getDoc(ref);
+
+  if(!snap.exists()) return;
+
+  const data = snap.data();
+
+  if(data.commerceId !== uid || data.status !== "en_attente"){
+    alert("Action interdite");
+    return;
+  }
+
+  await updateDoc(ref,{
     status: "prete"
   });
+}
+
+function statusLabel(status){
+  switch(status){
+    case "en_attente": return "🕓 En attente";
+    case "prete": return "🟠 Prête (attente livreur)";
+    case "en_livraison": return "🟣 En livraison";
+    case "livree": return "🟢 Livrée";
+    default: return status;
+  }
 }
 </script>
 
