@@ -191,8 +191,10 @@ function loadOrders(){
     ordersList.innerHTML = "";
     ordersHistory.innerHTML = "";
 
-    snapshot.forEach(docSnap=>{
-      const o = docSnap.data();
+    snapshot.docs
+     .reverse()
+     .forEach(docSnap=>{
+       const o = docSnap.data();
 
       const div = document.createElement("div");
       div.className = "productCard";
