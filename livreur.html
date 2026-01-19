@@ -4,64 +4,69 @@
 <meta charset="UTF-8">
 <title>Dashboard Livreur</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  font-family: system-ui, -apple-system, sans-serif;
   background:#f4f6f8;
   margin:0;
+  padding:2rem;
 }
-header{
-  background:#38b000;
-  color:white;
-  padding:1.5rem;
-  text-align:center;
-}
-button{
-  padding:0.8rem 1.2rem;
-  border:none;
-  border-radius:12px;
-  background:#38b000;
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-button:hover{opacity:0.9}
-#logout{background:#d00000}
-section{
-  max-width:600px;
-  margin:2rem auto;
+.box{
+  max-width:400px;
+  margin:auto;
   background:white;
   padding:2rem;
   border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+h2{text-align:center;margin-bottom:1rem}
+input,button{
+  width:100%;
+  padding:.8rem;
+  margin:.4rem 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+button{
+  background:#0077b6;
+  color:white;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+}
+button.off{
+  background:#adb5bd;
+}
+.hidden{display:none}
+.status{
   text-align:center;
+  font-weight:600;
+  margin-top:1rem;
 }
 </style>
 </head>
-
 <body>
 
-<header>
-  <h1>🚴‍♂️ Dashboard Livreur</h1>
-</header>
+<div class="box" id="loginBox">
+  <h2>Connexion livreur</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+</div>
 
-<section id="loading">
-  <p>Chargement…</p>
-</section>
+<div class="box hidden" id="dashboard">
+  <h2>Dashboard Livreur</h2>
 
-<section id="content" style="display:none">
-  <p>Bienvenue <strong id="email"></strong></p>
-  <p>Statut : <span id="status">Hors service</span></p>
+  <button id="toggleBtn" onclick="toggleService()">Se mettre en service</button>
+  <div class="status" id="statusText"></div>
 
-  <!-- Étape 2 viendra ici -->
-  <button id="logout">Se déconnecter</button>
-</section>
+  <button style="margin-top:1rem;background:#ff595e" onclick="logout()">Déconnexion</button>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -76,37 +81,69 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const loading = document.getElementById("loading");
-const content = document.getElementById("content");
-const emailEl = document.getElementById("email");
+let currentUid = null;
+let online = false;
 
-// 🔐 Auth + rôle
-onAuthStateChanged(auth, async user => {
+// AUTH CHECK
+onAuthStateChanged(auth, async user=>{
   if(!user){
-    window.location.href = "index.html";
+    loginBox.classList.remove("hidden");
+    dashboard.classList.add("hidden");
     return;
   }
 
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
+  currentUid = user.uid;
 
-  if(!snap.exists() || snap.data().role !== "livreur"){
+  // vérifier rôle
+  const userSnap = await getDoc(doc(db,"users",user.uid));
+  if(!userSnap.exists() || userSnap.data().role !== "livreur"){
+    alert("Accès refusé");
     await signOut(auth);
-    alert("Accès réservé aux livreurs");
-    window.location.href = "index.html";
     return;
   }
 
-  // ✅ Livreur autorisé
-  loading.style.display = "none";
-  content.style.display = "block";
-  emailEl.textContent = user.email;
+  // charger état livreur
+  const livreurRef = doc(db,"livreurs",user.uid);
+  const livreurSnap = await getDoc(livreurRef);
+  online = livreurSnap.exists() ? livreurSnap.data().online : false;
+
+  updateUI();
+  loginBox.classList.add("hidden");
+  dashboard.classList.remove("hidden");
 });
 
-// Logout
-document.getElementById("logout").onclick = () =>
-  signOut(auth).then(()=> window.location.href="index.html");
+// LOGIN
+window.login = async ()=>{
+  try{
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+  }catch(e){
+    alert("Erreur de connexion");
+  }
+};
 
+// LOGOUT
+window.logout = async ()=>{
+  await signOut(auth);
+};
+
+// TOGGLE SERVICE
+window.toggleService = async ()=>{
+  online = !online;
+  await updateDoc(doc(db,"livreurs",currentUid),{
+    online: online
+  });
+  updateUI();
+};
+
+function updateUI(){
+  toggleBtn.innerText = online ? "Se mettre hors service" : "Se mettre en service";
+  toggleBtn.className = online ? "" : "off";
+  statusText.innerText = online ? "🟢 En service" : "🔴 Hors service";
+}
 </script>
 
 </body>
