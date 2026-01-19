@@ -36,17 +36,92 @@ h2{margin-bottom:1rem}
 .product button:hover:not(:disabled){transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
 .product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed;}
 /* MINI PANIER FLOTANT */
-#cart{position: fixed;bottom: 1rem;left: 1rem;right: 1rem;z-index: 500;background: rgba(255,255,255,0.95);border-radius: 20px;max-height: 80px;overflow:hidden;padding:0.5rem 1rem;box-shadow: 0 15px 40px rgba(0,0,0,0.1);transition: max-height 0.3s ease, padding 0.3s ease;}
-#cart.expanded{max-height: 300px; padding:1rem;}
-#cartHeader{display:flex; justify-content: space-between; align-items: center;cursor:pointer;}
-#cartContent{margin-top:0.5rem;}
-#cartContent div{padding:0.8rem;border-radius:12px;margin-bottom:0.5rem;background: rgba(224,247,250,0.7);box-shadow:0 6px 15px rgba(0,0,0,0.05);transition: transform 0.3s ease;}
-#cartContent div:hover{transform: translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,0.12);}
-#cart h3{text-align:right;color:#0077b6;margin-top:0.5rem;}
-#cart button{margin:0.2rem; padding:0.4rem 0.7rem; border:none; border-radius:8px; cursor:pointer; background: linear-gradient(135deg,#00b4d8,#0077b6); color:white; font-weight:600; transition:all 0.3s ease;}
-#cart button:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
-#cart .clear-btn{width:100%;background:#ff595e;color:white;border:none;padding:0.7rem;border-radius:12px;cursor:pointer;font-weight:600;margin-top:0.5rem;}
-#cart .validate-btn{width:100%;background: linear-gradient(135deg,#38b000,#70e000);color:white;border:none;padding:0.8rem;border-radius:14px;cursor:pointer;font-weight:700;margin-top:0.5rem;}
+#cart {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 500;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  height: auto;
+  max-height: 80vh;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+#cartHeader {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor:pointer;
+}
+
+#cartContent {
+  max-height: 45vh;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+#cart:not(.expanded) #cartContent,
+#cart:not(.expanded) .clear-btn,
+#cart:not(.expanded) .validate-btn {
+  display: none;
+}
+
+#cartContent div {
+  padding:0.8rem;
+  border-radius:12px;
+  margin-bottom:0.5rem;
+  background: rgba(224,247,250,0.7);
+  box-shadow:0 6px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+#cartContent div:hover {
+  transform: translateY(-2px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+#cart h3 {
+  text-align:right;
+  color:#0077b6;
+  margin-top:0.5rem;
+}
+
+#cart button {
+  margin:0.2rem;
+  padding:0.4rem 0.7rem;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background: linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  font-weight:600;
+  transition:all 0.3s ease;
+}
+
+#cart button:hover {
+  transform:scale(1.05);
+  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+#cart .clear-btn {
+  width:100%;
+  background:#ff595e;
+  padding:0.7rem;
+  border-radius:12px;
+  margin-top:0.5rem;
+}
+
+#cart .validate-btn {
+  width:100%;
+  background: linear-gradient(135deg,#38b000,#70e000);
+  padding:0.8rem;
+  border-radius:14px;
+  font-weight:700;
+  margin-top:0.5rem;
+}
 /* FORMULAIRE LIVRAISON */
 #checkoutForm{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:2rem;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:1001;max-width:400px;width:90%;}
 #checkoutForm input{width:100%;padding:0.7rem;margin-bottom:0.7rem;border-radius:10px;border:1px solid #ccc;}
