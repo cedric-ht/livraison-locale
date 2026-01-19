@@ -42,6 +42,9 @@ form input {width:100%; padding:0.6rem; margin-bottom:0.6rem; border-radius:10px
 
 <h2>Commandes reçues</h2>
 <div id="ordersList"></div>
+
+<h2>Historique des commandes</h2>
+<div id="ordersHistory"></div>
 </section>
 
 <script type="module">
@@ -168,6 +171,7 @@ window.deleteProduct = async id => {
 
 function loadOrders(){
   const ordersList = document.getElementById("ordersList");
+  const ordersHistory = document.getElementById("ordersHistory");
 
   const q = query(
     collection(db,"commandes"),
@@ -176,6 +180,7 @@ function loadOrders(){
 
   onSnapshot(q, snapshot=>{
     ordersList.innerHTML="";
+    ordersHistory.innerHTML="";
 
     snapshot.forEach(docSnap=>{
       const o = docSnap.data();
@@ -203,7 +208,12 @@ function loadOrders(){
         ${action}
       `;
 
-      ordersList.appendChild(div);
+      // 👉 séparation ici
+      if(o.status === "livree"){
+        ordersHistory.appendChild(div);
+      }else{
+        ordersList.appendChild(div);
+      }
     });
   });
 }
