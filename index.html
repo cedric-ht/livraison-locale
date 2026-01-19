@@ -226,7 +226,44 @@ function updateQuantity(productId, qty){
 
   saveCart(cart);
 }
-function renderCart(){const container=document.getElementById("cartContent");const cart=getCart(); container.innerHTML=""; if(cart.length===0){container.innerHTML="<p>Panier vide</p>"; return;} let total=0; cart.forEach(item=>{total+=item.price*item.quantity; container.innerHTML+=`<div><strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>Quantité:<button onclick="updateQuantity('${item.productId}', ${item.quantity-1})">-</button>${item.quantity}<button onclick="updateQuantity('${item.productId}', ${item.quantity+1})">+</button><br><button onclick="removeFromCart('${item.productId}')">Supprimer</button></div>`}); container.innerHTML+=`<h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>`;}
+function renderCart(){
+  const cartBox = document.getElementById("cart");
+  const container = document.getElementById("cartContent");
+  const cart = getCart();
+
+  container.innerHTML = "";
+
+  if(cart.length === 0){
+    cartBox.classList.remove("expanded");
+    container.innerHTML = "<p>Panier vide</p>";
+    return;
+  }
+
+  cartBox.classList.add("expanded");
+
+  let total = 0;
+
+  cart.forEach(item=>{
+    total += item.price * item.quantity;
+
+    container.innerHTML += `
+      <div>
+        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
+        Quantité :
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">-</button>
+        ${item.quantity}
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
+        <br>
+        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+      </div>
+    `;
+  });
+
+  container.innerHTML += `
+    <h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>
+  `;
+}
+
 document.addEventListener("DOMContentLoaded", renderCart);
 
 // MINI PANIER EXPAND/RETRACT
