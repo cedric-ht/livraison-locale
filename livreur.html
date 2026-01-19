@@ -132,6 +132,11 @@ onAuthStateChanged(auth, async user=>{
   }
 
   updateUI();
+
+  if(online){
+    listenOrders();
+  }
+
   loginBox.classList.add("hidden");
   dashboard.classList.remove("hidden");
 });
