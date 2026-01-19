@@ -169,25 +169,38 @@ window.deleteProduct = async id => {
 function loadOrders(){
   const ordersList = document.getElementById("ordersList");
 
-  onSnapshot(collection(db,"commandes"), snapshot=>{
+  const q = query(
+    collection(db,"commandes"),
+    where("commerceId","==",uid)
+  );
+
+  onSnapshot(q, snapshot=>{
     ordersList.innerHTML="";
 
     snapshot.forEach(docSnap=>{
       const o = docSnap.data();
-      if(o.commerceId !== uid) return;
 
       const div = document.createElement("div");
       div.className = "productCard";
+
+      let action = "";
+
+      if(o.status === "en_attente"){
+        action = `<button onclick="markReady('${docSnap.id}')">Marquer prête</button>`;
+      }else if(o.status === "prete"){
+        action = `<em>En attente de livreur</em>`;
+      }else if(o.status === "en_livraison"){
+        action = `<em>Livreur en route</em>`;
+      }else{
+        action = `<em>Commande terminée</em>`;
+      }
 
       div.innerHTML = `
         <strong>Commande</strong><br>
         ${o.client.nom}<br>
         Total : ${o.total.toFixed(2)} €<br>
-        Statut : <strong>${o.status}</strong><br><br>
-        ${o.status === "en_attente"
-          ? `<button onclick="markReady('${docSnap.id}')">Commande prête</button>`
-          : `<em>Déjà prête</em>`
-        }
+        Statut : <strong>${statusLabel(o.status)}</strong><br><br>
+        ${action}
       `;
 
       ordersList.appendChild(div);
