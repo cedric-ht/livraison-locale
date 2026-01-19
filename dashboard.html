@@ -179,8 +179,9 @@ function loadOrders(){
   );
 
   onSnapshot(q, snapshot=>{
-    ordersList.innerHTML="";
-    ordersHistory.innerHTML="";
+    // reset UI
+    ordersList.innerHTML = "";
+    ordersHistory.innerHTML = "";
 
     snapshot.forEach(docSnap=>{
       const o = docSnap.data();
@@ -192,11 +193,14 @@ function loadOrders(){
 
       if(o.status === "en_attente"){
         action = `<button onclick="markReady('${docSnap.id}')">Marquer prête</button>`;
-      }else if(o.status === "prete"){
+      }
+      else if(o.status === "prete"){
         action = `<em>En attente de livreur</em>`;
-      }else if(o.status === "en_livraison"){
+      }
+      else if(o.status === "en_livraison"){
         action = `<em>Livreur en route</em>`;
-      }else{
+      }
+      else{
         action = `<em>Commande terminée</em>`;
       }
 
@@ -208,11 +212,11 @@ function loadOrders(){
         ${action}
       `;
 
-      // 👉 séparation ici
+      // 🔽 ICI EST LA LOGIQUE IMPORTANTE
       if(o.status === "livree"){
-        ordersHistory.appendChild(div);
+        ordersHistory.appendChild(div); // historique
       }else{
-        ordersList.appendChild(div);
+        ordersList.appendChild(div); // en cours
       }
     });
   });
