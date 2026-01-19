@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Livreur</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f4f6f8;
+  margin:0;
+}
+header{
+  background:#38b000;
+  color:white;
+  padding:1.5rem;
+  text-align:center;
+}
+button{
+  padding:0.8rem 1.2rem;
+  border:none;
+  border-radius:12px;
+  background:#38b000;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover{opacity:0.9}
+#logout{background:#d00000}
+section{
+  max-width:600px;
+  margin:2rem auto;
+  background:white;
+  padding:2rem;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚴‍♂️ Dashboard Livreur</h1>
+</header>
+
+<section id="loading">
+  <p>Chargement…</p>
+</section>
+
+<section id="content" style="display:none">
+  <p>Bienvenue <strong id="email"></strong></p>
+  <p>Statut : <span id="status">Hors service</span></p>
+
+  <!-- Étape 2 viendra ici -->
+  <button id="logout">Se déconnecter</button>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain: "livraison-sablaise.firebaseapp.com",
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const loading = document.getElementById("loading");
+const content = document.getElementById("content");
+const emailEl = document.getElementById("email");
+
+// 🔐 Auth + rôle
+onAuthStateChanged(auth, async user => {
+  if(!user){
+    window.location.href = "index.html";
+    return;
+  }
+
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if(!snap.exists() || snap.data().role !== "livreur"){
+    await signOut(auth);
+    alert("Accès réservé aux livreurs");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // ✅ Livreur autorisé
+  loading.style.display = "none";
+  content.style.display = "block";
+  emailEl.textContent = user.email;
+});
+
+// Logout
+document.getElementById("logout").onclick = () =>
+  signOut(auth).then(()=> window.location.href="index.html");
+
+</script>
+
+</body>
+</html>
