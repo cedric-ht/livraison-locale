@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Dashboard Livreur</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
   font-family: system-ui, -apple-system, sans-serif;
@@ -12,7 +13,7 @@ body{
   padding:2rem;
 }
 .box{
-  max-width:400px;
+  max-width:800px;
   margin:auto;
   background:white;
   padding:2rem;
@@ -20,38 +21,42 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
 h2{text-align:center;margin-bottom:1rem}
-input,button{
-  width:100%;
-  padding:.8rem;
-  margin:.4rem 0;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
 button{
-  background:#0077b6;
-  color:white;
+  padding:.7rem 1rem;
+  border-radius:10px;
   border:none;
-  font-weight:600;
   cursor:pointer;
+  font-weight:600;
 }
-button.off{
-  background:#adb5bd;
-}
+.primary{background:#0077b6;color:white}
+.danger{background:#ff595e;color:white}
+.off{background:#adb5bd;color:white}
 .hidden{display:none}
+
+.order{
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:1rem;
+  margin:1rem 0;
+}
+.order h4{margin:.2rem 0}
+.order small{color:#666}
+
 .status{
   text-align:center;
   font-weight:600;
-  margin-top:1rem;
+  margin:1rem 0;
 }
 </style>
 </head>
+
 <body>
 
 <div class="box" id="loginBox">
   <h2>Connexion livreur</h2>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Mot de passe">
-  <button onclick="login()">Se connecter</button>
+  <button class="primary" onclick="login()">Se connecter</button>
 </div>
 
 <div class="box hidden" id="dashboard">
@@ -60,31 +65,46 @@ button.off{
   <button id="toggleBtn" onclick="toggleService()">Se mettre en service</button>
   <div class="status" id="statusText"></div>
 
-  <button style="margin-top:1rem;background:#ff595e" onclick="logout()">Déconnexion</button>
+  <div id="ordersBox"></div>
+
+  <button class="danger" onclick="logout()">Déconnexion</button>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
-  projectId: "livraison-sablaise",
-  storageBucket: "livraison-sablaise.firebasestorage.app",
-  messagingSenderId: "930839535214",
-  appId: "1:930839535214:web:a3235919aa88d066bc507f"
+  projectId: "livraison-sablaise"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let currentUid = null;
+let uid = null;
 let online = false;
+let unsubscribeOrders = null;
 
-// AUTH CHECK
+/* ================= AUTH ================= */
 onAuthStateChanged(auth, async user=>{
   if(!user){
     loginBox.classList.remove("hidden");
@@ -92,57 +112,112 @@ onAuthStateChanged(auth, async user=>{
     return;
   }
 
-  currentUid = user.uid;
+  uid = user.uid;
 
-  // vérifier rôle
-  const userSnap = await getDoc(doc(db,"users",user.uid));
+  const userSnap = await getDoc(doc(db,"users",uid));
   if(!userSnap.exists() || userSnap.data().role !== "livreur"){
     alert("Accès refusé");
     await signOut(auth);
     return;
   }
 
-  // charger état livreur
-  const livreurRef = doc(db,"livreurs",user.uid);
-  const livreurSnap = await getDoc(livreurRef);
-  online = livreurSnap.exists() ? livreurSnap.data().online : false;
+  const livreurRef = doc(db,"livreurs",uid);
+  const snap = await getDoc(livreurRef);
+
+  if(!snap.exists()){
+    await setDoc(livreurRef,{online:false,active:true});
+    online = false;
+  }else{
+    online = snap.data().online;
+  }
 
   updateUI();
   loginBox.classList.add("hidden");
   dashboard.classList.remove("hidden");
 });
 
-// LOGIN
+/* ================= LOGIN ================= */
 window.login = async ()=>{
   try{
-    await signInWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
+    await signInWithEmailAndPassword(auth,email.value,password.value);
   }catch(e){
     alert("Erreur de connexion");
   }
 };
 
-// LOGOUT
 window.logout = async ()=>{
   await signOut(auth);
 };
 
-// TOGGLE SERVICE
+/* ================= SERVICE ================= */
 window.toggleService = async ()=>{
   online = !online;
-  await updateDoc(doc(db,"livreurs",currentUid),{
-    online: online
-  });
+  await updateDoc(doc(db,"livreurs",uid),{online});
   updateUI();
+  online ? listenOrders() : stopOrders();
 };
 
 function updateUI(){
   toggleBtn.innerText = online ? "Se mettre hors service" : "Se mettre en service";
-  toggleBtn.className = online ? "" : "off";
+  toggleBtn.className = online ? "primary" : "off";
   statusText.innerText = online ? "🟢 En service" : "🔴 Hors service";
+}
+
+/* ================= COMMANDES ================= */
+function listenOrders(){
+  const q = query(
+    collection(db,"commandes"),
+    where("status","in",["prete","en_livraison"])
+  );
+
+  unsubscribeOrders = onSnapshot(q,snap=>{
+    ordersBox.innerHTML = "";
+    snap.forEach(d=>{
+      const c = d.data();
+      if(c.status==="en_livraison" && c.livreurId !== uid) return;
+
+      const div = document.createElement("div");
+      div.className="order";
+      div.innerHTML=`
+        <h4>Commande ${d.id}</h4>
+        <small>${c.client.nom} – ${c.client.adresse}</small>
+        <p>Total : ${c.total} €</p>
+      `;
+
+      const btn = document.createElement("button");
+
+      if(c.status==="prete"){
+        btn.innerText="Prendre la commande";
+        btn.className="primary";
+        btn.onclick=()=>takeOrder(d.id);
+      }else{
+        btn.innerText="Marquer livrée";
+        btn.className="primary";
+        btn.onclick=()=>finishOrder(d.id);
+      }
+
+      div.appendChild(btn);
+      ordersBox.appendChild(div);
+    });
+  });
+}
+
+function stopOrders(){
+  ordersBox.innerHTML="";
+  if(unsubscribeOrders) unsubscribeOrders();
+}
+
+async function takeOrder(id){
+  await updateDoc(doc(db,"commandes",id),{
+    status:"en_livraison",
+    livreurId: uid
+  });
+}
+
+async function finishOrder(id){
+  await updateDoc(doc(db,"commandes",id),{
+    status:"livree"
+  });
 }
 </script>
 
