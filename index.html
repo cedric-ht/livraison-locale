@@ -564,7 +564,7 @@ onAuthStateChanged(auth, user=>{
   else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
 
-async function renderClientOrders(){
+window.renderClientOrders = async function(){
   const container = document.getElementById("ordersClient");
   container.innerHTML = "Chargement...";
 
