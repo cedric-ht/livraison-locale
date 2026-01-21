@@ -282,12 +282,17 @@ function showPage(p){
   document.getElementById(p).style.display = 'block';
 
   if(p === 'mesCommandes' && window.renderClientOrders) {
-  window.renderClientOrders();
-}
+    window.renderClientOrders();
+  }
+} // ← CETTE LIGNE MANQUAIT
 
 // MESSAGE
-function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.classList.add("show"); setTimeout(()=>{el.classList.remove("show");},2000);}
-function showAddedMessage(){const el=document.getElementById("addedMessage"); el.classList.add("show"); setTimeout(()=>{el.classList.remove("show");},1000);}
+function showMessage(msg){
+  const el=document.getElementById("errorMessage");
+  el.innerText=msg;
+  el.classList.add("show");
+  setTimeout(()=>{el.classList.remove("show");},2000);
+}
 
 // PANIER
 let selectedCommerceId=null;
