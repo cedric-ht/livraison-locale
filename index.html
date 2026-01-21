@@ -278,7 +278,10 @@ function showPage(p){
     const el = document.getElementById(id);
     if(el) el.style.display = 'none';
   });
+
   document.getElementById(p).style.display = 'block';
+
+  if(p === 'mesCommandes') renderClientOrders();
 }
 
 // MESSAGE
@@ -498,6 +501,7 @@ window.confirmOrder = async function(){
     showMessage("Commande envoyée ✅");
     clearCart();
     closeCheckoutForm();
+    showPage('mesCommandes');
 
   }catch(e){
     console.error(e);
@@ -556,14 +560,38 @@ onAuthStateChanged(auth, user=>{
   else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
 
-function getOrders(){
-  return JSON.parse(localStorage.getItem("orders")) || [];
-}
+async function renderClientOrders(){
+  const container = document.getElementById("ordersClient");
+  container.innerHTML = "Chargement...";
 
-function saveOrder(order){
-  const orders = getOrders();
-  orders.push(order);
-  localStorage.setItem("orders", JSON.stringify(orders));
+  if(!window.currentUser){
+    container.innerHTML = "<p>Veuillez vous connecter</p>";
+    return;
+  }
+
+  const snapshot = await getDocs(collection(db, "commandes"));
+
+  container.innerHTML = "";
+
+  let hasOrders = false;
+
+  snapshot.forEach(docSnap=>{
+    const o = docSnap.data();
+    if(o.clientId === window.currentUser.uid){
+      hasOrders = true;
+      container.innerHTML += `
+        <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
+          <strong>Commande</strong><br>
+          Statut : <b>${o.status}</b><br>
+          Total : ${o.total.toFixed(2)} €
+        </div>
+      `;
+    }
+  });
+
+  if(!hasOrders){
+    container.innerHTML = "<p>Aucune commande pour le moment</p>";
+  }
 }
 
 loadCategories();
