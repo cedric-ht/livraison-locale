@@ -460,9 +460,9 @@ window.confirmOrder = async function(){
     return;
   }
 
-  const name = custName.value.trim();
-  const phone = custPhone.value.trim();
-  const address = custAddress.value.trim();
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
 
   if(!name || !phone || !address){
     showMessage("Veuillez remplir tous les champs");
