@@ -273,7 +273,13 @@ h2{margin-bottom:1rem}
 // MENU et navigation
 function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
 function nav(p){toggleMenu(); showPage(p);}
-function showPage(p){['accueil','apropos','contact','commander'].forEach(id=>document.getElementById(id).style.display='none'); document.getElementById(p).style.display='block';}
+function showPage(p){
+  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  document.getElementById(p).style.display = 'block';
+}
 
 // MESSAGE
 function showMessage(msg){const el=document.getElementById("errorMessage"); el.innerText=msg; el.classList.add("show"); setTimeout(()=>{el.classList.remove("show");},2000);}
