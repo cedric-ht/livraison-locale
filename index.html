@@ -500,7 +500,7 @@ window.confirmOrder = async function(){
       })),
       total,
       status: "payee",
-      createdAt: serverTimestamp()
+      createdAt: new Date()
     });
 
     showMessage("Commande envoyée ✅");
