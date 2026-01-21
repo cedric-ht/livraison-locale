@@ -186,6 +186,22 @@ h2{margin-bottom:1rem}
   font-weight: 700;
 }
 
+.status-bar{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.status-step{
+  flex:1;
+  height:8px;
+  border-radius:6px;
+  background:#ddd;
+}
+
+.status-step.active{
+  background:#38b000;
+}
 
 </style>
 
@@ -598,13 +614,23 @@ window.renderClientOrders = function(){
     snapshot.forEach(docSnap=>{
       const o = docSnap.data();
 
-      container.innerHTML += `
-        <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
-          <strong>Commande</strong><br>
-          Statut : <b>${o.status}</b><br>
-          Total : ${o.total.toFixed(2)} €
-        </div>
-      `;
+      const steps = ["en_attente","acceptee","preparation","livraison","livree"];
+const currentIndex = steps.indexOf(o.status);
+
+container.innerHTML += `
+  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
+    <strong>Commande</strong><br>
+    Total : ${o.total.toFixed(2)} €<br>
+
+    <div class="status-bar">
+      ${steps.map((s,i)=>`
+        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
+      `).join("")}
+    </div>
+
+    <small>Statut : ${o.status.replace("_"," ")}</small>
+  </div>
+`;
     });
   });
 }
