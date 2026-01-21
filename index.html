@@ -570,25 +570,34 @@ onAuthStateChanged(auth, user=>{
   else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
 
-window.renderClientOrders = async function(){
+import { query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+window.renderClientOrders = function(){
   const container = document.getElementById("ordersClient");
-  container.innerHTML = "Chargement...";
 
   if(!window.currentUser){
     container.innerHTML = "<p>Veuillez vous connecter</p>";
     return;
   }
 
-  const snapshot = await getDocs(collection(db, "commandes"));
+  container.innerHTML = "Chargement...";
 
-  container.innerHTML = "";
+  const q = query(
+    collection(db, "commandes"),
+    where("clientId", "==", window.currentUser.uid)
+  );
 
-  let hasOrders = false;
+  onSnapshot(q, (snapshot)=>{
+    container.innerHTML = "";
 
-  snapshot.forEach(docSnap=>{
-    const o = docSnap.data();
-    if(o.clientId === window.currentUser.uid){
-      hasOrders = true;
+    if(snapshot.empty){
+      container.innerHTML = "<p>Aucune commande pour le moment</p>";
+      return;
+    }
+
+    snapshot.forEach(docSnap=>{
+      const o = docSnap.data();
+
       container.innerHTML += `
         <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
           <strong>Commande</strong><br>
@@ -596,12 +605,8 @@ window.renderClientOrders = async function(){
           Total : ${o.total.toFixed(2)} €
         </div>
       `;
-    }
+    });
   });
-
-  if(!hasOrders){
-    container.innerHTML = "<p>Aucune commande pour le moment</p>";
-  }
 }
 
 loadCategories();
