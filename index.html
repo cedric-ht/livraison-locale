@@ -556,6 +556,16 @@ onAuthStateChanged(auth, user=>{
   else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
 
+function getOrders(){
+  return JSON.parse(localStorage.getItem("orders")) || [];
+}
+
+function saveOrder(order){
+  const orders = getOrders();
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+
 loadCategories();
 </script>
 
