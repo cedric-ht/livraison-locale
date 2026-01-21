@@ -281,7 +281,8 @@ function showPage(p){
 
   document.getElementById(p).style.display = 'block';
 
-  if(p === 'mesCommandes') renderClientOrders();
+  if(p === 'mesCommandes' && window.renderClientOrders) {
+  window.renderClientOrders();
 }
 
 // MESSAGE
