@@ -614,7 +614,7 @@ window.renderClientOrders = function(){
     snapshot.forEach(docSnap=>{
       const o = docSnap.data();
 
-      const steps = ["en_attente","prete","livraison","livree"];
+      const steps = ["en_attente","prete","en_livraison","livree"];
 const currentIndex = steps.indexOf(o.status);
 
 container.innerHTML += `
@@ -640,5 +640,6 @@ loadCategories();
 
 </body>
 </html>
+
 
 
