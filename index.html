@@ -370,9 +370,14 @@ function renderCart(){
 document.addEventListener("DOMContentLoaded", renderCart);
 
 // MINI PANIER EXPAND/RETRACT
-document.getElementById("cartHeader").onclick = ()=>{
-  const cart=document.getElementById("cart"); cart.classList.toggle("expanded");
-  const arrow=document.getElementById("toggleCart"); arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
+const cartHeader = document.getElementById("cartHeader");
+if(cartHeader){
+  cartHeader.onclick = ()=>{
+    const cart=document.getElementById("cart");
+    cart.classList.toggle("expanded");
+    const arrow=document.getElementById("toggleCart");
+    arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
+  }
 }
 
 // FORMULAIRE LIVRAISON
