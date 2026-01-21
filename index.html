@@ -522,7 +522,7 @@ window.confirmOrder = async function(){
       })),
       total,
       status: "en_attente",
-      createdAt: new Date()
+      createdAt: serverTimestamp()
     });
 
     showMessage("Commande envoyée ✅");
