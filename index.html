@@ -509,8 +509,7 @@ window.confirmOrder = async function(){
     showPage('mesCommandes');
 
   }catch(e){
-    console.error(e);
-    showMessage("Erreur commande");
+    showMessage("Erreur : " + e.message);
   }
 };
 
