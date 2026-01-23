@@ -475,17 +475,45 @@ function showCommercesByCategory(cat){
 }
 
 function showProducts(commerceId){
-  productList.innerHTML="<h3>Produits</h3>";
-  const productsRef=collection(db,"commerces",commerceId,"produits");
-  onSnapshot(productsRef,snapshot=>{
-    productList.innerHTML="<h3>Produits</h3>";
-    snapshot.forEach(docSnap=>{
-      const p=docSnap.data(); const stock = p.stock || 0;
-      const div=document.createElement("div"); div.className="product";
-      const price=p.price.toString().replace(".",",");
-      div.innerHTML=`<span>${p.name} - ${price}€</span><span class="stock">Stock : ${stock}</span>`;
-      const btn=document.createElement("button"); btn.innerText="Ajouter au panier"; btn.disabled=!p.available || stock<1;
-      btn.onclick=()=>addToCart(commerceId,docSnap.id,p.name,p.price,stock);
+  productList.innerHTML = "<h3>Produits</h3>";
+
+  // 🔴 couper l'ancien listener s'il existe
+  if(unsubscribeProducts){
+    unsubscribeProducts();
+  }
+
+  const productsRef = collection(db,"commerces",commerceId,"produits");
+
+  // ✅ garder le nouveau listener
+  unsubscribeProducts = onSnapshot(productsRef, snapshot => {
+    productList.innerHTML = "<h3>Produits</h3>";
+
+    snapshot.forEach(docSnap => {
+      const p = docSnap.data();
+      const stock = p.stock || 0;
+
+      const div = document.createElement("div");
+      div.className = "product";
+
+      const price = p.price.toString().replace(".",",");
+
+      div.innerHTML = `
+        <span>${p.name} - ${price}€</span>
+        <span class="stock">Stock : ${stock}</span>
+      `;
+
+      const btn = document.createElement("button");
+      btn.innerText = "Ajouter au panier";
+      btn.disabled = !p.available || stock < 1;
+
+      btn.onclick = () => addToCart(
+        commerceId,
+        docSnap.id,
+        p.name,
+        p.price,
+        stock
+      );
+
       div.appendChild(btn);
       productList.appendChild(div);
     });
