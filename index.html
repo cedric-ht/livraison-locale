@@ -561,10 +561,18 @@ document.getElementById("custAddress").addEventListener("input", (e) => {
 
       div.onclick = () => {
         document.getElementById("custAddress").value = f.properties.formatted;
-        selectedAddressLatLng = {
-          lat: f.geometry.coordinates[1],
-          lng: f.geometry.coordinates[0]
-        };
+        if(
+  !f.properties.housenumber &&
+  !f.properties.street
+){
+  showMessage("Veuillez choisir une adresse précise (rue + numéro)");
+  return;
+}
+
+selectedAddressLatLng = {
+  lat: f.geometry.coordinates[1],
+  lng: f.geometry.coordinates[0]
+};
         box.style.display = "none";
       };
 
