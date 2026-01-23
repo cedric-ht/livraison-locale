@@ -495,6 +495,8 @@ function showProducts(commerceId){
 let selectedAddressLatLng = null;
 
 document.getElementById("custAddress").addEventListener("input", async (e) => {
+  selectedAddressLatLng = null;
+  
   const query = e.target.value;
   const box = document.getElementById("addressSuggestions");
 
