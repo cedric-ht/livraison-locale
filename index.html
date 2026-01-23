@@ -539,7 +539,7 @@ document.getElementById("custAddress").addEventListener("input", (e) => {
   }
 
   addressTimeout = setTimeout(async () => {
-    const apiKey = "TA_CLE_GEOAPIFY";
+    const apiKey = "42bb53accb9048248243b21b99a5a18a";
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
 
     const res = await fetch(url);
@@ -737,6 +737,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
