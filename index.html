@@ -276,9 +276,20 @@ h2{margin-bottom:1rem}
 <div id="checkoutOverlay" onclick="closeCheckoutForm()"></div>
 <div id="checkoutForm">
   <h3>Informations de livraison</h3>
+
   <input type="text" id="custName" placeholder="Nom et prénom" required>
   <input type="text" id="custPhone" placeholder="Téléphone" required>
-  <input type="text" id="custAddress" placeholder="Adresse de livraison" required>
+
+  <input type="text" id="custAddress" placeholder="Adresse de livraison" required autocomplete="off">
+
+  <div id="addressSuggestions"
+       style="background:#fff;border:1px solid #ccc;border-radius:10px;
+              display:none;max-height:150px;overflow-y:auto;margin-bottom:0.7rem;">
+  </div>
+
+  <input type="text" id="custAddressExtra"
+         placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
+
   <button onclick="confirmOrder()">Confirmer et payer</button>
 </div>
 
@@ -480,6 +491,46 @@ function showProducts(commerceId){
     });
   });
 }
+
+let selectedAddressLatLng = null;
+
+document.getElementById("custAddress").addEventListener("input", async (e) => {
+  const query = e.target.value;
+  const box = document.getElementById("addressSuggestions");
+
+  if(query.length < 3){
+    box.style.display = "none";
+    return;
+  }
+
+  const apiKey = "TA_CLE_GEOAPIFY";
+  const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&apiKey=${apiKey}`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  box.innerHTML = "";
+  box.style.display = "block";
+
+  data.features.forEach(f => {
+    const div = document.createElement("div");
+    div.style.padding = "0.5rem";
+    div.style.cursor = "pointer";
+    div.innerText = f.properties.formatted;
+
+    div.onclick = () => {
+      document.getElementById("custAddress").value = f.properties.formatted;
+      selectedAddressLatLng = {
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0]
+      };
+      box.style.display = "none";
+    };
+
+    box.appendChild(div);
+  });
+});
+
 window.confirmOrder = async function(){
   const user = window.currentUser;
   if(!user){
@@ -495,6 +546,10 @@ window.confirmOrder = async function(){
     showMessage("Veuillez remplir tous les champs");
     return;
   }
+  if(!selectedAddressLatLng){
+  showMessage("Veuillez sélectionner une adresse valide");
+  return;
+}
 
   const cart = getCart();
   if(cart.length === 0){
