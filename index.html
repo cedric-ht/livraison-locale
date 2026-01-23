@@ -536,8 +536,7 @@ document.getElementById("custAddress").addEventListener("input", async (e) => {
   }
 
   const apiKey = "42bb53accb9048248243b21b99a5a18a";
-  const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
-
+  const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=rect:-2.35,46.15,-0.75,47.15&apiKey=${apiKey}`;
   const res = await fetch(url);
   const data = await res.json();
 
