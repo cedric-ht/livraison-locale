@@ -587,6 +587,33 @@ window.confirmOrder = async function(){
     showMessage("Vous devez être connecté");
     return;
   }
+  // 🔎 récupérer le commerce
+const commerceRef = doc(db, "commerces", commerceId);
+const commerceSnap = await getDoc(commerceRef);
+
+if(!commerceSnap.exists()){
+  showMessage("Commerce introuvable");
+  return;
+}
+
+const commerce = commerceSnap.data();
+
+if(!commerce.location){
+  showMessage("Position du commerce non définie");
+  return;
+}
+
+const distance = getDistanceKm(
+  commerce.location.lat,
+  commerce.location.lng,
+  selectedAddressLatLng.lat,
+  selectedAddressLatLng.lng
+);
+
+if(distance > 10){
+  showMessage("Adresse hors zone de livraison (10 km max)");
+  return;
+}
 
   const name = document.getElementById("custName").value.trim();
   const phone = document.getElementById("custPhone").value.trim();
