@@ -569,7 +569,7 @@ document.getElementById("custAddress").addEventListener("input", (e) => {
       div.style.cursor = "pointer";
       div.innerText = f.properties.formatted;
 
-      div.onclick = () => {
+      div.onclick = async () => {
         document.getElementById("custAddress").value = f.properties.formatted;
         if(
   !f.properties.housenumber &&
