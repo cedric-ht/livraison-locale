@@ -268,6 +268,7 @@ h2{margin-bottom:1rem}
 <div id="cart">
   <div id="cartHeader"><strong>🛒 Panier</strong><span id="toggleCart">&#9650;</span></div>
   <div id="cartContent"></div>
+  <div id="cartTotals"></div>
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
   <button class="validate-btn" onclick="openCheckoutForm()">Valider la commande</button>
 </div>
@@ -379,10 +380,10 @@ function renderCart(){
 
   cartBox.classList.add("expanded");
 
-  let total = 0;
+  let itemsTotal = 0;
 
   cart.forEach(item=>{
-    total += item.price * item.quantity;
+    itemsTotal += item.price * item.quantity;
 
     container.innerHTML += `
       <div>
