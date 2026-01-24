@@ -398,7 +398,13 @@ function renderCart(){
     `;
   });
 
-  container.innerHTML += `
+  const delivery = window.currentDeliveryPrice;
+
+container.innerHTML += `
+  <h3>Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3>
+  <h3>Livraison : ${delivery ? delivery.toFixed(2).replace(".",",") + " €" : "—"}</h3>
+  <h3>Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".",",")} €</h3>
+`;
     <h3>Total : ${total.toFixed(2).replace(".",",")} €</h3>
   `;
 }
