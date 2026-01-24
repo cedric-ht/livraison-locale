@@ -677,7 +677,9 @@ const distance = getDistanceKm(
     return;
   }
 
-  const total = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
+  const itemsTotal = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
+const deliveryPrice = getDeliveryPrice(distance);
+const total = itemsTotal + deliveryPrice;
 
   try{
     await addDoc(collection(db,"commandes"),{
