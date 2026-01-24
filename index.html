@@ -683,19 +683,26 @@ const total = itemsTotal + deliveryPrice;
 
   try{
     await addDoc(collection(db,"commandes"),{
-      commerceId,
-      clientId: user.uid,
-      client: { nom: name, tel: phone, adresse: address },
-      items: cart.map(i=>({
-        productId: i.productId,
-        name: i.name,
-        price: i.price,
-        qty: i.quantity
-      })),
-      total,
-      status: "en_attente",
-      createdAt: serverTimestamp()
-    });
+  commerceId,
+  clientId: user.uid,
+  client: {
+    nom: name,
+    tel: phone,
+    adresse: address
+  },
+  items: cart.map(i => ({
+    productId: i.productId,
+    name: i.name,
+    price: i.price,
+    qty: i.quantity
+  })),
+  itemsTotal,
+  deliveryPrice,
+  distanceKm: distance,
+  total,
+  status: "en_attente",
+  createdAt: serverTimestamp()
+});
 
     showMessage("Commande envoyée ✅");
     clearCart();
