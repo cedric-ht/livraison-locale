@@ -289,6 +289,8 @@ h2{margin-bottom:1rem}
 
   <input type="text" id="custAddressExtra"
          placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
+        
+  <p id="deliveryPrice" style="margin-bottom:0.7rem;font-weight:600;"></p>
 
   <button onclick="confirmOrder()">Confirmer et payer</button>
 </div>
@@ -581,6 +583,35 @@ selectedAddressLatLng = {
   lat: f.geometry.coordinates[1],
   lng: f.geometry.coordinates[0]
 };
+
+const cart = getCart();
+if(cart.length === 0) return;
+
+const commerceId = cart[0].commerceId;
+const commerceRef = doc(db, "commerces", commerceId);
+const commerceSnap = await getDoc(commerceRef);
+
+if(!commerceSnap.exists()) return;
+
+const commerce = commerceSnap.data();
+
+const distance = getDistanceKm(
+  commerce.location.lat,
+  commerce.location.lng,
+  selectedAddressLatLng.lat,
+  selectedAddressLatLng.lng
+);
+
+if(distance > 10){
+  showMessage("Adresse hors zone de livraison (10 km max)");
+  return;
+}
+
+const deliveryPrice = getDeliveryPrice(distance);
+
+document.getElementById("deliveryPrice").innerText =
+  `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
+  
         box.style.display = "none";
       };
 
