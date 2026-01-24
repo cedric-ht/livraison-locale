@@ -427,7 +427,15 @@ function closeCheckoutForm(){
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import {
   addDoc,
@@ -587,33 +595,47 @@ window.confirmOrder = async function(){
     showMessage("Vous devez être connecté");
     return;
   }
+
+  const cart = getCart();
+  if(cart.length === 0){
+    showMessage("Panier vide");
+    return;
+  }
+
+  const commerceId = cart[0].commerceId;
+
+  if(!selectedAddressLatLng){
+    showMessage("Veuillez sélectionner une adresse valide");
+    return;
+  }
+
   // 🔎 récupérer le commerce
-const commerceRef = doc(db, "commerces", commerceId);
-const commerceSnap = await getDoc(commerceRef);
+  const commerceRef = doc(db, "commerces", commerceId);
+  const commerceSnap = await getDoc(commerceRef);
 
-if(!commerceSnap.exists()){
-  showMessage("Commerce introuvable");
-  return;
-}
+  if(!commerceSnap.exists()){
+    showMessage("Commerce introuvable");
+    return;
+  }
 
-const commerce = commerceSnap.data();
+  const commerce = commerceSnap.data();
 
-if(!commerce.location){
-  showMessage("Position du commerce non définie");
-  return;
-}
+  if(!commerce.location){
+    showMessage("Position du commerce non définie");
+    return;
+  }
 
-const distance = getDistanceKm(
-  commerce.location.lat,
-  commerce.location.lng,
-  selectedAddressLatLng.lat,
-  selectedAddressLatLng.lng
-);
+  const distance = getDistanceKm(
+    commerce.location.lat,
+    commerce.location.lng,
+    selectedAddressLatLng.lat,
+    selectedAddressLatLng.lng
+  );
 
-if(distance > 10){
-  showMessage("Adresse hors zone de livraison (10 km max)");
-  return;
-}
+  if(distance > 10){
+    showMessage("Adresse hors zone de livraison (10 km max)");
+    return;
+  }
 
   const name = document.getElementById("custName").value.trim();
   const phone = document.getElementById("custPhone").value.trim();
@@ -623,29 +645,14 @@ if(distance > 10){
     showMessage("Veuillez remplir tous les champs");
     return;
   }
-  if(!selectedAddressLatLng){
-  showMessage("Veuillez sélectionner une adresse valide");
-  return;
-}
 
-  const cart = getCart();
-  if(cart.length === 0){
-    showMessage("Panier vide");
-    return;
-  }
-
-  const commerceId = cart[0].commerceId;
   const total = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
 
   try{
     await addDoc(collection(db,"commandes"),{
       commerceId,
-      clientId: user.uid, // ✅ CLÉ CRITIQUE
-      client: {
-        nom: name,
-        tel: phone,
-        adresse: address
-      },
+      clientId: user.uid,
+      client: { nom: name, tel: phone, adresse: address },
       items: cart.map(i=>({
         productId: i.productId,
         name: i.name,
@@ -782,20 +789,7 @@ function getDistanceKm(lat1, lng1, lat2, lng2){
   return R * c;
 }
 
-function getDistanceKm(lat1, lng1, lat2, lng2) {
-  const R = 6371; // Rayon Terre en km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
 
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
 loadCategories();
 </script>
