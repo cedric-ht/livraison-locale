@@ -620,17 +620,17 @@ window.confirmOrder = async function(){
 
   const commerce = commerceSnap.data();
 
-  if(!commerce.location){
-    showMessage("Position du commerce non définie");
-    return;
-  }
+  if(!commerce.lat || !commerce.lng){
+  showMessage("Position du commerce non définie");
+  return;
+}
 
-  const distance = getDistanceKm(
-    commerce.location.lat,
-    commerce.location.lng,
-    selectedAddressLatLng.lat,
-    selectedAddressLatLng.lng
-  );
+const distance = getDistanceKm(
+  commerce.lat,
+  commerce.lng,
+  selectedAddressLatLng.lat,
+  selectedAddressLatLng.lng
+);
 
   if(distance > 10){
     showMessage("Adresse hors zone de livraison (10 km max)");
