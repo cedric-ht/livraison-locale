@@ -789,6 +789,14 @@ function getDistanceKm(lat1, lng1, lat2, lng2){
   return R * c;
 }
 
+function getDeliveryPrice(distanceKm){
+  if(distanceKm <= 3){
+    return 4.90;
+  }
+
+  const extraKm = Math.ceil(distanceKm - 3);
+  return 4.90 + (extraKm * 1.5);
+}
 
 
 loadCategories();
