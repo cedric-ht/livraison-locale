@@ -596,8 +596,8 @@ if(!commerceSnap.exists()) return;
 const commerce = commerceSnap.data();
 
 const distance = getDistanceKm(
-  commerce.location.lat,
-  commerce.location.lng,
+  commerce.lat,
+  commerce.lng,
   selectedAddressLatLng.lat,
   selectedAddressLatLng.lng
 );
