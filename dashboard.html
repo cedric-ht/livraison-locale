@@ -55,6 +55,7 @@ form input {width:100%; padding:0.6rem; margin-bottom:0.6rem; border-radius:10px
 <section>
 <h2>Ajouter un produit</h2>
 <form id="addProductForm">
+  <input type="file" id="productImage" accept="image/*" required>
   <input type="text" id="productName" placeholder="Nom du produit" required>
   <input type="text" id="productPrice" placeholder="Prix (€)" required>
   <input type="number" id="productStock" placeholder="Stock initial" min="0" required>
