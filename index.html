@@ -907,6 +907,65 @@ function getDeliveryPrice(distanceKm){
   return 4.90 + (extraKm * 1.5);
 }
 
+window.downloadInvoice = async function(orderId){
+  const ref = doc(db, "commandes", orderId);
+  const snap = await getDoc(ref);
+
+  if(!snap.exists()){
+    showMessage("Commande introuvable");
+    return;
+  }
+
+  const o = snap.data();
+
+  const win = window.open("", "_blank");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>Facture</title>
+      <style>
+        body{font-family:Arial;padding:2rem}
+        h1{color:#0077b6}
+        table{width:100%;border-collapse:collapse;margin-top:1rem}
+        td,th{border:1px solid #ccc;padding:8px;text-align:left}
+      </style>
+    </head>
+    <body>
+      <h1>Facture</h1>
+
+      <p><strong>Commande :</strong> ${orderId}</p>
+      <p><strong>Date :</strong> ${o.createdAt?.toDate().toLocaleDateString()}</p>
+
+      <table>
+        <tr>
+          <th>Produit</th>
+          <th>Qté</th>
+          <th>Prix</th>
+        </tr>
+
+        ${o.items.map(i=>`
+          <tr>
+            <td>${i.name}</td>
+            <td>${i.qty}</td>
+            <td>${(i.price * i.qty).toFixed(2)} €</td>
+          </tr>
+        `).join("")}
+      </table>
+
+      <h3>Total : ${o.total.toFixed(2)} €</h3>
+
+      <p style="margin-top:2rem">Merci pour votre commande 🙏</p>
+
+      <script>
+        window.print();
+      </script>
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+};
 
 loadCategories();
 </script>
