@@ -42,6 +42,11 @@ form input {width:100%; padding:0.6rem; margin-bottom:0.6rem; border-radius:10px
   border-left: 6px solid #2a9d8f;
 }
 
+.productCard[data-status="annulee"] {
+  border-left: 6px solid #ff595e;
+  opacity: 0.6;
+}
+
 </style>
 </head>
 <body>
@@ -249,8 +254,14 @@ function loadOrders(){
       let action = "";
 
       if(o.status === "en_attente"){
-        action = `<button onclick="markReady('${docSnap.id}')">Marquer prête</button>`;
-      }
+  action = `
+    <button onclick="markReady('${docSnap.id}')">Marquer prête</button>
+    <button style="background:#ff595e;margin-left:8px"
+      onclick="cancelOrder('${docSnap.id}')">
+      Annuler
+    </button>
+  `;
+}
       else if(o.status === "prete"){
         action = `<em>En attente de livreur</em>`;
       }
@@ -296,12 +307,43 @@ window.markReady = async function(orderId){
   });
 }
 
+window.cancelOrder = async function(orderId){
+  if(!confirm("Annuler cette commande ? Le client sera remboursé.")) return;
+
+  const ref = doc(db,"commandes",orderId);
+  const snap = await getDoc(ref);
+
+  if(!snap.exists()) return;
+
+  const data = snap.data();
+
+  if(data.commerceId !== uid || data.status !== "en_attente"){
+    alert("Action interdite");
+    return;
+  }
+
+  await updateDoc(ref,{
+    status: "annulee",
+    cancelledAt: new Date()
+  });
+}
+
 function statusLabel(status){
   switch(status){
     case "en_attente": return "🕓 En attente";
     case "prete": return "🟠 Prête (attente livreur)";
     case "en_livraison": return "🟣 En livraison";
     case "livree": return "🟢 Livrée";
+    function statusLabel(status){
+  switch(status){
+    case "en_attente": return "🕓 En attente";
+    case "prete": return "🟠 Prête (attente livreur)";
+    case "en_livraison": return "🟣 En livraison";
+    case "livree": return "🟢 Livrée";
+    case "annulee": return "❌ Annulée";
+    default: return status;
+  }
+}
     default: return status;
   }
 }
