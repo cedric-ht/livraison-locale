@@ -199,22 +199,29 @@ function loadProducts(){
       const div = document.createElement("div");
       div.className="productCard";
       div.innerHTML=`
-      ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%;border-radius:10px;margin-bottom:10px;">` : ""}
-        <h3>${p.name}</h3>
-        <p>Prix : ${p.price} €</p>
-        <p>Stock restant : <strong>${p.stock}</strong></p>
+  ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%;border-radius:10px;margin-bottom:10px;">` : ""}
+  <h3>${p.name}</h3>
+  <p>Prix : ${p.price} €</p>
+  <p>Stock restant : <strong>${p.stock}</strong></p>
 
-        <div class="stockControls">
-          <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
-          <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
-        </div>
+  <div class="stockControls">
+    <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
+    <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
+  </div>
 
-        <p class="${p.available ? '' : 'unavailable'}">
-          ${p.available ? 'Disponible' : 'Indisponible'}
-        </p>
+  <!-- 🔽 ICI -->
+  <label>Max par client :</label>
+  <input type="number" min="0" value="${p.maxPerDelivery ?? 0}">
 
-        <button onclick="deleteProduct('${docSnap.id}')">Supprimer</button>
-      `;
+  <label>Stock minimum :</label>
+  <input type="number" min="0" value="${p.minStock ?? 0}">
+
+  <p class="${p.available ? '' : 'unavailable'}">
+    ${p.available ? 'Disponible' : 'Indisponible'}
+  </p>
+
+  <button onclick="deleteProduct('${docSnap.id}')">Supprimer</button>
+`;
       productList.appendChild(div);
     });
   });
