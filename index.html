@@ -382,17 +382,16 @@ function updateQuantity(productId, qty){
     return;
   }
 
-  if(
-    item.maxPerDelivery > 0 &&
-    qty > item.maxPerDelivery
-  ){
-    showMessage(`Maximum ${item.maxPerDelivery} par client`);
-    return;
-  }
-
   if(qty <= 0){
-    cart.splice(index, 1);
-  } else {
+    cart.splice(index, 1); // ❌ suppression propre
+  }else{
+    if(
+  item.maxPerDelivery > 0 &&
+  qty > item.maxPerDelivery
+){
+  showMessage(`Maximum ${item.maxPerDelivery} par client`);
+  return;
+}
     item.quantity = qty;
   }
 
@@ -495,7 +494,6 @@ const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
 
 let unsubscribeProducts = null;
-let unsubscribeClientOrders = null;
 
 let categoriesSet = new Set();
 let commerceCategories = {};
@@ -844,17 +842,12 @@ window.renderClientOrders = function(){
 
   container.innerHTML = "Chargement...";
 
-  // 🔴 couper l'ancien listener s'il existe
-  if(unsubscribeClientOrders){
-    unsubscribeClientOrders();
-  }
-
   const q = query(
     collection(db, "commandes"),
     where("clientId", "==", window.currentUser.uid)
   );
 
-  unsubscribeClientOrders = onSnapshot(q, (snapshot)=>{
+  onSnapshot(q, (snapshot)=>{
     container.innerHTML = "";
 
     if(snapshot.empty){
@@ -866,29 +859,25 @@ window.renderClientOrders = function(){
       const o = docSnap.data();
 
       const steps = ["en_attente","prete","en_livraison","livree"];
-      const currentIndex = steps.indexOf(o.status);
+const currentIndex = steps.indexOf(o.status);
 
-      container.innerHTML += `
-        <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
-          <strong>Commande</strong><br>
-          Total : ${o.total.toFixed(2)} €<br>
+container.innerHTML += `
+  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
+    <strong>Commande</strong><br>
+    Total : ${o.total.toFixed(2)} €<br>
 
-          <div class="status-bar">
-            ${steps.map((s,i)=>`
-              <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
-            `).join("")}
-          </div>
+    <div class="status-bar">
+      ${steps.map((s,i)=>`
+        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
+      `).join("")}
+    </div>
 
-          <small>Statut : ${o.status.replace("_"," ")}</small><br><br>
-
-          <button onclick="downloadInvoice('${docSnap.id}')">
-            📄 Télécharger ma facture
-          </button>
-        </div>
-      `;
+    <small>Statut : ${o.status.replace("_"," ")}</small>
+  </div>
+`;
     });
   });
-};
+}
 
 function getDistanceKm(lat1, lng1, lat2, lng2){
   const R = 6371; // rayon Terre en km
@@ -914,65 +903,6 @@ function getDeliveryPrice(distanceKm){
   return 4.90 + (extraKm * 1.5);
 }
 
-window.downloadInvoice = async function(orderId){
-  const ref = doc(db, "commandes", orderId);
-  const snap = await getDoc(ref);
-
-  if(!snap.exists()){
-    showMessage("Commande introuvable");
-    return;
-  }
-
-  const o = snap.data();
-
-  const win = window.open("", "_blank");
-
-  win.document.write(`
-    <html>
-    <head>
-      <title>Facture</title>
-      <style>
-        body{font-family:Arial;padding:2rem}
-        h1{color:#0077b6}
-        table{width:100%;border-collapse:collapse;margin-top:1rem}
-        td,th{border:1px solid #ccc;padding:8px;text-align:left}
-      </style>
-    </head>
-    <body>
-      <h1>Facture</h1>
-
-      <p><strong>Commande :</strong> ${orderId}</p>
-      <p><strong>Date :</strong> ${o.createdAt?.toDate().toLocaleDateString()}</p>
-
-      <table>
-        <tr>
-          <th>Produit</th>
-          <th>Qté</th>
-          <th>Prix</th>
-        </tr>
-
-        ${o.items.map(i=>`
-          <tr>
-            <td>${i.name}</td>
-            <td>${i.qty}</td>
-            <td>${(i.price * i.qty).toFixed(2)} €</td>
-          </tr>
-        `).join("")}
-      </table>
-
-      <h3>Total : ${o.total.toFixed(2)} €</h3>
-
-      <p style="margin-top:2rem">Merci pour votre commande 🙏</p>
-
-      <script>
-        window.print();
-      </script>
-    </body>
-    </html>
-  `);
-
-  win.document.close();
-};
 
 loadCategories();
 </script>
