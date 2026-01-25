@@ -175,7 +175,6 @@ document.getElementById("addProductForm").addEventListener("submit", async e=>{
     available: stock > 0,
     imageUrl,
     maxPerDelivery: 0,   // ∞ par défaut
-    minStock: 0
   });
 
   e.target.reset();
@@ -189,6 +188,17 @@ async function updateStock(productId, currentStock, delta){
     available: newStock > 0
   });
 }
+
+
+// Modifier max par client
+window.updateMaxPerClient = async function(productId, value){
+  const max = Math.max(0, parseInt(value) || 0);
+
+  await updateDoc(
+    doc(db,"commerces",uid,"produits",productId),
+    { maxPerDelivery: max }
+  );
+};
 
 // Affichage produits
 function loadProducts(){
@@ -209,12 +219,11 @@ function loadProducts(){
     <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
   </div>
 
-  <!-- 🔽 ICI -->
   <label>Max par client :</label>
-  <input type="number" min="0" value="${p.maxPerDelivery ?? 0}">
-
-  <label>Stock minimum :</label>
-  <input type="number" min="0" value="${p.minStock ?? 0}">
+  <input type="number"
+         min="0"
+         value="${p.maxPerDelivery ?? 0}"
+         onchange="updateMaxPerClient('${docSnap.id}', this.value)">
 
   <p class="${p.available ? '' : 'unavailable'}">
     ${p.available ? 'Disponible' : 'Indisponible'}
