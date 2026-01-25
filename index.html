@@ -385,6 +385,13 @@ function updateQuantity(productId, qty){
   if(qty <= 0){
     cart.splice(index, 1); // ❌ suppression propre
   }else{
+    if(
+  item.maxPerDelivery > 0 &&
+  qty > item.maxPerDelivery
+){
+  showMessage(`Maximum ${item.maxPerDelivery} par client`);
+  return;
+}
     item.quantity = qty;
   }
 
@@ -671,6 +678,19 @@ window.confirmOrder = async function(){
     showMessage("Vous devez être connecté");
     return;
   }
+
+// 🔐 Sécurité : respect du max par client
+for(const item of cart){
+  if(
+    item.maxPerDelivery > 0 &&
+    item.quantity > item.maxPerDelivery
+  ){
+    showMessage(
+      `${item.name} : maximum ${item.maxPerDelivery} autorisé`
+    );
+    return;
+  }
+}
 
   const cart = getCart();
   if(cart.length === 0){
