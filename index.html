@@ -613,6 +613,8 @@ if(distance > 10){
 }
 
 const deliveryPrice = getDeliveryPrice(distance);
+window.currentDeliveryPrice = deliveryPrice;
+renderCart();
 
 document.getElementById("deliveryPrice").innerText =
   `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
