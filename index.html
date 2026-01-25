@@ -872,7 +872,11 @@ container.innerHTML += `
       `).join("")}
     </div>
 
-    <small>Statut : ${o.status.replace("_"," ")}</small>
+    <small>Statut : ${o.status.replace("_"," ")}</small><br><br>
+
+    <button onclick="downloadInvoice('${docSnap.id}')">
+      📄 Télécharger ma facture
+    </button>
   </div>
 `;
     });
