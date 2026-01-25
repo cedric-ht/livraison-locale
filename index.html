@@ -868,7 +868,14 @@ const currentIndex = steps.indexOf(o.status);
 container.innerHTML += `
   <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
     <strong>Commande</strong><br>
+    Facture : ${o.invoice?.number || "—"}<br>
     Total : ${o.total.toFixed(2)} €<br>
+
+    <button
+      style="margin-top:.6rem"
+      onclick="downloadInvoice('${docSnap.id}')">
+      📄 Télécharger la facture
+    </button>
 
     <div class="status-bar">
       ${steps.map((s,i)=>`
