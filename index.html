@@ -524,9 +524,11 @@ function showProducts(commerceId){
       const price = p.price.toString().replace(".",",");
 
       div.innerHTML = `
-        <span>${p.name} - ${price}€</span>
-        <span class="stock">Stock : ${stock}</span>
-      `;
+  ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg">` : ""}
+
+  <span>${p.name} - ${price}€</span>
+  <span class="stock">Stock : ${stock}</span>
+`;
 
       const btn = document.createElement("button");
       btn.innerText = "Ajouter au panier";
