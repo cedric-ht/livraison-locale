@@ -382,16 +382,17 @@ function updateQuantity(productId, qty){
     return;
   }
 
+  if(
+    item.maxPerDelivery > 0 &&
+    qty > item.maxPerDelivery
+  ){
+    showMessage(`Maximum ${item.maxPerDelivery} par client`);
+    return;
+  }
+
   if(qty <= 0){
-    cart.splice(index, 1); // ❌ suppression propre
-  }else{
-    if(
-  item.maxPerDelivery > 0 &&
-  qty > item.maxPerDelivery
-){
-  showMessage(`Maximum ${item.maxPerDelivery} par client`);
-  return;
-}
+    cart.splice(index, 1);
+  } else {
     item.quantity = qty;
   }
 
