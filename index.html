@@ -767,6 +767,10 @@ const total = itemsTotal + deliveryPrice;
   distanceKm: distance,
   total,
   status: "en_attente",
+  invoice: {
+  number: "FAC-" + Date.now(),
+  issuedAt: serverTimestamp()
+}
   createdAt: serverTimestamp()
 });
 
