@@ -679,23 +679,23 @@ window.confirmOrder = async function(){
     return;
   }
 
-// 🔐 Sécurité : respect du max par client
-for(const item of cart){
-  if(
-    item.maxPerDelivery > 0 &&
-    item.quantity > item.maxPerDelivery
-  ){
-    showMessage(
-      `${item.name} : maximum ${item.maxPerDelivery} autorisé`
-    );
-    return;
-  }
-}
-
   const cart = getCart();
   if(cart.length === 0){
     showMessage("Panier vide");
     return;
+  }
+
+  // 🔐 Sécurité : respect du max par client
+  for(const item of cart){
+    if(
+      item.maxPerDelivery > 0 &&
+      item.quantity > item.maxPerDelivery
+    ){
+      showMessage(
+        `${item.name} : maximum ${item.maxPerDelivery} autorisé`
+      );
+      return;
+    }
   }
 
   const commerceId = cart[0].commerceId;
@@ -704,6 +704,7 @@ for(const item of cart){
     showMessage("Veuillez sélectionner une adresse valide");
     return;
   }
+}
 
   // 🔎 récupérer le commerce
   const commerceRef = doc(db, "commerces", commerceId);
