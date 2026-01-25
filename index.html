@@ -769,7 +769,7 @@ const total = itemsTotal + deliveryPrice;
   status: "en_attente",
   invoice: {
   number: "FAC-" + Date.now(),
-  issuedAt: serverTimestamp()
+  issuedAt: new Date()
 }
   createdAt: serverTimestamp()
 });
