@@ -292,6 +292,7 @@ h2{margin-bottom:1rem}
          placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
         
   <p id="deliveryPrice" style="margin-bottom:0.7rem;font-weight:600;"></p>
+  <p id="checkoutTotal" style="font-weight:700;font-size:1.1rem;"></p>
 
   <button onclick="confirmOrder()">Confirmer et payer</button>
 </div>
@@ -618,6 +619,12 @@ renderCart();
 
 document.getElementById("deliveryPrice").innerText =
   `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
+  
+const itemsTotal = getCart().reduce((s,i)=>s + i.price*i.quantity, 0);
+const total = itemsTotal + deliveryPrice;
+
+document.getElementById("checkoutTotal").innerText =
+  `💳 Total à payer : ${total.toFixed(2).replace(".",",")} €`;
   
         box.style.display = "none";
       };
