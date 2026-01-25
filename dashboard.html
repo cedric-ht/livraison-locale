@@ -142,15 +142,35 @@ document.getElementById("logout").onclick = () =>
 // Ajouter produit
 document.getElementById("addProductForm").addEventListener("submit", async e=>{
   e.preventDefault();
+
   const name = productName.value;
   const price = productPrice.value.replace(",", ".");
   const stock = parseInt(productStock.value);
+  const imageFile = productImage.files[0];
 
+  if(!imageFile){
+    alert("Image obligatoire");
+    return;
+  }
+
+  // 1️⃣ upload image
+  const imageRef = ref(
+    storage,
+    `produits/${uid}/${Date.now()}_${imageFile.name}`
+  );
+
+  await uploadBytes(imageRef, imageFile);
+  const imageUrl = await getDownloadURL(imageRef);
+
+  // 2️⃣ création produit
   await addDoc(collection(db,"commerces",uid,"produits"),{
     name,
     price,
     stock,
-    available: stock > 0
+    available: stock > 0,
+    imageUrl,
+    maxPerDelivery: 0,   // ∞ par défaut
+    minStock: 0
   });
 
   e.target.reset();
