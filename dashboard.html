@@ -60,7 +60,7 @@ form input {width:100%; padding:0.6rem; margin-bottom:0.6rem; border-radius:10px
 <section>
 <h2>Ajouter un produit</h2>
 <form id="addProductForm">
-  <input type="file" id="productImage" accept="image/*" required>
+  <input type="file" id="productImage" accept="image/*">
   <input type="text" id="productName" placeholder="Nom du produit" required>
   <input type="text" id="productPrice" placeholder="Prix (€)" required>
   <input type="number" id="productStock" placeholder="Stock initial" min="0" required>
@@ -153,19 +153,20 @@ document.getElementById("addProductForm").addEventListener("submit", async e=>{
   const stock = parseInt(productStock.value);
   const imageFile = productImage.files[0];
 
-  if(!imageFile){
-    alert("Image obligatoire");
-    return;
-  }
+  
 
   // 1️⃣ upload image
+  let imageUrl = null;
+
+if(imageFile){
   const imageRef = ref(
     storage,
     `produits/${uid}/${Date.now()}_${imageFile.name}`
   );
 
   await uploadBytes(imageRef, imageFile);
-  const imageUrl = await getDownloadURL(imageRef);
+  imageUrl = await getDownloadURL(imageRef);
+}
 
   // 2️⃣ création produit
   await addDoc(collection(db,"commerces",uid,"produits"),{
