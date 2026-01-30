@@ -1,121 +1,917 @@
-/* ============================= */
-/*   AMÉLIORATIONS VISUELLES UX  */
-/* ============================= */
-
-/* Animation d’arrivée */
-body {
-  animation: fadeIn 0.6s ease-out;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Livraison Locale</title>
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#ffffff;color:#333;min-height:100vh;line-height:1.5;overflow-x:hidden;transition: background 0.3s ease-in-out;}
+/* HEADER */
+header{background: rgba(0,119,182,0.9);backdrop-filter: blur(10px);color:white;padding:2rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.15);position:relative;}
+header h1{font-size:1.8rem;margin-bottom:.3rem}
+header p{opacity:.9;font-size:.95rem}
+#cta{margin-top:1rem;display:flex;gap:1rem}
+#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
+#orderBtn{background: linear-gradient(135deg,#00b4d8,#0077b6);color:white;}
+#orderBtn:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+#menuBtn{background: rgba(255,255,255,.2);color:white;}
+#menuBtn:hover{background: rgba(255,255,255,.3);transform:scale(1.03);}
+/* MOBILE MENU */
+#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);}
+#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;cursor:pointer;}
+#mobileMenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:998;}
+/* SECTIONS */
+section{padding:1.5rem 1rem;max-width:900px;margin:auto}
+h2{margin-bottom:1rem}
+/* GRID LISTES */
+#categoryList,#commerceList,#productList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;}
+.category,.commerce,.product{background: rgba(255,255,255,0.6);backdrop-filter: blur(8px);padding:1rem;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.05);cursor:pointer;transition: transform 0.3s ease, box-shadow 0.3s ease;margin-bottom: 1rem;}
+.category:hover,.commerce:hover,.product:hover{transform:translateY(-5px);box-shadow:0 15px 30px rgba(0,0,0,0.08);}
+.category.selected,.commerce.selected{background: rgba(0,180,216,0.3);}
+.product span{font-weight:600;display:block}
+.stock{font-size:.85rem;color:#666;margin:.3rem 0}
+.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background: linear-gradient(135deg,#00b4d8,#0077b6);color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
+.product button:hover:not(:disabled){transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
+.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed;}
+/* MINI PANIER FLOTANT */
+#cart {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 500;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  height: auto;
+  max-height: 80vh;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+#cartHeader {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor:pointer;
+}
+
+#cartContent {
+  max-height: 45vh;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+#cart:not(.expanded) #cartContent,
+#cart:not(.expanded) .clear-btn,
+#cart:not(.expanded) .validate-btn {
+  display: none;
+}
+
+#cartContent div {
+  padding:0.8rem;
+  border-radius:12px;
+  margin-bottom:0.5rem;
+  background: rgba(224,247,250,0.7);
+  box-shadow:0 6px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+#cartContent div:hover {
+  transform: translateY(-2px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+#cart h3 {
+  text-align:right;
+  color:#0077b6;
+  margin-top:0.5rem;
+}
+
+#cart button {
+  margin:0.2rem;
+  padding:0.4rem 0.7rem;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background: linear-gradient(135deg,#00b4d8,#0077b6);
+  color:white;
+  font-weight:600;
+  transition:all 0.3s ease;
+}
+
+#cart button:hover {
+  transform:scale(1.05);
+  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+#cart .clear-btn {
+  width:100%;
+  background:#ff595e;
+  padding:0.7rem;
+  border-radius:12px;
+  margin-top:0.5rem;
+}
+
+#cart .validate-btn {
+  width:100%;
+  background: linear-gradient(135deg,#38b000,#70e000);
+  padding:0.8rem;
+  border-radius:14px;
+  font-weight:700;
+  margin-top:0.5rem;
+}
+/* FORMULAIRE LIVRAISON */
+#checkoutForm{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:2rem;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:1001;max-width:400px;width:90%;}
+#checkoutForm input{width:100%;padding:0.7rem;margin-bottom:0.7rem;border-radius:10px;border:1px solid #ccc;}
+#checkoutForm button{width:100%;padding:0.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;cursor:pointer;}
+#checkoutForm button:hover{background:#0096c7;}
+#checkoutOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1000;}
+/* MESSAGE CENTRAL */
+#addedMessage,#errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%,-50%);padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem;display:none; z-index:1001;box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;}
+#addedMessage{background:#4caf50; color:white;}
+#errorMessage{background:#d00000;color:white;}
+#addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+@media(max-width:767px){#categoryList,#commerceList,#productList{grid-template-columns:1fr; gap:1.2rem;}section{padding-bottom:120px;}}
+
+/* AUTH BOX */
+#authBox {
+  background: linear-gradient(135deg, #00b4d8, #90e0ef);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  padding: 2rem;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#authBox h3 {
+  text-align: center;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+#authBox input {
+  border: none;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  width: 100%;
+}
+#authBox input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+#authBox button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 0.5rem;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#authBox button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+#authBox button:nth-child(3) { /* Se connecter */
+  background: #0077b6;
+  color: #fff;
+}
+#authBox button:nth-child(4) { /* Créer un compte */
+  background: #90e0ef;
+  color: #0077b6;
+  font-weight: 700;
+}
+
+.status-bar{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.status-step{
+  flex:1;
+  height:8px;
+  border-radius:6px;
+  background:#ddd;
+}
+
+.status-step.active{
+  background:#38b000;
+}
+
+.productImg{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:0.6rem;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+<h1>Livraison Locale</h1>
+<p>Commerces des Sables d’Olonne</p>
+<div id="cta">
+  <button id="orderBtn" onclick="showPage('commander')">Commander</button>
+  <button id="menuBtn" onclick="toggleMenu()">Menu</button>
+</div>
+</header>
+
+<div id="mobileMenuOverlay" onclick="toggleMenu()"></div>
+<div id="mobileMenu">
+  <a onclick="nav('accueil')">Accueil</a>
+  <a onclick="nav('apropos')">À propos</a>
+  <a onclick="nav('contact')">Contact</a>
+  <a href="inscription.html">Nous rejoindre</a>
+  <a onclick="nav('mesCommandes')">Mes commandes</a>
+  <a id="menuLoginBtn" onclick="openLoginMenu()">Connexion</a>
+  <a id="menuLogoutBtn" onclick="logout()" style="display:none">Déconnexion</a>
+  
+</div>
+
+<div id="authBox" style="display:none; padding:1rem; max-width:400px; margin:auto; background:#f5f5f5; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1)">
+  <h3>Connexion</h3>
+  <input id="email" type="email" placeholder="Email" style="width:100%; padding:.7rem; margin:.4rem 0">
+  <input id="password" type="password" placeholder="Mot de passe" style="width:100%; padding:.7rem; margin:.4rem 0">
+  <button onclick="login()" style="width:100%; margin-top:.5rem">Se connecter</button>
+  <button onclick="register()" style="width:100%; margin-top:.5rem">Créer un compte</button>
+</div>
+
+<section id="accueil">
+  <h2>Bienvenue</h2>
+  <p>Commandez local, simplement.</p>
+</section>
+
+<section id="apropos" style="display:none">
+  <h2>À propos</h2>
+  <p>Plateforme locale de livraison.</p>
+</section>
+
+<section id="contact" style="display:none">
+  <h2>Contact</h2>
+  <p>cedric.huet.pro@gmail.com</p>
+</section>
+
+<section id="commander" style="display:none">
+  <h2>Choisir une catégorie</h2>
+  <div id="categoryList"></div>
+  <div id="commerceList"></div>
+  <div id="productList"></div>
+</section>
+
+<section id="mesCommandes" style="display:none">
+  <h2>Mes commandes</h2>
+  <div id="ordersClient"></div>
+</section>
+
+<!-- MINI-PANIER FLOTANT -->
+<div id="cart">
+  <div id="cartHeader"><strong>🛒 Panier</strong><span id="toggleCart">&#9650;</span></div>
+  <div id="cartContent"></div>
+  <div id="cartTotals"></div>
+  <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
+  <button class="validate-btn" onclick="openCheckoutForm()">Valider la commande</button>
+</div>
+
+<!-- FORM LIVRAISON -->
+<div id="checkoutOverlay" onclick="closeCheckoutForm()"></div>
+<div id="checkoutForm">
+  <h3>Informations de livraison</h3>
+
+  <input type="text" id="custName" placeholder="Nom et prénom" required>
+  <input type="text" id="custPhone" placeholder="Téléphone" required>
+
+  <input type="text" id="custAddress" placeholder="Adresse de livraison" required autocomplete="off">
+
+  <div id="addressSuggestions"
+       style="background:#fff;border:1px solid #ccc;border-radius:10px;
+              display:none;max-height:150px;overflow-y:auto;margin-bottom:0.7rem;">
+  </div>
+
+  <input type="text" id="custAddressExtra"
+         placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
+        
+  <p id="deliveryPrice" style="margin-bottom:0.7rem;font-weight:600;"></p>
+  <p id="checkoutTotal" style="font-weight:700;font-size:1.1rem;"></p>
+
+  <button onclick="confirmOrder()">Confirmer et payer</button>
+</div>
+
+<div id="errorMessage"></div>
+<div id="addedMessage">Produit ajouté ✅</div>
+
+<script>
+// MENU et navigation
+function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
+function nav(p){toggleMenu(); showPage(p);}
+function showPage(p){
+  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+
+  document.getElementById(p).style.display = 'block';
+
+  if(p === 'mesCommandes' && window.renderClientOrders) {
+    window.renderClientOrders();
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+} // ← CETTE LIGNE MANQUAIT
+
+// MESSAGE
+function showMessage(msg){
+  const el=document.getElementById("errorMessage");
+  el.innerText=msg;
+  el.classList.add("show");
+  setTimeout(()=>{el.classList.remove("show");},2000);
+}
+
+// PANIER
+let selectedCommerceId=null;
+function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
+function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
+function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
+function addToCart(
+  commerceId,
+  productId,
+  name,
+  price,
+  stock,
+  maxPerDelivery
+){
+  if(selectedCommerceId && selectedCommerceId !== commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");return;}
+  selectedCommerceId = commerceId;
+  let cart = getCart();
+  price = parseFloat(price.toString().replace(",","."));  
+  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
+  if(existing){
+
+  if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
+    showMessage(`Maximum ${maxPerDelivery} par client`);
+    return;
+  }
+
+  if(existing.quantity >= stock){
+    showMessage("Stock limité");
+    return;
+  }
+
+  existing.quantity += 1;
+} 
+  else{if(stock < 1){ showMessage("Produit non disponible"); return; } cart.push({commerceId, productId, name, price, quantity:1, stock, maxPerDelivery});}
+  saveCart(cart); showAddedMessage();
+}
+function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
+function updateQuantity(productId, qty){
+  let cart = getCart();
+  const index = cart.findIndex(p => p.productId === productId);
+
+  if(index === -1) return;
+
+  const item = cart[index];
+
+  if(qty > item.stock){
+    showMessage("Stock limité");
+    return;
+  }
+
+  if(qty <= 0){
+    cart.splice(index, 1); // ❌ suppression propre
+  }else{
+    if(
+  item.maxPerDelivery > 0 &&
+  qty > item.maxPerDelivery
+){
+  showMessage(`Maximum ${item.maxPerDelivery} par client`);
+  return;
+}
+    item.quantity = qty;
+  }
+
+  if(cart.length === 0){
+    selectedCommerceId = null;
+  }
+
+  saveCart(cart);
+}
+function renderCart(){
+  const cartBox = document.getElementById("cart");
+  const container = document.getElementById("cartContent");
+  const cart = getCart();
+
+  container.innerHTML = "";
+
+  if(cart.length === 0){
+    cartBox.classList.remove("expanded");
+    container.innerHTML = "<p>Panier vide</p>";
+    return;
+  }
+
+  cartBox.classList.add("expanded");
+
+  let itemsTotal = 0;
+
+  cart.forEach(item=>{
+    itemsTotal += item.price * item.quantity;
+
+    container.innerHTML += `
+      <div>
+        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
+        Quantité :
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">-</button>
+        ${item.quantity}
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
+        <br>
+        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+      </div>
+    `;
+  });
+
+  const delivery = window.currentDeliveryPrice;
+
+container.innerHTML += `
+  <h3>Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3>
+  <h3>Livraison : ${delivery ? delivery.toFixed(2).replace(".",",") + " €" : "—"}</h3>
+  <h3>Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".",",")} €</h3>
+`;
+}
+
+document.addEventListener("DOMContentLoaded", renderCart);
+
+// MINI PANIER EXPAND/RETRACT
+const cartHeader = document.getElementById("cartHeader");
+if(cartHeader){
+  cartHeader.onclick = ()=>{
+    const cart=document.getElementById("cart");
+    cart.classList.toggle("expanded");
+    const arrow=document.getElementById("toggleCart");
+    arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
   }
 }
 
-/* Catégories – sélection plus visible */
-.category {
-  position: relative;
-  border: 2px solid transparent;
+// FORMULAIRE LIVRAISON
+function openCheckoutForm(){
+  if(getCart().length===0){showMessage("Panier vide"); return;}
+  document.getElementById("checkoutForm").style.display="block";
+  document.getElementById("checkoutOverlay").style.display="block";
+}
+function closeCheckoutForm(){
+  document.getElementById("checkoutForm").style.display="none";
+  document.getElementById("checkoutOverlay").style.display="none";
+}
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import {
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",authDomain:"livraison-sablaise.firebaseapp.com",projectId:"livraison-sablaise",storageBucket:"livraison-sablaise.firebasestorage.app",messagingSenderId:"930839535214",appId:"1:930839535214:web:a3235919aa88d066bc507f",measurementId:"G-R3ZCGLQ69E"};
+const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
+
+const categoryList=document.getElementById("categoryList");
+const commerceList=document.getElementById("commerceList");
+const productList=document.getElementById("productList");
+
+let unsubscribeProducts = null;
+
+let categoriesSet = new Set();
+let commerceCategories = {};
+
+async function loadCategories(){
+  const snapshot = await getDocs(collection(db,"commerces"));
+  snapshot.forEach(docSnap=>{const c=docSnap.data(); const cat=c.category || "Autres"; categoriesSet.add(cat); commerceCategories[docSnap.id]=cat;});
+  categoryList.innerHTML="";
+  [...categoriesSet].sort().forEach(cat=>{
+    const div=document.createElement("div");
+    div.className="category";
+    div.dataset.opened="false";
+    div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
+    div.onclick=()=>{if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return;} [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showCommercesByCategory(cat);}
+    categoryList.appendChild(div);
+  });
 }
 
-.category.selected {
-  border-color: #0077b6;
-  box-shadow: 0 0 0 4px rgba(0,119,182,0.15);
-  transform: scale(1.02);
+function showCommercesByCategory(cat){
+  productList.innerHTML=""; commerceList.innerHTML="<h3>Commerces</h3>";
+  getDocs(collection(db,"commerces")).then(snapshot=>{
+    snapshot.forEach(docSnap=>{
+      if((docSnap.data().category || "Autres")===cat){
+        const div=document.createElement("div");
+        div.className="commerce"; div.dataset.opened="false";
+        div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
+        div.onclick=()=>{if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; } [...commerceList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showProducts(docSnap.id);};
+        commerceList.appendChild(div);
+      }
+    });
+  });
+  productList.innerHTML="";
 }
 
-.category::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-  transition: box-shadow 0.3s ease;
+function showProducts(commerceId){
+  productList.innerHTML = "<h3>Produits</h3>";
+
+  // 🔴 couper l'ancien listener s'il existe
+  if(unsubscribeProducts){
+    unsubscribeProducts();
+  }
+
+  const productsRef = collection(db,"commerces",commerceId,"produits");
+
+  // ✅ garder le nouveau listener
+  unsubscribeProducts = onSnapshot(productsRef, snapshot => {
+    productList.innerHTML = "<h3>Produits</h3>";
+
+    snapshot.forEach(docSnap => {
+      const p = docSnap.data();
+      const stock = p.stock || 0;
+
+      const div = document.createElement("div");
+      div.className = "product";
+
+      const price = p.price.toString().replace(".",",");
+
+      div.innerHTML = `
+  ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg">` : ""}
+
+  <span>${p.name} - ${price}€</span>
+  <span class="stock">Stock : ${stock}</span>
+`;
+
+      const btn = document.createElement("button");
+      btn.innerText = "Ajouter au panier";
+      btn.disabled = !p.available || stock < 1;
+
+      btn.onclick = () => addToCart(
+  commerceId,
+  docSnap.id,
+  p.name,
+  p.price,
+  stock,
+  p.maxPerDelivery || 0
+);
+
+      div.appendChild(btn);
+      productList.appendChild(div);
+    });
+  });
 }
 
-.category:hover::after {
-  box-shadow: inset 0 0 0 2px rgba(0,180,216,0.4);
+let selectedAddressLatLng = null;
+let addressTimeout = null;
+
+document.getElementById("custAddress").addEventListener("input", (e) => {
+  const query = e.target.value.trim();
+  const box = document.getElementById("addressSuggestions");
+
+  selectedAddressLatLng = null;
+
+  clearTimeout(addressTimeout);
+
+  if(query.length < 3){
+    box.style.display = "none";
+    return;
+  }
+
+  addressTimeout = setTimeout(async () => {
+    const apiKey = "42bb53accb9048248243b21b99a5a18a";
+    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    box.innerHTML = "";
+    box.style.display = "block";
+
+    if(!data.features || data.features.length === 0){
+      box.style.display = "none";
+      return;
+    }
+
+    data.features.forEach(f => {
+      const div = document.createElement("div");
+      div.style.padding = "0.5rem";
+      div.style.cursor = "pointer";
+      div.innerText = f.properties.formatted;
+
+      div.onclick = async () => {
+        document.getElementById("custAddress").value = f.properties.formatted;
+        if(
+  !f.properties.housenumber &&
+  !f.properties.street
+){
+  showMessage("Veuillez choisir une adresse précise (rue + numéro)");
+  return;
 }
 
-/* Commerces – focus clair */
-.commerce {
-  position: relative;
-  border: 2px solid transparent;
-  overflow: hidden;
+selectedAddressLatLng = {
+  lat: f.geometry.coordinates[1],
+  lng: f.geometry.coordinates[0]
+};
+
+const cart = getCart();
+if(cart.length === 0) return;
+
+const commerceId = cart[0].commerceId;
+const commerceRef = doc(db, "commerces", commerceId);
+const commerceSnap = await getDoc(commerceRef);
+
+if(!commerceSnap.exists()) return;
+
+const commerce = commerceSnap.data();
+
+const distance = getDistanceKm(
+  commerce.lat,
+  commerce.lng,
+  selectedAddressLatLng.lat,
+  selectedAddressLatLng.lng
+);
+
+if(distance > 10){
+  showMessage("Adresse hors zone de livraison (10 km max)");
+  return;
 }
 
-.commerce.selected {
-  border-color: #00b4d8;
-  box-shadow:
-    0 0 0 4px rgba(0,180,216,0.2),
-    0 15px 35px rgba(0,0,0,0.12);
-  transform: scale(1.03);
+const deliveryPrice = getDeliveryPrice(distance);
+window.currentDeliveryPrice = deliveryPrice;
+renderCart();
+
+document.getElementById("deliveryPrice").innerText =
+  `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
+  
+const itemsTotal = getCart().reduce((s,i)=>s + i.price*i.quantity, 0);
+const total = itemsTotal + deliveryPrice;
+
+document.getElementById("checkoutTotal").innerText =
+  `💳 Total à payer : ${total.toFixed(2).replace(".",",")} €`;
+  
+        box.style.display = "none";
+      };
+
+      box.appendChild(div);
+    });
+  }, 300); // ⏱ anti-clignotement
+});
+
+window.confirmOrder = async function(){
+  const user = window.currentUser;
+  if(!user){
+    showMessage("Vous devez être connecté");
+    return;
+  }
+
+  const cart = getCart();
+  if(cart.length === 0){
+    showMessage("Panier vide");
+    return;
+  }
+
+  // 🔐 Sécurité : respect du max par client
+  for(const item of cart){
+    if(
+      item.maxPerDelivery > 0 &&
+      item.quantity > item.maxPerDelivery
+    ){
+      showMessage(
+        `${item.name} : maximum ${item.maxPerDelivery} autorisé`
+      );
+      return;
+    }
+  }
+
+  const commerceId = cart[0].commerceId;
+
+  if(!selectedAddressLatLng){
+    showMessage("Veuillez sélectionner une adresse valide");
+    return;
+  }
+
+  // 🔎 récupérer le commerce
+  const commerceRef = doc(db, "commerces", commerceId);
+  const commerceSnap = await getDoc(commerceRef);
+
+  if(!commerceSnap.exists()){
+    showMessage("Commerce introuvable");
+    return;
+  }
+
+  const commerce = commerceSnap.data();
+
+  if(!commerce.lat || !commerce.lng){
+  showMessage("Position du commerce non définie");
+  return;
 }
 
-.commerce::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(0,180,216,0.15),
-    transparent 60%
+const distance = getDistanceKm(
+  commerce.lat,
+  commerce.lng,
+  selectedAddressLatLng.lat,
+  selectedAddressLatLng.lng
+);
+
+  if(distance > 10){
+    showMessage("Adresse hors zone de livraison (10 km max)");
+    return;
+  }
+
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
+
+  if(!name || !phone || !address){
+    showMessage("Veuillez remplir tous les champs");
+    return;
+  }
+
+  const itemsTotal = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
+const deliveryPrice = getDeliveryPrice(distance);
+const total = itemsTotal + deliveryPrice;
+
+  try{
+    await addDoc(collection(db,"commandes"),{
+  commerceId,
+  clientId: user.uid,
+  client: {
+    nom: name,
+    tel: phone,
+    adresse: address
+  },
+  items: cart.map(i => ({
+    productId: i.productId,
+    name: i.name,
+    price: i.price,
+    qty: i.quantity
+  })),
+  itemsTotal,
+  deliveryPrice,
+  distanceKm: distance,
+  total,
+  status: "en_attente",
+  createdAt: serverTimestamp()
+});
+
+    showMessage("Commande envoyée ✅");
+    clearCart();
+    closeCheckoutForm();
+    showPage('mesCommandes');
+
+  }catch(e){
+    showMessage("Erreur : " + e.message);
+  }
+};
+
+
+// LOGIN
+window.login = async function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  try{ await signInWithEmailAndPassword(auth, email, password); } catch(e){ showMessage("Erreur de connexion"); }
+}
+
+// REGISTER
+window.register = async function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: email,
+      role: "client",
+      createdAt: new Date()
+    });
+
+    showMessage("Compte créé ✅");
+  } catch(e){
+    showMessage("Erreur inscription");
+  }
+}
+
+window.openLoginMenu = function() {
+  toggleMenu();
+  const box = document.getElementById("authBox");
+  box.style.display = "block";
+  box.style.opacity = 0;
+  box.style.transform = "scale(0.9)";
+  setTimeout(()=> {
+    box.style.transition = "all 0.3s ease";
+    box.style.opacity = 1;
+    box.style.transform = "scale(1)";
+  }, 10);
+}
+
+window.logout = function(){ auth.signOut().then(()=>{showMessage("Déconnecté ✅");}).catch(()=>{showMessage("Erreur déconnexion");}); }
+
+onAuthStateChanged(auth, user=>{
+  const authBox = document.getElementById("authBox");
+  const loginBtn = document.getElementById("menuLoginBtn");
+  const logoutBtn = document.getElementById("menuLogoutBtn");
+  if(user){ authBox.style.display="none"; window.currentUser=user; loginBtn.style.display="none"; logoutBtn.style.display="block"; } 
+  else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
+});
+
+
+window.renderClientOrders = function(){
+  const container = document.getElementById("ordersClient");
+
+  if(!window.currentUser){
+    container.innerHTML = "<p>Veuillez vous connecter</p>";
+    return;
+  }
+
+  container.innerHTML = "Chargement...";
+
+  const q = query(
+    collection(db, "commandes"),
+    where("clientId", "==", window.currentUser.uid)
   );
-  opacity: 0;
-  transition: opacity 0.3s ease;
+
+  onSnapshot(q, (snapshot)=>{
+    container.innerHTML = "";
+
+    if(snapshot.empty){
+      container.innerHTML = "<p>Aucune commande pour le moment</p>";
+      return;
+    }
+
+    snapshot.forEach(docSnap=>{
+      const o = docSnap.data();
+
+      const steps = ["en_attente","prete","en_livraison","livree"];
+const currentIndex = steps.indexOf(o.status);
+
+container.innerHTML += `
+  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
+    <strong>Commande</strong><br>
+    Total : ${o.total.toFixed(2)} €<br>
+
+    <div class="status-bar">
+      ${steps.map((s,i)=>`
+        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
+      `).join("")}
+    </div>
+
+    <small>Statut : ${o.status.replace("_"," ")}</small>
+  </div>
+`;
+    });
+  });
 }
 
-.commerce.selected::before {
-  opacity: 1;
+function getDistanceKm(lat1, lng1, lat2, lng2){
+  const R = 6371; // rayon Terre en km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 }
 
-/* Produits – apparition douce */
-.product {
-  animation: popIn 0.35s ease forwards;
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+function getDeliveryPrice(distanceKm){
+  if(distanceKm <= 3){
+    return 4.90;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+
+  const extraKm = Math.ceil(distanceKm - 3);
+  return 4.90 + (extraKm * 1.5);
 }
 
-/* Bouton ajouter au panier – effet premium */
-.product button {
-  position: relative;
-  overflow: hidden;
-}
 
-.product button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255,255,255,0.4),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+loadCategories();
+</script>
 
-.product button:hover::after {
-  opacity: 1;
-}
+</body>
+</html>
 
-/* Scroll confortable */
-.category.selected,
-.commerce.selected {
-  scroll-margin-top: 120px;
-}
+
+
+
+
+
