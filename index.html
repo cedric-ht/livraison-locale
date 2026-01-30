@@ -1,1009 +1,121 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Livraison Locale</title>
-<style>
-/* ========================= */
-/* RESET & BASE              */
-/* ========================= */
-*{margin:0;padding:0;box-sizing:border-box}
+/* ============================= */
+/*   AMÉLIORATIONS VISUELLES UX  */
+/* ============================= */
 
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  min-height:100vh;
-  line-height:1.5;
-  overflow-x:hidden;
-  color:#333;
-  background:
-    radial-gradient(circle at top, #e0f7ff, #ffffff 60%);
+/* Animation d’arrivée */
+body {
   animation: fadeIn 0.6s ease-out;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* ========================= */
-/* HEADER                    */
-/* ========================= */
-header{
-  background: linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-  padding:2.2rem 1rem;
-  border-bottom-left-radius:26px;
-  border-bottom-right-radius:26px;
-  box-shadow:0 15px 45px rgba(0,0,0,0.25);
-}
-
-header h1{font-size:1.9rem}
-header p{opacity:.9}
-
-#cta{
-  margin-top:1.2rem;
-  display:flex;
-  gap:1rem;
-}
-
-#cta button{
-  flex:1;
-  padding:1rem;
-  border:none;
-  border-radius:999px;
-  font-weight:700;
-  cursor:pointer;
-  transition:all .3s ease;
-}
-
-#orderBtn{
-  background:white;
-  color:#0077b6;
-}
-
-#orderBtn:hover{
-  transform:scale(1.07);
-  box-shadow:0 10px 30px rgba(255,255,255,.5);
-}
-
-#menuBtn{
-  background:rgba(255,255,255,.25);
-  color:white;
-}
-
-#menuBtn:hover{
-  background:rgba(255,255,255,.35);
-}
-
-/* ========================= */
-/* MOBILE MENU               */
-/* ========================= */
-#mobileMenu{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:999;
-  background:white;
-  padding:2rem;
-}
-
-#mobileMenu a{
-  display:block;
-  padding:1.1rem 0;
-  font-size:1.2rem;
-  font-weight:700;
-  color:#0077b6;
-  border-bottom:1px solid #eee;
-}
-
-#mobileMenuOverlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  z-index:998;
-}
-
-/* ========================= */
-/* SECTIONS                  */
-/* ========================= */
-section{
-  padding:1.6rem 1rem 7rem;
-  max-width:900px;
-  margin:auto;
-}
-
-h2{margin-bottom:1rem}
-
-/* ========================= */
-/* LISTES GRID               */
-/* ========================= */
-#categoryList,
-#commerceList,
-#productList{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:1.5rem;
-}
-
-/* ========================= */
-/* CATEGORIES – WOW TABS     */
-/* ========================= */
-.category{
-  background:rgba(255,255,255,.75);
-  backdrop-filter:blur(14px);
-  padding:1.3rem;
-  border-radius:20px;
-  cursor:pointer;
-  transition:all .35s cubic-bezier(.4,0,.2,1);
-}
-
-.category:hover{
-  transform:translateY(-6px);
-}
-
-.category.selected{
-  background:linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-  transform:scale(1.08);
-  box-shadow:0 25px 55px rgba(0,119,182,.45);
-}
-
-/* ========================= */
-/* COMMERCES – OPEN CARD     */
-/* ========================= */
-.commerce{
-  background:rgba(255,255,255,.85);
-  padding:1.4rem;
-  border-radius:22px;
-  cursor:pointer;
-  position:relative;
-  transition:all .4s cubic-bezier(.4,0,.2,1);
-}
-
-.commerce:hover{
-  transform:translateY(-8px);
-}
-
-.commerce.selected{
-  background:white;
-  transform:scale(1.1);
-  box-shadow:0 35px 80px rgba(0,0,0,.25);
-}
-
-.commerce.selected::after{
-  content:"";
-  position:absolute;
-  inset:-4px;
-  border-radius:26px;
-  background:linear-gradient(135deg,#00b4d8,#90e0ef);
-  z-index:-1;
-}
-
-/* ========================= */
-/* PRODUITS – PREMIUM CARDS  */
-/* ========================= */
-.product{
-  background:white;
-  padding:1rem;
-  border-radius:24px;
-  box-shadow:0 20px 50px rgba(0,0,0,.08);
-  transition:all .35s ease;
-  animation:popIn .35s ease forwards;
-}
-
-@keyframes popIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
-}
-
-.product:hover{
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 35px 90px rgba(0,0,0,.18);
-}
-
-.product span{
-  font-weight:700;
-}
-
-.stock{
-  font-size:.85rem;
-  color:#666;
-  margin:.4rem 0;
-}
-
-.productImg{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:16px;
-  margin-bottom:.6rem;
-}
-
-/* CTA BOUTON */
-.product button{
-  width:100%;
-  margin-top:.8rem;
-  padding:.95rem;
-  border:none;
-  border-radius:999px;
-  font-weight:700;
-  font-size:1.05rem;
-  color:white;
-  background:linear-gradient(135deg,#00b4d8,#0077b6);
-  box-shadow:0 12px 30px rgba(0,119,182,.5);
-  cursor:pointer;
-  transition:all .3s ease;
-}
-
-.product button:hover:not(:disabled){
-  transform:scale(1.1);
-  box-shadow:0 18px 45px rgba(0,119,182,.7);
-}
-
-.product button:disabled{
-  background:#ccc;
-  box-shadow:none;
-}
-
-/* ========================= */
-/* PANIER FLOTTANT           */
-/* ========================= */
-#cart{
-  position:fixed;
-  bottom:1rem;
-  left:1rem;
-  right:1rem;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(18px);
-  border-radius:26px;
-  padding:.8rem 1rem;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-  z-index:500;
-}
-
-#cartHeader{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:pointer;
-}
-
-/* ========================= */
-/* MESSAGES                  */
-/* ========================= */
-#addedMessage,#errorMessage{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  padding:1rem 2rem;
-  border-radius:14px;
-  font-weight:700;
-  display:none;
-  z-index:1001;
-}
-
-#addedMessage{background:#38b000;color:white}
-#errorMessage{background:#d00000;color:white}
-
-#addedMessage.show,#errorMessage.show{
-  display:block;
-}
-
-/* ========================= */
-/* RESPONSIVE                */
-/* ========================= */
-@media(max-width:767px){
-  #categoryList,#commerceList,#productList{
-    grid-template-columns:1fr;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-}
-</style>
-
-
-</head>
-<body>
-
-<header>
-<h1>Livraison Locale</h1>
-<p>Commerces des Sables d’Olonne</p>
-<div id="cta">
-  <button id="orderBtn" onclick="showPage('commander')">Commander</button>
-  <button id="menuBtn" onclick="toggleMenu()">Menu</button>
-</div>
-</header>
-
-<div id="mobileMenuOverlay" onclick="toggleMenu()"></div>
-<div id="mobileMenu">
-  <a onclick="nav('accueil')">Accueil</a>
-  <a onclick="nav('apropos')">À propos</a>
-  <a onclick="nav('contact')">Contact</a>
-  <a href="inscription.html">Nous rejoindre</a>
-  <a onclick="nav('mesCommandes')">Mes commandes</a>
-  <a id="menuLoginBtn" onclick="openLoginMenu()">Connexion</a>
-  <a id="menuLogoutBtn" onclick="logout()" style="display:none">Déconnexion</a>
-  
-</div>
-
-<div id="authBox" style="display:none; padding:1rem; max-width:400px; margin:auto; background:#f5f5f5; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1)">
-  <h3>Connexion</h3>
-  <input id="email" type="email" placeholder="Email" style="width:100%; padding:.7rem; margin:.4rem 0">
-  <input id="password" type="password" placeholder="Mot de passe" style="width:100%; padding:.7rem; margin:.4rem 0">
-  <button onclick="login()" style="width:100%; margin-top:.5rem">Se connecter</button>
-  <button onclick="register()" style="width:100%; margin-top:.5rem">Créer un compte</button>
-</div>
-
-<section id="accueil">
-  <h2>Bienvenue</h2>
-  <p>Commandez local, simplement.</p>
-</section>
-
-<section id="apropos" style="display:none">
-  <h2>À propos</h2>
-  <p>Plateforme locale de livraison.</p>
-</section>
-
-<section id="contact" style="display:none">
-  <h2>Contact</h2>
-  <p>cedric.huet.pro@gmail.com</p>
-</section>
-
-<section id="commander" style="display:none">
-  <h2>Choisir une catégorie</h2>
-  <div id="categoryList"></div>
-  <div id="commerceList"></div>
-  <div id="productList"></div>
-</section>
-
-<section id="mesCommandes" style="display:none">
-  <h2>Mes commandes</h2>
-  <div id="ordersClient"></div>
-</section>
-
-<!-- MINI-PANIER FLOTANT -->
-<div id="cart">
-  <div id="cartHeader"><strong>🛒 Panier</strong><span id="toggleCart">&#9650;</span></div>
-  <div id="cartContent"></div>
-  <div id="cartTotals"></div>
-  <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
-  <button class="validate-btn" onclick="openCheckoutForm()">Valider la commande</button>
-</div>
-
-<!-- FORM LIVRAISON -->
-<div id="checkoutOverlay" onclick="closeCheckoutForm()"></div>
-<div id="checkoutForm">
-  <h3>Informations de livraison</h3>
-
-  <input type="text" id="custName" placeholder="Nom et prénom" required>
-  <input type="text" id="custPhone" placeholder="Téléphone" required>
-
-  <input type="text" id="custAddress" placeholder="Adresse de livraison" required autocomplete="off">
-
-  <div id="addressSuggestions"
-       style="background:#fff;border:1px solid #ccc;border-radius:10px;
-              display:none;max-height:150px;overflow-y:auto;margin-bottom:0.7rem;">
-  </div>
-
-  <input type="text" id="custAddressExtra"
-         placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
-        
-  <p id="deliveryPrice" style="margin-bottom:0.7rem;font-weight:600;"></p>
-  <p id="checkoutTotal" style="font-weight:700;font-size:1.1rem;"></p>
-
-  <button onclick="confirmOrder()">Confirmer et payer</button>
-</div>
-
-<div id="errorMessage"></div>
-<div id="addedMessage">Produit ajouté ✅</div>
-
-<script>
-// MENU et navigation
-function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
-function nav(p){toggleMenu(); showPage(p);}
-function showPage(p){
-  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.style.display = 'none';
-  });
-
-  document.getElementById(p).style.display = 'block';
-
-  if(p === 'mesCommandes' && window.renderClientOrders) {
-    window.renderClientOrders();
-  }
-} // ← CETTE LIGNE MANQUAIT
-
-// MESSAGE
-function showMessage(msg){
-  const el=document.getElementById("errorMessage");
-  el.innerText=msg;
-  el.classList.add("show");
-  setTimeout(()=>{el.classList.remove("show");},2000);
-}
-
-// PANIER
-let selectedCommerceId=null;
-function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
-function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
-function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
-function addToCart(
-  commerceId,
-  productId,
-  name,
-  price,
-  stock,
-  maxPerDelivery
-){
-  if(selectedCommerceId && selectedCommerceId !== commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");return;}
-  selectedCommerceId = commerceId;
-  let cart = getCart();
-  price = parseFloat(price.toString().replace(",","."));  
-  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-  if(existing){
-
-  if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
-    showMessage(`Maximum ${maxPerDelivery} par client`);
-    return;
-  }
-
-  if(existing.quantity >= stock){
-    showMessage("Stock limité");
-    return;
-  }
-
-  existing.quantity += 1;
-} 
-  else{if(stock < 1){ showMessage("Produit non disponible"); return; } cart.push({commerceId, productId, name, price, quantity:1, stock, maxPerDelivery});}
-  saveCart(cart); showAddedMessage();
-}
-function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
-function updateQuantity(productId, qty){
-  let cart = getCart();
-  const index = cart.findIndex(p => p.productId === productId);
-
-  if(index === -1) return;
-
-  const item = cart[index];
-
-  if(qty > item.stock){
-    showMessage("Stock limité");
-    return;
-  }
-
-  if(qty <= 0){
-    cart.splice(index, 1); // ❌ suppression propre
-  }else{
-    if(
-  item.maxPerDelivery > 0 &&
-  qty > item.maxPerDelivery
-){
-  showMessage(`Maximum ${item.maxPerDelivery} par client`);
-  return;
-}
-    item.quantity = qty;
-  }
-
-  if(cart.length === 0){
-    selectedCommerceId = null;
-  }
-
-  saveCart(cart);
-}
-function renderCart(){
-  const cartBox = document.getElementById("cart");
-  const container = document.getElementById("cartContent");
-  const cart = getCart();
-
-  container.innerHTML = "";
-
-  if(cart.length === 0){
-    cartBox.classList.remove("expanded");
-    container.innerHTML = "<p>Panier vide</p>";
-    return;
-  }
-
-  cartBox.classList.add("expanded");
-
-  let itemsTotal = 0;
-
-  cart.forEach(item=>{
-    itemsTotal += item.price * item.quantity;
-
-    container.innerHTML += `
-      <div>
-        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">-</button>
-        ${item.quantity}
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
-      </div>
-    `;
-  });
-
-  const delivery = window.currentDeliveryPrice;
-
-container.innerHTML += `
-  <h3>Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3>
-  <h3>Livraison : ${delivery ? delivery.toFixed(2).replace(".",",") + " €" : "—"}</h3>
-  <h3>Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".",",")} €</h3>
-`;
-}
-
-document.addEventListener("DOMContentLoaded", renderCart);
-
-// MINI PANIER EXPAND/RETRACT
-const cartHeader = document.getElementById("cartHeader");
-if(cartHeader){
-  cartHeader.onclick = ()=>{
-    const cart=document.getElementById("cart");
-    cart.classList.toggle("expanded");
-    const arrow=document.getElementById("toggleCart");
-    arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// FORMULAIRE LIVRAISON
-function openCheckoutForm(){
-  if(getCart().length===0){showMessage("Panier vide"); return;}
-  document.getElementById("checkoutForm").style.display="block";
-  document.getElementById("checkoutOverlay").style.display="block";
-}
-function closeCheckoutForm(){
-  document.getElementById("checkoutForm").style.display="none";
-  document.getElementById("checkoutOverlay").style.display="none";
-}
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  onSnapshot,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import {
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const firebaseConfig = {apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",authDomain:"livraison-sablaise.firebaseapp.com",projectId:"livraison-sablaise",storageBucket:"livraison-sablaise.firebasestorage.app",messagingSenderId:"930839535214",appId:"1:930839535214:web:a3235919aa88d066bc507f",measurementId:"G-R3ZCGLQ69E"};
-const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
-
-const categoryList=document.getElementById("categoryList");
-const commerceList=document.getElementById("commerceList");
-const productList=document.getElementById("productList");
-
-let unsubscribeProducts = null;
-
-let categoriesSet = new Set();
-let commerceCategories = {};
-
-async function loadCategories(){
-  const snapshot = await getDocs(collection(db,"commerces"));
-  snapshot.forEach(docSnap=>{const c=docSnap.data(); const cat=c.category || "Autres"; categoriesSet.add(cat); commerceCategories[docSnap.id]=cat;});
-  categoryList.innerHTML="";
-  [...categoriesSet].sort().forEach(cat=>{
-    const div=document.createElement("div");
-    div.className="category";
-    div.dataset.opened="false";
-    div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
-    div.onclick=()=>{if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return;} [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showCommercesByCategory(cat);}
-    categoryList.appendChild(div);
-  });
+/* Catégories – sélection plus visible */
+.category {
+  position: relative;
+  border: 2px solid transparent;
 }
 
-function showCommercesByCategory(cat){
-  productList.innerHTML=""; commerceList.innerHTML="<h3>Commerces</h3>";
-  getDocs(collection(db,"commerces")).then(snapshot=>{
-    snapshot.forEach(docSnap=>{
-      if((docSnap.data().category || "Autres")===cat){
-        const div=document.createElement("div");
-        div.className="commerce"; div.dataset.opened="false";
-        div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
-        div.onclick=()=>{if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; } [...commerceList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showProducts(docSnap.id);};
-        commerceList.appendChild(div);
-      }
-    });
-  });
-  productList.innerHTML="";
+.category.selected {
+  border-color: #0077b6;
+  box-shadow: 0 0 0 4px rgba(0,119,182,0.15);
+  transform: scale(1.02);
 }
 
-function showProducts(commerceId){
-  productList.innerHTML = "<h3>Produits</h3>";
-
-  // 🔴 couper l'ancien listener s'il existe
-  if(unsubscribeProducts){
-    unsubscribeProducts();
-  }
-
-  const productsRef = collection(db,"commerces",commerceId,"produits");
-
-  // ✅ garder le nouveau listener
-  unsubscribeProducts = onSnapshot(productsRef, snapshot => {
-    productList.innerHTML = "<h3>Produits</h3>";
-
-    snapshot.forEach(docSnap => {
-      const p = docSnap.data();
-      const stock = p.stock || 0;
-
-      const div = document.createElement("div");
-      div.className = "product";
-
-      const price = p.price.toString().replace(".",",");
-
-      div.innerHTML = `
-  ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg">` : ""}
-
-  <span>${p.name} - ${price}€</span>
-  <span class="stock">Stock : ${stock}</span>
-`;
-
-      const btn = document.createElement("button");
-      btn.innerText = "Ajouter au panier";
-      btn.disabled = !p.available || stock < 1;
-
-      btn.onclick = () => addToCart(
-  commerceId,
-  docSnap.id,
-  p.name,
-  p.price,
-  stock,
-  p.maxPerDelivery || 0
-);
-
-      div.appendChild(btn);
-      productList.appendChild(div);
-    });
-  });
+.category::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  transition: box-shadow 0.3s ease;
 }
 
-let selectedAddressLatLng = null;
-let addressTimeout = null;
-
-document.getElementById("custAddress").addEventListener("input", (e) => {
-  const query = e.target.value.trim();
-  const box = document.getElementById("addressSuggestions");
-
-  selectedAddressLatLng = null;
-
-  clearTimeout(addressTimeout);
-
-  if(query.length < 3){
-    box.style.display = "none";
-    return;
-  }
-
-  addressTimeout = setTimeout(async () => {
-    const apiKey = "42bb53accb9048248243b21b99a5a18a";
-    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
-
-    const res = await fetch(url);
-    const data = await res.json();
-
-    box.innerHTML = "";
-    box.style.display = "block";
-
-    if(!data.features || data.features.length === 0){
-      box.style.display = "none";
-      return;
-    }
-
-    data.features.forEach(f => {
-      const div = document.createElement("div");
-      div.style.padding = "0.5rem";
-      div.style.cursor = "pointer";
-      div.innerText = f.properties.formatted;
-
-      div.onclick = async () => {
-        document.getElementById("custAddress").value = f.properties.formatted;
-        if(
-  !f.properties.housenumber &&
-  !f.properties.street
-){
-  showMessage("Veuillez choisir une adresse précise (rue + numéro)");
-  return;
+.category:hover::after {
+  box-shadow: inset 0 0 0 2px rgba(0,180,216,0.4);
 }
 
-selectedAddressLatLng = {
-  lat: f.geometry.coordinates[1],
-  lng: f.geometry.coordinates[0]
-};
-
-const cart = getCart();
-if(cart.length === 0) return;
-
-const commerceId = cart[0].commerceId;
-const commerceRef = doc(db, "commerces", commerceId);
-const commerceSnap = await getDoc(commerceRef);
-
-if(!commerceSnap.exists()) return;
-
-const commerce = commerceSnap.data();
-
-const distance = getDistanceKm(
-  commerce.lat,
-  commerce.lng,
-  selectedAddressLatLng.lat,
-  selectedAddressLatLng.lng
-);
-
-if(distance > 10){
-  showMessage("Adresse hors zone de livraison (10 km max)");
-  return;
+/* Commerces – focus clair */
+.commerce {
+  position: relative;
+  border: 2px solid transparent;
+  overflow: hidden;
 }
 
-const deliveryPrice = getDeliveryPrice(distance);
-window.currentDeliveryPrice = deliveryPrice;
-renderCart();
-
-document.getElementById("deliveryPrice").innerText =
-  `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
-  
-const itemsTotal = getCart().reduce((s,i)=>s + i.price*i.quantity, 0);
-const total = itemsTotal + deliveryPrice;
-
-document.getElementById("checkoutTotal").innerText =
-  `💳 Total à payer : ${total.toFixed(2).replace(".",",")} €`;
-  
-        box.style.display = "none";
-      };
-
-      box.appendChild(div);
-    });
-  }, 300); // ⏱ anti-clignotement
-});
-
-window.confirmOrder = async function(){
-  const user = window.currentUser;
-  if(!user){
-    showMessage("Vous devez être connecté");
-    return;
-  }
-
-  const cart = getCart();
-  if(cart.length === 0){
-    showMessage("Panier vide");
-    return;
-  }
-
-  // 🔐 Sécurité : respect du max par client
-  for(const item of cart){
-    if(
-      item.maxPerDelivery > 0 &&
-      item.quantity > item.maxPerDelivery
-    ){
-      showMessage(
-        `${item.name} : maximum ${item.maxPerDelivery} autorisé`
-      );
-      return;
-    }
-  }
-
-  const commerceId = cart[0].commerceId;
-
-  if(!selectedAddressLatLng){
-    showMessage("Veuillez sélectionner une adresse valide");
-    return;
-  }
-
-  // 🔎 récupérer le commerce
-  const commerceRef = doc(db, "commerces", commerceId);
-  const commerceSnap = await getDoc(commerceRef);
-
-  if(!commerceSnap.exists()){
-    showMessage("Commerce introuvable");
-    return;
-  }
-
-  const commerce = commerceSnap.data();
-
-  if(!commerce.lat || !commerce.lng){
-  showMessage("Position du commerce non définie");
-  return;
+.commerce.selected {
+  border-color: #00b4d8;
+  box-shadow:
+    0 0 0 4px rgba(0,180,216,0.2),
+    0 15px 35px rgba(0,0,0,0.12);
+  transform: scale(1.03);
 }
 
-const distance = getDistanceKm(
-  commerce.lat,
-  commerce.lng,
-  selectedAddressLatLng.lat,
-  selectedAddressLatLng.lng
-);
-
-  if(distance > 10){
-    showMessage("Adresse hors zone de livraison (10 km max)");
-    return;
-  }
-
-  const name = document.getElementById("custName").value.trim();
-  const phone = document.getElementById("custPhone").value.trim();
-  const address = document.getElementById("custAddress").value.trim();
-
-  if(!name || !phone || !address){
-    showMessage("Veuillez remplir tous les champs");
-    return;
-  }
-
-  const itemsTotal = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
-const deliveryPrice = getDeliveryPrice(distance);
-const total = itemsTotal + deliveryPrice;
-
-  try{
-    await addDoc(collection(db,"commandes"),{
-  commerceId,
-  clientId: user.uid,
-  client: {
-    nom: name,
-    tel: phone,
-    adresse: address
-  },
-  items: cart.map(i => ({
-    productId: i.productId,
-    name: i.name,
-    price: i.price,
-    qty: i.quantity
-  })),
-  itemsTotal,
-  deliveryPrice,
-  distanceKm: distance,
-  total,
-  status: "en_attente",
-  createdAt: serverTimestamp()
-});
-
-    showMessage("Commande envoyée ✅");
-    clearCart();
-    closeCheckoutForm();
-    showPage('mesCommandes');
-
-  }catch(e){
-    showMessage("Erreur : " + e.message);
-  }
-};
-
-
-// LOGIN
-window.login = async function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  try{ await signInWithEmailAndPassword(auth, email, password); } catch(e){ showMessage("Erreur de connexion"); }
-}
-
-// REGISTER
-window.register = async function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email: email,
-      role: "client",
-      createdAt: new Date()
-    });
-
-    showMessage("Compte créé ✅");
-  } catch(e){
-    showMessage("Erreur inscription");
-  }
-}
-
-window.openLoginMenu = function() {
-  toggleMenu();
-  const box = document.getElementById("authBox");
-  box.style.display = "block";
-  box.style.opacity = 0;
-  box.style.transform = "scale(0.9)";
-  setTimeout(()=> {
-    box.style.transition = "all 0.3s ease";
-    box.style.opacity = 1;
-    box.style.transform = "scale(1)";
-  }, 10);
-}
-
-window.logout = function(){ auth.signOut().then(()=>{showMessage("Déconnecté ✅");}).catch(()=>{showMessage("Erreur déconnexion");}); }
-
-onAuthStateChanged(auth, user=>{
-  const authBox = document.getElementById("authBox");
-  const loginBtn = document.getElementById("menuLoginBtn");
-  const logoutBtn = document.getElementById("menuLogoutBtn");
-  if(user){ authBox.style.display="none"; window.currentUser=user; loginBtn.style.display="none"; logoutBtn.style.display="block"; } 
-  else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
-});
-
-
-window.renderClientOrders = function(){
-  const container = document.getElementById("ordersClient");
-
-  if(!window.currentUser){
-    container.innerHTML = "<p>Veuillez vous connecter</p>";
-    return;
-  }
-
-  container.innerHTML = "Chargement...";
-
-  const q = query(
-    collection(db, "commandes"),
-    where("clientId", "==", window.currentUser.uid)
+.commerce::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(0,180,216,0.15),
+    transparent 60%
   );
-
-  onSnapshot(q, (snapshot)=>{
-    container.innerHTML = "";
-
-    if(snapshot.empty){
-      container.innerHTML = "<p>Aucune commande pour le moment</p>";
-      return;
-    }
-
-    snapshot.forEach(docSnap=>{
-      const o = docSnap.data();
-
-      const steps = ["en_attente","prete","en_livraison","livree"];
-const currentIndex = steps.indexOf(o.status);
-
-container.innerHTML += `
-  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
-    <strong>Commande</strong><br>
-    Total : ${o.total.toFixed(2)} €<br>
-
-    <div class="status-bar">
-      ${steps.map((s,i)=>`
-        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
-      `).join("")}
-    </div>
-
-    <small>Statut : ${o.status.replace("_"," ")}</small>
-  </div>
-`;
-    });
-  });
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-function getDistanceKm(lat1, lng1, lat2, lng2){
-  const R = 6371; // rayon Terre en km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-
-  const a =
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng/2) * Math.sin(dLng/2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
+.commerce.selected::before {
+  opacity: 1;
 }
 
-function getDeliveryPrice(distanceKm){
-  if(distanceKm <= 3){
-    return 4.90;
+/* Produits – apparition douce */
+.product {
+  animation: popIn 0.35s ease forwards;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
   }
-
-  const extraKm = Math.ceil(distanceKm - 3);
-  return 4.90 + (extraKm * 1.5);
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
+/* Bouton ajouter au panier – effet premium */
+.product button {
+  position: relative;
+  overflow: hidden;
+}
 
-loadCategories();
-</script>
+.product button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.4),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-</body>
-</html>
+.product button:hover::after {
+  opacity: 1;
+}
 
-
-
-
-
-
-
-
+/* Scroll confortable */
+.category.selected,
+.commerce.selected {
+  scroll-margin-top: 120px;
+}
