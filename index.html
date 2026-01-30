@@ -213,18 +213,53 @@ h2{margin-bottom:1rem}
 
 
 /* ============================= */
-/*   AMÉLIORATIONS VISUELLES UX  */
+/*        KILLER INTRO           */
+/*   (CSS ONLY – SAFE MODE)     */
 /* ============================= */
 
-/* Animation d’arrivée */
-body {
-  animation: fadeIn 0.6s ease-out;
+/* Fond animé plein écran au chargement */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(0,180,216,0.35), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(144,224,239,0.35), transparent 60%),
+    linear-gradient(180deg, #0077b6, #023e8a);
+  z-index: -1;
+  opacity: 1;
+  animation: introBgFade 1.2s ease forwards;
 }
 
-@keyframes fadeIn {
+/* Header = HERO à l’entrée */
+header {
+  animation: heroEnter 0.9s cubic-bezier(.19,1,.22,1) both;
+}
+
+/* Sections arrivent légèrement après */
+section {
+  animation: contentEnter 0.8s cubic-bezier(.19,1,.22,1) both;
+  animation-delay: 0.15s;
+}
+
+/* Keyframes */
+@keyframes heroEnter {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-40px) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes contentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -232,107 +267,15 @@ body {
   }
 }
 
-/* Catégories – sélection plus visible */
-.category {
-  position: relative;
-  border: 2px solid transparent;
-}
-
-.category.selected {
-  border-color: #0077b6;
-  box-shadow: 0 0 0 4px rgba(0,119,182,0.15);
-  transform: scale(1.02);
-}
-
-.category::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-  transition: box-shadow 0.3s ease;
-}
-
-.category:hover::after {
-  box-shadow: inset 0 0 0 2px rgba(0,180,216,0.4);
-}
-
-/* Commerces – focus clair */
-.commerce {
-  position: relative;
-  border: 2px solid transparent;
-  overflow: hidden;
-}
-
-.commerce.selected {
-  border-color: #00b4d8;
-  box-shadow:
-    0 0 0 4px rgba(0,180,216,0.2),
-    0 15px 35px rgba(0,0,0,0.12);
-  transform: scale(1.03);
-}
-
-.commerce::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(0,180,216,0.15),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.commerce.selected::before {
-  opacity: 1;
-}
-
-/* Produits – apparition douce */
-.product {
-  animation: popIn 0.35s ease forwards;
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
+@keyframes introBgFade {
+  0% {
     opacity: 1;
-    transform: scale(1);
+  }
+  100% {
+    opacity: 0.15;
   }
 }
 
-/* Bouton ajouter au panier – effet premium */
-.product button {
-  position: relative;
-  overflow: hidden;
-}
-
-.product button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255,255,255,0.4),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.product button:hover::after {
-  opacity: 1;
-}
-
-/* Scroll confortable */
-.category.selected,
-.commerce.selected {
-  scroll-margin-top: 120px;
-}
 
 
 </style>
@@ -1033,6 +976,7 @@ loadCategories();
 
 </body>
 </html>
+
 
 
 
