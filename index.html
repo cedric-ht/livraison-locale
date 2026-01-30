@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Livraison Locale</title>
 <style>
-
 /* =====================================================
    RESET + VARIABLES (DESIGN SYSTEM)
 ===================================================== */
@@ -14,25 +13,19 @@
   padding:0;
   box-sizing:border-box;
   -webkit-tap-highlight-color: transparent;
-  max-width:100%;
-}
-
-html, body{
-  width:100%;
-  overflow-x:hidden;
 }
 
 :root{
-  /* Brand luxe */
-  --primary:#1a1a1a;
-  --secondary:#3d3d3d;
-  --accent:#d4af37;
-  --success:#2ec4b6;
-  --danger:#e63946;
+  /* Brand - Luxe */
+  --primary:#1a1a1a;       /* Noir profond */
+  --secondary:#3d3d3d;     /* Gris anthracite */
+  --accent:#d4af37;        /* Or élégant */
+  --success:#2ec4b6;       
+  --danger:#e63946;         
 
   /* Neutrals */
-  --bg:#fefcf7;
-  --card:#ffffff;
+  --bg:#fefcf7;            /* Ivoire doux */
+  --card:#ffffff;          
   --text:#0f172a;
   --muted:#7a7a7a;
 
@@ -46,25 +39,15 @@ html, body{
 }
 
 body{
-  font-family:'Lato',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
+  overflow-x:hidden;
 }
 
 /* =====================================================
-   FIX IOS / BOUTONS (PLUS DE GRIS)
-===================================================== */
-button,
-button:active,
-button:focus{
-  opacity:1 !important;
-  filter:none !important;
-  -webkit-filter:none !important;
-}
-
-/* =====================================================
-   ANIMATIONS
+   ANIMATIONS (APP-LIKE)
 ===================================================== */
 @keyframes fadeUp{
   from{opacity:0; transform:translateY(18px)}
@@ -82,7 +65,7 @@ button:focus{
 ===================================================== */
 header{
   background:
-    linear-gradient(145deg, rgba(26,26,26,.85), rgba(61,61,61,.65)),
+    linear-gradient(145deg, rgba(26,26,26,0.85), rgba(61,61,61,0.65)),
     linear-gradient(135deg,var(--primary),var(--secondary));
   color:var(--accent);
   padding:2.6rem 1.4rem 2.8rem;
@@ -95,10 +78,11 @@ header h1{
   font-family:'Playfair Display', serif;
   font-size:2rem;
   font-weight:800;
+  letter-spacing:-0.5px;
 }
 
 header p{
-  opacity:.9;
+  opacity:.95;
   margin-top:.4rem;
   font-size:1rem;
 }
@@ -120,13 +104,13 @@ header p{
   font-size:1.05rem;
   font-weight:700;
   cursor:pointer;
-  transition:transform .25s ease, box-shadow .25s ease;
+  transition:all .3s ease;
 }
 
 #orderBtn{
-  background:linear-gradient(135deg,var(--accent),#ffd700);
+  background:linear-gradient(135deg, #d4af37, #ffd700);
   color:#1a1a1a;
-  box-shadow:0 8px 25px rgba(212,175,55,.35);
+  box-shadow:0 8px 25px rgba(212,175,55,0.35);
 }
 
 #orderBtn:active{
@@ -136,6 +120,35 @@ header p{
 #menuBtn{
   background:rgba(255,255,255,.12);
   color:var(--accent);
+}
+
+/* =====================================================
+   MOBILE MENU (SAFE)
+===================================================== */
+#mobileMenuOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:2999;
+}
+
+#mobileMenu{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:white;
+  z-index:3000;
+  padding:2rem 1.5rem;
+}
+
+#mobileMenu a{
+  display:block;
+  padding:1.1rem 0;
+  font-size:1.2rem;
+  font-weight:700;
+  color:var(--primary);
+  border-bottom:1px solid #eee;
 }
 
 /* =====================================================
@@ -183,7 +196,7 @@ h2{
 .commerce:hover,
 .product:hover{
   transform:translateY(-4px);
-  box-shadow:0 18px 45px rgba(0,0,0,.12);
+  box-shadow:0 18px 45px rgba(0,0,0,0.12);
 }
 
 .category:active,
@@ -206,6 +219,11 @@ h2{
   object-fit:cover;
   border-radius:18px;
   margin-bottom:.8rem;
+  transition:transform .3s ease;
+}
+
+.productImg:hover{
+  transform:scale(1.03);
 }
 
 .product span{
@@ -227,7 +245,8 @@ h2{
   background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
   font-weight:800;
-  box-shadow:0 6px 20px rgba(212,175,55,.25);
+  box-shadow:0 6px 20px rgba(212,175,55,0.25);
+  transition:transform .25s ease, box-shadow .25s ease;
 }
 
 .product button:active{
@@ -235,7 +254,7 @@ h2{
 }
 
 /* =====================================================
-   PANIER (ESTHETIQUE UNIQUEMENT)
+   PANIER FLOTTANT (UNIQUEMENT ESTHETIQUE)
 ===================================================== */
 #cart{
   position:fixed;
@@ -301,7 +320,7 @@ h2{
 }
 
 /* =====================================================
-   FORMULAIRE (ESTHETIQUE)
+   FORMULAIRE
 ===================================================== */
 #checkoutOverlay{
   display:none;
@@ -331,6 +350,13 @@ h2{
   border-radius:16px;
   border:1px solid #ddd;
   margin-bottom:.9rem;
+  transition:border-color .25s ease, box-shadow .25s ease;
+}
+
+#checkoutForm input:focus{
+  border-color:var(--accent);
+  outline:none;
+  box-shadow:0 0 8px rgba(212,175,55,0.25);
 }
 
 #checkoutForm button{
@@ -344,7 +370,7 @@ h2{
 }
 
 /* =====================================================
-   FEEDBACK (INCHANGÉ)
+   FEEDBACK (Aucun changement fonctionnel)
 ===================================================== */
 #addedMessage,
 #errorMessage{
