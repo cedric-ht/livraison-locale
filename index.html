@@ -16,27 +16,24 @@
 }
 
 :root {
-  /* Couleurs Luxe */
   --primary: #1a1a1a;
   --secondary: #3d3d3d;
   --accent: #d4af37;
   --success: #2ec4b6;
   --danger: #e63946;
 
-  /* Neutres */
   --bg: #fefcf7;
   --card: #ffffff;
   --text: #0f172a;
   --muted: #7a7a7a;
 
-  /* UI */
   --radius-xl: 28px;
   --radius-lg: 20px;
   --radius-md: 14px;
 
   --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.08);
   --shadow-strong: 0 25px 60px rgba(0, 0, 0, 0.18);
-  --shadow-glow: 0 0 12px rgba(212, 175, 55, 0.3);
+  --shadow-glow: 0 0 14px rgba(212, 175, 55, 0.4);
 }
 
 body {
@@ -91,9 +88,6 @@ header p {
   color: rgba(255,255,255,0.85);
 }
 
-/* =====================================================
-   CTA
-===================================================== */
 #cta {
   margin-top: 2rem;
   display: flex;
@@ -167,25 +161,19 @@ h2 {
   border-radius: var(--radius-xl);
   padding: 1.5rem;
   box-shadow: var(--shadow-soft);
-  transition: transform .35s ease, box-shadow .35s ease;
+  transition: transform .35s ease, box-shadow .35s ease, border 0.3s ease;
 }
 
 .category:hover,
 .commerce:hover,
 .product:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: 0 18px 45px rgba(0,0,0,0.12);
-}
-
-.category:active,
-.commerce:active,
-.product:active {
-  transform: scale(.96);
 }
 
 .category.selected,
 .commerce.selected {
-  outline: 3px solid var(--accent);
+  border: 2px solid var(--accent);
 }
 
 /* =====================================================
@@ -205,8 +193,8 @@ h2 {
 }
 
 .product span {
-  font-weight: 800;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .stock {
@@ -222,7 +210,7 @@ h2 {
   border-radius: 18px;
   background: linear-gradient(135deg, var(--accent), #ffd166);
   color: #1a1a1a;
-  font-weight: 800;
+  font-weight: 700;
   box-shadow: 0 6px 20px rgba(212,175,55,0.25);
   transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -244,10 +232,12 @@ h2 {
   border-radius: 26px;
   padding: 1rem 1.4rem;
   box-shadow: 0 25px 60px rgba(0,0,0,.22);
+  transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
-#cart.added {
-  animation: pop .3s ease;
+#cart.expanded {
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 #cartHeader {
@@ -255,12 +245,7 @@ h2 {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-}
-
-#cartContent {
-  max-height: 45vh;
-  overflow-y: auto;
-  margin-top: .7rem;
+  font-weight: 700;
 }
 
 #cartContent div {
@@ -274,17 +259,14 @@ h2 {
   position: relative;
 }
 
-#cart h3 {
-  text-align: right;
-  color: var(--primary);
-}
-
 .clear-btn {
   width: 100%;
   background: var(--danger);
   color: white;
   padding: .85rem;
   border-radius: 18px;
+  margin-top: .5rem;
+  font-weight: 700;
 }
 
 .validate-btn {
@@ -294,6 +276,7 @@ h2 {
   padding: .95rem;
   font-weight: 900;
   border-radius: 22px;
+  margin-top: .5rem;
 }
 
 /* =====================================================
@@ -364,7 +347,7 @@ h2 {
   font-weight: 900;
   z-index: 4000;
   display: none;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 
 #addedMessage {
@@ -405,26 +388,6 @@ h2 {
 
 .stock.low::before {
   content: "⚠ ";
-}
-
-/* =====================================================
-   COMMERCES
-===================================================== */
-.commerce {
-  position: relative;
-}
-
-.commerce::after {
-  content: "Commerce";
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  font-size: .7rem;
-  padding: .3rem .6rem;
-  border-radius: 10px;
-  background: rgba(212,175,55,.15);
-  color: var(--accent);
-  font-weight: 700;
 }
 
 /* =====================================================
