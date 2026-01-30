@@ -6,11 +6,8 @@
 <title>Livraison Locale</title>
 <style>
 
-
-
-<style>
 /* =====================================================
-   RESET + VARIABLES (DESIGN SYSTEM)
+   RESET + VARIABLES (DESIGN SYSTEM LUXE)
 ===================================================== */
 *{
   margin:0;
@@ -20,14 +17,14 @@
 }
 
 :root{
-  /* Brand - Luxe */
+  /* Couleurs Luxe */
   --primary:#1a1a1a;       /* Noir profond */
   --secondary:#3d3d3d;     /* Gris anthracite */
   --accent:#d4af37;        /* Or élégant */
   --success:#2ec4b6;       
   --danger:#e63946;         
 
-  /* Neutrals */
+  /* Neutres */
   --bg:#fefcf7;            /* Ivoire doux */
   --card:#ffffff;          
   --text:#0f172a;
@@ -40,6 +37,7 @@
 
   --shadow-soft:0 12px 35px rgba(0,0,0,0.08);
   --shadow-strong:0 25px 60px rgba(0,0,0,0.18);
+  --shadow-glow:0 0 12px rgba(212,175,55,0.3);
 }
 
 body{
@@ -48,10 +46,11 @@ body{
   color:var(--text);
   min-height:100vh;
   overflow-x:hidden;
+  line-height:1.55;
 }
 
 /* =====================================================
-   ANIMATIONS (APP-LIKE)
+   ANIMATIONS
 ===================================================== */
 @keyframes fadeUp{
   from{opacity:0; transform:translateY(18px)}
@@ -72,30 +71,32 @@ header{
     linear-gradient(145deg, rgba(26,26,26,0.85), rgba(61,61,61,0.65)),
     linear-gradient(135deg,var(--primary),var(--secondary));
   color:var(--accent);
-  padding:2.6rem 1.4rem 2.8rem;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
+  padding:2.8rem 1.6rem 3rem;
+  border-bottom-left-radius:36px;
+  border-bottom-right-radius:36px;
   box-shadow:var(--shadow-strong);
 }
 
 header h1{
   font-family:'Playfair Display', serif;
-  font-size:2rem;
+  font-size:2.2rem;
   font-weight:800;
   letter-spacing:-0.5px;
 }
 
 header p{
   opacity:.95;
-  margin-top:.4rem;
-  font-size:1rem;
+  margin-top:.5rem;
+  font-size:1.05rem;
+  font-weight:400;
+  color:rgba(255,255,255,0.85);
 }
 
 /* =====================================================
    CTA
 ===================================================== */
 #cta{
-  margin-top:1.6rem;
+  margin-top:2rem;
   display:flex;
   gap:1rem;
 }
@@ -104,7 +105,7 @@ header p{
   flex:1;
   padding:1.05rem;
   border:none;
-  border-radius:20px;
+  border-radius:22px;
   font-size:1.05rem;
   font-weight:700;
   cursor:pointer;
@@ -115,6 +116,8 @@ header p{
   background:linear-gradient(135deg, #d4af37, #ffd700);
   color:#1a1a1a;
   box-shadow:0 8px 25px rgba(212,175,55,0.35);
+  position:relative;
+  overflow:hidden;
 }
 
 #orderBtn:active{
@@ -127,7 +130,7 @@ header p{
 }
 
 /* =====================================================
-   MOBILE MENU (SAFE)
+   MOBILE MENU
 ===================================================== */
 #mobileMenuOverlay{
   display:none;
@@ -141,15 +144,15 @@ header p{
   display:none;
   position:fixed;
   inset:0;
-  background:white;
+  background:#fefcf7;
   z-index:3000;
-  padding:2rem 1.5rem;
+  padding:2.5rem 2rem;
 }
 
 #mobileMenu a{
   display:block;
-  padding:1.1rem 0;
-  font-size:1.2rem;
+  padding:1.2rem 0;
+  font-size:1.25rem;
   font-weight:700;
   color:var(--primary);
   border-bottom:1px solid #eee;
@@ -159,9 +162,9 @@ header p{
    SECTIONS
 ===================================================== */
 section{
-  max-width:900px;
+  max-width:960px;
   margin:auto;
-  padding:2rem 1.3rem 0;
+  padding:2.5rem 1.5rem 0;
 }
 
 section > *{
@@ -170,9 +173,10 @@ section > *{
 
 h2{
   font-family:'Playfair Display', serif;
-  font-size:1.5rem;
+  font-size:1.7rem;
   font-weight:800;
-  margin-bottom:1.3rem;
+  margin-bottom:1.5rem;
+  color:var(--primary);
 }
 
 /* =====================================================
@@ -182,8 +186,8 @@ h2{
 #commerceList,
 #productList{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:1.4rem;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1.6rem;
 }
 
 .category,
@@ -191,9 +195,9 @@ h2{
 .product{
   background:var(--card);
   border-radius:var(--radius-xl);
-  padding:1.2rem;
+  padding:1.5rem;
   box-shadow:var(--shadow-soft);
-  transition:transform .3s ease, box-shadow .3s ease;
+  transition:transform .35s ease, box-shadow .35s ease;
 }
 
 .category:hover,
@@ -219,10 +223,10 @@ h2{
 ===================================================== */
 .productImg{
   width:100%;
-  height:170px;
+  height:180px;
   object-fit:cover;
-  border-radius:18px;
-  margin-bottom:.8rem;
+  border-radius:20px;
+  margin-bottom:1rem;
   transition:transform .3s ease;
 }
 
@@ -243,9 +247,9 @@ h2{
 
 .product button{
   width:100%;
-  padding:.85rem;
+  padding:.95rem;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
   font-weight:800;
@@ -258,7 +262,7 @@ h2{
 }
 
 /* =====================================================
-   PANIER FLOTTANT (UNIQUEMENT ESTHETIQUE)
+   PANIER FLOTTANT
 ===================================================== */
 #cart{
   position:fixed;
@@ -268,7 +272,7 @@ h2{
   z-index:500;
   background:#fffdf7;
   border-radius:26px;
-  padding:.8rem 1.2rem;
+  padding:1rem 1.4rem;
   box-shadow:0 25px 60px rgba(0,0,0,.22);
 }
 
@@ -295,10 +299,14 @@ h2{
 }
 
 #cartContent div{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
   background:#fff8e1;
   border-radius:16px;
-  padding:.9rem;
+  padding:1rem;
   margin-bottom:.6rem;
+  position:relative;
 }
 
 #cart h3{
@@ -310,8 +318,8 @@ h2{
   width:100%;
   background:var(--danger);
   color:white;
-  padding:.75rem;
-  border-radius:16px;
+  padding:.85rem;
+  border-radius:18px;
 }
 
 .validate-btn{
@@ -320,7 +328,59 @@ h2{
   color:#1a1a1a;
   padding:.95rem;
   font-weight:900;
-  border-radius:18px;
+  border-radius:22px;
+}
+
+/* =====================================================
+   PANIER – BOUTONS + / - / SUPPRIMER (LUXE)
+===================================================== */
+.qty-btn{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid rgba(212,175,55,.5);
+  background:transparent;
+  color:var(--accent);
+  font-size:1.2rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+
+.qty-btn:hover{
+  background:linear-gradient(135deg,var(--accent),#ffd166);
+  color:#1a1a1a;
+  box-shadow:0 6px 18px rgba(212,175,55,.35);
+  transform:scale(1.1);
+}
+
+.qty-btn:active{
+  transform:scale(.95);
+}
+
+.qty{
+  min-width:26px;
+  text-align:center;
+  font-weight:700;
+  color:var(--primary);
+}
+
+.remove-btn{
+  margin-left:auto;
+  font-size:1.15rem;
+  color:rgba(0,0,0,.35);
+  background:none;
+  border:none;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+
+.remove-btn:hover{
+  color:var(--danger);
+  transform:scale(1.2);
 }
 
 /* =====================================================
@@ -340,18 +400,18 @@ h2{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  background:white;
+  background:#fffdf7;
   padding:2rem;
   border-radius:28px;
   width:90%;
-  max-width:420px;
+  max-width:440px;
   z-index:2001;
 }
 
 #checkoutForm input{
   width:100%;
-  padding:.9rem;
-  border-radius:16px;
+  padding:1rem;
+  border-radius:18px;
   border:1px solid #ddd;
   margin-bottom:.9rem;
   transition:border-color .25s ease, box-shadow .25s ease;
@@ -360,24 +420,31 @@ h2{
 #checkoutForm input:focus{
   border-color:var(--accent);
   outline:none;
-  box-shadow:0 0 8px rgba(212,175,55,0.25);
+  box-shadow:0 0 10px rgba(212,175,55,0.25);
 }
 
 #checkoutForm button{
   width:100%;
-  padding:.9rem;
+  padding:1rem;
   border:none;
-  border-radius:18px;
+  border-radius:22px;
   background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
   font-weight:800;
+  transition:all .25s ease;
+}
+
+#checkoutForm button:hover{
+  transform:scale(1.03);
 }
 
 /* =====================================================
-   FEEDBACK (Aucun changement fonctionnel)
+   MESSAGES / FEEDBACK
 ===================================================== */
 #addedMessage,
-#errorMessage{
+#errorMessage,
+.infoMessage,
+.limitReached{
   position:fixed;
   top:50%;
   left:50%;
@@ -387,6 +454,7 @@ h2{
   font-weight:900;
   z-index:4000;
   display:none;
+  box-shadow:0 12px 35px rgba(0,0,0,0.08);
 }
 
 #addedMessage{
@@ -399,9 +467,54 @@ h2{
   color:white;
 }
 
+.infoMessage{
+  background:#fff8e1;
+  color:#1a1a1a;
+  border-left:4px solid var(--accent);
+  font-weight:600;
+}
+
+.limitReached{
+  background:#fff1f2;
+  color:#7f1d1d;
+  font-weight:700;
+}
+
 .show{
   display:block;
   animation:pop .25s ease;
+}
+
+/* =====================================================
+   STOCK / QUANTITÉ
+===================================================== */
+.stock.low{
+  color:#b45309;
+  font-weight:700;
+}
+
+.stock.low::before{
+  content:"⚠ ";
+}
+
+/* =====================================================
+   COMMERCES
+===================================================== */
+.commerce{
+  position:relative;
+}
+
+.commerce::after{
+  content:"Commerce";
+  position:absolute;
+  top:14px;
+  right:14px;
+  font-size:.7rem;
+  padding:.3rem .6rem;
+  border-radius:10px;
+  background:rgba(212,175,55,.15);
+  color:var(--accent);
+  font-weight:700;
 }
 
 /* =====================================================
@@ -414,13 +527,11 @@ h2{
     grid-template-columns:1fr;
   }
   section{
-    padding-bottom:150px;
+    padding-bottom:160px;
   }
 }
 
-</style>
-
-</style>
+<style>
 
 </head>
 <body>
