@@ -6,7 +6,7 @@
 <title>Livraison Locale</title>
 <style>
 /* =====================================================
-   RESET + VARIABLES (DESIGN SYSTEM LUXE)
+   RESET + VARIABLES (DESIGN SYSTEM)
 ===================================================== */
 *{
   margin:0;
@@ -16,14 +16,14 @@
 }
 
 :root{
-  /* Couleurs Luxe */
+  /* Brand - Luxe */
   --primary:#1a1a1a;       /* Noir profond */
   --secondary:#3d3d3d;     /* Gris anthracite */
   --accent:#d4af37;        /* Or élégant */
   --success:#2ec4b6;       
   --danger:#e63946;         
 
-  /* Neutres */
+  /* Neutrals */
   --bg:#fefcf7;            /* Ivoire doux */
   --card:#ffffff;          
   --text:#0f172a;
@@ -36,7 +36,6 @@
 
   --shadow-soft:0 12px 35px rgba(0,0,0,0.08);
   --shadow-strong:0 25px 60px rgba(0,0,0,0.18);
-  --shadow-glow:0 0 12px rgba(212,175,55,0.3);
 }
 
 body{
@@ -45,11 +44,10 @@ body{
   color:var(--text);
   min-height:100vh;
   overflow-x:hidden;
-  line-height:1.55;
 }
 
 /* =====================================================
-   ANIMATIONS (LUXE)
+   ANIMATIONS (APP-LIKE)
 ===================================================== */
 @keyframes fadeUp{
   from{opacity:0; transform:translateY(18px)}
@@ -62,101 +60,76 @@ body{
   100%{transform:scale(1)}
 }
 
-@keyframes goldShimmer{
-  0%{background-position:-200% 0}
-  100%{background-position:200% 0}
-}
-
 /* =====================================================
    HEADER / HERO
 ===================================================== */
 header{
   background:
     linear-gradient(145deg, rgba(26,26,26,0.85), rgba(61,61,61,0.65)),
-    linear-gradient(145deg,var(--primary),var(--secondary));
+    linear-gradient(135deg,var(--primary),var(--secondary));
   color:var(--accent);
-  padding:3rem 2rem 3.2rem;
-  border-bottom-left-radius:36px;
-  border-bottom-right-radius:36px;
+  padding:2.6rem 1.4rem 2.8rem;
+  border-bottom-left-radius:34px;
+  border-bottom-right-radius:34px;
   box-shadow:var(--shadow-strong);
 }
 
 header h1{
   font-family:'Playfair Display', serif;
-  font-size:2.4rem;
-  font-weight:700;
+  font-size:2rem;
+  font-weight:800;
   letter-spacing:-0.5px;
-  line-height:1.2;
 }
 
 header p{
-  opacity:.9;
-  margin-top:.5rem;
-  font-size:1.05rem;
-  font-weight:400;
-  color:rgba(255,255,255,0.85);
+  opacity:.95;
+  margin-top:.4rem;
+  font-size:1rem;
 }
 
 /* =====================================================
    CTA
 ===================================================== */
 #cta{
-  margin-top:2rem;
+  margin-top:1.6rem;
   display:flex;
   gap:1rem;
 }
 
 #cta button{
   flex:1;
-  padding:1.1rem;
+  padding:1.05rem;
   border:none;
-  border-radius:22px;
+  border-radius:20px;
   font-size:1.05rem;
   font-weight:700;
   cursor:pointer;
-  transition:all .35s ease;
+  transition:all .3s ease;
 }
 
 #orderBtn{
   background:linear-gradient(135deg, #d4af37, #ffd700);
   color:#1a1a1a;
-  box-shadow:0 8px 28px rgba(212,175,55,0.35);
-  position:relative;
-  overflow:hidden;
+  box-shadow:0 8px 25px rgba(212,175,55,0.35);
 }
 
-#orderBtn::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0));
-  transform:translateX(-100%);
-  transition:transform .6s ease;
-}
-
-#orderBtn:hover::after{
-  transform:translateX(100%);
-}
-
-#orderBtn:hover{
-  transform:scale(1.04);
+#orderBtn:active{
+  transform:scale(.95);
 }
 
 #menuBtn{
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,.12);
   color:var(--accent);
-  border:1px solid rgba(255,255,255,0.25);
-  backdrop-filter:blur(4px);
 }
 
 /* =====================================================
-   MOBILE MENU
+   MOBILE MENU (SAFE)
 ===================================================== */
 #mobileMenuOverlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.45);
   z-index:2999;
 }
 
@@ -164,15 +137,15 @@ header p{
   display:none;
   position:fixed;
   inset:0;
-  background:#fefcf7;
+  background:white;
   z-index:3000;
-  padding:2.5rem 2rem;
+  padding:2rem 1.5rem;
 }
 
 #mobileMenu a{
   display:block;
-  padding:1.2rem 0;
-  font-size:1.25rem;
+  padding:1.1rem 0;
+  font-size:1.2rem;
   font-weight:700;
   color:var(--primary);
   border-bottom:1px solid #eee;
@@ -182,9 +155,9 @@ header p{
    SECTIONS
 ===================================================== */
 section{
-  max-width:960px;
+  max-width:900px;
   margin:auto;
-  padding:2.5rem 1.5rem 0;
+  padding:2rem 1.3rem 0;
 }
 
 section > *{
@@ -193,10 +166,9 @@ section > *{
 
 h2{
   font-family:'Playfair Display', serif;
-  font-size:1.7rem;
-  font-weight:700;
-  margin-bottom:1.5rem;
-  color:var(--primary);
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:1.3rem;
 }
 
 /* =====================================================
@@ -206,18 +178,18 @@ h2{
 #commerceList,
 #productList{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:1.6rem;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1.4rem;
 }
 
 .category,
 .commerce,
 .product{
-  background:#fffdf7;
+  background:var(--card);
   border-radius:var(--radius-xl);
-  padding:1.5rem;
+  padding:1.2rem;
   box-shadow:var(--shadow-soft);
-  transition:all .35s ease;
+  transition:transform .3s ease, box-shadow .3s ease;
 }
 
 .category:hover,
@@ -225,6 +197,12 @@ h2{
 .product:hover{
   transform:translateY(-4px);
   box-shadow:0 18px 45px rgba(0,0,0,0.12);
+}
+
+.category:active,
+.commerce:active,
+.product:active{
+  transform:scale(.96);
 }
 
 .category.selected,
@@ -237,10 +215,10 @@ h2{
 ===================================================== */
 .productImg{
   width:100%;
-  height:180px;
+  height:170px;
   object-fit:cover;
-  border-radius:20px;
-  margin-bottom:1rem;
+  border-radius:18px;
+  margin-bottom:.8rem;
   transition:transform .3s ease;
 }
 
@@ -249,45 +227,45 @@ h2{
 }
 
 .product span{
-  font-weight:700;
-  font-size:1.1rem;
+  font-weight:800;
+  font-size:1.05rem;
 }
 
 .stock{
-  font-size:.9rem;
+  font-size:.85rem;
   color:var(--muted);
-  margin:.3rem 0 .8rem;
+  margin:.3rem 0 .7rem;
 }
 
 .product button{
   width:100%;
-  padding:.95rem;
+  padding:.85rem;
   border:none;
-  border-radius:22px;
-  background:linear-gradient(135deg, #d4af37, #ffd700);
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
-  font-weight:700;
-  box-shadow:0 8px 28px rgba(212,175,55,0.35);
-  transition:all .35s ease;
+  font-weight:800;
+  box-shadow:0 6px 20px rgba(212,175,55,0.25);
+  transition:transform .25s ease, box-shadow .25s ease;
 }
 
-.product button:hover{
-  transform:scale(1.04);
+.product button:active{
+  transform:scale(.95);
 }
 
 /* =====================================================
-   PANIER FLOTTANT
+   PANIER FLOTTANT (UNIQUEMENT ESTHETIQUE)
 ===================================================== */
 #cart{
   position:fixed;
-  bottom:1.2rem;
-  left:1.2rem;
-  right:1.2rem;
+  bottom:1rem;
+  left:1rem;
+  right:1rem;
   z-index:500;
   background:#fffdf7;
-  border-radius:28px;
-  padding:1rem 1.4rem;
-  box-shadow:0 25px 60px rgba(0,0,0,0.22);
+  border-radius:26px;
+  padding:.8rem 1.2rem;
+  box-shadow:0 25px 60px rgba(0,0,0,.22);
 }
 
 #cart.added{
@@ -306,10 +284,16 @@ h2{
   margin-top:.7rem;
 }
 
+#cart:not(.expanded) #cartContent,
+#cart:not(.expanded) .clear-btn,
+#cart:not(.expanded) .validate-btn{
+  display:none;
+}
+
 #cartContent div{
   background:#fff8e1;
-  border-radius:18px;
-  padding:1rem;
+  border-radius:16px;
+  padding:.9rem;
   margin-bottom:.6rem;
 }
 
@@ -322,17 +306,17 @@ h2{
   width:100%;
   background:var(--danger);
   color:white;
-  padding:.85rem;
-  border-radius:18px;
+  padding:.75rem;
+  border-radius:16px;
 }
 
 .validate-btn{
   width:100%;
-  background:linear-gradient(135deg,#d4af37,#ffd700);
+  background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
-  padding:1rem;
-  font-weight:800;
-  border-radius:22px;
+  padding:.95rem;
+  font-weight:900;
+  border-radius:18px;
 }
 
 /* =====================================================
@@ -342,7 +326,7 @@ h2{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.45);
   z-index:2000;
 }
 
@@ -352,48 +336,41 @@ h2{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  background:#fffdf7;
-  padding:2.5rem;
+  background:white;
+  padding:2rem;
   border-radius:28px;
   width:90%;
-  max-width:440px;
-  box-shadow:0 18px 50px rgba(0,0,0,0.12);
+  max-width:420px;
   z-index:2001;
 }
 
 #checkoutForm input{
   width:100%;
-  padding:1rem;
-  border-radius:18px;
-  border:1px solid #ccc;
-  margin-bottom:1rem;
+  padding:.9rem;
+  border-radius:16px;
+  border:1px solid #ddd;
+  margin-bottom:.9rem;
   transition:border-color .25s ease, box-shadow .25s ease;
 }
 
 #checkoutForm input:focus{
   border-color:var(--accent);
   outline:none;
-  box-shadow:0 0 10px rgba(212,175,55,0.25);
+  box-shadow:0 0 8px rgba(212,175,55,0.25);
 }
 
 #checkoutForm button{
   width:100%;
-  padding:1rem;
+  padding:.9rem;
   border:none;
-  border-radius:22px;
-  background:linear-gradient(135deg,#d4af37,#ffd700);
+  border-radius:18px;
+  background:linear-gradient(135deg,var(--accent),#ffd166);
   color:#1a1a1a;
-  font-weight:700;
-  box-shadow:0 8px 28px rgba(212,175,55,0.35);
-  transition:all .35s ease;
-}
-
-#checkoutForm button:hover{
-  transform:scale(1.03);
+  font-weight:800;
 }
 
 /* =====================================================
-   FEEDBACK
+   FEEDBACK (Aucun changement fonctionnel)
 ===================================================== */
 #addedMessage,
 #errorMessage{
@@ -401,20 +378,20 @@ h2{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  padding:1.5rem 2.5rem;
-  border-radius:26px;
-  font-weight:700;
+  padding:1.2rem 2.2rem;
+  border-radius:22px;
+  font-weight:900;
   z-index:4000;
   display:none;
 }
 
 #addedMessage{
-  background:#2ec4b6;
-  color:#1a1a1a;
+  background:var(--success);
+  color:#003049;
 }
 
 #errorMessage{
-  background:#e63946;
+  background:var(--danger);
   color:white;
 }
 
@@ -433,7 +410,7 @@ h2{
     grid-template-columns:1fr;
   }
   section{
-    padding-bottom:160px;
+    padding-bottom:150px;
   }
 }
 
