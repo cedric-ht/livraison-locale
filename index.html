@@ -921,24 +921,21 @@ const deliveryPrice = getDeliveryPrice(distance);
 const total = itemsTotal + deliveryPrice;
 
   try{
-    await addDoc(collection(db,"commandes"),{
+    await addDoc(collection(db,"commandes"), {
   commerceId,
   clientId: user.uid,
-  client: {
-    nom: name,
-    tel: phone,
-    adresse: address
-  },
+
   items: cart.map(i => ({
     productId: i.productId,
-    name: i.name,
-    price: i.price,
     qty: i.quantity
   })),
-  itemsTotal,
-  deliveryPrice,
-  distanceKm: distance,
-  total,
+
+  address: {
+    text: address,
+    lat: selectedAddressLatLng.lat,
+    lng: selectedAddressLatLng.lng
+  },
+
   status: "en_attente",
   createdAt: serverTimestamp()
 });
