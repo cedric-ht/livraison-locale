@@ -1040,7 +1040,7 @@ window.renderClientOrders = function() {
       container.innerHTML += `
         <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
           <strong>Commande</strong><br>
-          Total : ${o.total.toFixed(2)} €<br>
+          Total : ${o.total ? o.total.toFixed(2) + " €" : "—"}<br>
 
           <div class="status-bar">
             ${steps.map((s,i)=>`
