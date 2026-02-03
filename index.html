@@ -667,7 +667,7 @@ const commerceList=document.getElementById("commerceList");
 const productList=document.getElementById("productList");
 
 let unsubscribeProducts = null;
-
+let unsubscribeOrders = null;
 let categoriesSet = new Set();
 let commerceCategories = {};
 
@@ -1002,12 +1002,18 @@ onAuthStateChanged(auth, user=>{
 });
 
 
-window.renderClientOrders = function(){
+window.renderClientOrders = function() {
   const container = document.getElementById("ordersClient");
 
   if(!window.currentUser){
     container.innerHTML = "<p>Veuillez vous connecter</p>";
     return;
+  }
+
+  // 🔹 détacher l’ancien listener si existant
+  if(unsubscribeOrders){
+    unsubscribeOrders();
+    unsubscribeOrders = null;
   }
 
   container.innerHTML = "Chargement...";
@@ -1017,7 +1023,7 @@ window.renderClientOrders = function(){
     where("clientId", "==", window.currentUser.uid)
   );
 
-  onSnapshot(q, (snapshot)=>{
+  unsubscribeOrders = onSnapshot(q, (snapshot)=>{
     container.innerHTML = "";
 
     if(snapshot.empty){
@@ -1029,22 +1035,22 @@ window.renderClientOrders = function(){
       const o = docSnap.data();
 
       const steps = ["en_attente","prete","en_livraison","livree"];
-const currentIndex = steps.indexOf(o.status);
+      const currentIndex = steps.indexOf(o.status);
 
-container.innerHTML += `
-  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
-    <strong>Commande</strong><br>
-    Total : ${o.total.toFixed(2)} €<br>
+      container.innerHTML += `
+        <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
+          <strong>Commande</strong><br>
+          Total : ${o.total.toFixed(2)} €<br>
 
-    <div class="status-bar">
-      ${steps.map((s,i)=>`
-        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
-      `).join("")}
-    </div>
+          <div class="status-bar">
+            ${steps.map((s,i)=>`
+              <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
+            `).join("")}
+          </div>
 
-    <small>Statut : ${o.status.replace("_"," ")}</small>
-  </div>
-`;
+          <small>Statut : ${o.status.replace("_"," ")}</small>
+        </div>
+      `;
     });
   });
 }
