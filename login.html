@@ -3,88 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Livraison Locale</title>
+<title>Connexion - Terroir Sables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:#fff;
-  color:#333;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #F5F1E8;
+  color: #2C2C2C;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: #2C2C2C;
 }
 
 /* HEADER */
-header{
-  background:linear-gradient(135deg,#00b4d8,#0077b6);
-  color:white;
-  padding:2rem 1rem;
-  border-radius:0 0 20px 20px;
-  text-align:center;
+header {
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color: white;
+  padding: 2.5rem 1.5rem;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 35px rgba(107, 44, 62, 0.25);
 }
-header h1{font-size:1.8rem}
-header p{opacity:.9}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+header p {
+  opacity: 0.92;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
 
 /* BUTTONS */
-.btn{
-  padding:.7rem 1rem;
-  border:none;
-  border-radius:12px;
-  font-weight:600;
-  cursor:pointer;
-}
-.primary{background:#0077b6;color:white}
-.danger{background:#ff595e;color:white}
-
-/* SECTIONS */
-section{padding:1.5rem;max-width:900px;margin:auto}
-h2{margin-bottom:1rem}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:1rem;
-}
-.card{
-  background:white;
-  border-radius:16px;
-  padding:1rem;
-  box-shadow:0 10px 25px rgba(0,0,0,.05);
-  cursor:pointer;
-}
-.card.selected{background:#caf0f8}
-
-/* PRODUCT */
-.product button{
-  margin-top:.5rem;
-  width:100%;
+.btn {
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin: 0.3rem;
 }
 
-/* PANIER */
-#cart{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  box-shadow:0 -5px 20px rgba(0,0,0,.1);
-  padding:1rem;
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-#cart h3{text-align:right;color:#0077b6}
+
+.primary {
+  background: linear-gradient(135deg, #8B9D83, #A4B89C);
+  color: white;
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.secondary:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
 
 /* LOGIN BOX */
-#authBox{
-  display:none;
-  max-width:400px;
-  margin:1rem auto;
-  background:#f5f5f5;
-  padding:1rem;
-  border-radius:16px;
+#authBox {
+  display: none;
+  max-width: 450px;
+  margin: 2rem auto;
+  background: #FEFEFE;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.2);
+  border: 2px solid #F5F1E8;
 }
-#authBox input{
-  width:100%;
-  padding:.6rem;
-  margin:.3rem 0;
+
+#authBox h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #6B2C3E;
+}
+
+#authBox input {
+  width: 100%;
+  padding: 1rem;
+  margin: 0.8rem 0;
+  border-radius: 14px;
+  border: 2px solid #F5F1E8;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+}
+
+#authBox input:focus {
+  outline: none;
+  border-color: #8B9D83;
+}
+
+#authBox .btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+/* MAIN CONTENT */
+main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.welcome-box {
+  background: #FEFEFE;
+  padding: 3rem 2rem;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(107, 44, 62, 0.1);
+  border: 2px solid #F5F1E8;
+  margin-top: 2rem;
+}
+
+.welcome-box h2 {
+  color: #6B2C3E;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.welcome-box p {
+  color: #6B6B6B;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.action-buttons .btn {
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 0.3rem 0;
+  }
+
+  #authBox {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .welcome-box {
+    padding: 2rem 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
 }
 </style>
 </head>
@@ -92,43 +202,56 @@ h2{margin-bottom:1rem}
 <body>
 
 <header>
-  <h1>Livraison Locale</h1>
-  <p>Commandez chez vos commerçants locaux</p>
-  <br>
-  <button class="btn primary" onclick="window.location.href='index.html'">
-  Commander
-</button>
-  <button class="btn" onclick="showLogin()">Connexion</button>
-  <button class="btn" id="dashboardBtn" style="display:none" onclick="goDashboard()">Dashboard</button>
+  <h1>🇫🇷 Terroir Sables</h1>
+  <p>Vin, Fromage & Pain livrés en 30 minutes</p>
+  <div class="action-buttons">
+    <button class="btn primary" onclick="window.location.href='index.html'">
+      Commander
+    </button>
+    <button class="btn secondary" onclick="showLogin()">Connexion Partenaires</button>
+    <button class="btn secondary" id="dashboardBtn" style="display:none" onclick="goDashboard()">
+      Mon Dashboard
+    </button>
+  </div>
 </header>
 
-<div id="authBox">
-  <h3>Connexion</h3>
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Mot de passe">
-  <button class="btn primary" onclick="login()">Se connecter</button>
-</div>
+<main>
+  <div id="authBox">
+    <h3>Connexion Partenaires</h3>
+    <p style="text-align:center; color:#6B6B6B; margin-bottom:1.5rem;">
+      Espace réservé aux commerçants et livreurs
+    </p>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Mot de passe">
+    <button class="btn primary" onclick="login()">Se connecter</button>
+    <p style="text-align:center; margin-top:1.5rem; color:#6B6B6B; font-size:0.9rem;">
+      Pas encore partenaire ? 
+      <a href="inscription.html" style="color:#6B2C3E; font-weight:600; text-decoration:none;">
+        Rejoignez-nous
+      </a>
+    </p>
+  </div>
 
-<section id="commander" style="display:none">
-  <h2>Catégories</h2>
-  <div id="categories" class="grid"></div>
-
-  <h2>Commerces</h2>
-  <div id="commerces" class="grid"></div>
-
-  <h2>Produits</h2>
-  <div id="products" class="grid"></div>
-</section>
-
-<div id="cart">
-  <div id="cartItems"></div>
-  <h3 id="total">Total : 0 €</h3>
-  <button class="btn danger" onclick="clearCart()">Vider</button>
-</div>
+  <div class="welcome-box" id="welcomeBox">
+    <h2>Bienvenue sur Terroir Sables</h2>
+    <p>
+      Découvrez le meilleur du terroir français livré chez vous en 30 minutes.
+      Vins artisanaux, fromages affinés et pains frais des Sables d'Olonne.
+    </p>
+    <div class="action-buttons">
+      <button class="btn primary" onclick="window.location.href='index.html'">
+        🛒 Commander maintenant
+      </button>
+      <button class="btn" style="background:#8B9D83;color:white;" onclick="window.location.href='inscription.html'">
+        🤝 Devenir partenaire
+      </button>
+    </div>
+  </div>
+</main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -141,113 +264,54 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let currentCommerce = null;
-let cart = [];
+window.showLogin = () => {
+  document.getElementById("authBox").style.display = "block";
+  document.getElementById("welcomeBox").style.display = "none";
+};
 
-function show(id){
-  document.getElementById("commander").style.display = id==="commander"?"block":"none";
-}
+window.goDashboard = () => {
+  window.location.href = "dashboard.html";
+};
 
-window.showLogin = ()=> document.getElementById("authBox").style.display="block";
-window.goDashboard = ()=> window.location.href="dashboard.html";
+window.login = async () => {
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
 
-window.login = async ()=>{
-  await signInWithEmailAndPassword(auth,email.value,password.value);
-  document.getElementById("authBox").style.display="none";
-}
-
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+  try {
+    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    // Auth state change will handle redirect
+  } catch(e) {
+    alert("Erreur de connexion - Vérifiez vos identifiants");
+  }
+};
 
 onAuthStateChanged(auth, async user => {
-  if(!user) return;
+  const dashboardBtn = document.getElementById("dashboardBtn");
 
-  const snap = await getDoc(doc(db,"commerces",user.uid));
+  if(!user) {
+    dashboardBtn.style.display = "none";
+    return;
+  }
 
-  if(snap.exists()){
+  // Vérifier si c'est un commerçant
+  const commerceSnap = await getDoc(doc(db, "commerces", user.uid));
+  
+  // Vérifier si c'est un livreur
+  const userSnap = await getDoc(doc(db, "users", user.uid));
+
+  if(commerceSnap.exists()) {
+    // C'est un commerçant
     dashboardBtn.style.display = "inline-block";
+    dashboardBtn.onclick = () => window.location.href = "dashboard.html";
+  } else if(userSnap.exists() && userSnap.data().role === "livreur") {
+    // C'est un livreur
+    dashboardBtn.style.display = "inline-block";
+    dashboardBtn.onclick = () => window.location.href = "dashboard-livreur.html";
   } else {
     dashboardBtn.style.display = "none";
   }
 });
-
-function renderCart(){
-  const box=document.getElementById("cartItems");
-  box.innerHTML="";
-  let total=0;
-  cart.forEach(p=>{
-    total+=p.price*p.qty;
-    box.innerHTML+=`<div>${p.name} x${p.qty}</div>`;
-  });
-  document.getElementById("total").innerText=`Total : ${total.toFixed(2)} €`;
-}
-
-window.clearCart=()=>{
-  cart=[];
-  currentCommerce=null;
-  renderCart();
-}
-
-// LOAD DATA
-const cats=new Set();
-const commercesDiv=document.getElementById("commerces");
-const productsDiv=document.getElementById("products");
-
-const snap=await getDocs(collection(db,"commerces"));
-snap.forEach(d=>cats.add(d.data().category||"Autres"));
-
-cats.forEach(c=>{
-  const div=document.createElement("div");
-  div.className="card";
-  div.innerText=c;
-  div.onclick=()=>loadCommerces(c);
-  categories.appendChild(div);
-});
-
-function loadCommerces(cat){
-  commercesDiv.innerHTML="";
-  productsDiv.innerHTML="";
-  getDocs(collection(db,"commerces")).then(s=>{
-    s.forEach(d=>{
-      if((d.data().category||"Autres")===cat){
-        const div=document.createElement("div");
-        div.className="card";
-        div.innerText=d.data().name;
-        div.onclick=()=>loadProducts(d.id);
-        commercesDiv.appendChild(div);
-      }
-    });
-  });
-}
-
-function loadProducts(id){
-  if(currentCommerce && currentCommerce!==id){
-    alert("Un seul commerce par commande");
-    return;
-  }
-  currentCommerce=id;
-  onSnapshot(collection(db,"commerces",id,"produits"),snap=>{
-    productsDiv.innerHTML="";
-    snap.forEach(d=>{
-      const p=d.data();
-      const div=document.createElement("div");
-      div.className="card product";
-      div.innerHTML=`<strong>${p.name}</strong><br>${p.price} €`;
-      const btn=document.createElement("button");
-      btn.className="btn primary";
-      btn.innerText="Ajouter";
-      btn.disabled=!p.available||p.stock<1;
-      btn.onclick=()=>{
-        const item=cart.find(i=>i.id===d.id);
-        item?item.qty++:cart.push({id:d.id,name:p.name,price:p.price,qty:1});
-        renderCart();
-      };
-      div.appendChild(btn);
-      productsDiv.appendChild(div);
-    });
-  });
-}
 </script>
 
 </body>
 </html>
-
