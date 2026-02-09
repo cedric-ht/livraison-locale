@@ -2,50 +2,194 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Livreur</title>
+<title>Dashboard Livreur - Terroir Sables</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-  font-family: system-ui, -apple-system, sans-serif;
-  background:#f4f6f8;
-  margin:0;
-  padding:2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.box{
-  max-width:800px;
-  margin:auto;
-  background:white;
-  padding:2rem;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
-h2{text-align:center;margin-bottom:1rem}
-button{
-  padding:.7rem 1rem;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-}
-.primary{background:#0077b6;color:white}
-.danger{background:#ff595e;color:white}
-.off{background:#adb5bd;color:white}
-.hidden{display:none}
 
-.order{
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:1rem;
-  margin:1rem 0;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: #F5F1E8;
+  color: #2C2C2C;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  line-height: 1.6;
 }
-.order h4{margin:.2rem 0}
-.order small{color:#666}
 
-.status{
-  text-align:center;
-  font-weight:600;
-  margin:1rem 0;
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: #2C2C2C;
+}
+
+.box {
+  max-width: 900px;
+  margin: auto;
+  background: #FEFEFE;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.15);
+  border: 2px solid #F5F1E8;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #6B2C3E;
+}
+
+input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 14px;
+  border: 2px solid #F5F1E8;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8B9D83;
+}
+
+button {
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.primary {
+  background: linear-gradient(135deg, #8B9D83, #A4B89C);
+  color: white;
+  width: 100%;
+}
+
+.primary:hover {
+  box-shadow: 0 8px 20px rgba(139, 157, 131, 0.4);
+}
+
+.danger {
+  background: #D64545;
+  color: white;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.danger:hover {
+  background: #B03030;
+}
+
+.off {
+  background: #ADB5BD;
+  color: white;
+  width: 100%;
+}
+
+.off:hover {
+  background: #8B9197;
+}
+
+.hidden {
+  display: none;
+}
+
+.order {
+  border: 2px solid #F5F1E8;
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  background: rgba(245, 241, 232, 0.3);
+  transition: all 0.3s ease;
+}
+
+.order:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(107, 44, 62, 0.12);
+  border-color: #8B9D83;
+}
+
+.order h4 {
+  margin: 0 0 0.8rem 0;
+  font-size: 1.3rem;
+  color: #6B2C3E;
+}
+
+.order small {
+  color: #6B6B6B;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.order p {
+  font-weight: 600;
+  color: #2C2C2C;
+  margin: 0.8rem 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.order button {
+  margin-top: 1rem;
+}
+
+.status {
+  text-align: center;
+  font-weight: 700;
+  margin: 2rem 0;
+  padding: 1.2rem;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  background: rgba(139, 157, 131, 0.15);
+  color: #6B2C3E;
+  border: 2px solid #8B9D83;
+}
+
+#toggleBtn {
+  margin-bottom: 1rem;
+}
+
+#ordersBox {
+  margin-top: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6B6B6B;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .box {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  .order {
+    padding: 1rem;
+  }
 }
 </style>
 </head>
@@ -53,7 +197,8 @@ button{
 <body>
 
 <div class="box" id="loginBox">
-  <h2>Connexion livreur</h2>
+  <h2>🇫🇷 Connexion Livreur</h2>
+  <p style="text-align:center; color:#6B6B6B; margin-bottom:2rem;">Terroir Sables - Espace Livreur</p>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Mot de passe">
   <button class="primary" onclick="login()">Se connecter</button>
@@ -116,7 +261,7 @@ onAuthStateChanged(auth, async user=>{
 
   const userSnap = await getDoc(doc(db,"users",uid));
   if(!userSnap.exists() || userSnap.data().role !== "livreur"){
-    alert("Accès refusé");
+    alert("Accès refusé - Compte livreur requis");
     await signOut(auth);
     return;
   }
@@ -146,12 +291,14 @@ window.login = async ()=>{
   try{
     await signInWithEmailAndPassword(auth,email.value,password.value);
   }catch(e){
-    alert("Erreur de connexion");
+    alert("Erreur de connexion - Vérifiez vos identifiants");
   }
 };
 
 window.logout = async ()=>{
-  await signOut(auth);
+  if(confirm("Vous déconnecter ?")){
+    await signOut(auth);
+  }
 };
 
 /* ================= SERVICE ================= */
@@ -163,9 +310,11 @@ window.toggleService = async ()=>{
 };
 
 function updateUI(){
-  toggleBtn.innerText = online ? "Se mettre hors service" : "Se mettre en service";
-  toggleBtn.className = online ? "primary" : "off";
-  statusText.innerText = online ? "🟢 En service" : "🔴 Hors service";
+  toggleBtn.innerText = online ? "🔴 Se mettre hors service" : "🟢 Se mettre en service";
+  toggleBtn.className = online ? "off" : "primary";
+  statusText.innerText = online ? "🟢 Vous êtes en service" : "🔴 Vous êtes hors service";
+  statusText.style.borderColor = online ? "#8B9D83" : "#ADB5BD";
+  statusText.style.background = online ? "rgba(139, 157, 131, 0.15)" : "rgba(173, 181, 189, 0.15)";
 }
 
 /* ================= COMMANDES ================= */
@@ -177,6 +326,8 @@ function listenOrders(){
     snap=>{
       ordersBox.innerHTML = "";
 
+      let hasOrders = false;
+
       snap.forEach(d=>{
         const c = d.data();
 
@@ -186,48 +337,76 @@ function listenOrders(){
           !(c.status === "en_livraison" && c.livreurId === uid)
         ) return;
 
+        hasOrders = true;
+
         const div = document.createElement("div");
         div.className="order";
+        
+        const statusEmoji = c.status === "prete" ? "📦" : "🚴‍♂️";
+        const statusText = c.status === "prete" ? "Prête à livrer" : "En cours de livraison";
+
         div.innerHTML=`
-          <h4>Commande ${d.id}</h4>
-          <small>${c.client.nom} – ${c.client.adresse}</small>
-          <p>Total : ${c.total} €</p>
+          <h4>${statusEmoji} Commande</h4>
+          <small><strong>${c.client.nom}</strong></small>
+          <small>📍 ${c.client.adresse}</small>
+          <p>💰 Total : ${c.total.toFixed(2)} €</p>
+          <small style="color:#8B9D83;font-weight:600;">${statusText}</small>
         `;
 
         const btn = document.createElement("button");
         btn.className="primary";
 
         if(c.status === "prete"){
-          btn.innerText = "Prendre la commande";
+          btn.innerText = "✅ Prendre la commande";
           btn.onclick = ()=>takeOrder(d.id);
         }else{
-          btn.innerText = "Marquer livrée";
+          btn.innerText = "✅ Marquer livrée";
           btn.onclick = ()=>finishOrder(d.id);
         }
 
         div.appendChild(btn);
         ordersBox.appendChild(div);
       });
+
+      if(!hasOrders){
+        ordersBox.innerHTML = `
+          <div class="empty-state">
+            <p>📭 Aucune commande disponible pour le moment</p>
+            <p style="font-size:0.9rem; margin-top:0.5rem;">Les nouvelles commandes apparaîtront ici automatiquement</p>
+          </div>
+        `;
+      }
     }
   );
 }
 
 function stopOrders(){
-  ordersBox.innerHTML="";
+  ordersBox.innerHTML = `
+    <div class="empty-state">
+      <p>🔴 Service désactivé</p>
+      <p style="font-size:0.9rem; margin-top:0.5rem;">Activez le service pour voir les commandes disponibles</p>
+    </div>
+  `;
   if(unsubscribeOrders) unsubscribeOrders();
 }
 
 async function takeOrder(id){
-  await updateDoc(doc(db,"commandes",id),{
-    status:"en_livraison",
-    livreurId: uid
-  });
+  if(confirm("Prendre cette commande en charge ?")){
+    await updateDoc(doc(db,"commandes",id),{
+      status:"en_livraison",
+      livreurId: uid,
+      takenAt: new Date()
+    });
+  }
 }
 
 async function finishOrder(id){
-  await updateDoc(doc(db,"commandes",id),{
-    status:"livree"
-  });
+  if(confirm("Confirmer la livraison ?")){
+    await updateDoc(doc(db,"commandes",id),{
+      status:"livree",
+      deliveredAt: new Date()
+    });
+  }
 }
 </script>
 
