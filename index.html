@@ -3,51 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Livraison Locale</title>
+<title>Terroir Sables - Livraison Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;background:#ffffff;color:#333;min-height:100vh;line-height:1.5;overflow-x:hidden;transition: background 0.3s ease-in-out;}
+body{
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background:#F5F1E8;
+  color:#2C2C2C;
+  min-height:100vh;
+  line-height:1.6;
+  overflow-x:hidden;
+  transition: background 0.3s ease-in-out;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: #2C2C2C;
+}
+
 /* HEADER */
-header{background: rgba(0,119,182,0.9);backdrop-filter: blur(10px);color:white;padding:2rem 1rem;border-bottom-left-radius:20px;border-bottom-right-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.15);position:relative;}
-header h1{font-size:1.8rem;margin-bottom:.3rem}
-header p{opacity:.9;font-size:.95rem}
-#cta{margin-top:1rem;display:flex;gap:1rem}
-#cta button{flex:1;padding:.9rem;border:none;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
-#orderBtn{background: linear-gradient(135deg,#00b4d8,#0077b6);color:white;}
-#orderBtn:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
-#menuBtn{background: rgba(255,255,255,.2);color:white;}
-#menuBtn:hover{background: rgba(255,255,255,.3);transform:scale(1.03);}
+header{
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color:white;
+  padding:2.5rem 1.5rem;
+  border-bottom-left-radius:24px;
+  border-bottom-right-radius:24px;
+  box-shadow:0 10px 35px rgba(107, 44, 62, 0.25);
+  position:relative;
+}
+header h1{
+  font-size:1.6rem;
+  margin-bottom:.5rem;
+  font-weight:700;
+  letter-spacing:-0.5px;
+}
+header p{
+  opacity:.92;
+  font-size:.95rem;
+  font-weight:400;
+}
+#cta{
+  margin-top:1.5rem;
+  display:flex;
+  gap:1rem;
+}
+#cta button{
+  flex:1;
+  padding:1rem;
+  border:none;
+  border-radius:16px;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  font-family:'Inter', sans-serif;
+}
+#orderBtn{
+  background: linear-gradient(135deg, #8B9D83, #A4B89C);
+  color:white;
+  box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
+}
+#orderBtn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(139, 157, 131, 0.4);
+}
+#menuBtn{
+  background: rgba(255,255,255,.25);
+  color:white;
+  backdrop-filter: blur(10px);
+}
+#menuBtn:hover{
+  background: rgba(255,255,255,.35);
+  transform:translateY(-2px);
+}
+
 /* MOBILE MENU */
-#mobileMenu{display:none;background:white;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;padding:2rem;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);}
-#mobileMenu a{display:block;padding:1rem 0;font-size:1.2rem;font-weight:600;color:#0077b6;border-bottom:1px solid #eee;cursor:pointer;}
-#mobileMenuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:998;}
+#mobileMenu{
+  display:none;
+  background:#FEFEFE;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:999;
+  padding:2.5rem;
+  overflow-y:auto;
+  box-shadow:0 0 30px rgba(0,0,0,0.15);
+}
+#mobileMenu a{
+  display:block;
+  padding:1.2rem 0;
+  font-size:1.15rem;
+  font-weight:600;
+  color:#6B2C3E;
+  border-bottom:1px solid #F5F1E8;
+  cursor:pointer;
+  transition: color 0.2s ease;
+}
+#mobileMenu a:hover{
+  color:#8B9D83;
+}
+#mobileMenuOverlay{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(44, 44, 44, 0.5);
+  z-index:998;
+}
+
 /* SECTIONS */
-section{padding:1.5rem 1rem;max-width:900px;margin:auto}
-h2{margin-bottom:1rem}
+section{
+  padding:2rem 1.5rem;
+  max-width:1000px;
+  margin:auto;
+}
+h2{
+  margin-bottom:1.5rem;
+  font-size:1.8rem;
+  color:#6B2C3E;
+}
+
 /* GRID LISTES */
-#categoryList,#commerceList,#productList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;}
-.category,.commerce,.product{background: rgba(255,255,255,0.6);backdrop-filter: blur(8px);padding:1rem;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.05);cursor:pointer;transition: transform 0.3s ease, box-shadow 0.3s ease;margin-bottom: 1rem;}
-.category:hover,.commerce:hover,.product:hover{transform:translateY(-5px);box-shadow:0 15px 30px rgba(0,0,0,0.08);}
-.category.selected,.commerce.selected{background: rgba(0,180,216,0.3);}
-.product span{font-weight:600;display:block}
-.stock{font-size:.85rem;color:#666;margin:.3rem 0}
-.product button{margin-top:.6rem;width:100%;padding:.7rem;border:none;border-radius:12px;background: linear-gradient(135deg,#00b4d8,#0077b6);color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
-.product button:hover:not(:disabled){transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.15);}
-.product button:disabled{background:#ccc;opacity:0.6;cursor:not-allowed;}
+#categoryList,#commerceList,#productList{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.8rem;
+}
+.category,.commerce,.product{
+  background: #FEFEFE;
+  padding:1.5rem;
+  border-radius:20px;
+  border: 2px solid #F5F1E8;
+  box-shadow:0 8px 20px rgba(107, 44, 62, 0.08);
+  cursor:pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+.category:hover,.commerce:hover,.product:hover{
+  transform:translateY(-6px);
+  box-shadow:0 15px 35px rgba(107, 44, 62, 0.15);
+  border-color:#8B9D83;
+}
+.category.selected,.commerce.selected{
+  background: rgba(139, 157, 131, 0.15);
+  border-color:#8B9D83;
+}
+.product span{
+  font-weight:600;
+  display:block;
+  color:#2C2C2C;
+}
+.stock{
+  font-size:.88rem;
+  color:#6B6B6B;
+  margin:.5rem 0;
+}
+.product button{
+  margin-top:.8rem;
+  width:100%;
+  padding:.85rem;
+  border:none;
+  border-radius:14px;
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  font-family:'Inter', sans-serif;
+}
+.product button:hover:not(:disabled){
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(107, 44, 62, 0.3);
+}
+.product button:disabled{
+  background:#D0D0D0;
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
 /* MINI PANIER FLOTANT */
 #cart {
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
   z-index: 500;
-  background: rgba(255,255,255,0.95);
-  border-radius: 20px;
+  background: rgba(254, 254, 254, 0.98);
+  border-radius: 24px;
   height: auto;
   max-height: 80vh;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 20px 50px rgba(107, 44, 62, 0.2);
+  border: 2px solid #F5F1E8;
 }
 
 #cartHeader {
@@ -55,12 +210,15 @@ h2{margin-bottom:1rem}
   justify-content: space-between;
   align-items: center;
   cursor:pointer;
+  font-family: 'Playfair Display', serif;
+  color: #6B2C3E;
+  font-weight:700;
 }
 
 #cartContent {
   max-height: 45vh;
   overflow-y: auto;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 #cart:not(.expanded) #cartContent,
@@ -70,155 +228,265 @@ h2{margin-bottom:1rem}
 }
 
 #cartContent div {
-  padding:0.8rem;
-  border-radius:12px;
-  margin-bottom:0.5rem;
-  background: rgba(224,247,250,0.7);
-  box-shadow:0 6px 15px rgba(0,0,0,0.05);
+  padding:1rem;
+  border-radius:16px;
+  margin-bottom:0.8rem;
+  background: rgba(245, 241, 232, 0.6);
+  box-shadow:0 4px 12px rgba(107, 44, 62, 0.06);
   transition: transform 0.3s ease;
 }
 
 #cartContent div:hover {
-  transform: translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow:0 8px 20px rgba(107, 44, 62, 0.12);
 }
 
 #cart h3 {
   text-align:right;
-  color:#0077b6;
-  margin-top:0.5rem;
+  color:#6B2C3E;
+  margin-top:0.8rem;
+  font-family: 'Playfair Display', serif;
 }
 
 #cart button {
-  margin:0.2rem;
-  padding:0.4rem 0.7rem;
+  margin:0.3rem;
+  padding:0.5rem 0.9rem;
   border:none;
-  border-radius:8px;
+  border-radius:12px;
   cursor:pointer;
-  background: linear-gradient(135deg,#00b4d8,#0077b6);
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
   color:white;
-  font-weight:600;
+  font-weight:700;
   transition:all 0.3s ease;
+  font-family:'Inter', sans-serif;
 }
 
 #cart button:hover {
-  transform:scale(1.05);
-  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+  transform:scale(1.06);
+  box-shadow:0 6px 18px rgba(107, 44, 62, 0.25);
 }
 
 #cart .clear-btn {
   width:100%;
-  background:#ff595e;
-  padding:0.7rem;
-  border-radius:12px;
-  margin-top:0.5rem;
+  background:#D64545;
+  padding:0.85rem;
+  border-radius:14px;
+  margin-top:0.8rem;
 }
 
 #cart .validate-btn {
   width:100%;
-  background: linear-gradient(135deg,#38b000,#70e000);
-  padding:0.8rem;
-  border-radius:14px;
+  background: linear-gradient(135deg, #8B9D83, #A4B89C);
+  padding:1rem;
+  border-radius:16px;
   font-weight:700;
-  margin-top:0.5rem;
+  margin-top:0.8rem;
+  box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
 }
+
 /* FORMULAIRE LIVRAISON */
-#checkoutForm{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:2rem;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:1001;max-width:400px;width:90%;}
-#checkoutForm input{width:100%;padding:0.7rem;margin-bottom:0.7rem;border-radius:10px;border:1px solid #ccc;}
-#checkoutForm button{width:100%;padding:0.7rem;border:none;border-radius:12px;background:#0077b6;color:white;font-weight:600;cursor:pointer;}
-#checkoutForm button:hover{background:#0096c7;}
-#checkoutOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1000;}
+#checkoutForm{
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#FEFEFE;
+  padding:2.5rem;
+  border-radius:24px;
+  box-shadow:0 15px 50px rgba(107, 44, 62, 0.3);
+  z-index:1001;
+  max-width:450px;
+  width:90%;
+}
+#checkoutForm h3{
+  font-family: 'Playfair Display', serif;
+  color:#6B2C3E;
+  margin-bottom:1.5rem;
+}
+#checkoutForm input{
+  width:100%;
+  padding:0.9rem;
+  margin-bottom:1rem;
+  border-radius:14px;
+  border:2px solid #F5F1E8;
+  font-family:'Inter', sans-serif;
+  transition: border 0.2s ease;
+}
+#checkoutForm input:focus{
+  outline:none;
+  border-color:#8B9D83;
+}
+#checkoutForm button{
+  width:100%;
+  padding:1rem;
+  border:none;
+  border-radius:16px;
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+#checkoutForm button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(107, 44, 62, 0.3);
+}
+#checkoutOverlay{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(44, 44, 44, 0.5);
+  z-index:1000;
+}
+
 /* MESSAGE CENTRAL */
-#addedMessage,#errorMessage{position: fixed; top:50%; left:50%; transform:translate(-50%,-50%);padding:1rem 2rem; border-radius:12px; font-weight:600;font-size:1rem;display:none; z-index:1001;box-shadow:0 6px 20px rgba(0,0,0,.3); text-align:center;opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;}
-#addedMessage{background:#4caf50; color:white;}
-#errorMessage{background:#d00000;color:white;}
-#addedMessage.show,#errorMessage.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1.05);}
-@media(max-width:767px){#categoryList,#commerceList,#productList{grid-template-columns:1fr; gap:1.2rem;}section{padding-bottom:120px;}}
+#addedMessage,#errorMessage{
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding:1.2rem 2.5rem;
+  border-radius:16px;
+  font-weight:700;
+  font-size:1.05rem;
+  display:none;
+  z-index:1001;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  text-align:center;
+  opacity:0;
+  transition:opacity 0.3s ease, transform 0.3s ease;
+  font-family:'Inter', sans-serif;
+}
+#addedMessage{
+  background:#8B9D83;
+  color:white;
+}
+#errorMessage{
+  background:#D64545;
+  color:white;
+}
+#addedMessage.show,#errorMessage.show{
+  display:block;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1.05);
+}
+
+@media(max-width:767px){
+  #categoryList,#commerceList,#productList{
+    grid-template-columns:1fr;
+    gap:1.3rem;
+  }
+  section{
+    padding-bottom:140px;
+  }
+  header h1{
+    font-size:1.4rem;
+  }
+}
 
 /* AUTH BOX */
 #authBox {
-  background: linear-gradient(135deg, #00b4d8, #90e0ef);
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-  padding: 2rem;
-  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.3);
+  padding: 2.5rem;
+  border-radius: 24px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 #authBox h3 {
   text-align: center;
-  margin-bottom: 1.2rem;
-  font-size: 1.5rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-family: 'Playfair Display', serif;
+  color: white;
 }
 #authBox input {
   border: none;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  padding: 0.8rem;
+  border-radius: 14px;
+  margin-bottom: 1.2rem;
+  padding: 1rem;
   font-size: 1rem;
   width: 100%;
+  font-family:'Inter', sans-serif;
 }
 #authBox input:focus {
   outline: none;
-  box-shadow: 0 0 8px rgba(255,255,255,0.7);
+  box-shadow: 0 0 12px rgba(255,255,255,0.6);
 }
 #authBox button {
   width: 100%;
-  padding: 0.9rem;
-  margin-top: 0.5rem;
-  border-radius: 14px;
-  font-weight: 600;
+  padding: 1rem;
+  margin-top: 0.6rem;
+  border-radius: 16px;
+  font-weight: 700;
   cursor: pointer;
   border: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family:'Inter', sans-serif;
 }
 #authBox button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
-#authBox button:nth-child(3) { /* Se connecter */
-  background: #0077b6;
+#authBox button:nth-child(3) {
+  background: #8B9D83;
   color: #fff;
 }
-#authBox button:nth-child(4) { /* Créer un compte */
-  background: #90e0ef;
-  color: #0077b6;
+#authBox button:nth-child(4) {
+  background: #FEFEFE;
+  color: #6B2C3E;
   font-weight: 700;
 }
 
 .status-bar{
   display:flex;
-  gap:6px;
-  margin-top:8px;
+  gap:8px;
+  margin-top:10px;
 }
 
 .status-step{
   flex:1;
-  height:8px;
-  border-radius:6px;
-  background:#ddd;
+  height:10px;
+  border-radius:8px;
+  background:#E5E5E5;
 }
 
 .status-step.active{
-  background:#38b000;
+  background:#8B9D83;
 }
 
 .productImg{
   width:100%;
-  height:160px;
+  height:180px;
   object-fit:cover;
-  border-radius:12px;
-  margin-bottom:0.6rem;
+  border-radius:16px;
+  margin-bottom:0.8rem;
+  box-shadow:0 6px 15px rgba(107, 44, 62, 0.1);
 }
 
+#addressSuggestions {
+  background:#FEFEFE;
+  border:2px solid #F5F1E8;
+  border-radius:14px;
+  display:none;
+  max-height:180px;
+  overflow-y:auto;
+  margin-bottom:1rem;
+}
 </style>
 
 </head>
 <body>
 
 <header>
-<h1>Livraison Locale</h1>
-<p>Commerces des Sables d’Olonne</p>
+<h1>🇫🇷 Terroir Sables</h1>
+<p>Vin, Fromage & Pain livrés en 30 minutes</p>
 <div id="cta">
   <button id="orderBtn" onclick="showPage('commander')">Commander</button>
   <button id="menuBtn" onclick="toggleMenu()">Menu</button>
@@ -234,30 +502,29 @@ h2{margin-bottom:1rem}
   <a onclick="nav('mesCommandes')">Mes commandes</a>
   <a id="menuLoginBtn" onclick="openLoginMenu()">Connexion</a>
   <a id="menuLogoutBtn" onclick="logout()" style="display:none">Déconnexion</a>
-  
 </div>
 
-<div id="authBox" style="display:none; padding:1rem; max-width:400px; margin:auto; background:#f5f5f5; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.1)">
+<div id="authBox" style="display:none; padding:2rem; max-width:450px; margin:auto;">
   <h3>Connexion</h3>
-  <input id="email" type="email" placeholder="Email" style="width:100%; padding:.7rem; margin:.4rem 0">
-  <input id="password" type="password" placeholder="Mot de passe" style="width:100%; padding:.7rem; margin:.4rem 0">
-  <button onclick="login()" style="width:100%; margin-top:.5rem">Se connecter</button>
-  <button onclick="register()" style="width:100%; margin-top:.5rem">Créer un compte</button>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+  <button onclick="register()">Créer un compte</button>
 </div>
 
 <section id="accueil">
   <h2>Bienvenue</h2>
-  <p>Commandez local, simplement.</p>
+  <p>Découvrez le meilleur du terroir français, livré chez vous en 30 minutes. Vins artisanaux, fromages affinés et pains frais des Sables d'Olonne.</p>
 </section>
 
 <section id="apropos" style="display:none">
   <h2>À propos</h2>
-  <p>Plateforme locale de livraison.</p>
+  <p>Terroir Sables valorise les producteurs locaux en livrant leurs meilleurs produits directement chez vous. Une plateforme locale, authentique et rapide.</p>
 </section>
 
 <section id="contact" style="display:none">
   <h2>Contact</h2>
-  <p>cedric.huet.pro@gmail.com</p>
+  <p>📧 cedric.huet.pro@gmail.com</p>
 </section>
 
 <section id="commander" style="display:none">
@@ -291,16 +558,13 @@ h2{margin-bottom:1rem}
 
   <input type="text" id="custAddress" placeholder="Adresse de livraison" required autocomplete="off">
 
-  <div id="addressSuggestions"
-       style="background:#fff;border:1px solid #ccc;border-radius:10px;
-              display:none;max-height:150px;overflow-y:auto;margin-bottom:0.7rem;">
-  </div>
+  <div id="addressSuggestions"></div>
 
   <input type="text" id="custAddressExtra"
-         placeholder="Complément d’adresse (bâtiment, étage, digicode…)">
+         placeholder="Complément d'adresse (bâtiment, étage, digicode…)">
         
-  <p id="deliveryPrice" style="margin-bottom:0.7rem;font-weight:600;"></p>
-  <p id="checkoutTotal" style="font-weight:700;font-size:1.1rem;"></p>
+  <p id="deliveryPrice" style="margin-bottom:1rem;font-weight:600;color:#6B6B6B;"></p>
+  <p id="checkoutTotal" style="font-weight:700;font-size:1.2rem;color:#6B2C3E;"></p>
 
   <button onclick="confirmOrder()">Confirmer et payer</button>
 </div>
@@ -323,7 +587,7 @@ function showPage(p){
   if(p === 'mesCommandes' && window.renderClientOrders) {
     window.renderClientOrders();
   }
-} // ← CETTE LIGNE MANQUAIT
+}
 
 // MESSAGE
 function showMessage(msg){
@@ -383,7 +647,7 @@ function updateQuantity(productId, qty){
   }
 
   if(qty <= 0){
-    cart.splice(index, 1); // ❌ suppression propre
+    cart.splice(index, 1);
   }else{
     if(
   item.maxPerDelivery > 0 &&
@@ -454,6 +718,12 @@ if(cartHeader){
     const arrow=document.getElementById("toggleCart");
     arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
   }
+}
+
+function showAddedMessage(){
+  const el=document.getElementById("addedMessage");
+  el.classList.add("show");
+  setTimeout(()=>{el.classList.remove("show");},1500);
 }
 
 // FORMULAIRE LIVRAISON
@@ -531,14 +801,12 @@ function showCommercesByCategory(cat){
 function showProducts(commerceId){
   productList.innerHTML = "<h3>Produits</h3>";
 
-  // 🔴 couper l'ancien listener s'il existe
   if(unsubscribeProducts){
     unsubscribeProducts();
   }
 
   const productsRef = collection(db,"commerces",commerceId,"produits");
 
-  // ✅ garder le nouveau listener
   unsubscribeProducts = onSnapshot(productsRef, snapshot => {
     productList.innerHTML = "<h3>Produits</h3>";
 
@@ -610,8 +878,9 @@ document.getElementById("custAddress").addEventListener("input", (e) => {
 
     data.features.forEach(f => {
       const div = document.createElement("div");
-      div.style.padding = "0.5rem";
+      div.style.padding = "0.7rem";
       div.style.cursor = "pointer";
+      div.style.borderBottom = "1px solid #F5F1E8";
       div.innerText = f.properties.formatted;
 
       div.onclick = async () => {
@@ -670,7 +939,7 @@ document.getElementById("checkoutTotal").innerText =
 
       box.appendChild(div);
     });
-  }, 300); // ⏱ anti-clignotement
+  }, 300);
 });
 
 window.confirmOrder = async function(){
@@ -686,7 +955,6 @@ window.confirmOrder = async function(){
     return;
   }
 
-  // 🔐 Sécurité : respect du max par client
   for(const item of cart){
     if(
       item.maxPerDelivery > 0 &&
@@ -706,7 +974,6 @@ window.confirmOrder = async function(){
     return;
   }
 
-  // 🔎 récupérer le commerce
   const commerceRef = doc(db, "commerces", commerceId);
   const commerceSnap = await getDoc(commerceRef);
 
@@ -780,15 +1047,12 @@ const total = itemsTotal + deliveryPrice;
   }
 };
 
-
-// LOGIN
 window.login = async function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   try{ await signInWithEmailAndPassword(auth, email, password); } catch(e){ showMessage("Erreur de connexion"); }
 }
 
-// REGISTER
 window.register = async function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -831,7 +1095,6 @@ onAuthStateChanged(auth, user=>{
   else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
 });
 
-
 window.renderClientOrders = function(){
   const container = document.getElementById("ordersClient");
 
@@ -862,8 +1125,8 @@ window.renderClientOrders = function(){
 const currentIndex = steps.indexOf(o.status);
 
 container.innerHTML += `
-  <div style="padding:1rem;margin-bottom:.7rem;background:#f1f1f1;border-radius:12px">
-    <strong>Commande</strong><br>
+  <div style="padding:1.5rem;margin-bottom:1rem;background:#FEFEFE;border-radius:20px;box-shadow:0 8px 20px rgba(107,44,62,0.08);border:2px solid #F5F1E8;">
+    <strong style="color:#6B2C3E;">Commande</strong><br>
     Total : ${o.total.toFixed(2)} €<br>
 
     <div class="status-bar">
@@ -872,7 +1135,7 @@ container.innerHTML += `
       `).join("")}
     </div>
 
-    <small>Statut : ${o.status.replace("_"," ")}</small>
+    <small style="color:#6B6B6B;">Statut : ${o.status.replace("_"," ")}</small>
   </div>
 `;
     });
@@ -880,7 +1143,7 @@ container.innerHTML += `
 }
 
 function getDistanceKm(lat1, lng1, lat2, lng2){
-  const R = 6371; // rayon Terre en km
+  const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLng = (lng2 - lng1) * Math.PI / 180;
 
@@ -903,15 +1166,8 @@ function getDeliveryPrice(distanceKm){
   return 4.90 + (extraKm * 1.5);
 }
 
-
 loadCategories();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
