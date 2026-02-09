@@ -3,47 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inscription Commerçant - Livraison Locale</title>
+<title>Devenir Partenaire - Terroir Sables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-body {font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f6f8; margin:0; padding:0;}
-header {background:#00b4d8; color:white; text-align:center; padding:2rem;}
-header h1 {font-size:2.5rem; margin-bottom:0.5rem;}
-header p {font-size:1.2rem;}
-section {max-width:500px; margin:2rem auto; background:white; padding:2rem; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-h2 {color:#0077b6; text-align:center; margin-bottom:1rem;}
-form input, form textarea {width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:10px; border:1px solid #ccc; font-size:1rem;}
-form button {width:100%; padding:0.8rem; border:none; border-radius:10px; background:#0077b6; color:white; font-weight:600; cursor:pointer; transition:0.3s;}
-form button:hover {background:#0096c7;}
-footer {text-align:center; padding:2rem 1rem; background:#03045e; color:white; margin-top:3rem;}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, sans-serif;
+  background: #F5F1E8;
+  color: #2C2C2C;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: #2C2C2C;
+}
+
+header {
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color: white;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  box-shadow: 0 10px 35px rgba(107, 44, 62, 0.25);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+header p {
+  font-size: 1.2rem;
+  opacity: 0.92;
+}
+
+section {
+  max-width: 600px;
+  margin: 3rem auto;
+  background: #FEFEFE;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.15);
+  border: 2px solid #F5F1E8;
+}
+
+h2 {
+  color: #6B2C3E;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.intro-text {
+  text-align: center;
+  color: #6B6B6B;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.benefits {
+  background: rgba(139, 157, 131, 0.08);
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  border: 2px solid rgba(139, 157, 131, 0.2);
+}
+
+.benefits h3 {
+  color: #6B2C3E;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits li {
+  padding: 0.6rem 0;
+  color: #2C2C2C;
+  font-weight: 500;
+}
+
+.benefits li::before {
+  content: "✓ ";
+  color: #8B9D83;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+form input, form textarea {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 14px;
+  border: 2px solid #F5F1E8;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: border 0.2s ease;
+}
+
+form input:focus, form textarea:focus {
+  outline: none;
+  border-color: #8B9D83;
+}
+
+form button {
+  width: 100%;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color: white;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(107, 44, 62, 0.3);
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-link a {
+  color: #6B2C3E;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.back-link a:hover {
+  color: #8B9D83;
+}
+
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: linear-gradient(135deg, #2C2C2C, #3C3C3C);
+  color: white;
+  margin-top: 4rem;
+}
+
+footer p {
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+footer a {
+  color: #8B9D83;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+footer a:hover {
+  color: #A4B89C;
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  section {
+    margin: 2rem 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>Devenez Partenaire</h1>
-<p>Inscrivez votre commerce pour rejoindre Livraison Locale</p>
+  <h1>🇫🇷 Devenez Partenaire</h1>
+  <p>Rejoignez Terroir Sables et développez votre activité</p>
 </header>
 
 <section>
-<h2>Formulaire d'inscription</h2>
-<form id="inscriptionForm">
-  <input type="text" id="nomCommerce" placeholder="Nom du commerce" required>
-  <input type="text" id="nomGerant" placeholder="Nom du gérant" required>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="tel" id="phone" placeholder="Téléphone / WhatsApp" required>
-  <button type="submit">S'inscrire</button>
-</form>
+  <h2>Inscription Commerçant</h2>
+  
+  <p class="intro-text">
+    Vous êtes caviste, fromager ou boulanger aux Sables d'Olonne ? 
+    Rejoignez notre plateforme et touchez de nouveaux clients en 24h.
+  </p>
+
+  <div class="benefits">
+    <h3>Pourquoi nous rejoindre ?</h3>
+    <ul>
+      <li>Commission à seulement 10% (vs 30% sur Uber Eats)</li>
+      <li>Paiements automatiques chaque semaine</li>
+      <li>Zéro frais fixe, vous ne payez que si vous vendez</li>
+      <li>Interface simple et rapide à utiliser</li>
+      <li>Support local et réactif</li>
+    </ul>
+  </div>
+
+  <form id="inscriptionForm">
+    <input type="text" id="nomCommerce" placeholder="Nom de votre commerce *" required>
+    <input type="text" id="nomGerant" placeholder="Votre nom et prénom *" required>
+    <input type="email" id="email" placeholder="Email professionnel *" required>
+    <input type="tel" id="phone" placeholder="Téléphone / WhatsApp *" required>
+    <textarea id="message" rows="4" placeholder="Message (optionnel) - Parlez-nous de vos produits"></textarea>
+    <button type="submit">📩 Envoyer ma candidature</button>
+  </form>
+
+  <div class="back-link">
+    <a href="login.html">← Retour à l'accueil</a>
+  </div>
 </section>
 
 <footer>
-<p>© 2026 Livraison Locale | Contact : cedric.huet.pro@gmail.com</p>
+  <p>© 2026 Terroir Sables - Livraison locale de produits français</p>
+  <p>Contact : <a href="mailto:cedric.huet.pro@gmail.com">cedric.huet.pro@gmail.com</a></p>
 </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-// 🔑 Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
@@ -59,10 +263,17 @@ const db = getFirestore(app);
 
 document.getElementById("inscriptionForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  const button = e.target.querySelector('button');
+  const originalText = button.innerText;
+  button.innerText = "Envoi en cours...";
+  button.disabled = true;
+
   const nomCommerce = document.getElementById("nomCommerce").value;
   const nomGerant = document.getElementById("nomGerant").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
+  const message = document.getElementById("message").value;
 
   try {
     await addDoc(collection(db, "inscriptions_commerces"), {
@@ -70,13 +281,20 @@ document.getElementById("inscriptionForm").addEventListener("submit", async (e) 
       gerant: nomGerant,
       email: email,
       phone: phone,
-      date: new Date()
+      message: message,
+      date: new Date(),
+      status: "en_attente"
     });
-    alert("Merci ! Votre inscription a été reçue.");
+    
+    alert("✅ Merci ! Votre candidature a été reçue.\n\nNous vous recontacterons sous 24-48h pour valider votre inscription.");
     e.target.reset();
+    
   } catch (err) {
     console.error(err);
-    alert("Erreur lors de l'inscription. Réessayez.");
+    alert("❌ Erreur lors de l'envoi. Veuillez réessayer ou nous contacter directement par email.");
+  } finally {
+    button.innerText = originalText;
+    button.disabled = false;
   }
 });
 </script>
