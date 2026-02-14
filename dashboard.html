@@ -425,7 +425,7 @@ header h1 { font-size: 1.8rem; }
     </div>
     <div class="stat-card">
       <span class="stat-number" id="statPartCommerce">0€</span>
-      <div class="stat-label">🏦 Votre part (90%)</div>
+      <div class="stat-label" id="statLabelPart">🏦 Votre part</div>
     </div>
   </div>
 
@@ -582,6 +582,15 @@ onAuthStateChanged(auth, async user => {
   }
 
   commerceData = snap.data();
+
+  // Commission dynamique depuis Firestore (10% Cave Nicolas, 15% autres)
+  window.commissionTaux = commerceData.commission || 15;
+  window.commissionRate = window.commissionTaux / 100;
+
+  // Mettre à jour le label stat
+  const labelPart = document.getElementById('statLabelPart');
+  if(labelPart) labelPart.innerText = '🏦 Votre part (' + window.commissionTaux + '%)';
+
   loadProducts();
   loadOrders();
   demarrerVerificationMinuit();
@@ -788,7 +797,7 @@ function loadOrders(){
         if(orderDate === today){
           const ca = calcCACommerce(o);
           statsCA           += ca;
-          statsPartCommerce += ca * 0.9;
+          statsPartCommerce += ca * window.commissionRate;
         }
       }
 
@@ -797,7 +806,7 @@ function loadOrders(){
       div.dataset.status = o.status;
 
       const caCommande    = calcCACommerce(o);
-      const partCommande  = (caCommande * 0.9).toFixed(2);
+      const partCommande  = (caCommande * window.commissionRate).toFixed(2);
       const deliveryPrice = (o.deliveryPrice || 0).toFixed(2);
 
       const itemsList = o.items?.map(item =>
@@ -966,7 +975,7 @@ function buildDetailCommandes(commandes){
       `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`
     ).join('\n') || "—";
     const ca        = calcCACommerce(o);
-    const partComm  = (ca * 0.9).toFixed(2);
+    const partComm  = (ca * window.commissionRate).toFixed(2);
     const delivery  = (o.deliveryPrice || 0).toFixed(2);
 
     return `Commande ${index + 1}
@@ -977,7 +986,7 @@ function buildDetailCommandes(commandes){
 ${items}
 🚴 Livraison : ${delivery}€ (pour le livreur)
 🛒 CA produits : ${ca.toFixed(2)}€
-💳 Votre part (90%) : ${partComm}€
+💳 Votre part (' + window.commissionTaux + '%) : ${partComm}€
 📦 Statut : ${statusLabel(o.status)}`;
   }).join('\n\n────────────────────\n\n');
 }
@@ -1012,8 +1021,8 @@ window.envoyerRecapEmail = async function(){
     // CA = produits uniquement (sans livraison)
     const caTotal        = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
     const totalLivraison = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
-    const partCommerce   = caTotal * 0.9;
-    const partTerroir    = caTotal * 0.1;
+    const partCommerce   = caTotal * window.commissionRate;
+    const partTerroir    = caTotal * (1 - window.commissionRate);
 
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       email_commerce:    emailCommerce,
