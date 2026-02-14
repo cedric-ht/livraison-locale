@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* RESET */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -21,463 +21,419 @@ body{
 }
 
 h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
-  color: #2C2C2C;
+font-family: ‘Playfair Display’, serif;
+color: #2C2C2C;
 }
 
-/* HEADER */
 header{
-  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-  color:white;
-  padding:2.5rem 1.5rem;
-  border-bottom-left-radius:24px;
-  border-bottom-right-radius:24px;
-  box-shadow:0 10px 35px rgba(107, 44, 62, 0.25);
-  position:relative;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+color:white;
+padding:2.5rem 1.5rem;
+border-bottom-left-radius:24px;
+border-bottom-right-radius:24px;
+box-shadow:0 10px 35px rgba(107, 44, 62, 0.25);
+position:relative;
 }
 header h1{
-  font-size:1.6rem;
-  margin-bottom:.5rem;
-  font-weight:700;
-  letter-spacing:-0.5px;
+font-size:1.6rem;
+margin-bottom:.5rem;
+font-weight:700;
+letter-spacing:-0.5px;
 }
 header p{
-  opacity:.92;
-  font-size:.95rem;
-  font-weight:400;
+opacity:.92;
+font-size:.95rem;
+font-weight:400;
 }
 #cta{
-  margin-top:1.5rem;
-  display:flex;
-  gap:1rem;
+margin-top:1.5rem;
+display:flex;
+gap:1rem;
 }
 #cta button{
-  flex:1;
-  padding:1rem;
-  border:none;
-  border-radius:16px;
-  font-size:1rem;
-  font-weight:700;
-  cursor:pointer;
-  transition:all 0.3s ease;
-  font-family:'Inter', sans-serif;
+flex:1;
+padding:1rem;
+border:none;
+border-radius:16px;
+font-size:1rem;
+font-weight:700;
+cursor:pointer;
+transition:all 0.3s ease;
+font-family:‘Inter’, sans-serif;
 }
 #orderBtn{
-  background: linear-gradient(135deg, #8B9D83, #A4B89C);
-  color:white;
-  box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
+background: linear-gradient(135deg, #8B9D83, #A4B89C);
+color:white;
+box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
 }
 #orderBtn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 30px rgba(139, 157, 131, 0.4);
+transform:translateY(-3px);
+box-shadow:0 10px 30px rgba(139, 157, 131, 0.4);
 }
 #menuBtn{
-  background: rgba(255,255,255,.25);
-  color:white;
-  backdrop-filter: blur(10px);
+background: rgba(255,255,255,.25);
+color:white;
+backdrop-filter: blur(10px);
 }
 #menuBtn:hover{
-  background: rgba(255,255,255,.35);
-  transform:translateY(-2px);
+background: rgba(255,255,255,.35);
+transform:translateY(-2px);
 }
 
-/* MOBILE MENU */
 #mobileMenu{
-  display:none;
-  background:#FEFEFE;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:999;
-  padding:2.5rem;
-  overflow-y:auto;
-  box-shadow:0 0 30px rgba(0,0,0,0.15);
+display:none;
+background:#FEFEFE;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+z-index:999;
+padding:2.5rem;
+overflow-y:auto;
+box-shadow:0 0 30px rgba(0,0,0,0.15);
 }
 #mobileMenu a{
-  display:block;
-  padding:1.2rem 0;
-  font-size:1.15rem;
-  font-weight:600;
-  color:#6B2C3E;
-  border-bottom:1px solid #F5F1E8;
-  cursor:pointer;
-  transition: color 0.2s ease;
+display:block;
+padding:1.2rem 0;
+font-size:1.15rem;
+font-weight:600;
+color:#6B2C3E;
+border-bottom:1px solid #F5F1E8;
+cursor:pointer;
+transition: color 0.2s ease;
 }
-#mobileMenu a:hover{
-  color:#8B9D83;
-}
+#mobileMenu a:hover{ color:#8B9D83; }
 #mobileMenuOverlay{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:rgba(44, 44, 44, 0.5);
-  z-index:998;
+display:none;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:rgba(44, 44, 44, 0.5);
+z-index:998;
 }
 
-/* SECTIONS */
 section{
-  padding:2rem 1.5rem;
-  max-width:1000px;
-  margin:auto;
+padding:2rem 1.5rem;
+max-width:1000px;
+margin:auto;
 }
 h2{
-  margin-bottom:1.5rem;
-  font-size:1.8rem;
-  color:#6B2C3E;
+margin-bottom:1.5rem;
+font-size:1.8rem;
+color:#6B2C3E;
 }
 
-/* GRID LISTES */
 #categoryList,#commerceList,#productList{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:1.8rem;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:1.8rem;
 }
 .category,.commerce,.product{
-  background: #FEFEFE;
-  padding:1.5rem;
-  border-radius:20px;
-  border: 2px solid #F5F1E8;
-  box-shadow:0 8px 20px rgba(107, 44, 62, 0.08);
-  cursor:pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 1rem;
+background: #FEFEFE;
+padding:1.5rem;
+border-radius:20px;
+border: 2px solid #F5F1E8;
+box-shadow:0 8px 20px rgba(107, 44, 62, 0.08);
+cursor:pointer;
+transition: all 0.3s ease;
+margin-bottom: 1rem;
 }
 .category:hover,.commerce:hover,.product:hover{
-  transform:translateY(-6px);
-  box-shadow:0 15px 35px rgba(107, 44, 62, 0.15);
-  border-color:#8B9D83;
+transform:translateY(-6px);
+box-shadow:0 15px 35px rgba(107, 44, 62, 0.15);
+border-color:#8B9D83;
 }
 .category.selected,.commerce.selected{
-  background: rgba(139, 157, 131, 0.15);
-  border-color:#8B9D83;
+background: rgba(139, 157, 131, 0.15);
+border-color:#8B9D83;
 }
 .product span{
-  font-weight:600;
-  display:block;
-  color:#2C2C2C;
+font-weight:600;
+display:block;
+color:#2C2C2C;
+}
+.product .product-description {
+color:#6B6B6B;
+font-size:0.88rem;
+font-style:italic;
+margin:0.4rem 0;
 }
 .stock{
-  font-size:.88rem;
-  color:#6B6B6B;
-  margin:.5rem 0;
+font-size:.88rem;
+color:#6B6B6B;
+margin:.5rem 0;
 }
 .product button{
-  margin-top:.8rem;
-  width:100%;
-  padding:.85rem;
-  border:none;
-  border-radius:14px;
-  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-  transition:all 0.3s ease;
-  font-family:'Inter', sans-serif;
+margin-top:.8rem;
+width:100%;
+padding:.85rem;
+border:none;
+border-radius:14px;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:all 0.3s ease;
+font-family:‘Inter’, sans-serif;
 }
 .product button:hover:not(:disabled){
-  transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(107, 44, 62, 0.3);
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(107, 44, 62, 0.3);
 }
 .product button:disabled{
-  background:#D0D0D0;
-  opacity:0.5;
-  cursor:not-allowed;
+background:#D0D0D0;
+opacity:0.5;
+cursor:not-allowed;
 }
 
-/* MINI PANIER FLOTANT */
+/* ZONE INFO */
+.zone-info {
+background: #FEFEFE;
+border: 2px solid #F5F1E8;
+border-radius: 16px;
+padding: 1rem 1.5rem;
+margin-bottom: 1.5rem;
+font-size: 0.9rem;
+color: #6B6B6B;
+box-shadow: 0 4px 12px rgba(107, 44, 62, 0.06);
+}
+
+.zone-info strong { color: #6B2C3E; }
+
+/* MINI PANIER */
 #cart {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  right: 1.5rem;
-  z-index: 500;
-  background: rgba(254, 254, 254, 0.98);
-  border-radius: 24px;
-  height: auto;
-  max-height: 80vh;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 20px 50px rgba(107, 44, 62, 0.2);
-  border: 2px solid #F5F1E8;
+position: fixed;
+bottom: 1.5rem;
+left: 1.5rem;
+right: 1.5rem;
+z-index: 500;
+background: rgba(254, 254, 254, 0.98);
+border-radius: 24px;
+height: auto;
+max-height: 80vh;
+padding: 1rem 1.5rem;
+box-shadow: 0 20px 50px rgba(107, 44, 62, 0.2);
+border: 2px solid #F5F1E8;
 }
-
 #cartHeader {
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor:pointer;
-  font-family: 'Playfair Display', serif;
-  color: #6B2C3E;
-  font-weight:700;
+display:flex;
+justify-content: space-between;
+align-items: center;
+cursor:pointer;
+font-family: ‘Playfair Display’, serif;
+color: #6B2C3E;
+font-weight:700;
 }
-
 #cartContent {
-  max-height: 45vh;
-  overflow-y: auto;
-  margin-top: 1rem;
+max-height: 45vh;
+overflow-y: auto;
+margin-top: 1rem;
 }
-
 #cart:not(.expanded) #cartContent,
 #cart:not(.expanded) .clear-btn,
-#cart:not(.expanded) .validate-btn {
-  display: none;
-}
+#cart:not(.expanded) .validate-btn { display: none; }
 
 #cartContent div {
-  padding:1rem;
-  border-radius:16px;
-  margin-bottom:0.8rem;
-  background: rgba(245, 241, 232, 0.6);
-  box-shadow:0 4px 12px rgba(107, 44, 62, 0.06);
-  transition: transform 0.3s ease;
+padding:1rem;
+border-radius:16px;
+margin-bottom:0.8rem;
+background: rgba(245, 241, 232, 0.6);
+box-shadow:0 4px 12px rgba(107, 44, 62, 0.06);
+transition: transform 0.3s ease;
 }
-
 #cartContent div:hover {
-  transform: translateY(-3px);
-  box-shadow:0 8px 20px rgba(107, 44, 62, 0.12);
+transform: translateY(-3px);
+box-shadow:0 8px 20px rgba(107, 44, 62, 0.12);
 }
-
 #cart h3 {
-  text-align:right;
-  color:#6B2C3E;
-  margin-top:0.8rem;
-  font-family: 'Playfair Display', serif;
+text-align:right;
+color:#6B2C3E;
+margin-top:0.8rem;
+font-family: ‘Playfair Display’, serif;
 }
-
 #cart button {
-  margin:0.3rem;
-  padding:0.5rem 0.9rem;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-  color:white;
-  font-weight:700;
-  transition:all 0.3s ease;
-  font-family:'Inter', sans-serif;
+margin:0.3rem;
+padding:0.5rem 0.9rem;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+color:white;
+font-weight:700;
+transition:all 0.3s ease;
+font-family:‘Inter’, sans-serif;
 }
-
-#cart button:hover {
-  transform:scale(1.06);
-  box-shadow:0 6px 18px rgba(107, 44, 62, 0.25);
-}
-
+#cart button:hover { transform:scale(1.06); box-shadow:0 6px 18px rgba(107, 44, 62, 0.25); }
 #cart .clear-btn {
-  width:100%;
-  background:#D64545;
-  padding:0.85rem;
-  border-radius:14px;
-  margin-top:0.8rem;
+width:100%;
+background:#D64545;
+padding:0.85rem;
+border-radius:14px;
+margin-top:0.8rem;
 }
-
 #cart .validate-btn {
-  width:100%;
-  background: linear-gradient(135deg, #8B9D83, #A4B89C);
-  padding:1rem;
-  border-radius:16px;
-  font-weight:700;
-  margin-top:0.8rem;
-  box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
+width:100%;
+background: linear-gradient(135deg, #8B9D83, #A4B89C);
+padding:1rem;
+border-radius:16px;
+font-weight:700;
+margin-top:0.8rem;
+box-shadow:0 6px 20px rgba(139, 157, 131, 0.3);
 }
 
 /* FORMULAIRE LIVRAISON */
 #checkoutForm{
-  display:none;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#FEFEFE;
-  padding:2.5rem;
-  border-radius:24px;
-  box-shadow:0 15px 50px rgba(107, 44, 62, 0.3);
-  z-index:1001;
-  max-width:450px;
-  width:90%;
+display:none;
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+background:#FEFEFE;
+padding:2.5rem;
+border-radius:24px;
+box-shadow:0 15px 50px rgba(107, 44, 62, 0.3);
+z-index:1001;
+max-width:450px;
+width:90%;
+max-height:90vh;
+overflow-y:auto;
 }
 #checkoutForm h3{
-  font-family: 'Playfair Display', serif;
-  color:#6B2C3E;
-  margin-bottom:1.5rem;
+font-family: ‘Playfair Display’, serif;
+color:#6B2C3E;
+margin-bottom:1.5rem;
 }
 #checkoutForm input{
-  width:100%;
-  padding:0.9rem;
-  margin-bottom:1rem;
-  border-radius:14px;
-  border:2px solid #F5F1E8;
-  font-family:'Inter', sans-serif;
-  transition: border 0.2s ease;
+width:100%;
+padding:0.9rem;
+margin-bottom:1rem;
+border-radius:14px;
+border:2px solid #F5F1E8;
+font-family:‘Inter’, sans-serif;
+transition: border 0.2s ease;
 }
-#checkoutForm input:focus{
-  outline:none;
-  border-color:#8B9D83;
-}
+#checkoutForm input:focus{ outline:none; border-color:#8B9D83; }
 #checkoutForm button{
-  width:100%;
-  padding:1rem;
-  border:none;
-  border-radius:16px;
-  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-  font-family:'Inter', sans-serif;
-  transition: all 0.3s ease;
+width:100%;
+padding:1rem;
+border:none;
+border-radius:16px;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+color:white;
+font-weight:700;
+cursor:pointer;
+font-family:‘Inter’, sans-serif;
+transition: all 0.3s ease;
 }
-#checkoutForm button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 30px rgba(107, 44, 62, 0.3);
-}
+#checkoutForm button:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(107, 44, 62, 0.3); }
 #checkoutOverlay{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:rgba(44, 44, 44, 0.5);
-  z-index:1000;
+display:none;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:rgba(44, 44, 44, 0.5);
+z-index:1000;
 }
 
-/* MESSAGE CENTRAL */
 #addedMessage,#errorMessage{
-  position: fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  padding:1.2rem 2.5rem;
-  border-radius:16px;
-  font-weight:700;
-  font-size:1.05rem;
-  display:none;
-  z-index:1001;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-  text-align:center;
-  opacity:0;
-  transition:opacity 0.3s ease, transform 0.3s ease;
-  font-family:'Inter', sans-serif;
+position: fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+padding:1.2rem 2.5rem;
+border-radius:16px;
+font-weight:700;
+font-size:1.05rem;
+display:none;
+z-index:1001;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+text-align:center;
+opacity:0;
+transition:opacity 0.3s ease, transform 0.3s ease;
+font-family:‘Inter’, sans-serif;
 }
-#addedMessage{
-  background:#8B9D83;
-  color:white;
-}
-#errorMessage{
-  background:#D64545;
-  color:white;
-}
+#addedMessage{ background:#8B9D83; color:white; }
+#errorMessage{ background:#D64545; color:white; }
 #addedMessage.show,#errorMessage.show{
-  display:block;
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1.05);
+display:block;
+opacity:1;
+transform:translate(-50%,-50%) scale(1.05);
 }
 
 @media(max-width:767px){
-  #categoryList,#commerceList,#productList{
-    grid-template-columns:1fr;
-    gap:1.3rem;
-  }
-  section{
-    padding-bottom:140px;
-  }
-  header h1{
-    font-size:1.4rem;
-  }
+#categoryList,#commerceList,#productList{ grid-template-columns:1fr; gap:1.3rem; }
+section{ padding-bottom:140px; }
+header h1{ font-size:1.4rem; }
 }
 
-/* AUTH BOX */
 #authBox {
-  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-  color: #fff;
-  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.3);
-  padding: 2.5rem;
-  border-radius: 24px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+color: #fff;
+box-shadow: 0 15px 40px rgba(107, 44, 62, 0.3);
+padding: 2.5rem;
+border-radius: 24px;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 #authBox h3 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.6rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  font-family: 'Playfair Display', serif;
-  color: white;
+text-align: center;
+margin-bottom: 1.5rem;
+font-size: 1.6rem;
+font-family: ‘Playfair Display’, serif;
+color: white;
 }
 #authBox input {
-  border: none;
-  border-radius: 14px;
-  margin-bottom: 1.2rem;
-  padding: 1rem;
-  font-size: 1rem;
-  width: 100%;
-  font-family:'Inter', sans-serif;
+border: none;
+border-radius: 14px;
+margin-bottom: 1.2rem;
+padding: 1rem;
+font-size: 1rem;
+width: 100%;
+font-family:‘Inter’, sans-serif;
 }
-#authBox input:focus {
-  outline: none;
-  box-shadow: 0 0 12px rgba(255,255,255,0.6);
-}
+#authBox input:focus{ outline: none; box-shadow: 0 0 12px rgba(255,255,255,0.6); }
 #authBox button {
-  width: 100%;
-  padding: 1rem;
-  margin-top: 0.6rem;
-  border-radius: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-family:'Inter', sans-serif;
+width: 100%;
+padding: 1rem;
+margin-top: 0.6rem;
+border-radius: 16px;
+font-weight: 700;
+cursor: pointer;
+border: none;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+font-family:‘Inter’, sans-serif;
 }
-#authBox button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-#authBox button:nth-child(3) {
-  background: #8B9D83;
-  color: #fff;
-}
-#authBox button:nth-child(4) {
-  background: #FEFEFE;
-  color: #6B2C3E;
-  font-weight: 700;
-}
+#authBox button:hover{ transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+#authBox button:nth-child(3){ background: #8B9D83; color: #fff; }
+#authBox button:nth-child(4){ background: #FEFEFE; color: #6B2C3E; font-weight: 700; }
 
-.status-bar{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-}
-
-.status-step{
-  flex:1;
-  height:10px;
-  border-radius:8px;
-  background:#E5E5E5;
-}
-
-.status-step.active{
-  background:#8B9D83;
-}
+.status-bar{ display:flex; gap:8px; margin-top:10px; }
+.status-step{ flex:1; height:10px; border-radius:8px; background:#E5E5E5; }
+.status-step.active{ background:#8B9D83; }
 
 .productImg{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:16px;
-  margin-bottom:0.8rem;
-  box-shadow:0 6px 15px rgba(107, 44, 62, 0.1);
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:16px;
+margin-bottom:0.8rem;
+box-shadow:0 6px 15px rgba(107, 44, 62, 0.1);
 }
 
 #addressSuggestions {
-  background:#FEFEFE;
-  border:2px solid #F5F1E8;
-  border-radius:14px;
-  display:none;
-  max-height:180px;
-  overflow-y:auto;
-  margin-bottom:1rem;
+background:#FEFEFE;
+border:2px solid #F5F1E8;
+border-radius:14px;
+display:none;
+max-height:180px;
+overflow-y:auto;
+margin-bottom:1rem;
+}
+
+/* PANIER MINIMUM BADGE */
+.panier-min-badge {
+display: inline-block;
+background: rgba(139, 157, 131, 0.15);
+color: #8B9D83;
+border: 1px solid #8B9D83;
+border-radius: 20px;
+padding: 0.2rem 0.8rem;
+font-size: 0.8rem;
+font-weight: 600;
+margin-top: 0.5rem;
 }
 </style>
 
@@ -485,12 +441,12 @@ h2{
 <body>
 
 <header>
-<h1>🇫🇷 Terroir Sables</h1>
-<p>Vin, Fromage & Pain livrés en 30 minutes</p>
-<div id="cta">
-  <button id="orderBtn" onclick="showPage('commander')">Commander</button>
-  <button id="menuBtn" onclick="toggleMenu()">Menu</button>
-</div>
+  <h1>🇫🇷 Terroir Sables</h1>
+  <p>Vin, Fromage & Pain livrés en 30 minutes 🚴</p>
+  <div id="cta">
+    <button id="orderBtn" onclick="showPage('commander')">Commander</button>
+    <button id="menuBtn" onclick="toggleMenu()">Menu</button>
+  </div>
 </header>
 
 <div id="mobileMenuOverlay" onclick="toggleMenu()"></div>
@@ -528,6 +484,15 @@ h2{
 </section>
 
 <section id="commander" style="display:none">
+
+  <!-- INFO ZONE ET TARIFS -->
+
+  <div class="zone-info">
+    🚴 <strong>Livraison à vélo</strong> — Zone : <strong>5 km max</strong><br>
+    💰 <strong>0 à 3 km : 3,49 €</strong> &nbsp;|&nbsp; <strong>3 à 5 km : 4,49 €</strong><br>
+    🛒 Panier minimum : <strong>10 €</strong>
+  </div>
+
   <h2>Choisir une catégorie</h2>
   <div id="categoryList"></div>
   <div id="commerceList"></div>
@@ -539,9 +504,13 @@ h2{
   <div id="ordersClient"></div>
 </section>
 
-<!-- MINI-PANIER FLOTANT -->
+<!-- MINI PANIER FLOTANT -->
+
 <div id="cart">
-  <div id="cartHeader"><strong>🛒 Panier</strong><span id="toggleCart">&#9650;</span></div>
+  <div id="cartHeader">
+    <strong>🛒 Panier</strong>
+    <span id="toggleCart">&#9650;</span>
+  </div>
   <div id="cartContent"></div>
   <div id="cartTotals"></div>
   <button class="clear-btn" onclick="clearCart()">Vider le panier</button>
@@ -549,132 +518,169 @@ h2{
 </div>
 
 <!-- FORM LIVRAISON -->
+
 <div id="checkoutOverlay" onclick="closeCheckoutForm()"></div>
 <div id="checkoutForm">
-  <h3>Informations de livraison</h3>
-
+  <h3>🚴 Informations de livraison</h3>
   <input type="text" id="custName" placeholder="Nom et prénom" required>
   <input type="text" id="custPhone" placeholder="Téléphone" required>
-
   <input type="text" id="custAddress" placeholder="Adresse de livraison" required autocomplete="off">
-
   <div id="addressSuggestions"></div>
-
-  <input type="text" id="custAddressExtra"
-         placeholder="Complément d'adresse (bâtiment, étage, digicode…)">
-        
-  <p id="deliveryPrice" style="margin-bottom:1rem;font-weight:600;color:#6B6B6B;"></p>
-  <p id="checkoutTotal" style="font-weight:700;font-size:1.2rem;color:#6B2C3E;"></p>
-
-  <button onclick="confirmOrder()">Confirmer et payer</button>
+  <input type="text" id="custAddressExtra" placeholder="Complément d'adresse (bâtiment, étage, digicode…)">
+  <p id="deliveryPrice" style="margin-bottom:0.5rem;font-weight:600;color:#6B6B6B;"></p>
+  <p id="deliveryTime" style="margin-bottom:0.5rem;font-size:0.9rem;color:#8B9D83;font-weight:600;"></p>
+  <p id="checkoutTotal" style="font-weight:700;font-size:1.2rem;color:#6B2C3E;margin-bottom:1rem;"></p>
+  <button onclick="confirmOrder()">Confirmer la commande</button>
 </div>
 
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
 <script>
-// MENU et navigation
-function toggleMenu(){const m=document.getElementById("mobileMenu");const o=document.getElementById("mobileMenuOverlay");const show=m.style.display==="block";m.style.display=show?"none":"block";o.style.display=show?"none":"block";}
-function nav(p){toggleMenu(); showPage(p);}
+// ============================================
+// CONSTANTES TARIFICATION
+// ============================================
+const ZONE_MAX_KM      = 5;
+const TARIF_COURT      = 3.49; // 0-3km
+const TARIF_LONG       = 4.49; // 3-5km
+const PANIER_MINIMUM   = 10;
+
+function getDeliveryPrice(distanceKm){
+  if(distanceKm > ZONE_MAX_KM) return null; // Hors zone
+  if(distanceKm <= 3) return TARIF_COURT;
+  return TARIF_LONG;
+}
+
+function getDeliveryTime(distanceKm){
+  if(distanceKm <= 3) return "~20 min";
+  return "~30 min";
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+function toggleMenu(){
+  const m = document.getElementById("mobileMenu");
+  const o = document.getElementById("mobileMenuOverlay");
+  const show = m.style.display === "block";
+  m.style.display = show ? "none" : "block";
+  o.style.display = show ? "none" : "block";
+}
+
+function nav(p){ toggleMenu(); showPage(p); }
+
 function showPage(p){
-  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id=>{
+  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.style.display = 'none';
   });
-
   document.getElementById(p).style.display = 'block';
-
-  if(p === 'mesCommandes' && window.renderClientOrders) {
-    window.renderClientOrders();
-  }
+  if(p === 'mesCommandes' && window.renderClientOrders) window.renderClientOrders();
 }
 
-// MESSAGE
+// ============================================
+// MESSAGES
+// ============================================
 function showMessage(msg){
-  const el=document.getElementById("errorMessage");
-  el.innerText=msg;
+  const el = document.getElementById("errorMessage");
+  el.innerText = msg;
   el.classList.add("show");
-  setTimeout(()=>{el.classList.remove("show");},2000);
+  setTimeout(() => el.classList.remove("show"), 2500);
 }
 
+function showAddedMessage(){
+  const el = document.getElementById("addedMessage");
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1500);
+}
+
+// ============================================
 // PANIER
-let selectedCommerceId=null;
-function getCart(){return JSON.parse(localStorage.getItem("panier"))||[];}
-function saveCart(cart){localStorage.setItem("panier",JSON.stringify(cart)); renderCart();}
-function clearCart(){localStorage.removeItem("panier"); selectedCommerceId=null; renderCart();}
-function addToCart(
-  commerceId,
-  productId,
-  name,
-  price,
-  stock,
-  maxPerDelivery
-){
-  if(selectedCommerceId && selectedCommerceId !== commerceId){showMessage("Vous ne pouvez commander qu'un seul magasin à la fois");return;}
+// ============================================
+let selectedCommerceId = null;
+
+function getCart(){ return JSON.parse(localStorage.getItem("panier")) || []; }
+function saveCart(cart){ localStorage.setItem("panier", JSON.stringify(cart)); renderCart(); }
+
+function clearCart(){
+  localStorage.removeItem("panier");
+  selectedCommerceId = null;
+  window.currentDeliveryPrice = null;
+  renderCart();
+}
+
+function addToCart(commerceId, productId, name, price, stock, maxPerDelivery){
+  // Vérif commerce unique
+  if(selectedCommerceId && selectedCommerceId !== commerceId){
+    showMessage("Vous ne pouvez commander que chez un seul commerce à la fois");
+    return;
+  }
+
   selectedCommerceId = commerceId;
   let cart = getCart();
-  price = parseFloat(price.toString().replace(",","."));  
+  price = parseFloat(price.toString().replace(",", "."));
+
   const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
+
   if(existing){
-
-  if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
-    showMessage(`Maximum ${maxPerDelivery} par client`);
-    return;
+    if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
+      showMessage(`Maximum ${maxPerDelivery} par commande`);
+      return;
+    }
+    if(existing.quantity >= stock){
+      showMessage("Stock insuffisant");
+      return;
+    }
+    existing.quantity += 1;
+  } else {
+    if(stock < 1){ showMessage("Produit non disponible"); return; }
+    cart.push({ commerceId, productId, name, price, quantity: 1, stock, maxPerDelivery });
   }
 
-  if(existing.quantity >= stock){
-    showMessage("Stock limité");
-    return;
-  }
-
-  existing.quantity += 1;
-} 
-  else{if(stock < 1){ showMessage("Produit non disponible"); return; } cart.push({commerceId, productId, name, price, quantity:1, stock, maxPerDelivery});}
-  saveCart(cart); showAddedMessage();
+  saveCart(cart);
+  showAddedMessage();
 }
-function removeFromCart(productId){let cart=getCart(); cart=cart.filter(p=>p.productId!==productId); if(cart.length===0) selectedCommerceId=null; saveCart(cart);}
+
+function removeFromCart(productId){
+  let cart = getCart();
+  cart = cart.filter(p => p.productId !== productId);
+  if(cart.length === 0) selectedCommerceId = null;
+  saveCart(cart);
+}
+
 function updateQuantity(productId, qty){
   let cart = getCart();
   const index = cart.findIndex(p => p.productId === productId);
-
   if(index === -1) return;
 
   const item = cart[index];
 
-  if(qty > item.stock){
-    showMessage("Stock limité");
-    return;
-  }
+  if(qty > item.stock){ showMessage("Stock insuffisant"); return; }
 
   if(qty <= 0){
     cart.splice(index, 1);
-  }else{
-    if(
-  item.maxPerDelivery > 0 &&
-  qty > item.maxPerDelivery
-){
-  showMessage(`Maximum ${item.maxPerDelivery} par client`);
-  return;
-}
+  } else {
+    if(item.maxPerDelivery > 0 && qty > item.maxPerDelivery){
+      showMessage(`Maximum ${item.maxPerDelivery} par commande`);
+      return;
+    }
     item.quantity = qty;
   }
 
-  if(cart.length === 0){
-    selectedCommerceId = null;
-  }
-
+  if(cart.length === 0) selectedCommerceId = null;
   saveCart(cart);
 }
+
 function renderCart(){
-  const cartBox = document.getElementById("cart");
+  const cartBox   = document.getElementById("cart");
   const container = document.getElementById("cartContent");
-  const cart = getCart();
+  const cart      = getCart();
 
   container.innerHTML = "";
 
   if(cart.length === 0){
     cartBox.classList.remove("expanded");
-    container.innerHTML = "<p>Panier vide</p>";
+    container.innerHTML = "<p style='color:#6B6B6B;font-style:italic;'>Panier vide</p>";
     return;
   }
 
@@ -682,59 +688,67 @@ function renderCart(){
 
   let itemsTotal = 0;
 
-  cart.forEach(item=>{
+  cart.forEach(item => {
     itemsTotal += item.price * item.quantity;
-
     container.innerHTML += `
       <div>
-        <strong>${item.name}</strong> – ${item.price.toFixed(2).replace(".",",")}€<br>
-        Quantité :
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">-</button>
-        ${item.quantity}
+        <strong>${item.name}</strong> — ${item.price.toFixed(2).replace(".", ",")}€<br>
+        Qté :
+        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">−</button>
+        <strong>${item.quantity}</strong>
         <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
-        <br>
-        <button onclick="removeFromCart('${item.productId}')">Supprimer</button>
+        <button onclick="removeFromCart('${item.productId}')" style="background:#D64545;margin-left:0.5rem;">Suppr.</button>
       </div>
     `;
   });
 
+  // Vérif panier minimum
+  const panierOK = itemsTotal >= PANIER_MINIMUM;
   const delivery = window.currentDeliveryPrice;
 
-container.innerHTML += `
-  <h3>Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3>
-  <h3>Livraison : ${delivery ? delivery.toFixed(2).replace(".",",") + " €" : "—"}</h3>
-  <h3>Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".",",")} €</h3>
-`;
+  container.innerHTML += `
+    <div style="background:transparent;box-shadow:none;padding:0.5rem 0;">
+      <h3 style="text-align:right;">Sous-total : ${itemsTotal.toFixed(2).replace(".", ",")} €</h3>
+      ${!panierOK ? `<p style="color:#D64545;font-size:0.85rem;text-align:right;">⚠️ Minimum ${PANIER_MINIMUM}€ requis</p>` : ""}
+      <h3 style="text-align:right;">Livraison : ${delivery ? delivery.toFixed(2).replace(".", ",") + " €" : "—"}</h3>
+      <h3 style="text-align:right;">Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".", ",")} €</h3>
+    </div>
+  `;
 }
 
 document.addEventListener("DOMContentLoaded", renderCart);
 
-// MINI PANIER EXPAND/RETRACT
+// TOGGLE PANIER
 const cartHeader = document.getElementById("cartHeader");
 if(cartHeader){
-  cartHeader.onclick = ()=>{
-    const cart=document.getElementById("cart");
+  cartHeader.onclick = () => {
+    const cart  = document.getElementById("cart");
+    const arrow = document.getElementById("toggleCart");
     cart.classList.toggle("expanded");
-    const arrow=document.getElementById("toggleCart");
-    arrow.innerHTML=cart.classList.contains("expanded")?"&#9660;":"&#9650;";
+    arrow.innerHTML = cart.classList.contains("expanded") ? "&#9660;" : "&#9650;";
   }
 }
 
-function showAddedMessage(){
-  const el=document.getElementById("addedMessage");
-  el.classList.add("show");
-  setTimeout(()=>{el.classList.remove("show");},1500);
+// ============================================
+// FORMULAIRE LIVRAISON
+// ============================================
+function openCheckoutForm(){
+  const cart = getCart();
+  if(cart.length === 0){ showMessage("Panier vide"); return; }
+
+  const itemsTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  if(itemsTotal < PANIER_MINIMUM){
+    showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
+    return;
+  }
+
+  document.getElementById("checkoutForm").style.display = "block";
+  document.getElementById("checkoutOverlay").style.display = "block";
 }
 
-// FORMULAIRE LIVRAISON
-function openCheckoutForm(){
-  if(getCart().length===0){showMessage("Panier vide"); return;}
-  document.getElementById("checkoutForm").style.display="block";
-  document.getElementById("checkoutOverlay").style.display="block";
-}
 function closeCheckoutForm(){
-  document.getElementById("checkoutForm").style.display="none";
-  document.getElementById("checkoutOverlay").style.display="none";
+  document.getElementById("checkoutForm").style.display = "none";
+  document.getElementById("checkoutOverlay").style.display = "none";
 }
 </script>
 
@@ -747,97 +761,147 @@ import {
   onSnapshot,
   doc,
   setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import {
+  getDoc,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { query, where } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-const firebaseConfig = {apiKey:"AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",authDomain:"livraison-sablaise.firebaseapp.com",projectId:"livraison-sablaise",storageBucket:"livraison-sablaise.firebasestorage.app",messagingSenderId:"930839535214",appId:"1:930839535214:web:a3235919aa88d066bc507f",measurementId:"G-R3ZCGLQ69E"};
-const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
+const firebaseConfig = {
+  apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
+  authDomain: "livraison-sablaise.firebaseapp.com",
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f"
+};
 
-const categoryList=document.getElementById("categoryList");
-const commerceList=document.getElementById("commerceList");
-const productList=document.getElementById("productList");
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+const auth = getAuth(app);
+
+const categoryList = document.getElementById("categoryList");
+const commerceList = document.getElementById("commerceList");
+const productList  = document.getElementById("productList");
 
 let unsubscribeProducts = null;
+let categoriesSet       = new Set();
+let commerceCategories  = {};
 
-let categoriesSet = new Set();
-let commerceCategories = {};
-
+// ============================================
+// CATÉGORIES
+// ============================================
 async function loadCategories(){
-  const snapshot = await getDocs(collection(db,"commerces"));
-  snapshot.forEach(docSnap=>{const c=docSnap.data(); const cat=c.category || "Autres"; categoriesSet.add(cat); commerceCategories[docSnap.id]=cat;});
-  categoryList.innerHTML="";
-  [...categoriesSet].sort().forEach(cat=>{
-    const div=document.createElement("div");
-    div.className="category";
-    div.dataset.opened="false";
-    div.innerHTML=`${cat} <span style="float:right;cursor:pointer">&#9654;</span>`;
-    div.onclick=()=>{if(div.dataset.opened==="true"){ commerceList.innerHTML=""; productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return;} [...categoryList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showCommercesByCategory(cat);}
+  const snapshot = await getDocs(collection(db, "commerces"));
+  snapshot.forEach(docSnap => {
+    const c   = docSnap.data();
+    const cat = c.category || "Autres";
+    categoriesSet.add(cat);
+    commerceCategories[docSnap.id] = cat;
+  });
+
+  categoryList.innerHTML = "";
+  [...categoriesSet].sort().forEach(cat => {
+    const div = document.createElement("div");
+    div.className       = "category";
+    div.dataset.opened  = "false";
+    div.innerHTML       = `${cat} <span style="float:right">▶</span>`;
+
+    div.onclick = () => {
+      if(div.dataset.opened === "true"){
+        commerceList.innerHTML = "";
+        productList.innerHTML  = "";
+        div.dataset.opened     = "false";
+        div.classList.remove("selected");
+        return;
+      }
+      [...categoryList.children].forEach(c => { c.dataset.opened = "false"; c.classList.remove("selected"); });
+      div.dataset.opened = "true";
+      div.classList.add("selected");
+      showCommercesByCategory(cat);
+    }
     categoryList.appendChild(div);
   });
 }
 
+// ============================================
+// COMMERCES PAR CATÉGORIE
+// ============================================
 function showCommercesByCategory(cat){
-  productList.innerHTML=""; commerceList.innerHTML="<h3>Commerces</h3>";
-  getDocs(collection(db,"commerces")).then(snapshot=>{
-    snapshot.forEach(docSnap=>{
-      if((docSnap.data().category || "Autres")===cat){
-        const div=document.createElement("div");
-        div.className="commerce"; div.dataset.opened="false";
-        div.innerHTML=`${docSnap.data().name} <span style="float:right;cursor:pointer">&#9660;</span>`;
-        div.onclick=()=>{if(div.dataset.opened==="true"){ productList.innerHTML=""; div.dataset.opened="false"; div.classList.remove("selected"); return; } [...commerceList.children].forEach(c=>{c.dataset.opened="false"; c.classList.remove("selected");}); div.dataset.opened="true"; div.classList.add("selected"); showProducts(docSnap.id);};
+  productList.innerHTML  = "";
+  commerceList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Commerces</h3>";
+
+  getDocs(collection(db, "commerces")).then(snapshot => {
+    snapshot.forEach(docSnap => {
+      if((docSnap.data().category || "Autres") === cat){
+        const div = document.createElement("div");
+        div.className      = "commerce";
+        div.dataset.opened = "false";
+        div.innerHTML      = `${docSnap.data().name} <span style="float:right">▼</span>`;
+
+        div.onclick = () => {
+          if(div.dataset.opened === "true"){
+            productList.innerHTML  = "";
+            div.dataset.opened     = "false";
+            div.classList.remove("selected");
+            return;
+          }
+          [...commerceList.children].forEach(c => { c.dataset.opened = "false"; c.classList.remove("selected"); });
+          div.dataset.opened = "true";
+          div.classList.add("selected");
+          showProducts(docSnap.id);
+        };
         commerceList.appendChild(div);
       }
     });
   });
-  productList.innerHTML="";
 }
 
+// ============================================
+// PRODUITS
+// ============================================
 function showProducts(commerceId){
-  productList.innerHTML = "<h3>Produits</h3>";
+  productList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>";
 
-  if(unsubscribeProducts){
-    unsubscribeProducts();
-  }
+  if(unsubscribeProducts) unsubscribeProducts();
 
-  const productsRef = collection(db,"commerces",commerceId,"produits");
-
-  unsubscribeProducts = onSnapshot(productsRef, snapshot => {
-    productList.innerHTML = "<h3>Produits</h3>";
+  unsubscribeProducts = onSnapshot(collection(db, "commerces", commerceId, "produits"), snapshot => {
+    productList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>";
 
     snapshot.forEach(docSnap => {
-      const p = docSnap.data();
+      const p     = docSnap.data();
       const stock = p.stock || 0;
+      const price = p.price.toString().replace(".", ",");
 
-      const div = document.createElement("div");
-      div.className = "product";
+      const div       = document.createElement("div");
+      div.className   = "product";
+      div.innerHTML   = `
+        ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg" alt="${p.name}">` : ""}
+        <span>${p.name} — ${price}€</span>
+        ${p.description ? `<p class="product-description">${p.description}</p>` : ""}
+        <span class="stock">📦 Stock : ${stock}</span>
+        ${p.maxPerDelivery > 0 ? `<span class="panier-min-badge">Max ${p.maxPerDelivery}/commande</span>` : ""}
+      `;
 
-      const price = p.price.toString().replace(".",",");
-
-      div.innerHTML = `
-  ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg">` : ""}
-
-  <span>${p.name} - ${price}€</span>
-  <span class="stock">Stock : ${stock}</span>
-`;
-
-      const btn = document.createElement("button");
-      btn.innerText = "Ajouter au panier";
-      btn.disabled = !p.available || stock < 1;
+      const btn       = document.createElement("button");
+      btn.innerText   = p.available && stock > 0 ? "Ajouter au panier" : "Indisponible";
+      btn.disabled    = !p.available || stock < 1;
 
       btn.onclick = () => addToCart(
-  commerceId,
-  docSnap.id,
-  p.name,
-  p.price,
-  stock,
-  p.maxPerDelivery || 0
-);
+        commerceId,
+        docSnap.id,
+        p.name,
+        p.price,
+        stock,
+        p.maxPerDelivery || 0
+      );
 
       div.appendChild(btn);
       productList.appendChild(div);
@@ -845,95 +909,88 @@ function showProducts(commerceId){
   });
 }
 
+// ============================================
+// AUTOCOMPLÉTION ADRESSE
+// ============================================
 let selectedAddressLatLng = null;
-let addressTimeout = null;
+let addressTimeout        = null;
 
-document.getElementById("custAddress").addEventListener("input", (e) => {
-  const query = e.target.value.trim();
+document.getElementById("custAddress").addEventListener("input", e => {
+  const q   = e.target.value.trim();
   const box = document.getElementById("addressSuggestions");
 
   selectedAddressLatLng = null;
-
   clearTimeout(addressTimeout);
 
-  if(query.length < 3){
-    box.style.display = "none";
-    return;
-  }
+  if(q.length < 3){ box.style.display = "none"; return; }
 
   addressTimeout = setTimeout(async () => {
     const apiKey = "42bb53accb9048248243b21b99a5a18a";
-    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
+    const url    = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(q)}&limit=5&lang=fr&filter=countrycode:fr&apiKey=${apiKey}`;
+    const res    = await fetch(url);
+    const data   = await res.json();
 
-    const res = await fetch(url);
-    const data = await res.json();
-
-    box.innerHTML = "";
+    box.innerHTML    = "";
     box.style.display = "block";
 
-    if(!data.features || data.features.length === 0){
-      box.style.display = "none";
-      return;
-    }
+    if(!data.features || data.features.length === 0){ box.style.display = "none"; return; }
 
     data.features.forEach(f => {
-      const div = document.createElement("div");
-      div.style.padding = "0.7rem";
-      div.style.cursor = "pointer";
-      div.style.borderBottom = "1px solid #F5F1E8";
-      div.innerText = f.properties.formatted;
+      const div       = document.createElement("div");
+      div.style.cssText = "padding:0.7rem;cursor:pointer;border-bottom:1px solid #F5F1E8;";
+      div.innerText   = f.properties.formatted;
 
       div.onclick = async () => {
         document.getElementById("custAddress").value = f.properties.formatted;
-        if(
-  !f.properties.housenumber &&
-  !f.properties.street
-){
-  showMessage("Veuillez choisir une adresse précise (rue + numéro)");
-  return;
-}
 
-selectedAddressLatLng = {
-  lat: f.geometry.coordinates[1],
-  lng: f.geometry.coordinates[0]
-};
+        if(!f.properties.housenumber && !f.properties.street){
+          showMessage("Veuillez choisir une adresse précise (rue + numéro)");
+          return;
+        }
 
-const cart = getCart();
-if(cart.length === 0) return;
+        selectedAddressLatLng = {
+          lat: f.geometry.coordinates[1],
+          lng: f.geometry.coordinates[0]
+        };
 
-const commerceId = cart[0].commerceId;
-const commerceRef = doc(db, "commerces", commerceId);
-const commerceSnap = await getDoc(commerceRef);
+        const cart = getCart();
+        if(cart.length === 0) return;
 
-if(!commerceSnap.exists()) return;
+        const commerceSnap = await getDoc(doc(db, "commerces", cart[0].commerceId));
+        if(!commerceSnap.exists()) return;
 
-const commerce = commerceSnap.data();
+        const commerce = commerceSnap.data();
+        const distance = getDistanceKm(
+          commerce.lat, commerce.lng,
+          selectedAddressLatLng.lat, selectedAddressLatLng.lng
+        );
 
-const distance = getDistanceKm(
-  commerce.lat,
-  commerce.lng,
-  selectedAddressLatLng.lat,
-  selectedAddressLatLng.lng
-);
+        // Vérif zone 5km
+        if(distance > ZONE_MAX_KM){
+          showMessage(`❌ Adresse hors zone de livraison (${ZONE_MAX_KM} km max)`);
+          document.getElementById("deliveryPrice").innerText = "";
+          document.getElementById("checkoutTotal").innerText = "";
+          document.getElementById("deliveryTime").innerText  = "";
+          window.currentDeliveryPrice = null;
+          renderCart();
+          box.style.display = "none";
+          return;
+        }
 
-if(distance > 10){
-  showMessage("Adresse hors zone de livraison (10 km max)");
-  return;
-}
+        const deliveryPrice             = getDeliveryPrice(distance);
+        window.currentDeliveryPrice     = deliveryPrice;
+        renderCart();
 
-const deliveryPrice = getDeliveryPrice(distance);
-window.currentDeliveryPrice = deliveryPrice;
-renderCart();
+        document.getElementById("deliveryPrice").innerText =
+          `🚴 Livraison : ${deliveryPrice.toFixed(2).replace(".", ",")} € (${distance.toFixed(1)} km)`;
 
-document.getElementById("deliveryPrice").innerText =
-  `🚚 Livraison : ${deliveryPrice.toFixed(2).replace(".",",")} €`;
-  
-const itemsTotal = getCart().reduce((s,i)=>s + i.price*i.quantity, 0);
-const total = itemsTotal + deliveryPrice;
+        document.getElementById("deliveryTime").innerText =
+          `⏱️ Délai estimé : ${getDeliveryTime(distance)}`;
 
-document.getElementById("checkoutTotal").innerText =
-  `💳 Total à payer : ${total.toFixed(2).replace(".",",")} €`;
-  
+        const itemsTotal = getCart().reduce((s, i) => s + i.price * i.quantity, 0);
+        document.getElementById("checkoutTotal").innerText =
+          `💳 Total : ${(itemsTotal + deliveryPrice).toFixed(2).replace(".", ",")} €`;
+
         box.style.display = "none";
       };
 
@@ -942,67 +999,58 @@ document.getElementById("checkoutTotal").innerText =
   }, 300);
 });
 
+// ============================================
+// CONFIRMER COMMANDE
+// ============================================
 window.confirmOrder = async function(){
   const user = window.currentUser;
-  if(!user){
-    showMessage("Vous devez être connecté");
-    return;
-  }
+  if(!user){ showMessage("Vous devez être connecté"); return; }
 
   const cart = getCart();
-  if(cart.length === 0){
-    showMessage("Panier vide");
+  if(cart.length === 0){ showMessage("Panier vide"); return; }
+
+  // Vérif panier minimum
+  const itemsTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  if(itemsTotal < PANIER_MINIMUM){
+    showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
     return;
   }
 
+  // Vérif max par commande
   for(const item of cart){
-    if(
-      item.maxPerDelivery > 0 &&
-      item.quantity > item.maxPerDelivery
-    ){
-      showMessage(
-        `${item.name} : maximum ${item.maxPerDelivery} autorisé`
-      );
+    if(item.maxPerDelivery > 0 && item.quantity > item.maxPerDelivery){
+      showMessage(`${item.name} : maximum ${item.maxPerDelivery} par commande`);
       return;
     }
   }
-
-  const commerceId = cart[0].commerceId;
 
   if(!selectedAddressLatLng){
     showMessage("Veuillez sélectionner une adresse valide");
     return;
   }
 
-  const commerceRef = doc(db, "commerces", commerceId);
-  const commerceSnap = await getDoc(commerceRef);
-
-  if(!commerceSnap.exists()){
-    showMessage("Commerce introuvable");
-    return;
-  }
+  const commerceSnap = await getDoc(doc(db, "commerces", cart[0].commerceId));
+  if(!commerceSnap.exists()){ showMessage("Commerce introuvable"); return; }
 
   const commerce = commerceSnap.data();
 
   if(!commerce.lat || !commerce.lng){
-  showMessage("Position du commerce non définie");
-  return;
-}
-
-const distance = getDistanceKm(
-  commerce.lat,
-  commerce.lng,
-  selectedAddressLatLng.lat,
-  selectedAddressLatLng.lng
-);
-
-  if(distance > 10){
-    showMessage("Adresse hors zone de livraison (10 km max)");
+    showMessage("Position du commerce non définie");
     return;
   }
 
-  const name = document.getElementById("custName").value.trim();
-  const phone = document.getElementById("custPhone").value.trim();
+  const distance = getDistanceKm(
+    commerce.lat, commerce.lng,
+    selectedAddressLatLng.lat, selectedAddressLatLng.lng
+  );
+
+  if(distance > ZONE_MAX_KM){
+    showMessage(`❌ Adresse hors zone (${ZONE_MAX_KM} km max)`);
+    return;
+  }
+
+  const name    = document.getElementById("custName").value.trim();
+  const phone   = document.getElementById("custPhone").value.trim();
   const address = document.getElementById("custAddress").value.trim();
 
   if(!name || !phone || !address){
@@ -1010,98 +1058,112 @@ const distance = getDistanceKm(
     return;
   }
 
-  const itemsTotal = cart.reduce((s,i)=>s + i.price*i.quantity, 0);
-const deliveryPrice = getDeliveryPrice(distance);
-const total = itemsTotal + deliveryPrice;
+  const deliveryPrice = getDeliveryPrice(distance);
 
-  try{
-    await addDoc(collection(db,"commandes"),{
-  commerceId,
-  clientId: user.uid,
-  client: {
-    nom: name,
-    tel: phone,
-    adresse: address
-  },
-  items: cart.map(i => ({
-    productId: i.productId,
-    name: i.name,
-    price: i.price,
-    qty: i.quantity
-  })),
-  itemsTotal,
-  deliveryPrice,
-  distanceKm: distance,
-  total,
-  status: "en_attente",
-  createdAt: serverTimestamp()
-});
+  // Commission dynamique depuis Firestore
+  const commission    = commerce.commission || 15; // 15% par défaut, 10% pour Cave Nicolas
+  const commissionAmount = itemsTotal * (commission / 100);
 
-    showMessage("Commande envoyée ✅");
+  const total = itemsTotal + deliveryPrice;
+
+  try {
+    await addDoc(collection(db, "commandes"), {
+      commerceId:        cart[0].commerceId,
+      clientId:          user.uid,
+      client: {
+        nom:     name,
+        tel:     phone,
+        adresse: address
+      },
+      items: cart.map(i => ({
+        productId: i.productId,
+        name:      i.name,
+        price:     i.price,
+        qty:       i.quantity
+      })),
+      itemsTotal,
+      deliveryPrice,
+      distanceKm:        parseFloat(distance.toFixed(2)),
+      commission,
+      commissionAmount:  parseFloat(commissionAmount.toFixed(2)),
+      total,
+      status:            "en_attente",
+      createdAt:         serverTimestamp()
+    });
+
+    showMessage("✅ Commande envoyée !");
     clearCart();
     closeCheckoutForm();
     showPage('mesCommandes');
 
-  }catch(e){
+  } catch(e){
     showMessage("Erreur : " + e.message);
   }
 };
 
+// ============================================
+// AUTH
+// ============================================
 window.login = async function(){
-  const email = document.getElementById("email").value;
+  const email    = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  try{ await signInWithEmailAndPassword(auth, email, password); } catch(e){ showMessage("Erreur de connexion"); }
+  try { await signInWithEmailAndPassword(auth, email, password); }
+  catch(e) { showMessage("Email ou mot de passe incorrect"); }
 }
 
 window.register = async function(){
-  const email = document.getElementById("email").value;
+  const email    = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-
     await setDoc(doc(db, "users", cred.user.uid), {
-      email: email,
-      role: "client",
-      createdAt: new Date()
+      email, role: "client", createdAt: new Date()
     });
-
     showMessage("Compte créé ✅");
-  } catch(e){
-    showMessage("Erreur inscription");
-  }
+  } catch(e) { showMessage("Erreur inscription"); }
 }
 
-window.openLoginMenu = function() {
+window.openLoginMenu = function(){
   toggleMenu();
   const box = document.getElementById("authBox");
-  box.style.display = "block";
-  box.style.opacity = 0;
+  box.style.display   = "block";
+  box.style.opacity   = 0;
   box.style.transform = "scale(0.9)";
-  setTimeout(()=> {
+  setTimeout(() => {
     box.style.transition = "all 0.3s ease";
-    box.style.opacity = 1;
-    box.style.transform = "scale(1)";
+    box.style.opacity    = 1;
+    box.style.transform  = "scale(1)";
   }, 10);
 }
 
-window.logout = function(){ auth.signOut().then(()=>{showMessage("Déconnecté ✅");}).catch(()=>{showMessage("Erreur déconnexion");}); }
+window.logout = function(){
+  auth.signOut()
+    .then(() => showMessage("Déconnecté ✅"))
+    .catch(() => showMessage("Erreur déconnexion"));
+}
 
-onAuthStateChanged(auth, user=>{
-  const authBox = document.getElementById("authBox");
-  const loginBtn = document.getElementById("menuLoginBtn");
+onAuthStateChanged(auth, user => {
+  const authBox   = document.getElementById("authBox");
+  const loginBtn  = document.getElementById("menuLoginBtn");
   const logoutBtn = document.getElementById("menuLogoutBtn");
-  if(user){ authBox.style.display="none"; window.currentUser=user; loginBtn.style.display="none"; logoutBtn.style.display="block"; } 
-  else { window.currentUser=null; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
+  if(user){
+    authBox.style.display   = "none";
+    window.currentUser      = user;
+    loginBtn.style.display  = "none";
+    logoutBtn.style.display = "block";
+  } else {
+    window.currentUser      = null;
+    loginBtn.style.display  = "block";
+    logoutBtn.style.display = "none";
+  }
 });
 
+// ============================================
+// MES COMMANDES CLIENT
+// ============================================
 window.renderClientOrders = function(){
   const container = document.getElementById("ordersClient");
-
-  if(!window.currentUser){
-    container.innerHTML = "<p>Veuillez vous connecter</p>";
-    return;
-  }
+  if(!window.currentUser){ container.innerHTML = "<p>Veuillez vous connecter</p>"; return; }
 
   container.innerHTML = "Chargement...";
 
@@ -1110,60 +1172,48 @@ window.renderClientOrders = function(){
     where("clientId", "==", window.currentUser.uid)
   );
 
-  onSnapshot(q, (snapshot)=>{
+  onSnapshot(q, snapshot => {
     container.innerHTML = "";
 
-    if(snapshot.empty){
-      container.innerHTML = "<p>Aucune commande pour le moment</p>";
-      return;
-    }
+    if(snapshot.empty){ container.innerHTML = "<p>Aucune commande pour le moment</p>"; return; }
 
-    snapshot.forEach(docSnap=>{
-      const o = docSnap.data();
+    snapshot.forEach(docSnap => {
+      const o     = docSnap.data();
+      const steps = ["en_attente", "prete", "en_livraison", "livree"];
+      const idx   = steps.indexOf(o.status);
 
-      const steps = ["en_attente","prete","en_livraison","livree"];
-const currentIndex = steps.indexOf(o.status);
+      const date = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
 
-container.innerHTML += `
-  <div style="padding:1.5rem;margin-bottom:1rem;background:#FEFEFE;border-radius:20px;box-shadow:0 8px 20px rgba(107,44,62,0.08);border:2px solid #F5F1E8;">
-    <strong style="color:#6B2C3E;">Commande</strong><br>
-    Total : ${o.total.toFixed(2)} €<br>
-
-    <div class="status-bar">
-      ${steps.map((s,i)=>`
-        <div class="status-step ${i <= currentIndex ? "active" : ""}"></div>
-      `).join("")}
-    </div>
-
-    <small style="color:#6B6B6B;">Statut : ${o.status.replace("_"," ")}</small>
-  </div>
-`;
+      container.innerHTML += `
+        <div style="padding:1.5rem;margin-bottom:1rem;background:#FEFEFE;border-radius:20px;
+                    box-shadow:0 8px 20px rgba(107,44,62,0.08);border:2px solid #F5F1E8;">
+          <strong style="color:#6B2C3E;font-family:'Playfair Display',serif;">Commande</strong>
+          ${date ? `<span style="float:right;color:#6B6B6B;font-size:0.85rem;">${date}</span>` : ""}
+          <br>
+          💰 Total : <strong>${o.total.toFixed(2)} €</strong><br>
+          <div class="status-bar" style="margin:0.8rem 0;">
+            ${steps.map((s, i) => `<div class="status-step ${i <= idx ? "active" : ""}"></div>`).join("")}
+          </div>
+          <small style="color:#6B6B6B;">📦 ${o.status.replace(/_/g, " ")}</small>
+        </div>
+      `;
     });
   });
 }
 
+// ============================================
+// CALCUL DISTANCE (Haversine)
+// ============================================
 function getDistanceKm(lat1, lng1, lat2, lng2){
-  const R = 6371;
+  const R    = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLng = (lng2 - lng1) * Math.PI / 180;
-
-  const a =
+  const a    =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
     Math.cos(lat1 * Math.PI / 180) *
     Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLng/2) * Math.sin(dLng/2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
-
-function getDeliveryPrice(distanceKm){
-  if(distanceKm <= 3){
-    return 4.90;
-  }
-
-  const extraKm = Math.ceil(distanceKm - 3);
-  return 4.90 + (extraKm * 1.5);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
 loadCategories();
