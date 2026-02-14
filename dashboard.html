@@ -116,7 +116,7 @@ box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
 margin-bottom: 2rem;
 }
 
-form input, form textarea, form select {
+form input, form textarea {
 width: 100%;
 padding: 0.9rem;
 margin-bottom: 1rem;
@@ -281,11 +281,11 @@ transition: all 0.3s ease;
 }
 
 .orderCard:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(107, 44, 62, 0.12); }
-.orderCard[data-status=“en_attente”] { border-left: 6px solid #FFB703; background: rgba(255, 183, 3, 0.04); }
-.orderCard[data-status=“prete”] { border-left: 6px solid #FB8500; background: rgba(251, 133, 0, 0.04); }
+.orderCard[data-status=“en_attente”]   { border-left: 6px solid #FFB703; background: rgba(255, 183, 3, 0.04); }
+.orderCard[data-status=“prete”]        { border-left: 6px solid #FB8500; background: rgba(251, 133, 0, 0.04); }
 .orderCard[data-status=“en_livraison”] { border-left: 6px solid #8B9D83; background: rgba(139, 157, 131, 0.04); }
-.orderCard[data-status=“livree”] { border-left: 6px solid #2A9D8F; background: rgba(42, 157, 143, 0.04); }
-.orderCard[data-status=“annulee”] { border-left: 6px solid #D64545; opacity: 0.6; }
+.orderCard[data-status=“livree”]       { border-left: 6px solid #2A9D8F; background: rgba(42, 157, 143, 0.04); }
+.orderCard[data-status=“annulee”]      { border-left: 6px solid #D64545; opacity: 0.6; }
 
 .orderCard .order-header {
 display: flex;
@@ -309,7 +309,7 @@ border-radius: 20px;
 background: #F5F1E8;
 }
 
-.orderCard .order-info { color: #6B6B6B; font-size: 0.95rem; margin: 0.3rem 0; }
+.orderCard .order-info  { color: #6B6B6B; font-size: 0.95rem; margin: 0.3rem 0; }
 .orderCard .order-total { font-weight: 700; font-size: 1.1rem; color: #2C2C2C; margin: 0.8rem 0; }
 
 .orderCard .order-items {
@@ -365,17 +365,14 @@ display: block;
 #ordersHistory .orderCard { opacity: 0.8; }
 #ordersHistory .orderCard:hover { opacity: 1; }
 
-/* BOUTON TEST EMAIL */
 .btn-test-email {
 background: linear-gradient(135deg, #8B9D83, #A4B89C);
 margin-bottom: 1.5rem;
-display: flex;
-align-items: center;
-gap: 0.5rem;
-justify-content: center;
+width: 100%;
+padding: 1rem;
+font-size: 1rem;
 }
 
-/* NOTIFICATION TOAST */
 .toast {
 position: fixed;
 bottom: 2rem;
@@ -390,12 +387,10 @@ font-weight: 600;
 transform: translateY(100px);
 opacity: 0;
 transition: all 0.4s ease;
+max-width: 300px;
 }
 
-.toast.show {
-transform: translateY(0);
-opacity: 1;
-}
+.toast.show { transform: translateY(0); opacity: 1; }
 
 @media (max-width: 768px) {
 header h1 { font-size: 1.8rem; }
@@ -434,11 +429,15 @@ header h1 { font-size: 1.8rem; }
     </div>
     <div class="stat-card">
       <span class="stat-number" id="statCA">0€</span>
-      <div class="stat-label">💰 CA aujourd'hui</div>
+      <div class="stat-label">💰 CA produits aujourd'hui</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statPartCommerce">0€</span>
+      <div class="stat-label">🏦 Votre part (90%)</div>
     </div>
   </div>
 
-  <!-- BOUTON TEST EMAIL (à supprimer après test) -->
+  <!-- BOUTON TEST EMAIL -->
 
   <button class="btn-test-email" onclick="envoyerRecapEmail(true)">
     🧪 Tester l'envoi du récap email
@@ -464,12 +463,8 @@ header h1 { font-size: 1.8rem; }
       <input type="number" id="productStock" placeholder="Stock initial *" min="0" required>
       <button type="submit">➕ Ajouter le produit</button>
     </form>
-
-```
-<h2>Mes produits</h2>
-<div id="productList"></div>
-```
-
+    <h2>Mes produits</h2>
+    <div id="productList"></div>
   </div>
 
   <!-- TAB COMMANDES -->
@@ -507,7 +502,7 @@ header h1 { font-size: 1.8rem; }
   </div>
 </div>
 
-<!-- TOAST NOTIFICATION -->
+<!-- TOAST -->
 
 <div class="toast" id="toast"></div>
 
@@ -525,7 +520,8 @@ import {
   getDoc,
   getDocs,
   query,
-  where
+  where,
+  writeBatch
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import {
   getStorage,
@@ -535,7 +531,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
 
 // ============================================
-// CONFIG FIREBASE
+// CONFIG
 // ============================================
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -546,35 +542,31 @@ const firebaseConfig = {
   appId: "1:930839535214:web:a3235919aa88d066bc507f"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app     = initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
 const storage = getStorage(app);
 
-// ============================================
-// CONFIG EMAILJS
-// ============================================
 emailjs.init("OviCGZ_sl61zNnUSJ");
-
 const EMAILJS_SERVICE_ID  = "service_6hc6ql8";
 const EMAILJS_TEMPLATE_ID = "template_vmnrowe";
 const EMAIL_ADMIN         = "cedric.huet.pro@gmail.com";
 
 // ============================================
-// VARIABLES GLOBALES
+// VARIABLES
 // ============================================
-let uid;
+let uid          = null;
 let currentProducts = {};
-let commerceData    = {};
+let commerceData = {};
 
 // ============================================
-// TOAST NOTIFICATION
+// TOAST
 // ============================================
-function showToast(message, duration = 3000){
-  const toast = document.getElementById("toast");
-  toast.innerText = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), duration);
+function showToast(msg, duration = 3500){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), duration);
 }
 
 // ============================================
@@ -584,7 +576,7 @@ window.showTab = function(tab, e){
   document.querySelectorAll('.tabContent').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`tab-${tab}`).classList.add('active');
-  if(e && e.target) e.target.classList.add('active');
+  if(e?.target) e.target.classList.add('active');
 }
 
 // ============================================
@@ -594,21 +586,19 @@ onAuthStateChanged(auth, async user => {
   if(!user){ window.location.href = "login.html"; return; }
 
   uid = user.uid;
-  const commerceSnap = await getDoc(doc(db, "commerces", uid));
+  const snap = await getDoc(doc(db, "commerces", uid));
 
-  if(!commerceSnap.exists()){
+  if(!snap.exists()){
     await signOut(auth);
     alert("Accès refusé");
     window.location.href = "index.html";
     return;
   }
 
-  commerceData = commerceSnap.data();
-
+  commerceData = snap.data();
   loadProducts();
   loadOrders();
   demarrerVerificationMinuit();
-  resetStatsMinuit();
 });
 
 document.getElementById("logout").onclick = () =>
@@ -621,7 +611,7 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
   e.preventDefault();
   const btn = e.target.querySelector('button');
   btn.innerText = "Ajout en cours...";
-  btn.disabled = true;
+  btn.disabled  = true;
 
   const name        = document.getElementById("productName").value;
   const description = document.getElementById("productDescription").value;
@@ -631,9 +621,9 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
 
   let imageUrl = null;
   if(imageFile){
-    const imageRef = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
-    await uploadBytes(imageRef, imageFile);
-    imageUrl = await getDownloadURL(imageRef);
+    const r = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
+    await uploadBytes(r, imageFile);
+    imageUrl = await getDownloadURL(r);
   }
 
   await addDoc(collection(db, "commerces", uid, "produits"), {
@@ -646,8 +636,8 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
 
   e.target.reset();
   btn.innerText = "➕ Ajouter le produit";
-  btn.disabled = false;
-  showToast("✅ Produit ajouté avec succès !");
+  btn.disabled  = false;
+  showToast("✅ Produit ajouté !");
 });
 
 // ============================================
@@ -660,11 +650,10 @@ async function updateStock(productId, currentStock, delta){
     available: newStock > 0
   });
 }
-
 window.updateStock = updateStock;
 
 // ============================================
-// MODIFIER MAX PAR CLIENT
+// MAX PAR CLIENT
 // ============================================
 window.updateMaxPerClient = async function(productId, value){
   const max = Math.max(0, parseInt(value) || 0);
@@ -700,22 +689,21 @@ window.saveProductEdit = async function(){
 
   const btn = document.querySelector('.modal-buttons button:last-child');
   btn.innerText = "Sauvegarde...";
-  btn.disabled = true;
+  btn.disabled  = true;
 
   let updateData = { name, description, price, stock, available: stock > 0 };
 
   if(imageFile){
-    const imageRef = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
-    await uploadBytes(imageRef, imageFile);
-    updateData.imageUrl = await getDownloadURL(imageRef);
+    const r = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
+    await uploadBytes(r, imageFile);
+    updateData.imageUrl = await getDownloadURL(r);
   }
 
   await updateDoc(doc(db, "commerces", uid, "produits", productId), updateData);
-
   btn.innerText = "💾 Enregistrer";
-  btn.disabled = false;
+  btn.disabled  = false;
   closeEditModal();
-  showToast("✅ Produit modifié avec succès !");
+  showToast("✅ Produit modifié !");
 }
 
 // ============================================
@@ -727,7 +715,7 @@ function loadProducts(){
     currentProducts = {};
 
     if(snapshot.empty){
-      productList.innerHTML = `<div class="empty-state">Aucun produit pour le moment. Ajoutez votre premier produit ! 🍷</div>`;
+      productList.innerHTML = `<div class="empty-state">Aucun produit pour le moment 🍷</div>`;
       return;
     }
 
@@ -743,21 +731,17 @@ function loadProducts(){
         ${p.description ? `<p class="description">${p.description}</p>` : ""}
         <p class="price">💰 ${p.price} €</p>
         <p class="stock">📦 Stock : <strong>${p.stock}</strong></p>
-
         <div class="stockControls">
           <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
           <span style="font-weight:700;font-size:1.1rem;">${p.stock}</span>
           <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
         </div>
-
         <label>Max par client :</label>
         <input type="number" min="0" value="${p.maxPerDelivery ?? 0}"
                onchange="updateMaxPerClient('${docSnap.id}', this.value)">
-
         <p style="margin-top:0.8rem;" class="${p.available ? '' : 'unavailable'}">
           ${p.available ? '✅ Disponible' : '❌ Indisponible'}
         </p>
-
         <button class="btn-edit" onclick="openEditModal('${docSnap.id}')">✏️ Modifier</button>
         <button class="btn-delete" onclick="deleteProduct('${docSnap.id}')">🗑️ Supprimer</button>
       `;
@@ -774,40 +758,61 @@ window.deleteProduct = async id => {
 };
 
 // ============================================
+// CALCUL CA SANS LIVRAISON
+// ============================================
+function calcCACommerce(commande){
+  // CA = total - frais de livraison
+  const total         = commande.total        || 0;
+  const deliveryPrice = commande.deliveryPrice || 0;
+  return Math.max(0, total - deliveryPrice);
+}
+
+// ============================================
 // AFFICHAGE COMMANDES
 // ============================================
 function loadOrders(){
-  const ordersList   = document.getElementById("ordersList");
+  const ordersList    = document.getElementById("ordersList");
   const ordersHistory = document.getElementById("ordersHistory");
   const q = query(collection(db, "commandes"), where("commerceId", "==", uid));
 
   onSnapshot(q, snapshot => {
-    ordersList.innerHTML   = "";
+    ordersList.innerHTML    = "";
     ordersHistory.innerHTML = "";
 
-    let statsEnAttente = 0, statsEnCours = 0, statsLivrees = 0, statsCA = 0;
+    let statsEnAttente = 0, statsEnCours = 0, statsLivrees = 0;
+    let statsCA = 0, statsPartCommerce = 0;
     const today = new Date().toDateString();
 
     if(snapshot.empty){
       ordersList.innerHTML    = `<div class="empty-state">Aucune commande pour le moment 📭</div>`;
       ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
+      updateStats(0,0,0,0,0);
       return;
     }
 
     snapshot.docs.reverse().forEach(docSnap => {
       const o = docSnap.data();
 
+      // STATS (uniquement commandes du jour, non annulées)
       if(o.status === "en_attente")   statsEnAttente++;
       if(o.status === "en_livraison") statsEnCours++;
       if(o.status === "livree"){
         statsLivrees++;
         const orderDate = o.createdAt?.toDate?.()?.toDateString();
-        if(orderDate === today) statsCA += o.total || 0;
+        if(orderDate === today){
+          const ca = calcCACommerce(o);
+          statsCA           += ca;
+          statsPartCommerce += ca * 0.9;
+        }
       }
 
       const div = document.createElement("div");
-      div.className    = "orderCard";
+      div.className      = "orderCard";
       div.dataset.status = o.status;
+
+      const caCommande    = calcCACommerce(o);
+      const partCommande  = (caCommande * 0.9).toFixed(2);
+      const deliveryPrice = (o.deliveryPrice || 0).toFixed(2);
 
       const itemsList = o.items?.map(item =>
         `<div>• ${item.name} × ${item.qty} — ${(item.price * item.qty).toFixed(2)} €</div>`
@@ -828,7 +833,7 @@ function loadOrders(){
         action = `<p style="color:#6B6B6B;font-style:italic;margin-top:0.8rem;">Commande terminée</p>`;
       }
 
-      const createdAt   = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR',  { hour: '2-digit', minute: '2-digit' }) || "";
+      const createdAt   = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) || "";
       const createdDate = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
 
       div.innerHTML = `
@@ -836,12 +841,14 @@ function loadOrders(){
           <span class="order-title">📦 Commande</span>
           <span class="order-status">${statusLabel(o.status)}</span>
         </div>
-        <p class="order-info">👤 ${o.client?.nom  || "—"}</p>
+        <p class="order-info">👤 ${o.client?.nom     || "—"}</p>
         <p class="order-info">📍 ${o.client?.adresse || "—"}</p>
-        <p class="order-info">📞 ${o.client?.tel  || "—"}</p>
+        <p class="order-info">📞 ${o.client?.tel     || "—"}</p>
         ${createdDate ? `<p class="order-info">🕐 ${createdDate} à ${createdAt}</p>` : ""}
         <div class="order-items">${itemsList}</div>
-        <p class="order-total">💰 Total : ${o.total?.toFixed(2)} €</p>
+        <p class="order-total">🛒 CA produits : ${caCommande.toFixed(2)} €</p>
+        <p class="order-total">🚴 Livraison : ${deliveryPrice} €</p>
+        <p class="order-total" style="color:#8B9D83;">💳 Votre part : ${partCommande} €</p>
         ${action}
       `;
 
@@ -852,14 +859,19 @@ function loadOrders(){
       }
     });
 
-    document.getElementById("statEnAttente").innerText = statsEnAttente;
-    document.getElementById("statEnCours").innerText   = statsEnCours;
-    document.getElementById("statLivrees").innerText   = statsLivrees;
-    document.getElementById("statCA").innerText        = statsCA.toFixed(2) + "€";
+    updateStats(statsEnAttente, statsEnCours, statsLivrees, statsCA, statsPartCommerce);
 
     if(!ordersList.innerHTML)    ordersList.innerHTML    = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
     if(!ordersHistory.innerHTML) ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
   });
+}
+
+function updateStats(enAttente, enCours, livrees, ca, partCommerce){
+  document.getElementById("statEnAttente").innerText     = enAttente;
+  document.getElementById("statEnCours").innerText       = enCours;
+  document.getElementById("statLivrees").innerText       = livrees;
+  document.getElementById("statCA").innerText            = ca.toFixed(2) + "€";
+  document.getElementById("statPartCommerce").innerText  = partCommerce.toFixed(2) + "€";
 }
 
 window.markReady = async function(orderId){
@@ -873,7 +885,7 @@ window.markReady = async function(orderId){
 }
 
 window.cancelOrder = async function(orderId){
-  if(!confirm("Annuler cette commande ? Le client sera remboursé.")) return;
+  if(!confirm("Annuler cette commande ?")) return;
   const r    = doc(db, "commandes", orderId);
   const snap = await getDoc(r);
   if(!snap.exists()) return;
@@ -894,42 +906,82 @@ function statusLabel(status){
   }
 }
 
-// ============================================
-// FERMER MODAL EN CLIQUANT DEHORS
-// ============================================
 document.getElementById("editModal").addEventListener("click", function(e){
   if(e.target === this) closeEditModal();
 });
 
 // ============================================
-// EMAILJS - RÉCAP AUTOMATIQUE À MINUIT
+// ARCHIVAGE À MINUIT
 // ============================================
+async function archiverCommandesDuJour(){
+  try {
+    const q = query(
+      collection(db, "commandes"),
+      where("commerceId", "==", uid)
+    );
 
+    const snapshot = await getDocs(q);
+    const batch    = writeBatch(db);
+    let   count    = 0;
+
+    snapshot.forEach(docSnap => {
+      const o = docSnap.data();
+      // Archiver uniquement les commandes terminées (livrées ou annulées)
+      if(o.status === "livree" || o.status === "annulee"){
+        const archiveRef = doc(collection(db, "archives_commandes"));
+        batch.set(archiveRef, {
+          ...o,
+          archivedAt: new Date(),
+          originalId: docSnap.id
+        });
+        batch.delete(docSnap.ref);
+        count++;
+      }
+    });
+
+    if(count > 0){
+      await batch.commit();
+      console.log(`✅ ${count} commandes archivées`);
+    }
+
+  } catch(error){
+    console.error("❌ Erreur archivage :", error);
+  }
+}
+
+// ============================================
+// RESET DASHBOARD À MINUIT
+// ============================================
+function resetDashboard(){
+  updateStats(0, 0, 0, 0, 0);
+  document.getElementById("ordersList").innerHTML    = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
+  document.getElementById("ordersHistory").innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
+  showToast("🌙 Nouveau jour ! Dashboard réinitialisé.", 5000);
+}
+
+// ============================================
+// EMAILJS - RÉCAP
+// ============================================
 function formatDate(date){
   return date.toLocaleDateString('fr-FR', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
 }
 
-function getLastRecapDate(){
-  return localStorage.getItem(`lastRecap_${uid}`);
-}
-
-function setLastRecapDate(){
-  localStorage.setItem(`lastRecap_${uid}`, new Date().toDateString());
-}
-
-function dejaEnvoyeAujourdhui(){
-  return getLastRecapDate() === new Date().toDateString();
-}
+function getLastRecapDate(){ return localStorage.getItem(`lastRecap_${uid}`); }
+function setLastRecapDate(){ localStorage.setItem(`lastRecap_${uid}`, new Date().toDateString()); }
+function dejaEnvoyeAujourdhui(){ return getLastRecapDate() === new Date().toDateString(); }
 
 function buildDetailCommandes(commandes){
   if(commandes.length === 0) return "Aucune commande aujourd'hui.";
 
   return commandes.map((o, index) => {
-    const items = o.items?.map(item =>
-      `   • ${item.name} x${item.qty} = ${(item.price * item.qty).toFixed(2)}€`
+    const items     = o.items?.map(i =>
+      `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`
     ).join('\n') || "—";
+    const ca        = calcCACommerce(o);
+    const partComm  = (ca * 0.9).toFixed(2);
+    const delivery  = (o.deliveryPrice || 0).toFixed(2);
 
     return `Commande ${index + 1}
 👤 ${o.client?.nom     || "—"}
@@ -937,23 +989,22 @@ function buildDetailCommandes(commandes){
 📞 ${o.client?.tel     || "—"}
 🛒 Produits :
 ${items}
-💰 Total : ${o.total?.toFixed(2)}€
+🚴 Livraison : ${delivery}€ (pour le livreur)
+🛒 CA produits : ${ca.toFixed(2)}€
+💳 Votre part (90%) : ${partComm}€
 📦 Statut : ${statusLabel(o.status)}`;
   }).join('\n\n────────────────────\n\n');
 }
 
-// Exposé globalement pour le bouton test
 window.envoyerRecapEmail = async function(isTest = false){
   if(!uid) return;
 
   try {
-    showToast("📧 Envoi du récap en cours...", 5000);
+    showToast("📧 Envoi du récap...", 5000);
 
-    // Récupérer email du commerçant
     const emailCommerce = commerceData.email || EMAIL_ADMIN;
     const nomCommerce   = commerceData.name  || "Commerçant";
 
-    // Récupérer commandes du jour
     const aujourd_hui = new Date();
     aujourd_hui.setHours(0, 0, 0, 0);
 
@@ -965,68 +1016,55 @@ window.envoyerRecapEmail = async function(isTest = false){
     snapshot.forEach(docSnap => {
       const o = docSnap.data();
       const createdAt = o.createdAt?.toDate?.();
-      if(createdAt && createdAt >= aujourd_hui){
-        commandesDuJour.push(o);
-      }
+      if(createdAt && createdAt >= aujourd_hui) commandesDuJour.push(o);
     });
 
-    // Calculer stats
     const commandesValides  = commandesDuJour.filter(o => o.status !== "annulee");
     const commandesAnnulees = commandesDuJour.filter(o => o.status === "annulee");
     const commandesLivrees  = commandesDuJour.filter(o => o.status === "livree");
-    const nbCommandes       = commandesDuJour.length;
-    const caTotal           = commandesValides.reduce((sum, o) => sum + (o.total || 0), 0);
-    const partCommerce      = caTotal * 0.9;
-    const partTerroir       = caTotal * 0.1;
 
-    // Construire email
-    const detailCommandes = buildDetailCommandes(commandesValides);
+    // CA = produits uniquement (sans livraison)
+    const caTotal        = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
+    const totalLivraison = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
+    const partCommerce   = caTotal * 0.9;
+    const partTerroir    = caTotal * 0.1;
 
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      email_commerce:   emailCommerce,
-      nom_commerce:     nomCommerce,
-      date:             formatDate(new Date()) + (isTest ? " (TEST)" : ""),
-      nb_commandes:     nbCommandes,
-      nb_livrees:       commandesLivrees.length,
-      nb_annulees:      commandesAnnulees.length,
-      ca_total:         caTotal.toFixed(2),
-      part_commerce:    partCommerce.toFixed(2),
-      part_terroir:     partTerroir.toFixed(2),
-      detail_commandes: detailCommandes
+      email_commerce:    emailCommerce,
+      nom_commerce:      nomCommerce,
+      date:              formatDate(new Date()) + (isTest ? " (TEST)" : ""),
+      nb_commandes:      commandesDuJour.length,
+      nb_livrees:        commandesLivrees.length,
+      nb_annulees:       commandesAnnulees.length,
+      ca_total:          caTotal.toFixed(2),
+      total_livraison:   totalLivraison.toFixed(2),
+      part_commerce:     partCommerce.toFixed(2),
+      part_terroir:      partTerroir.toFixed(2),
+      detail_commandes:  buildDetailCommandes(commandesValides)
     });
 
     if(!isTest) setLastRecapDate();
-    showToast("✅ Récap envoyé avec succès !");
-    console.log("✅ Récap envoyé :", { nbCommandes, caTotal, emailCommerce });
+    showToast("✅ Récap envoyé !");
 
   } catch(error){
-    console.error("❌ Erreur envoi récap :", error);
-    showToast("❌ Erreur lors de l'envoi du récap");
+    console.error("❌ Erreur récap :", error);
+    showToast("❌ Erreur lors de l'envoi");
   }
 }
 
-// Vérification toutes les 60 secondes
+// ============================================
+// VÉRIFICATION MINUIT (toutes les 60 secondes)
+// ============================================
 function demarrerVerificationMinuit(){
   setInterval(async () => {
     const now = new Date();
     if(now.getHours() === 0 && now.getMinutes() === 0){
       if(!dejaEnvoyeAujourdhui()){
-        console.log("🕛 Minuit ! Envoi du récap...");
-        await window.envoyerRecapEmail(false);
+        console.log("🕛 Minuit ! Récap + archivage...");
+        await window.envoyerRecapEmail(false); // 1. Envoyer le récap
+        await archiverCommandesDuJour();       // 2. Archiver les commandes
+        resetDashboard();                      // 3. Reset le dashboard
       }
-    }
-  }, 60000);
-}
-
-// Reset stats à minuit
-function resetStatsMinuit(){
-  setInterval(() => {
-    const now = new Date();
-    if(now.getHours() === 0 && now.getMinutes() === 0){
-      document.getElementById("statEnAttente").innerText = "0";
-      document.getElementById("statEnCours").innerText   = "0";
-      document.getElementById("statLivrees").innerText   = "0";
-      document.getElementById("statCA").innerText        = "0€";
     }
   }, 60000);
 }
