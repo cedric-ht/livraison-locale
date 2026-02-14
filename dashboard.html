@@ -589,7 +589,7 @@ onAuthStateChanged(auth, async user => {
 
   // Mettre à jour le label stat
   const labelPart = document.getElementById('statLabelPart');
-  if(labelPart) labelPart.innerText = '🏦 Votre part (' + window.commissionTaux + '%)';
+  if(labelPart) labelPart.innerText = '🏦 Votre part (' + (100 - window.commissionTaux) + '%)';
 
   loadProducts();
   loadOrders();
@@ -797,7 +797,7 @@ function loadOrders(){
         if(orderDate === today){
           const ca = calcCACommerce(o);
           statsCA           += ca;
-          statsPartCommerce += ca * window.commissionRate;
+          statsPartCommerce += ca * (1 - window.commissionRate);
         }
       }
 
@@ -806,7 +806,7 @@ function loadOrders(){
       div.dataset.status = o.status;
 
       const caCommande    = calcCACommerce(o);
-      const partCommande  = (caCommande * window.commissionRate).toFixed(2);
+      const partCommande  = (caCommande * (1 - window.commissionRate)).toFixed(2);
       const deliveryPrice = (o.deliveryPrice || 0).toFixed(2);
 
       const itemsList = o.items?.map(item =>
@@ -975,7 +975,7 @@ function buildDetailCommandes(commandes){
       `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`
     ).join('\n') || "—";
     const ca        = calcCACommerce(o);
-    const partComm  = (ca * window.commissionRate).toFixed(2);
+    const partComm  = (ca * (1 - window.commissionRate)).toFixed(2);
     const delivery  = (o.deliveryPrice || 0).toFixed(2);
 
     return `Commande ${index + 1}
@@ -986,7 +986,7 @@ function buildDetailCommandes(commandes){
 ${items}
 🚴 Livraison : ${delivery}€ (pour le livreur)
 🛒 CA produits : ${ca.toFixed(2)}€
-💳 Votre part (' + window.commissionTaux + '%) : ${partComm}€
+💳 Votre part (' + (100 - window.commissionTaux) + '%) : ${partComm}€
 📦 Statut : ${statusLabel(o.status)}`;
   }).join('\n\n────────────────────\n\n');
 }
@@ -1021,8 +1021,8 @@ window.envoyerRecapEmail = async function(){
     // CA = produits uniquement (sans livraison)
     const caTotal        = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
     const totalLivraison = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
-    const partCommerce   = caTotal * window.commissionRate;
-    const partTerroir    = caTotal * (1 - window.commissionRate);
+    const partCommerce   = caTotal * (1 - window.commissionRate);
+    const partTerroir    = caTotal * window.commissionRate;
 
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       email_commerce:    emailCommerce,
