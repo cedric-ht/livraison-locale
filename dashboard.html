@@ -1043,7 +1043,13 @@ window.envoyerRecapEmail = async function(isTest = false){
       detail_commandes:  buildDetailCommandes(commandesValides)
     });
 
-    if(!isTest) setLastRecapDate();
+    if(!isTest){
+      setLastRecapDate();
+    } else {
+      // En mode test : archive + reset aussi
+      await archiverCommandesDuJour();
+      resetDashboard();
+    }
     showToast("✅ Récap envoyé !");
 
   } catch(error){
