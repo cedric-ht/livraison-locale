@@ -365,14 +365,6 @@ display: block;
 #ordersHistory .orderCard { opacity: 0.8; }
 #ordersHistory .orderCard:hover { opacity: 1; }
 
-.btn-test-email {
-background: linear-gradient(135deg, #8B9D83, #A4B89C);
-margin-bottom: 1.5rem;
-width: 100%;
-padding: 1rem;
-font-size: 1rem;
-}
-
 .toast {
 position: fixed;
 bottom: 2rem;
@@ -436,12 +428,6 @@ header h1 { font-size: 1.8rem; }
       <div class="stat-label">🏦 Votre part (90%)</div>
     </div>
   </div>
-
-  <!-- BOUTON TEST EMAIL -->
-
-  <button class="btn-test-email" onclick="envoyerRecapEmail(true)">
-    🧪 Tester l'envoi du récap email
-  </button>
 
   <!-- TABS -->
 
@@ -996,7 +982,7 @@ ${items}
   }).join('\n\n────────────────────\n\n');
 }
 
-window.envoyerRecapEmail = async function(isTest = false){
+window.envoyerRecapEmail = async function(){
   if(!uid) return;
 
   try {
@@ -1043,13 +1029,7 @@ window.envoyerRecapEmail = async function(isTest = false){
       detail_commandes:  buildDetailCommandes(commandesValides)
     });
 
-    if(!isTest){
-      setLastRecapDate();
-    } else {
-      // En mode test : archive + reset aussi
-      await archiverCommandesDuJour();
-      resetDashboard();
-    }
+    setLastRecapDate();
     showToast("✅ Récap envoyé !");
 
   } catch(error){
@@ -1067,7 +1047,7 @@ function demarrerVerificationMinuit(){
     if(now.getHours() === 0 && now.getMinutes() === 0){
       if(!dejaEnvoyeAujourdhui()){
         console.log("🕛 Minuit ! Récap + archivage...");
-        await window.envoyerRecapEmail(false); // 1. Envoyer le récap
+        await window.envoyerRecapEmail(); // 1. Envoyer le récap
         await archiverCommandesDuJour();       // 2. Archiver les commandes
         resetDashboard();                      // 3. Reset le dashboard
       }
