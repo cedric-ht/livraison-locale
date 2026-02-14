@@ -8,11 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -21,10 +17,7 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
-  color: #2C2C2C;
-}
+h1, h2, h3 { font-family: 'Playfair Display', serif; color: #2C2C2C; }
 
 header {
   background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
@@ -35,18 +28,47 @@ header {
   position: relative;
 }
 
-header h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; font-weight: 700; }
+header p { opacity: 0.92; font-size: 1rem; margin-bottom: 1.5rem; }
+
+/* TABS NAVIGATION */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  background: #FEFEFE;
+  border-radius: 20px;
+  padding: 0.5rem;
+  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
+  border: 2px solid #F5F1E8;
 }
 
-header p {
-  opacity: 0.92;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+.tab {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: #6B6B6B;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  text-align: center;
 }
+
+.tab:hover { transform: none; box-shadow: none; background: #F5F1E8; }
+
+.tab.active {
+  background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
+  color: white;
+  box-shadow: 0 6px 15px rgba(107, 44, 62, 0.3);
+}
+
+/* SECTIONS */
+.tabContent { display: none; }
+.tabContent.active { display: block; }
 
 section {
   padding: 2.5rem 1.5rem;
@@ -56,7 +78,7 @@ section {
 
 h2 {
   margin-bottom: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-size: 1.8rem;
   color: #6B2C3E;
 }
@@ -74,10 +96,7 @@ button {
   font-size: 0.95rem;
 }
 
-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.3);
-}
+button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107, 44, 62, 0.3); }
 
 #logout {
   background: #D64545;
@@ -86,13 +105,39 @@ button:hover {
   right: 1.5rem;
 }
 
-#logout:hover {
-  background: #B03030;
+#logout:hover { background: #B03030; }
+
+/* FORM */
+form {
+  background: #FEFEFE;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 2px solid #F5F1E8;
+  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
+  margin-bottom: 2rem;
 }
 
+form input, form textarea, form select {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  border: 2px solid #F5F1E8;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+  background: #FEFEFE;
+}
+
+form input:focus, form textarea:focus { outline: none; border-color: #8B9D83; }
+form textarea { resize: vertical; min-height: 100px; }
+
+form button { width: 100%; padding: 1rem; font-size: 1rem; }
+
+/* PRODUCT GRID */
 #productList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   margin-top: 1.5rem;
 }
@@ -112,16 +157,19 @@ button:hover {
   border-color: #8B9D83;
 }
 
-.productCard h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #6B2C3E;
+.productCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 15px rgba(107, 44, 62, 0.1);
 }
 
-.productCard p {
-  margin: 0.5rem 0;
-  color: #6B6B6B;
-}
+.productCard h3 { font-size: 1.2rem; margin-bottom: 0.3rem; color: #6B2C3E; }
+.productCard .description { color: #6B6B6B; font-size: 0.9rem; margin-bottom: 0.5rem; font-style: italic; }
+.productCard .price { font-weight: 700; color: #2C2C2C; font-size: 1.1rem; }
+.productCard .stock { color: #6B6B6B; font-size: 0.9rem; margin: 0.3rem 0; }
 
 .stockControls {
   display: flex;
@@ -136,97 +184,15 @@ button:hover {
   background: linear-gradient(135deg, #8B9D83, #A4B89C);
 }
 
-.stockControls button:hover {
-  transform: scale(1.1);
-}
-
-.unavailable {
-  color: #D64545;
-  font-style: italic;
-  font-weight: 600;
-}
-
-form {
-  background: #FEFEFE;
-  padding: 2rem;
-  border-radius: 20px;
-  border: 2px solid #F5F1E8;
-  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-  margin-bottom: 2rem;
-}
-
-form input {
-  width: 100%;
-  padding: 0.9rem;
-  margin-bottom: 1rem;
-  border-radius: 14px;
-  border: 2px solid #F5F1E8;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  transition: border 0.2s ease;
-}
-
-form input:focus {
-  outline: none;
-  border-color: #8B9D83;
-}
-
-form button {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
-}
-
-#ordersHistory .productCard {
-  opacity: 0.75;
-  font-size: 0.95rem;
-}
-
-#ordersHistory .productCard:hover {
-  opacity: 1;
-}
-
-.productCard[data-status="en_attente"] {
-  border-left: 6px solid #FFB703;
-  background: rgba(255, 183, 3, 0.05);
-}
-
-.productCard[data-status="prete"] {
-  border-left: 6px solid #FB8500;
-  background: rgba(251, 133, 0, 0.05);
-}
-
-.productCard[data-status="en_livraison"] {
-  border-left: 6px solid #8B9D83;
-  background: rgba(139, 157, 131, 0.05);
-}
-
-.productCard[data-status="livree"] {
-  border-left: 6px solid #2A9D8F;
-  background: rgba(42, 157, 143, 0.05);
-}
-
-.productCard[data-status="annulee"] {
-  border-left: 6px solid #D64545;
-  background: rgba(214, 69, 69, 0.05);
-  opacity: 0.6;
-}
-
-.productCard img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 1rem;
-  box-shadow: 0 6px 15px rgba(107, 44, 62, 0.1);
-}
+.stockControls button:hover { transform: scale(1.1); box-shadow: none; }
 
 .productCard label {
   display: block;
   font-weight: 600;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
   color: #6B2C3E;
+  font-size: 0.9rem;
 }
 
 .productCard input[type="number"] {
@@ -235,27 +201,74 @@ form button {
   border-radius: 10px;
   border: 2px solid #F5F1E8;
   font-family: 'Inter', sans-serif;
+  margin-bottom: 0;
 }
 
-.productCard input[type="number"]:focus {
-  outline: none;
-  border-color: #8B9D83;
-}
+.unavailable { color: #D64545; font-style: italic; font-weight: 600; }
 
-.productCard button {
-  margin-top: 0.8rem;
+.btn-edit {
   width: 100%;
+  margin-top: 0.8rem;
+  background: linear-gradient(135deg, #8B9D83, #A4B89C);
 }
 
-.productCard button:nth-child(n+2) {
-  background: #D64545;
+.btn-delete {
+  width: 100%;
   margin-top: 0.5rem;
+  background: #D64545;
 }
 
-.productCard button:nth-child(n+2):hover {
-  background: #B03030;
+.btn-delete:hover { background: #B03030; transform: translateY(-3px); }
+
+/* MODAL MODIFICATION */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44, 44, 44, 0.6);
+  z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
+.modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+
+.modal {
+  background: #FEFEFE;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(107, 44, 62, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h3 {
+  color: #6B2C3E;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.modal input, .modal textarea {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  border: 2px solid #F5F1E8;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.modal input:focus, .modal textarea:focus { outline: none; border-color: #8B9D83; }
+.modal textarea { resize: vertical; min-height: 100px; }
+
+.modal-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+.modal-buttons button { flex: 1; padding: 1rem; }
+.modal-btn-cancel { background: #ADB5BD; }
+.modal-btn-cancel:hover { background: #8B9197; }
+
+/* ORDERS */
 #ordersList, #ordersHistory {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -263,27 +276,109 @@ form button {
   margin-top: 1.5rem;
 }
 
-.productCard strong {
-  font-size: 1.1rem;
-  color: #6B2C3E;
-  display: block;
-  margin-bottom: 0.5rem;
+.orderCard {
+  background: #FEFEFE;
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 2px solid #F5F1E8;
+  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 1.8rem;
-  }
-  
-  #logout {
-    position: static;
-    margin-top: 1rem;
-    width: 100%;
-  }
+.orderCard:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(107, 44, 62, 0.12); }
 
-  #productList, #ordersList, #ordersHistory {
-    grid-template-columns: 1fr;
-  }
+.orderCard[data-status="en_attente"] { border-left: 6px solid #FFB703; background: rgba(255, 183, 3, 0.04); }
+.orderCard[data-status="prete"] { border-left: 6px solid #FB8500; background: rgba(251, 133, 0, 0.04); }
+.orderCard[data-status="en_livraison"] { border-left: 6px solid #8B9D83; background: rgba(139, 157, 131, 0.04); }
+.orderCard[data-status="livree"] { border-left: 6px solid #2A9D8F; background: rgba(42, 157, 143, 0.04); }
+.orderCard[data-status="annulee"] { border-left: 6px solid #D64545; opacity: 0.6; }
+
+.orderCard .order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.orderCard .order-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: #6B2C3E;
+  font-weight: 700;
+}
+
+.orderCard .order-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  background: #F5F1E8;
+}
+
+.orderCard .order-info { color: #6B6B6B; font-size: 0.95rem; margin: 0.3rem 0; }
+.orderCard .order-total { font-weight: 700; font-size: 1.1rem; color: #2C2C2C; margin: 0.8rem 0; }
+
+.orderCard .order-items {
+  background: #F5F1E8;
+  border-radius: 12px;
+  padding: 0.8rem;
+  margin: 0.8rem 0;
+  font-size: 0.9rem;
+}
+
+.orderCard .order-items div { padding: 0.2rem 0; color: #2C2C2C; }
+
+.orderCard .order-actions { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
+.orderCard .order-actions button { flex: 1; padding: 0.8rem; font-size: 0.9rem; }
+.btn-cancel-order { background: #D64545 !important; }
+.btn-cancel-order:hover { background: #B03030 !important; }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6B6B6B;
+  font-style: italic;
+  background: #FEFEFE;
+  border-radius: 20px;
+  border: 2px dashed #F5F1E8;
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #FEFEFE;
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 2px solid #F5F1E8;
+  box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
+  text-align: center;
+}
+
+.stat-card .stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #6B2C3E;
+  font-weight: 700;
+  display: block;
+}
+
+.stat-card .stat-label { color: #6B6B6B; font-size: 0.9rem; margin-top: 0.3rem; }
+
+#ordersHistory .orderCard { opacity: 0.8; }
+#ordersHistory .orderCard:hover { opacity: 1; }
+
+@media (max-width: 768px) {
+  header h1 { font-size: 1.8rem; }
+  #logout { position: static; margin-top: 1rem; width: 100%; }
+  #productList, #ordersList, #ordersHistory { grid-template-columns: 1fr; }
+  .tabs { flex-direction: column; }
+  .modal { padding: 1.5rem; }
 }
 </style>
 </head>
@@ -296,24 +391,81 @@ form button {
 </header>
 
 <section>
-<h2>Ajouter un produit</h2>
-<form id="addProductForm">
-  <input type="file" id="productImage" accept="image/*">
-  <input type="text" id="productName" placeholder="Nom du produit" required>
-  <input type="text" id="productPrice" placeholder="Prix (€)" required>
-  <input type="number" id="productStock" placeholder="Stock initial" min="0" required>
-  <button type="submit">Ajouter produit</button>
-</form>
 
-<h2>Mes produits</h2>
-<div id="productList"></div>
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-number" id="statEnAttente">0</span>
+      <div class="stat-label">🕓 Commandes en attente</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statEnCours">0</span>
+      <div class="stat-label">🚴 En livraison</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statLivrees">0</span>
+      <div class="stat-label">✅ Livrées aujourd'hui</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statCA">0€</span>
+      <div class="stat-label">💰 CA aujourd'hui</div>
+    </div>
+  </div>
 
-<h2>Commandes en cours</h2>
-<div id="ordersList"></div>
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('produits')">🍷 Mes Produits</button>
+    <button class="tab" onclick="showTab('commandes')">📦 Commandes en cours</button>
+    <button class="tab" onclick="showTab('historique')">📋 Historique</button>
+  </div>
 
-<h2>Historique des commandes</h2>
-<div id="ordersHistory"></div>
+  <!-- TAB PRODUITS -->
+  <div class="tabContent active" id="tab-produits">
+    <h2>Ajouter un produit</h2>
+    <form id="addProductForm">
+      <input type="file" id="productImage" accept="image/*">
+      <input type="text" id="productName" placeholder="Nom du produit *" required>
+      <textarea id="productDescription" placeholder="Description du produit (cépage, origine, accord mets/vins...)"></textarea>
+      <input type="text" id="productPrice" placeholder="Prix (€) *" required>
+      <input type="number" id="productStock" placeholder="Stock initial *" min="0" required>
+      <button type="submit">➕ Ajouter le produit</button>
+    </form>
+
+    <h2>Mes produits</h2>
+    <div id="productList"></div>
+  </div>
+
+  <!-- TAB COMMANDES -->
+  <div class="tabContent" id="tab-commandes">
+    <h2>Commandes en cours</h2>
+    <div id="ordersList"></div>
+  </div>
+
+  <!-- TAB HISTORIQUE -->
+  <div class="tabContent" id="tab-historique">
+    <h2>Historique des commandes</h2>
+    <div id="ordersHistory"></div>
+  </div>
+
 </section>
+
+<!-- MODAL MODIFICATION PRODUIT -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Modifier le produit</h3>
+    <input type="hidden" id="editProductId">
+    <input type="file" id="editProductImage" accept="image/*">
+    <p style="font-size:0.85rem;color:#6B6B6B;margin-bottom:1rem;">Laisser vide pour garder l'image actuelle</p>
+    <input type="text" id="editProductName" placeholder="Nom du produit *">
+    <textarea id="editProductDescription" placeholder="Description du produit"></textarea>
+    <input type="text" id="editProductPrice" placeholder="Prix (€) *">
+    <input type="number" id="editProductStock" placeholder="Stock" min="0">
+    <div class="modal-buttons">
+      <button class="modal-btn-cancel" onclick="closeEditModal()">Annuler</button>
+      <button onclick="saveProductEdit()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
@@ -330,7 +482,6 @@ import {
   query,
   where
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
 import {
   getStorage,
   ref,
@@ -353,67 +504,68 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 let uid;
+let currentProducts = {};
 
-// Auth
+// TABS
+window.showTab = function(tab){
+  document.querySelectorAll('.tabContent').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// AUTH
 onAuthStateChanged(auth, async user => {
-  if(!user){
-    window.location.href = "login.html";
-    return;
-  }
-
+  if(!user){ window.location.href = "login.html"; return; }
   uid = user.uid;
-  const commerceRef = doc(db, "commerces", uid);
-  const commerceSnap = await getDoc(commerceRef);
-
+  const commerceSnap = await getDoc(doc(db, "commerces", uid));
   if(!commerceSnap.exists()){
     await signOut(auth);
     alert("Accès refusé");
     window.location.href = "index.html";
     return;
   }
-
   loadProducts();
   loadOrders();
 });
 
-// Logout
 document.getElementById("logout").onclick = () =>
   signOut(auth).then(()=> window.location.href="login.html");
 
-// Ajouter produit
+// AJOUTER PRODUIT
 document.getElementById("addProductForm").addEventListener("submit", async e=>{
   e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.innerText = "Ajout en cours...";
+  btn.disabled = true;
 
-  const name = productName.value;
-  const price = productPrice.value.replace(",", ".");
-  const stock = parseInt(productStock.value);
-  const imageFile = productImage.files[0];
+  const name = document.getElementById("productName").value;
+  const description = document.getElementById("productDescription").value;
+  const price = document.getElementById("productPrice").value.replace(",", ".");
+  const stock = parseInt(document.getElementById("productStock").value);
+  const imageFile = document.getElementById("productImage").files[0];
 
   let imageUrl = null;
-
   if(imageFile){
-    const imageRef = ref(
-      storage,
-      `produits/${uid}/${Date.now()}_${imageFile.name}`
-    );
-
+    const imageRef = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
     await uploadBytes(imageRef, imageFile);
     imageUrl = await getDownloadURL(imageRef);
   }
 
   await addDoc(collection(db,"commerces",uid,"produits"),{
-    name,
-    price,
-    stock,
+    name, description, price, stock,
     available: stock > 0,
     imageUrl,
     maxPerDelivery: 0,
+    createdAt: new Date()
   });
 
   e.target.reset();
+  btn.innerText = "➕ Ajouter le produit";
+  btn.disabled = false;
 });
 
-// Modifier stock
+// MODIFIER STOCK
 async function updateStock(productId, currentStock, delta){
   const newStock = Math.max(0, currentStock + delta);
   await updateDoc(doc(db,"commerces",uid,"produits",productId),{
@@ -422,47 +574,103 @@ async function updateStock(productId, currentStock, delta){
   });
 }
 
-// Modifier max par client
+// MODIFIER MAX PAR CLIENT
 window.updateMaxPerClient = async function(productId, value){
   const max = Math.max(0, parseInt(value) || 0);
-
-  await updateDoc(
-    doc(db,"commerces",uid,"produits",productId),
-    { maxPerDelivery: max }
-  );
+  await updateDoc(doc(db,"commerces",uid,"produits",productId), { maxPerDelivery: max });
 };
 
-// Affichage produits
+// OUVRIR MODAL MODIFICATION
+window.openEditModal = function(productId){
+  const p = currentProducts[productId];
+  if(!p) return;
+
+  document.getElementById("editProductId").value = productId;
+  document.getElementById("editProductName").value = p.name || "";
+  document.getElementById("editProductDescription").value = p.description || "";
+  document.getElementById("editProductPrice").value = p.price || "";
+  document.getElementById("editProductStock").value = p.stock || 0;
+  document.getElementById("editModal").classList.add("active");
+}
+
+// FERMER MODAL
+window.closeEditModal = function(){
+  document.getElementById("editModal").classList.remove("active");
+  document.getElementById("editProductImage").value = "";
+}
+
+// SAUVEGARDER MODIFICATION
+window.saveProductEdit = async function(){
+  const productId = document.getElementById("editProductId").value;
+  const name = document.getElementById("editProductName").value;
+  const description = document.getElementById("editProductDescription").value;
+  const price = document.getElementById("editProductPrice").value.replace(",", ".");
+  const stock = parseInt(document.getElementById("editProductStock").value);
+  const imageFile = document.getElementById("editProductImage").files[0];
+
+  const btn = document.querySelector('.modal-buttons button:last-child');
+  btn.innerText = "Sauvegarde...";
+  btn.disabled = true;
+
+  let updateData = {
+    name, description, price, stock,
+    available: stock > 0
+  };
+
+  if(imageFile){
+    const imageRef = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
+    await uploadBytes(imageRef, imageFile);
+    updateData.imageUrl = await getDownloadURL(imageRef);
+  }
+
+  await updateDoc(doc(db,"commerces",uid,"produits",productId), updateData);
+
+  btn.innerText = "💾 Enregistrer";
+  btn.disabled = false;
+  closeEditModal();
+}
+
+// AFFICHAGE PRODUITS
 function loadProducts(){
   onSnapshot(collection(db,"commerces",uid,"produits"), snapshot=>{
-    productList.innerHTML="";
+    productList.innerHTML = "";
+    currentProducts = {};
+
+    if(snapshot.empty){
+      productList.innerHTML = `<div class="empty-state">Aucun produit pour le moment. Ajoutez votre premier produit ! 🍷</div>`;
+      return;
+    }
+
     snapshot.forEach(docSnap=>{
       const p = docSnap.data();
+      currentProducts[docSnap.id] = p;
+
       const div = document.createElement("div");
-      div.className="productCard";
-      div.innerHTML=`
-  ${p.imageUrl ? `<img src="${p.imageUrl}">` : ""}
-  <h3>${p.name}</h3>
-  <p>Prix : ${p.price} €</p>
-  <p>Stock restant : <strong>${p.stock}</strong></p>
+      div.className = "productCard";
+      div.innerHTML = `
+        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : ""}
+        <h3>${p.name}</h3>
+        ${p.description ? `<p class="description">${p.description}</p>` : ""}
+        <p class="price">💰 ${p.price} €</p>
+        <p class="stock">📦 Stock : <strong>${p.stock}</strong></p>
 
-  <div class="stockControls">
-    <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
-    <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
-  </div>
+        <div class="stockControls">
+          <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
+          <span style="font-weight:700;font-size:1.1rem;">${p.stock}</span>
+          <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
+        </div>
 
-  <label>Max par client :</label>
-  <input type="number"
-         min="0"
-         value="${p.maxPerDelivery ?? 0}"
-         onchange="updateMaxPerClient('${docSnap.id}', this.value)">
+        <label>Max par client :</label>
+        <input type="number" min="0" value="${p.maxPerDelivery ?? 0}"
+               onchange="updateMaxPerClient('${docSnap.id}', this.value)">
 
-  <p class="${p.available ? '' : 'unavailable'}">
-    ${p.available ? '✅ Disponible' : '❌ Indisponible'}
-  </p>
+        <p style="margin-top:0.8rem;" class="${p.available ? '' : 'unavailable'}">
+          ${p.available ? '✅ Disponible' : '❌ Indisponible'}
+        </p>
 
-  <button onclick="deleteProduct('${docSnap.id}')">Supprimer</button>
-`;
+        <button class="btn-edit" onclick="openEditModal('${docSnap.id}')">✏️ Modifier</button>
+        <button class="btn-delete" onclick="deleteProduct('${docSnap.id}')">🗑️ Supprimer</button>
+      `;
       productList.appendChild(div);
     });
   });
@@ -471,120 +679,142 @@ function loadProducts(){
 window.updateStock = updateStock;
 
 window.deleteProduct = async id => {
-  if(confirm("Supprimer ce produit ?")){
+  if(confirm("Supprimer ce produit définitivement ?")){
     await deleteDoc(doc(db,"commerces",uid,"produits",id));
   }
 };
 
+// AFFICHAGE COMMANDES
 function loadOrders(){
   const ordersList = document.getElementById("ordersList");
   const ordersHistory = document.getElementById("ordersHistory");
 
-  const q = query(
-    collection(db,"commandes"),
-    where("commerceId","==",uid)
-  );
+  const q = query(collection(db,"commandes"), where("commerceId","==",uid));
 
   onSnapshot(q, snapshot=>{
     ordersList.innerHTML = "";
     ordersHistory.innerHTML = "";
 
-    snapshot.docs
-     .reverse()
-     .forEach(docSnap=>{
-       const o = docSnap.data();
+    let statsEnAttente = 0;
+    let statsEnCours = 0;
+    let statsLivrees = 0;
+    let statsCA = 0;
+
+    const today = new Date().toDateString();
+
+    if(snapshot.empty){
+      ordersList.innerHTML = `<div class="empty-state">Aucune commande pour le moment 📭</div>`;
+      ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
+      return;
+    }
+
+    snapshot.docs.reverse().forEach(docSnap=>{
+      const o = docSnap.data();
+
+      // STATS
+      if(o.status === "en_attente") statsEnAttente++;
+      if(o.status === "en_livraison") statsEnCours++;
+      if(o.status === "livree"){
+        statsLivrees++;
+        const orderDate = o.createdAt?.toDate?.()?.toDateString();
+        if(orderDate === today) statsCA += o.total || 0;
+      }
 
       const div = document.createElement("div");
-      div.className = "productCard";
+      div.className = "orderCard";
       div.dataset.status = o.status;
 
-      let action = "";
+      // ITEMS LIST
+      const itemsList = o.items?.map(item =>
+        `<div>• ${item.name} × ${item.qty} — ${(item.price * item.qty).toFixed(2)} €</div>`
+      ).join("") || "";
 
+      // ACTIONS
+      let action = "";
       if(o.status === "en_attente"){
         action = `
-          <button onclick="markReady('${docSnap.id}')">Marquer prête</button>
-          <button style="background:#D64545;margin-left:8px"
-            onclick="cancelOrder('${docSnap.id}')">
-            Annuler
-          </button>
+          <div class="order-actions">
+            <button onclick="markReady('${docSnap.id}')">✅ Marquer prête</button>
+            <button class="btn-cancel-order" onclick="cancelOrder('${docSnap.id}')">❌ Annuler</button>
+          </div>
         `;
-      }
-      else if(o.status === "prete"){
-        action = `<em style="color:#8B9D83;">En attente de livreur</em>`;
-      }
-      else if(o.status === "en_livraison"){
-        action = `<em style="color:#8B9D83;">Livreur en route</em>`;
-      }
-      else{
-        action = `<em style="color:#6B6B6B;">Commande terminée</em>`;
+      } else if(o.status === "prete"){
+        action = `<p style="color:#FB8500;font-weight:600;margin-top:0.8rem;">🟠 En attente de livreur...</p>`;
+      } else if(o.status === "en_livraison"){
+        action = `<p style="color:#8B9D83;font-weight:600;margin-top:0.8rem;">🚴 Livreur en route !</p>`;
+      } else {
+        action = `<p style="color:#6B6B6B;font-style:italic;margin-top:0.8rem;">Commande terminée</p>`;
       }
 
+      const createdAt = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) || "";
+      const createdDate = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
+
       div.innerHTML = `
-        <strong>Commande</strong><br>
-        ${o.client.nom}<br>
-        Total : ${o.total.toFixed(2)} €<br>
-        Statut : <strong>${statusLabel(o.status)}</strong><br><br>
+        <div class="order-header">
+          <span class="order-title">📦 Commande</span>
+          <span class="order-status">${statusLabel(o.status)}</span>
+        </div>
+        <p class="order-info">👤 ${o.client?.nom || "—"}</p>
+        <p class="order-info">📍 ${o.client?.adresse || "—"}</p>
+        <p class="order-info">📞 ${o.client?.tel || "—"}</p>
+        ${createdDate ? `<p class="order-info">🕐 ${createdDate} à ${createdAt}</p>` : ""}
+        <div class="order-items">${itemsList}</div>
+        <p class="order-total">💰 Total : ${o.total?.toFixed(2)} €</p>
         ${action}
       `;
 
-      if(o.status === "livree"){
+      if(o.status === "livree" || o.status === "annulee"){
         ordersHistory.appendChild(div);
-      }else{
+      } else {
         ordersList.appendChild(div);
       }
     });
+
+    // UPDATE STATS
+    document.getElementById("statEnAttente").innerText = statsEnAttente;
+    document.getElementById("statEnCours").innerText = statsEnCours;
+    document.getElementById("statLivrees").innerText = statsLivrees;
+    document.getElementById("statCA").innerText = statsCA.toFixed(2) + "€";
+
+    if(ordersList.innerHTML === "") ordersList.innerHTML = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
+    if(ordersHistory.innerHTML === "") ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
   });
 }
 
 window.markReady = async function(orderId){
   const ref = doc(db,"commandes",orderId);
   const snap = await getDoc(ref);
-
   if(!snap.exists()) return;
-
   const data = snap.data();
-
-  if(data.commerceId !== uid || data.status !== "en_attente"){
-    alert("Action interdite");
-    return;
-  }
-
-  await updateDoc(ref,{
-    status: "prete"
-  });
+  if(data.commerceId !== uid || data.status !== "en_attente"){ alert("Action interdite"); return; }
+  await updateDoc(ref,{ status: "prete" });
 }
 
 window.cancelOrder = async function(orderId){
   if(!confirm("Annuler cette commande ? Le client sera remboursé.")) return;
-
   const ref = doc(db,"commandes",orderId);
   const snap = await getDoc(ref);
-
   if(!snap.exists()) return;
-
   const data = snap.data();
-
-  if(data.commerceId !== uid || data.status !== "en_attente"){
-    alert("Action interdite");
-    return;
-  }
-
-  await updateDoc(ref,{
-    status: "annulee",
-    cancelledAt: new Date()
-  });
+  if(data.commerceId !== uid || data.status !== "en_attente"){ alert("Action interdite"); return; }
+  await updateDoc(ref,{ status: "annulee", cancelledAt: new Date() });
 }
 
 function statusLabel(status){
   switch(status){
     case "en_attente": return "🕓 En attente";
-    case "prete": return "🟠 Prête (attente livreur)";
+    case "prete": return "🟠 Prête";
     case "en_livraison": return "🟣 En livraison";
     case "livree": return "🟢 Livrée";
     case "annulee": return "❌ Annulée";
     default: return status;
   }
 }
+
+// FERMER MODAL EN CLIQUANT DEHORS
+document.getElementById("editModal").addEventListener("click", function(e){
+  if(e.target === this) closeEditModal();
+});
 </script>
 
 </body>
