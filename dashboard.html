@@ -776,7 +776,10 @@ function loadOrders(){
 
     let statsEnAttente = 0, statsEnCours = 0, statsLivrees = 0;
     let statsCA = 0, statsPartCommerce = 0;
-    const today = new Date().toDateString();
+
+    // ✅ FIX : debutJour correctement déclaré
+    const debutJour = new Date();
+    debutJour.setHours(0, 0, 0, 0);
 
     if(snapshot.empty){
       ordersList.innerHTML    = `<div class="empty-state">Aucune commande pour le moment 📭</div>`;
@@ -991,7 +994,7 @@ function buildDetailCommandes(commandes){
 ${items}
 🚴 Livraison : ${delivery}€ (pour le livreur)
 🛒 CA produits : ${ca.toFixed(2)}€
-💳 Votre part (' + (100 - window.commissionTaux) + '%) : ${partComm}€
+💳 Votre part (${100 - window.commissionTaux}%) : ${partComm}€
 📦 Statut : ${statusLabel(o.status)}`;
   }).join('\n\n────────────────────\n\n');
 }
@@ -1032,7 +1035,7 @@ window.envoyerRecapEmail = async function(){
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       email_commerce:    emailCommerce,
       nom_commerce:      nomCommerce,
-      date:              formatDate(new Date()) + (isTest ? " (TEST)" : ""),
+      date:              formatDate(new Date()),
       nb_commandes:      commandesDuJour.length,
       nb_livrees:        commandesLivrees.length,
       nb_annulees:       commandesAnnulees.length,
