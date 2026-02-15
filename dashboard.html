@@ -788,17 +788,22 @@ function loadOrders(){
     snapshot.docs.reverse().forEach(docSnap => {
       const o = docSnap.data();
 
+      // Filtrer : commandes actives OU commandes du jour seulement
+      const createdDate = o.createdAt?.toDate?.();
+      const estDuJour   = createdDate && createdDate >= debutJour;
+      const estActive   = ["en_attente","prete","en_livraison"].includes(o.status);
+
+      // On ignore les commandes terminées d'un autre jour
+      if(!estActive && !estDuJour) return;
+
       // STATS (uniquement commandes du jour, non annulées)
       if(o.status === "en_attente")   statsEnAttente++;
       if(o.status === "en_livraison") statsEnCours++;
-      if(o.status === "livree"){
+      if(o.status === "livree" && estDuJour){
         statsLivrees++;
-        const orderDate = o.createdAt?.toDate?.()?.toDateString();
-        if(orderDate === today){
-          const ca = calcCACommerce(o);
-          statsCA           += ca;
-          statsPartCommerce += ca * (1 - window.commissionRate);
-        }
+        const ca = calcCACommerce(o);
+        statsCA           += ca;
+        statsPartCommerce += ca * (1 - window.commissionRate);
       }
 
       const div = document.createElement("div");
