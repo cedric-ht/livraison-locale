@@ -761,14 +761,14 @@ async function envoyerRecapLivreur(){
   // Envoyer via EmailJS
   const date = new Date().toLocaleDateString('fr-FR');
 
-  await emailjs.send("service_6hc6ql8", "template_vmnrowe", {
-    email_commerce: emailLivreur,
-    nom_commerce:   "Livreur",
-    date:           date,
-    nb_commandes:   totalLivraisons,
-    ca_total:       totalGains.toFixed(2) + " €",
-    part_commerce:  totalGains.toFixed(2) + " €",
-    detail_commandes:
+  await emailjs.send("service_6hc6ql8", "template_ri55ytc", {
+    email_livreur:     emailLivreur,
+    nom_livreur:       userSnap.data()?.nom || emailLivreur,
+    date:              date,
+    nb_livraisons:     totalLivraisons,
+    gains_total:       totalGains.toFixed(2),
+    distance_totale:   totalDistance.toFixed(1),
+    detail_livraisons:
       `Livraisons : ${totalLivraisons}\n` +
       `Gains totaux : ${totalGains.toFixed(2)} €\n` +
       `Distance totale : ${totalDistance.toFixed(1)} km\n` +
