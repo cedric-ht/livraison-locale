@@ -837,7 +837,7 @@ function loadOrders(){
       }
 
       const createdAt   = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) || "";
-      const createdDate = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
+      const dateStr     = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
 
       div.innerHTML = `
         <div class="order-header">
@@ -847,7 +847,7 @@ function loadOrders(){
         <p class="order-info">👤 ${o.client?.nom     || "—"}</p>
         <p class="order-info">📍 ${o.client?.adresse || "—"}</p>
         <p class="order-info">📞 ${o.client?.tel     || "—"}</p>
-        ${createdDate ? `<p class="order-info">🕐 ${createdDate} à ${createdAt}</p>` : ""}
+        ${dateStr ? `<p class="order-info">🕐 ${dateStr} à ${createdAt}</p>` : ""}
         <div class="order-items">${itemsList}</div>
         <p class="order-total">🛒 CA produits : ${caCommande.toFixed(2)} €</p>
         <p class="order-total">🚴 Livraison : ${deliveryPrice} €</p>
