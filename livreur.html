@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -7,408 +8,783 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  background: #F5F1E8;
-  color: #2C2C2C;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-  line-height: 1.6;
+font-family: ‘Inter’, sans-serif;
+background: #F5F1E8;
+color: #2C2C2C;
+min-height: 100vh;
+padding: 2rem 1rem;
+line-height: 1.6;
 }
 
-h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
-  color: #2C2C2C;
-}
+h1,h2,h3,h4 { font-family: ‘Playfair Display’, serif; color: #2C2C2C; }
 
 .box {
-  max-width: 900px;
-  margin: auto;
-  background: #FEFEFE;
-  padding: 2.5rem;
-  border-radius: 24px;
-  box-shadow: 0 15px 40px rgba(107, 44, 62, 0.15);
-  border: 2px solid #F5F1E8;
+max-width: 900px;
+margin: auto;
+background: #FEFEFE;
+padding: 2.5rem;
+border-radius: 24px;
+box-shadow: 0 15px 40px rgba(107,44,62,0.15);
+border: 2px solid #F5F1E8;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #6B2C3E;
-}
+h2 { text-align:center; margin-bottom:2rem; font-size:2rem; color:#6B2C3E; }
 
 input {
-  width: 100%;
-  padding: 1rem;
-  margin-bottom: 1.2rem;
-  border-radius: 14px;
-  border: 2px solid #F5F1E8;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  transition: border 0.2s ease;
+width: 100%;
+padding: 1rem;
+margin-bottom: 1.2rem;
+border-radius: 14px;
+border: 2px solid #F5F1E8;
+font-family: ‘Inter’, sans-serif;
+font-size: 1rem;
+transition: border 0.2s;
 }
-
-input:focus {
-  outline: none;
-  border-color: #8B9D83;
-}
+input:focus { outline:none; border-color:#8B9D83; }
 
 button {
-  padding: 1rem 1.5rem;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+padding: 1rem 1.5rem;
+border-radius: 14px;
+border: none;
+cursor: pointer;
+font-weight: 700;
+font-family: ‘Inter’, sans-serif;
+font-size: 1rem;
+transition: all 0.3s;
+}
+button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.btn-primary { background: linear-gradient(135deg,#8B9D83,#A4B89C); color:white; width:100%; }
+.btn-danger  { background: #D64545; color:white; width:100%; margin-top:2rem; }
+.btn-danger:hover { background: #B03030; }
+.btn-off     { background: #ADB5BD; color:white; width:100%; }
+.btn-off:hover { background: #8B9197; }
+
+.hidden { display:none; }
+
+/* STATS */
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(3,1fr);
+gap: 1rem;
+margin-bottom: 2rem;
+}
+.stat-card {
+background: #FEFEFE;
+border: 2px solid #F5F1E8;
+border-radius: 18px;
+padding: 1.3rem;
+text-align: center;
+box-shadow: 0 4px 15px rgba(107,44,62,0.07);
+}
+.stat-number {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.8rem;
+font-weight: 700;
+color: #6B2C3E;
+display: block;
+}
+.stat-label {
+font-size: 0.8rem;
+color: #6B6B6B;
+margin-top: 0.3rem;
 }
 
-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.primary {
-  background: linear-gradient(135deg, #8B9D83, #A4B89C);
-  color: white;
-  width: 100%;
-}
-
-.primary:hover {
-  box-shadow: 0 8px 20px rgba(139, 157, 131, 0.4);
-}
-
-.danger {
-  background: #D64545;
-  color: white;
-  width: 100%;
-  margin-top: 2rem;
-}
-
-.danger:hover {
-  background: #B03030;
-}
-
-.off {
-  background: #ADB5BD;
-  color: white;
-  width: 100%;
-}
-
-.off:hover {
-  background: #8B9197;
-}
-
-.hidden {
-  display: none;
-}
-
-.order {
-  border: 2px solid #F5F1E8;
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  background: rgba(245, 241, 232, 0.3);
-  transition: all 0.3s ease;
-}
-
-.order:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(107, 44, 62, 0.12);
-  border-color: #8B9D83;
-}
-
-.order h4 {
-  margin: 0 0 0.8rem 0;
-  font-size: 1.3rem;
-  color: #6B2C3E;
-}
-
-.order small {
-  color: #6B6B6B;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.order p {
-  font-weight: 600;
-  color: #2C2C2C;
-  margin: 0.8rem 0 1rem 0;
-  font-size: 1.1rem;
-}
-
-.order button {
-  margin-top: 1rem;
-}
-
+/* STATUS */
 .status {
-  text-align: center;
-  font-weight: 700;
-  margin: 2rem 0;
-  padding: 1.2rem;
-  border-radius: 16px;
-  font-size: 1.2rem;
-  background: rgba(139, 157, 131, 0.15);
-  color: #6B2C3E;
-  border: 2px solid #8B9D83;
+text-align: center;
+font-weight: 700;
+margin: 1.5rem 0;
+padding: 1.2rem;
+border-radius: 16px;
+font-size: 1.1rem;
+border: 2px solid #8B9D83;
+background: rgba(139,157,131,0.15);
+color: #6B2C3E;
 }
 
-#toggleBtn {
-  margin-bottom: 1rem;
+/* TABS */
+.tabs {
+display: flex;
+gap: 0.5rem;
+margin-bottom: 1.5rem;
+background: #F5F1E8;
+padding: 0.4rem;
+border-radius: 14px;
+}
+.tab {
+flex: 1;
+padding: 0.8rem;
+border-radius: 10px;
+border: none;
+background: transparent;
+font-family: ‘Inter’, sans-serif;
+font-weight: 600;
+font-size: 0.9rem;
+color: #6B6B6B;
+cursor: pointer;
+transition: all 0.2s;
+transform: none;
+box-shadow: none;
+}
+.tab:hover { transform: none; box-shadow: none; background: rgba(255,255,255,0.6); }
+.tab.active {
+background: #FEFEFE;
+color: #6B2C3E;
+box-shadow: 0 2px 8px rgba(107,44,62,0.1);
 }
 
-#ordersBox {
-  margin-top: 2rem;
+/* COMMANDES */
+.order {
+border: 2px solid #F5F1E8;
+border-radius: 20px;
+padding: 1.5rem;
+margin: 1rem 0;
+background: rgba(245,241,232,0.3);
+transition: all 0.3s;
+}
+.order:hover { transform:translateY(-3px); box-shadow:0 10px 25px rgba(107,44,62,0.12); border-color:#8B9D83; }
+.order h4 { font-size:1.2rem; color:#6B2C3E; margin-bottom:0.8rem; }
+
+.order-info-row {
+display: flex;
+align-items: flex-start;
+gap: 0.5rem;
+font-size: 0.9rem;
+color: #2C2C2C;
+margin-bottom: 0.4rem;
+}
+.order-info-row .label { color: #6B6B6B; min-width: 80px; font-size: 0.85rem; }
+
+.items-list {
+background: #F5F1E8;
+border-radius: 10px;
+padding: 0.8rem;
+margin: 0.8rem 0;
+font-size: 0.88rem;
+}
+.items-list .item-row {
+display: flex;
+justify-content: space-between;
+padding: 0.2rem 0;
+border-bottom: 1px solid #EDE8DC;
+}
+.items-list .item-row:last-child { border-bottom: none; }
+
+.gain-badge {
+display: inline-block;
+background: linear-gradient(135deg,#8B9D83,#A4B89C);
+color: white;
+padding: 0.3rem 0.9rem;
+border-radius: 20px;
+font-weight: 700;
+font-size: 0.9rem;
+margin: 0.5rem 0;
+}
+
+.order .action-btn {
+width: 100%;
+margin-top: 1rem;
+padding: 0.9rem;
+}
+
+/* HISTORIQUE */
+.history-card {
+border: 2px solid #F5F1E8;
+border-radius: 16px;
+padding: 1.2rem 1.5rem;
+margin: 0.8rem 0;
+background: #FEFEFE;
+transition: all 0.2s;
+}
+.history-card:hover { box-shadow: 0 6px 20px rgba(107,44,62,0.08); }
+
+.history-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 0.8rem;
+}
+.history-time {
+font-size: 0.82rem;
+color: #6B6B6B;
+background: #F5F1E8;
+padding: 0.2rem 0.7rem;
+border-radius: 20px;
+}
+.history-gain {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.3rem;
+color: #8B9D83;
+font-weight: 700;
+}
+.history-detail {
+font-size: 0.85rem;
+color: #6B6B6B;
+margin-bottom: 0.3rem;
+display: flex;
+align-items: center;
+gap: 0.4rem;
+}
+.history-items {
+margin-top: 0.6rem;
+padding-top: 0.6rem;
+border-top: 1px solid #F5F1E8;
+}
+.history-item-row {
+font-size: 0.82rem;
+color: #6B6B6B;
+display: flex;
+justify-content: space-between;
+padding: 0.15rem 0;
 }
 
 .empty-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #6B6B6B;
-  font-style: italic;
+text-align: center;
+padding: 3rem 1rem;
+color: #6B6B6B;
+font-style: italic;
 }
 
-@media (max-width: 768px) {
-  .box {
-    padding: 1.5rem;
-  }
+/* TOAST */
+.toast {
+position: fixed;
+bottom: 2rem; left: 50%;
+transform: translateX(-50%);
+background: #6B2C3E;
+color: white;
+padding: 1rem 2rem;
+border-radius: 14px;
+font-weight: 600;
+font-size: 0.95rem;
+box-shadow: 0 10px 30px rgba(107,44,62,0.3);
+z-index: 999;
+display: none;
+white-space: nowrap;
+}
+.toast.show { display: block; animation: fadeInUp 0.3s ease; }
 
-  h2 {
-    font-size: 1.6rem;
-  }
+@keyframes fadeInUp {
+from { opacity:0; transform: translateX(-50%) translateY(20px); }
+to   { opacity:1; transform: translateX(-50%) translateY(0); }
+}
 
-  .order {
-    padding: 1rem;
-  }
+@media(max-width:600px) {
+.box { padding: 1.5rem; }
+h2 { font-size: 1.6rem; }
+.stats-grid { grid-template-columns: repeat(3,1fr); gap: 0.6rem; }
+.stat-number { font-size: 1.4rem; }
+.stat-label { font-size: 0.72rem; }
 }
 </style>
-</head>
 
+</head>
 <body>
 
+<!-- LOGIN -->
+
 <div class="box" id="loginBox">
-  <h2>🇫🇷 Connexion Livreur</h2>
-  <p style="text-align:center; color:#6B6B6B; margin-bottom:2rem;">Terroir Sables - Espace Livreur</p>
+  <h2>🚴 Espace Livreur</h2>
+  <p style="text-align:center;color:#6B6B6B;margin-bottom:2rem;">Terroir Sables — Connexion livreur</p>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Mot de passe">
-  <button class="primary" onclick="login()">Se connecter</button>
+  <button class="btn-primary" onclick="login()">Se connecter</button>
 </div>
+
+<!-- DASHBOARD -->
 
 <div class="box hidden" id="dashboard">
-  <h2>Dashboard Livreur</h2>
+  <h2>🚴 Dashboard Livreur</h2>
 
-  <button id="toggleBtn" onclick="toggleService()">Se mettre en service</button>
-  <div class="status" id="statusText"></div>
+  <!-- STATS DU JOUR -->
 
-  <div id="ordersBox"></div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-number" id="statLivraisons">0</span>
+      <div class="stat-label">📦 Livraisons</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statGains">0€</span>
+      <div class="stat-label">💰 Gains du jour</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number" id="statDistance">0km</span>
+      <div class="stat-label">🗺️ Distance</div>
+    </div>
+  </div>
 
-  <button class="danger" onclick="logout()">Déconnexion</button>
+  <!-- SERVICE ON/OFF -->
+
+<button id="toggleBtn" onclick="toggleService()">🟢 Se mettre en service</button>
+
+  <div class="status" id="statusText">🔴 Vous êtes hors service</div>
+
+  <!-- TABS -->
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('commandes')">📦 Commandes</button>
+    <button class="tab" onclick="switchTab('historique')">📋 Historique du jour</button>
+  </div>
+
+  <!-- COMMANDES EN COURS -->
+
+  <div id="tabCommandes">
+    <div id="ordersBox">
+      <div class="empty-state">
+        <p>🔴 Activez le service pour voir les commandes</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIQUE DU JOUR -->
+
+  <div id="tabHistorique" class="hidden">
+    <div id="historyBox">
+      <div class="empty-state">
+        <p>📭 Aucune livraison aujourd'hui pour le moment</p>
+      </div>
+    </div>
+  </div>
+
+<button class="btn-danger" onclick="logout()">Déconnexion</button>
+
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import {
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  onSnapshot
+  getFirestore, doc, getDoc, setDoc, updateDoc, addDoc,
+  collection, query, where, onSnapshot, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
-  projectId: "livraison-sablaise"
+  projectId: "livraison-sablaise",
+  storageBucket: "livraison-sablaise.firebasestorage.app",
+  messagingSenderId: "930839535214",
+  appId: "1:930839535214:web:a3235919aa88d066bc507f"
 };
 
-const app = initializeApp(firebaseConfig);
+const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db   = getFirestore(app);
 
 let uid = null;
 let online = false;
-let unsubscribeOrders = null;
+let unsubOrders = null;
+let unsubHistory = null;
 
-/* ================= AUTH ================= */
-onAuthStateChanged(auth, async user=>{
+// ============================================
+// TOAST
+// ============================================
+function showToast(msg, duration = 2500){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), duration);
+}
+
+// ============================================
+// TABS
+// ============================================
+window.switchTab = function(tab){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.getElementById('tabCommandes').classList.toggle('hidden', tab !== 'commandes');
+  document.getElementById('tabHistorique').classList.toggle('hidden', tab !== 'historique');
+
+  if(tab === 'historique') listenHistory();
+}
+
+// ============================================
+// AUTH
+// ============================================
+onAuthStateChanged(auth, async user => {
   if(!user){
-    loginBox.classList.remove("hidden");
-    dashboard.classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+    document.getElementById("dashboard").classList.add("hidden");
     return;
   }
 
   uid = user.uid;
 
-  const userSnap = await getDoc(doc(db,"users",uid));
+  const userSnap = await getDoc(doc(db, "users", uid));
   if(!userSnap.exists() || userSnap.data().role !== "livreur"){
-    alert("Accès refusé - Compte livreur requis");
+    alert("Accès refusé — Compte livreur requis");
     await signOut(auth);
     return;
   }
 
-  const livreurRef = doc(db,"livreurs",uid);
+  const livreurRef = doc(db, "livreurs", uid);
   const snap = await getDoc(livreurRef);
 
   if(!snap.exists()){
-    await setDoc(livreurRef,{online:false,active:true});
+    await setDoc(livreurRef, { online: false, active: true, nom: userSnap.data().email });
     online = false;
-  }else{
-    online = snap.data().online;
+  } else {
+    online = snap.data().online || false;
   }
 
   updateUI();
+  loadStats();
+  if(online) listenOrders();
 
-  if(online){
-    listenOrders();
-  }
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
 
-  loginBox.classList.add("hidden");
-  dashboard.classList.remove("hidden");
+  demarrerVerificationMinuit();
 });
 
-/* ================= LOGIN ================= */
-window.login = async ()=>{
-  try{
-    await signInWithEmailAndPassword(auth,email.value,password.value);
-  }catch(e){
-    alert("Erreur de connexion - Vérifiez vos identifiants");
+window.login = async () => {
+  try {
+    await signInWithEmailAndPassword(auth,
+      document.getElementById("email").value,
+      document.getElementById("password").value
+    );
+  } catch(e) {
+    showToast("❌ Identifiants incorrects");
   }
 };
 
-window.logout = async ()=>{
-  if(confirm("Vous déconnecter ?")){
-    await signOut(auth);
-  }
+window.logout = async () => {
+  if(confirm("Se déconnecter ?")) await signOut(auth);
 };
 
-/* ================= SERVICE ================= */
-window.toggleService = async ()=>{
+// ============================================
+// SERVICE ON/OFF
+// ============================================
+window.toggleService = async () => {
   online = !online;
-  await updateDoc(doc(db,"livreurs",uid),{online});
+  await updateDoc(doc(db, "livreurs", uid), { online });
   updateUI();
   online ? listenOrders() : stopOrders();
+  showToast(online ? "🟢 Vous êtes en service !" : "🔴 Vous êtes hors service");
 };
 
 function updateUI(){
-  toggleBtn.innerText = online ? "🔴 Se mettre hors service" : "🟢 Se mettre en service";
-  toggleBtn.className = online ? "off" : "primary";
-  statusText.innerText = online ? "🟢 Vous êtes en service" : "🔴 Vous êtes hors service";
-  statusText.style.borderColor = online ? "#8B9D83" : "#ADB5BD";
-  statusText.style.background = online ? "rgba(139, 157, 131, 0.15)" : "rgba(173, 181, 189, 0.15)";
+  const btn = document.getElementById("toggleBtn");
+  const status = document.getElementById("statusText");
+  btn.innerText  = online ? "🔴 Se mettre hors service" : "🟢 Se mettre en service";
+  btn.className  = online ? "btn-off" : "btn-primary";
+  status.innerText = online ? "🟢 Vous êtes en service — Les commandes apparaissent ci-dessous" : "🔴 Vous êtes hors service";
+  status.style.borderColor  = online ? "#8B9D83" : "#ADB5BD";
+  status.style.background   = online ? "rgba(139,157,131,0.15)" : "rgba(173,181,189,0.15)";
 }
 
-/* ================= COMMANDES ================= */
-function listenOrders(){
-  if(unsubscribeOrders) unsubscribeOrders();
+// ============================================
+// STATS DU JOUR
+// ============================================
+function loadStats(){
+  const today = new Date();
+  today.setHours(0,0,0,0);
 
-  unsubscribeOrders = onSnapshot(
-    collection(db,"commandes"),
-    snap=>{
-      ordersBox.innerHTML = "";
-
-      let hasOrders = false;
-
-      snap.forEach(d=>{
-        const c = d.data();
-
-        // on ne montre que les commandes utiles
-        if(
-          c.status !== "prete" &&
-          !(c.status === "en_livraison" && c.livreurId === uid)
-        ) return;
-
-        hasOrders = true;
-
-        const div = document.createElement("div");
-        div.className="order";
-        
-        const statusEmoji = c.status === "prete" ? "📦" : "🚴‍♂️";
-        const statusText = c.status === "prete" ? "Prête à livrer" : "En cours de livraison";
-
-        div.innerHTML=`
-          <h4>${statusEmoji} Commande</h4>
-          <small><strong>${c.client.nom}</strong></small>
-          <small>📍 ${c.client.adresse}</small>
-          <p>💰 Total : ${c.total.toFixed(2)} €</p>
-          <small style="color:#8B9D83;font-weight:600;">${statusText}</small>
-        `;
-
-        const btn = document.createElement("button");
-        btn.className="primary";
-
-        if(c.status === "prete"){
-          btn.innerText = "✅ Prendre la commande";
-          btn.onclick = ()=>takeOrder(d.id);
-        }else{
-          btn.innerText = "✅ Marquer livrée";
-          btn.onclick = ()=>finishOrder(d.id);
-        }
-
-        div.appendChild(btn);
-        ordersBox.appendChild(div);
-      });
-
-      if(!hasOrders){
-        ordersBox.innerHTML = `
-          <div class="empty-state">
-            <p>📭 Aucune commande disponible pour le moment</p>
-            <p style="font-size:0.9rem; margin-top:0.5rem;">Les nouvelles commandes apparaîtront ici automatiquement</p>
-          </div>
-        `;
-      }
-    }
+  const q = query(
+    collection(db, "commandes"),
+    where("livreurId", "==", uid),
+    where("status", "==", "livree")
   );
+
+  onSnapshot(q, snap => {
+    let livraisons = 0, gains = 0, distance = 0;
+
+    snap.forEach(d => {
+      const o = d.data();
+      const createdAt = o.deliveredAt?.toDate ? o.deliveredAt.toDate() : null;
+      if(createdAt && createdAt >= today){
+        livraisons++;
+        gains += o.deliveryPrice || 0;
+        distance += o.distanceKm || 0;
+      }
+    });
+
+    document.getElementById("statLivraisons").innerText = livraisons;
+    document.getElementById("statGains").innerText = gains.toFixed(2).replace(".", ",") + "€";
+    document.getElementById("statDistance").innerText = distance.toFixed(1) + "km";
+  });
+}
+
+// ============================================
+// COMMANDES EN COURS
+// ============================================
+function listenOrders(){
+  if(unsubOrders) unsubOrders();
+
+  unsubOrders = onSnapshot(collection(db, "commandes"), snap => {
+    const box = document.getElementById("ordersBox");
+    box.innerHTML = "";
+    let hasOrders = false;
+
+    snap.forEach(d => {
+      const o = d.data();
+
+      const isPrete      = o.status === "prete";
+      const isMyDelivery = o.status === "en_livraison" && o.livreurId === uid;
+
+      if(!isPrete && !isMyDelivery) return;
+
+      hasOrders = true;
+
+      // Calcul gain livreur = 100% frais livraison
+      const gain = o.deliveryPrice || 0;
+
+      const div = document.createElement("div");
+      div.className = "order";
+
+      const statusEmoji = isPrete ? "📦" : "🚴‍♂️";
+      const statusLabel = isPrete ? "Prête à livrer" : "En cours de livraison";
+
+      // Items formatés
+      const itemsHtml = (o.items || []).map(i =>
+        `<div class="item-row"><span>${i.name}</span><span>×${i.qty}</span></div>`
+      ).join("");
+
+      div.innerHTML = `
+        <h4>${statusEmoji} ${statusLabel}</h4>
+
+        <div class="order-info-row">
+          <span class="label">👤 Client</span>
+          <span><strong>${o.client?.nom || "—"}</strong></span>
+        </div>
+        <div class="order-info-row">
+          <span class="label">📞 Tél</span>
+          <span><a href="tel:${o.client?.tel}" style="color:#6B2C3E;font-weight:600;">${o.client?.tel || "—"}</a></span>
+        </div>
+        <div class="order-info-row">
+          <span class="label">📍 Adresse</span>
+          <span>${o.client?.adresse || "—"}</span>
+        </div>
+        <div class="order-info-row">
+          <span class="label">🗺️ Distance</span>
+          <span>${o.distanceKm ? o.distanceKm.toFixed(1) + " km" : "—"}</span>
+        </div>
+
+        <div class="items-list">
+          <div style="font-size:0.8rem;font-weight:600;color:#6B6B6B;margin-bottom:0.4rem;">Produits commandés :</div>
+          ${itemsHtml || "<div style='color:#6B6B6B;font-size:0.85rem;'>—</div>"}
+        </div>
+
+        <span class="gain-badge">💰 Votre gain : ${gain.toFixed(2).replace(".", ",")} €</span>
+      `;
+
+      const btn = document.createElement("button");
+      btn.className = "btn-primary action-btn";
+
+      if(isPrete){
+        btn.innerText = "✅ Prendre la commande";
+        btn.onclick = () => takeOrder(d.id);
+      } else {
+        btn.innerText = "✅ Confirmer la livraison";
+        btn.onclick = () => finishOrder(d.id, o);
+      }
+
+      div.appendChild(btn);
+      box.appendChild(div);
+    });
+
+    if(!hasOrders){
+      box.innerHTML = `
+        <div class="empty-state">
+          <p>📭 Aucune commande disponible</p>
+          <p style="font-size:0.88rem;margin-top:0.5rem;">Les nouvelles commandes apparaîtront ici automatiquement</p>
+        </div>
+      `;
+    }
+  });
 }
 
 function stopOrders(){
-  ordersBox.innerHTML = `
+  if(unsubOrders){ unsubOrders(); unsubOrders = null; }
+  document.getElementById("ordersBox").innerHTML = `
     <div class="empty-state">
       <p>🔴 Service désactivé</p>
-      <p style="font-size:0.9rem; margin-top:0.5rem;">Activez le service pour voir les commandes disponibles</p>
+      <p style="font-size:0.88rem;margin-top:0.5rem;">Activez le service pour voir les commandes</p>
     </div>
   `;
-  if(unsubscribeOrders) unsubscribeOrders();
 }
 
 async function takeOrder(id){
   if(confirm("Prendre cette commande en charge ?")){
-    await updateDoc(doc(db,"commandes",id),{
-      status:"en_livraison",
+    await updateDoc(doc(db, "commandes", id), {
+      status: "en_livraison",
       livreurId: uid,
-      takenAt: new Date()
+      takenAt: serverTimestamp()
     });
+    showToast("🚴 Commande prise en charge !");
   }
 }
 
-async function finishOrder(id){
+async function finishOrder(id, o){
   if(confirm("Confirmer la livraison ?")){
-    await updateDoc(doc(db,"commandes",id),{
-      status:"livree",
-      deliveredAt: new Date()
+    await updateDoc(doc(db, "commandes", id), {
+      status: "livree",
+      deliveredAt: serverTimestamp()
     });
+    showToast("✅ Livraison confirmée ! +" + (o.deliveryPrice || 0).toFixed(2) + "€");
   }
 }
+
+// ============================================
+// HISTORIQUE DU JOUR
+// ============================================
+function listenHistory(){
+  if(unsubHistory) unsubHistory();
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const q = query(
+    collection(db, "commandes"),
+    where("livreurId", "==", uid),
+    where("status", "==", "livree")
+  );
+
+  unsubHistory = onSnapshot(q, snap => {
+    const box = document.getElementById("historyBox");
+    box.innerHTML = "";
+
+    const livraisons = [];
+
+    snap.forEach(d => {
+      const o = d.data();
+      const deliveredAt = o.deliveredAt?.toDate ? o.deliveredAt.toDate() : null;
+      if(deliveredAt && deliveredAt >= today){
+        livraisons.push({ ...o, id: d.id, deliveredAt });
+      }
+    });
+
+    // Trier par heure décroissante
+    livraisons.sort((a, b) => b.deliveredAt - a.deliveredAt);
+
+    if(livraisons.length === 0){
+      box.innerHTML = `
+        <div class="empty-state">
+          <p>📭 Aucune livraison aujourd'hui</p>
+        </div>
+      `;
+      return;
+    }
+
+    livraisons.forEach(o => {
+      const heure = o.deliveredAt.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+      const gain  = o.deliveryPrice || 0;
+
+      const itemsHtml = (o.items || []).map(i =>
+        `<div class="history-item-row"><span>${i.name}</span><span>×${i.qty}</span></div>`
+      ).join("");
+
+      const div = document.createElement("div");
+      div.className = "history-card";
+      div.innerHTML = `
+        <div class="history-header">
+          <div class="history-gain">+${gain.toFixed(2).replace(".", ",")} €</div>
+          <div class="history-time">✅ ${heure}</div>
+        </div>
+        <div class="history-detail">📍 ${o.client?.adresse || "—"}</div>
+        <div class="history-detail">🗺️ ${o.distanceKm ? o.distanceKm.toFixed(1) + " km" : "—"}</div>
+        <div class="history-items">
+          <div style="font-size:0.78rem;font-weight:600;color:#6B6B6B;margin-bottom:0.3rem;">Produits :</div>
+          ${itemsHtml || "<div style='color:#6B6B6B;font-size:0.82rem;'>—</div>"}
+        </div>
+      `;
+
+      box.appendChild(div);
+    });
+  });
+}
+
+// ============================================
+// VÉRIFICATION MINUIT — ARCHIVAGE + RÉCAP
+// ============================================
+function demarrerVerificationMinuit(){
+  setInterval(async () => {
+    const now = new Date();
+    if(now.getHours() === 0 && now.getMinutes() === 0){
+      const clef = `recapLivreur_${uid}_${now.toDateString()}`;
+      if(localStorage.getItem(clef)) return;
+      localStorage.setItem(clef, "1");
+
+      await envoyerRecapLivreur();
+    }
+  }, 60000);
+}
+
+async function envoyerRecapLivreur(){
+  // Récupérer les livraisons du jour terminées
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const q = query(
+    collection(db, "commandes"),
+    where("livreurId", "==", uid),
+    where("status", "==", "livree")
+  );
+
+  const snap = await new Promise(resolve => {
+    const unsub = onSnapshot(q, s => { unsub(); resolve(s); });
+  });
+
+  let totalLivraisons = 0, totalGains = 0, totalDistance = 0;
+  let detailLivraisons = "";
+
+  snap.forEach(d => {
+    const o = d.data();
+    const deliveredAt = o.deliveredAt?.toDate ? o.deliveredAt.toDate() : null;
+    if(!deliveredAt || deliveredAt < today) return;
+
+    totalLivraisons++;
+    totalGains    += o.deliveryPrice || 0;
+    totalDistance += o.distanceKm || 0;
+
+    const heure = deliveredAt.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    const items = (o.items || []).map(i => `${i.name} ×${i.qty}`).join(", ");
+    detailLivraisons += `\n• ${heure} — ${o.client?.adresse} — +${(o.deliveryPrice||0).toFixed(2)}€\n  ${items}`;
+  });
+
+  if(totalLivraisons === 0) return; // Rien à envoyer
+
+  // Récupérer email du livreur
+  const userSnap = await getDoc(doc(db, "users", uid));
+  const emailLivreur = userSnap.data()?.email;
+  if(!emailLivreur) return;
+
+  // Envoyer via EmailJS
+  const date = new Date().toLocaleDateString('fr-FR');
+
+  await emailjs.send("service_6hc6ql8", "template_vmnrowe", {
+    email_commerce: emailLivreur,
+    nom_commerce:   "Livreur",
+    date:           date,
+    nb_commandes:   totalLivraisons,
+    ca_total:       totalGains.toFixed(2) + " €",
+    part_commerce:  totalGains.toFixed(2) + " €",
+    detail_commandes:
+      `Livraisons : ${totalLivraisons}\n` +
+      `Gains totaux : ${totalGains.toFixed(2)} €\n` +
+      `Distance totale : ${totalDistance.toFixed(1)} km\n` +
+      `\nDÉTAIL :${detailLivraisons}`
+  });
+
+  showToast("🌙 Récap livreur envoyé ! Bonne nuit 🚴");
+}
+
 </script>
+
+<!-- EmailJS -->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>emailjs.init("YOUR_PUBLIC_KEY");</script>
 
 </body>
 </html>
