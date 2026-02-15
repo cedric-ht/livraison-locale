@@ -306,7 +306,7 @@ onAuthStateChanged(auth, async user => {
   } else if(userSnap.exists() && userSnap.data().role === "livreur") {
     // C'est un livreur
     dashboardBtn.style.display = "inline-block";
-    dashboardBtn.onclick = () => window.location.href = "dashboard-livreur.html";
+    dashboardBtn.onclick = () => window.location.href = "livreur.html";
   } else {
     dashboardBtn.style.display = "none";
   }
