@@ -14,69 +14,32 @@
 
 body {
 font-family: ‘Inter’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-background: #F5F1E8;
-color: #2C2C2C;
-line-height: 1.6;
+background: #F5F1E8; color: #2C2C2C; line-height: 1.6;
 }
-
 h1, h2, h3 { font-family: ‘Playfair Display’, serif; color: #2C2C2C; }
 
 header {
 background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-color: white;
-text-align: center;
-padding: 2.5rem 1.5rem;
-box-shadow: 0 10px 35px rgba(107, 44, 62, 0.25);
-position: relative;
+color: white; text-align: center; padding: 2.5rem 1.5rem;
+box-shadow: 0 10px 35px rgba(107,44,62,0.25); position: relative;
 }
-
 header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; font-weight: 700; }
 header p { opacity: 0.92; font-size: 1rem; margin-bottom: 1.5rem; }
 
-/* ============================================
-BOUTON OUVERT / FERMÉ
-============================================ */
 #toggleOpenBtn {
-display: inline-flex;
-align-items: center;
-gap: 0.6rem;
-padding: 0.85rem 2rem;
-border: none;
-border-radius: 50px;
-font-size: 1rem;
-font-weight: 700;
-cursor: pointer;
-transition: all 0.3s ease;
-font-family: ‘Inter’, sans-serif;
-margin-bottom: 1rem;
-box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+display: inline-flex; align-items: center; gap: 0.6rem;
+padding: 0.85rem 2rem; border: none; border-radius: 50px; font-size: 1rem;
+font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+font-family: ‘Inter’, sans-serif; margin-bottom: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
-
-#toggleOpenBtn.ouvert {
-background: linear-gradient(135deg, #2A9D8F, #3DB8A8);
-color: white;
-}
-
-#toggleOpenBtn.ferme {
-background: linear-gradient(135deg, #D64545, #E86060);
-color: white;
-}
-
-#toggleOpenBtn:hover {
-transform: translateY(-3px);
-box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
+#toggleOpenBtn.ouvert { background: linear-gradient(135deg, #2A9D8F, #3DB8A8); color: white; }
+#toggleOpenBtn.ferme  { background: linear-gradient(135deg, #D64545, #E86060); color: white; }
+#toggleOpenBtn:hover  { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
 #statusDot {
-width: 12px;
-height: 12px;
-border-radius: 50%;
-background: white;
-display: inline-block;
-box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
-animation: pulse 2s infinite;
+width: 12px; height: 12px; border-radius: 50%; background: white;
+display: inline-block; animation: pulse 2s infinite;
 }
-
 @keyframes pulse {
 0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
 70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
@@ -84,313 +47,163 @@ animation: pulse 2s infinite;
 }
 
 .tabs {
-display: flex;
-gap: 0;
-margin-bottom: 2rem;
-background: #FEFEFE;
-border-radius: 20px;
-padding: 0.5rem;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-border: 2px solid #F5F1E8;
-flex-wrap: wrap;
+display: flex; gap: 0; margin-bottom: 2rem; background: #FEFEFE; border-radius: 20px;
+padding: 0.5rem; box-shadow: 0 8px 20px rgba(107,44,62,0.08); border: 2px solid #F5F1E8; flex-wrap: wrap;
 }
-
 .tab {
-flex: 1;
-padding: 1rem;
-border: none;
-border-radius: 14px;
-background: transparent;
-color: #6B6B6B;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s ease;
-font-family: ‘Inter’, sans-serif;
-font-size: 0.95rem;
-text-align: center;
-min-width: 120px;
+flex: 1; padding: 1rem; border: none; border-radius: 14px; background: transparent;
+color: #6B6B6B; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+font-family: ‘Inter’, sans-serif; font-size: 0.95rem; text-align: center; min-width: 120px;
 }
-
 .tab:hover { background: #F5F1E8; }
-
-.tab.active {
-background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-color: white;
-box-shadow: 0 6px 15px rgba(107, 44, 62, 0.3);
-}
-
+.tab.active { background: linear-gradient(135deg, #6B2C3E, #8B4C5E); color: white; box-shadow: 0 6px 15px rgba(107,44,62,0.3); }
 .tabContent { display: none; }
 .tabContent.active { display: block; }
 
-section {
-padding: 2.5rem 1.5rem;
-max-width: 1200px;
-margin: auto;
-}
-
-h2 {
-margin-bottom: 1.5rem;
-margin-top: 1rem;
-font-size: 1.8rem;
-color: #6B2C3E;
-}
+section { padding: 2.5rem 1.5rem; max-width: 1200px; margin: auto; }
+h2 { margin-bottom: 1.5rem; margin-top: 1rem; font-size: 1.8rem; color: #6B2C3E; }
 
 button {
-padding: 0.7rem 1.3rem;
-border: none;
-border-radius: 14px;
-background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
-color: white;
-font-weight: 700;
-cursor: pointer;
-transition: all 0.3s ease;
-font-family: ‘Inter’, sans-serif;
-font-size: 0.95rem;
+padding: 0.7rem 1.3rem; border: none; border-radius: 14px;
+background: linear-gradient(135deg, #6B2C3E, #8B4C5E); color: white; font-weight: 700;
+cursor: pointer; transition: all 0.3s ease; font-family: ‘Inter’, sans-serif; font-size: 0.95rem;
 }
+button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107,44,62,0.3); }
 
-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107, 44, 62, 0.3); }
-
-#logout {
-background: #D64545;
-position: absolute;
-top: 1.5rem;
-right: 1.5rem;
-}
+#logout { background: #D64545; position: absolute; top: 1.5rem; right: 1.5rem; }
 #logout:hover { background: #B03030; }
 
 form {
-background: #FEFEFE;
-padding: 2rem;
-border-radius: 20px;
-border: 2px solid #F5F1E8;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-margin-bottom: 2rem;
+background: #FEFEFE; padding: 2rem; border-radius: 20px;
+border: 2px solid #F5F1E8; box-shadow: 0 8px 20px rgba(107,44,62,0.08); margin-bottom: 2rem;
 }
-
 form input, form textarea, form select {
-width: 100%;
-padding: 0.9rem;
-margin-bottom: 1rem;
-border-radius: 14px;
-border: 2px solid #F5F1E8;
-font-family: ‘Inter’, sans-serif;
-font-size: 1rem;
-transition: border 0.2s ease;
-background: #FEFEFE;
+width: 100%; padding: 0.9rem; margin-bottom: 1rem; border-radius: 14px;
+border: 2px solid #F5F1E8; font-family: ‘Inter’, sans-serif; font-size: 1rem;
+transition: border 0.2s ease; background: #FEFEFE;
 }
-
 form input:focus, form textarea:focus, form select:focus { outline: none; border-color: #8B9D83; }
 form textarea { resize: vertical; min-height: 100px; }
 form button { width: 100%; padding: 1rem; font-size: 1rem; }
 
 /* ============================================
-SOUS-CATÉGORIES
+CASE À COCHER ÂGE RESTREINT
+Présente dans le formulaire d’ajout de produit
+et dans la modal d’édition.
+Stocke ageRestricted: true/false dans Firestore
+sur chaque produit concerné.
+L’index.html vérifie si au moins un produit du
+panier a ageRestricted: true → affiche le bloc
+de certification +18 dans le formulaire de commande.
 ============================================ */
-#subCatSection {
-background: #FEFEFE;
-border-radius: 20px;
-border: 2px solid #F5F1E8;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-padding: 1.5rem;
-margin-bottom: 2rem;
-}
-
-#subCatSection h3 {
-color: #6B2C3E;
-margin-bottom: 1rem;
-font-size: 1.2rem;
-}
-
-#subCatList {
+.age-check-row {
 display: flex;
-flex-wrap: wrap;
-gap: 0.6rem;
-margin-bottom: 1rem;
-}
-
-.subcat-tag {
-display: inline-flex;
-align-items: center;
-gap: 0.5rem;
-background: rgba(107, 44, 62, 0.08);
-border: 2px solid rgba(107, 44, 62, 0.15);
-border-radius: 50px;
-padding: 0.4rem 1rem;
-font-size: 0.9rem;
-font-weight: 600;
-color: #6B2C3E;
-}
-
-.subcat-tag .delete-subcat {
-background: none;
-border: none;
-color: #D64545;
-cursor: pointer;
-padding: 0;
-font-size: 1rem;
-font-weight: 700;
-line-height: 1;
-transform: none;
-box-shadow: none;
-}
-
-.subcat-tag .delete-subcat:hover {
-transform: scale(1.2);
-box-shadow: none;
-color: #B03030;
-}
-
-#newSubCatRow {
-display: flex;
+align-items: flex-start;
 gap: 0.8rem;
-align-items: center;
-}
-
-#newSubCatInput {
-flex: 1;
-padding: 0.8rem 1rem;
+background: rgba(199,123,0,0.06);
+border: 2px solid rgba(199,123,0,0.2);
 border-radius: 14px;
-border: 2px solid #F5F1E8;
-font-family: ‘Inter’, sans-serif;
-font-size: 0.95rem;
-transition: border 0.2s ease;
-}
-
-#newSubCatInput:focus { outline: none; border-color: #8B9D83; }
-
-#addSubCatBtn {
-padding: 0.8rem 1.5rem;
-white-space: nowrap;
-flex-shrink: 0;
-}
-
-#productList {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap: 2rem;
-margin-top: 1.5rem;
-}
-
-.productCard {
-background: #FEFEFE;
-padding: 1.5rem;
-border-radius: 20px;
-border: 2px solid #F5F1E8;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-transition: all 0.3s ease;
-}
-
-.productCard:hover {
-transform: translateY(-5px);
-box-shadow: 0 15px 35px rgba(107, 44, 62, 0.15);
-border-color: #8B9D83;
-}
-
-.productCard img {
-width: 100%;
-height: 180px;
-object-fit: cover;
-border-radius: 16px;
+padding: 0.9rem 1.1rem;
 margin-bottom: 1rem;
-box-shadow: 0 6px 15px rgba(107, 44, 62, 0.1);
+cursor: pointer;
+transition: border-color 0.2s ease;
+user-select: none;
+}
+.age-check-row:hover { border-color: rgba(199,123,0,0.45); }
+.age-check-row input[type=“checkbox”] {
+width: 20px; height: 20px; min-width: 20px; margin-top: 2px;
+accent-color: #C77B00; cursor: pointer;
+}
+.age-check-row .age-check-label {
+font-weight: 600; font-size: 0.95rem; color: #7A4D00; line-height: 1.4;
+}
+.age-check-row .age-check-label span {
+display: block; font-weight: 400; font-size: 0.82rem; color: #A07030; margin-top: 0.15rem;
 }
 
+/* Badge +18 sur les cartes produit dashboard */
+.badge-age-restricted {
+display: inline-block; background: rgba(199,123,0,0.1); border: 1px solid rgba(199,123,0,0.35);
+color: #7A4D00; border-radius: 20px; padding: 0.18rem 0.7rem;
+font-size: 0.78rem; font-weight: 700; margin-bottom: 0.5rem;
+}
+
+/* Badge majorité certifiée sur les commandes */
+.badge-age-order {
+display: inline-block; background: rgba(42,157,143,0.1); border: 1px solid rgba(42,157,143,0.3);
+color: #1E7A6E; border-radius: 20px; padding: 0.18rem 0.7rem;
+font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem;
+}
+
+/* SOUS-CATÉGORIES */
+#subCatSection {
+background: #FEFEFE; border-radius: 20px; border: 2px solid #F5F1E8;
+box-shadow: 0 8px 20px rgba(107,44,62,0.08); padding: 1.5rem; margin-bottom: 2rem;
+}
+#subCatSection h3 { color: #6B2C3E; margin-bottom: 1rem; font-size: 1.2rem; }
+#subCatList { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+.subcat-tag {
+display: inline-flex; align-items: center; gap: 0.5rem;
+background: rgba(107,44,62,0.08); border: 2px solid rgba(107,44,62,0.15);
+border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.9rem; font-weight: 600; color: #6B2C3E;
+}
+.subcat-tag .delete-subcat {
+background: none; border: none; color: #D64545; cursor: pointer;
+padding: 0; font-size: 1rem; font-weight: 700; line-height: 1; transform: none; box-shadow: none;
+}
+.subcat-tag .delete-subcat:hover { transform: scale(1.2); box-shadow: none; color: #B03030; }
+#newSubCatRow { display: flex; gap: 0.8rem; align-items: center; }
+#newSubCatInput {
+flex: 1; padding: 0.8rem 1rem; border-radius: 14px; border: 2px solid #F5F1E8;
+font-family: ‘Inter’, sans-serif; font-size: 0.95rem; transition: border 0.2s ease;
+}
+#newSubCatInput:focus { outline: none; border-color: #8B9D83; }
+#addSubCatBtn { padding: 0.8rem 1.5rem; white-space: nowrap; flex-shrink: 0; }
+
+#productList { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
+.productCard {
+background: #FEFEFE; padding: 1.5rem; border-radius: 20px;
+border: 2px solid #F5F1E8; box-shadow: 0 8px 20px rgba(107,44,62,0.08); transition: all 0.3s ease;
+}
+.productCard:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(107,44,62,0.15); border-color: #8B9D83; }
+.productCard img { width: 100%; height: 180px; object-fit: cover; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 6px 15px rgba(107,44,62,0.1); }
 .productCard h3 { font-size: 1.2rem; margin-bottom: 0.3rem; color: #6B2C3E; }
 .productCard .description { color: #6B6B6B; font-size: 0.9rem; margin-bottom: 0.5rem; font-style: italic; }
 .productCard .price { font-weight: 700; color: #2C2C2C; font-size: 1.1rem; }
 .productCard .stock { color: #6B6B6B; font-size: 0.9rem; margin: 0.3rem 0; }
-
-/* Badge sous-catégorie sur la carte produit */
 .product-subcat-badge {
-display: inline-block;
-background: rgba(139, 157, 131, 0.15);
-border: 1px solid #8B9D83;
-color: #5a7a52;
-border-radius: 20px;
-padding: 0.2rem 0.8rem;
-font-size: 0.78rem;
-font-weight: 600;
-margin-bottom: 0.6rem;
+display: inline-block; background: rgba(139,157,131,0.15); border: 1px solid #8B9D83;
+color: #5a7a52; border-radius: 20px; padding: 0.2rem 0.8rem; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.6rem;
 }
-
-.stockControls {
-display: flex;
-gap: 10px;
-align-items: center;
-margin: 15px 0;
-}
-
-.stockControls button {
-padding: 0.5rem 0.8rem;
-font-size: 1.1rem;
-background: linear-gradient(135deg, #8B9D83, #A4B89C);
-}
-
+.stockControls { display: flex; gap: 10px; align-items: center; margin: 15px 0; }
+.stockControls button { padding: 0.5rem 0.8rem; font-size: 1.1rem; background: linear-gradient(135deg, #8B9D83, #A4B89C); }
 .stockControls button:hover { transform: scale(1.1); box-shadow: none; }
-
-.productCard label {
-display: block;
-font-weight: 600;
-margin-top: 0.8rem;
-margin-bottom: 0.4rem;
-color: #6B2C3E;
-font-size: 0.9rem;
+.productCard label { display: block; font-weight: 600; margin-top: 0.8rem; margin-bottom: 0.4rem; color: #6B2C3E; font-size: 0.9rem; }
+.productCard input[type=“number”], .productCard select {
+width: 100%; padding: 0.6rem; border-radius: 10px; border: 2px solid #F5F1E8;
+font-family: ‘Inter’, sans-serif; margin-bottom: 0; background: #FEFEFE; font-size: 0.9rem;
 }
-
-.productCard input[type=“number”],
-.productCard select {
-width: 100%;
-padding: 0.6rem;
-border-radius: 10px;
-border: 2px solid #F5F1E8;
-font-family: ‘Inter’, sans-serif;
-margin-bottom: 0;
-background: #FEFEFE;
-font-size: 0.9rem;
-}
-
 .productCard select:focus { outline: none; border-color: #8B9D83; }
-
 .unavailable { color: #D64545; font-style: italic; font-weight: 600; }
-
 .btn-edit   { width: 100%; margin-top: 0.8rem; background: linear-gradient(135deg, #8B9D83, #A4B89C); }
 .btn-delete { width: 100%; margin-top: 0.5rem; background: #D64545; }
 .btn-delete:hover { background: #B03030; transform: translateY(-3px); }
 
 .modal-overlay {
-display: none;
-position: fixed;
-top: 0; left: 0; right: 0; bottom: 0;
-background: rgba(44, 44, 44, 0.6);
-z-index: 1000;
-backdrop-filter: blur(4px);
+display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(44,44,44,0.6); z-index: 1000; backdrop-filter: blur(4px);
 }
 .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
-
 .modal {
-background: #FEFEFE;
-padding: 2.5rem;
-border-radius: 24px;
-box-shadow: 0 20px 60px rgba(107, 44, 62, 0.3);
-max-width: 500px;
-width: 90%;
-max-height: 90vh;
-overflow-y: auto;
+background: #FEFEFE; padding: 2.5rem; border-radius: 24px;
+box-shadow: 0 20px 60px rgba(107,44,62,0.3); max-width: 500px;
+width: 90%; max-height: 90vh; overflow-y: auto;
 }
-
 .modal h3 { color: #6B2C3E; margin-bottom: 1.5rem; font-size: 1.6rem; text-align: center; }
-
 .modal input, .modal textarea, .modal select {
-width: 100%;
-padding: 0.9rem;
-margin-bottom: 1rem;
-border-radius: 14px;
-border: 2px solid #F5F1E8;
-font-family: ‘Inter’, sans-serif;
-font-size: 1rem;
-background: #FEFEFE;
+width: 100%; padding: 0.9rem; margin-bottom: 1rem; border-radius: 14px;
+border: 2px solid #F5F1E8; font-family: ‘Inter’, sans-serif; font-size: 1rem; background: #FEFEFE;
 }
-
 .modal input:focus, .modal textarea:focus, .modal select:focus { outline: none; border-color: #8B9D83; }
 .modal textarea { resize: vertical; min-height: 100px; }
 .modal-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
@@ -399,28 +212,18 @@ background: #FEFEFE;
 .modal-btn-cancel:hover { background: #8B9197; }
 
 #ordersList, #ordersHistory {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap: 1.8rem;
-margin-top: 1.5rem;
+display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; margin-top: 1.5rem;
 }
-
 .orderCard {
-background: #FEFEFE;
-padding: 1.5rem;
-border-radius: 20px;
-border: 2px solid #F5F1E8;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-transition: all 0.3s ease;
+background: #FEFEFE; padding: 1.5rem; border-radius: 20px;
+border: 2px solid #F5F1E8; box-shadow: 0 8px 20px rgba(107,44,62,0.08); transition: all 0.3s ease;
 }
-
-.orderCard:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(107, 44, 62, 0.12); }
+.orderCard:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(107,44,62,0.12); }
 .orderCard[data-status=“en_attente”]   { border-left: 6px solid #FFB703; background: rgba(255,183,3,0.04); }
 .orderCard[data-status=“prete”]        { border-left: 6px solid #FB8500; background: rgba(251,133,0,0.04); }
 .orderCard[data-status=“en_livraison”] { border-left: 6px solid #8B9D83; background: rgba(139,157,131,0.04); }
 .orderCard[data-status=“livree”]       { border-left: 6px solid #2A9D8F; background: rgba(42,157,143,0.04); }
 .orderCard[data-status=“annulee”]      { border-left: 6px solid #D64545; opacity: 0.6; }
-
 .orderCard .order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
 .orderCard .order-title  { font-family: ‘Playfair Display’, serif; font-size: 1.2rem; color: #6B2C3E; font-weight: 700; }
 .orderCard .order-status { font-size: 0.85rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 20px; background: #F5F1E8; }
@@ -434,51 +237,23 @@ transition: all 0.3s ease;
 .btn-cancel-order:hover { background: #B03030 !important; }
 
 .empty-state {
-text-align: center;
-padding: 3rem 1rem;
-color: #6B6B6B;
-font-style: italic;
-background: #FEFEFE;
-border-radius: 20px;
-border: 2px dashed #F5F1E8;
+text-align: center; padding: 3rem 1rem; color: #6B6B6B; font-style: italic;
+background: #FEFEFE; border-radius: 20px; border: 2px dashed #F5F1E8;
 }
-
-.stats-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 1.5rem;
-margin-bottom: 2rem;
-}
-
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
 .stat-card {
-background: #FEFEFE;
-padding: 1.5rem;
-border-radius: 20px;
-border: 2px solid #F5F1E8;
-box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
-text-align: center;
+background: #FEFEFE; padding: 1.5rem; border-radius: 20px;
+border: 2px solid #F5F1E8; box-shadow: 0 8px 20px rgba(107,44,62,0.08); text-align: center;
 }
-
 .stat-card .stat-number { font-family: ‘Playfair Display’, serif; font-size: 2.5rem; color: #6B2C3E; font-weight: 700; display: block; }
 .stat-card .stat-label  { color: #6B6B6B; font-size: 0.9rem; margin-top: 0.3rem; }
 
 .toast {
-position: fixed;
-bottom: 2rem;
-right: 2rem;
-background: #2C2C2C;
-color: white;
-padding: 1rem 1.5rem;
-border-radius: 16px;
-box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-z-index: 9999;
-font-weight: 600;
-transform: translateY(100px);
-opacity: 0;
-transition: all 0.4s ease;
-max-width: 300px;
+position: fixed; bottom: 2rem; right: 2rem; background: #2C2C2C; color: white;
+padding: 1rem 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+z-index: 9999; font-weight: 600; transform: translateY(100px); opacity: 0;
+transition: all 0.4s ease; max-width: 300px;
 }
-
 .toast.show { transform: translateY(0); opacity: 1; }
 
 @media (max-width: 768px) {
@@ -498,51 +273,22 @@ header h1 { font-size: 1.8rem; }
 <header>
   <h1>🇫🇷 Dashboard Commerçant</h1>
   <p>Gestion des produits et commandes - Terroir Sables</p>
-
-  <!-- ============================================
-       BOUTON OUVERT / FERMÉ
-       Un seul clic pour basculer l'état du commerce.
-       Met à jour isOpen dans Firestore → l'index.html
-       le lit en temps réel via onSnapshot.
-       ============================================ -->
-
   <button id="toggleOpenBtn" class="ferme" onclick="toggleOpen()">
     <span id="statusDot"></span>
     <span id="statusLabel">Commerce fermé</span>
   </button>
-
-<button id="logout">Se déconnecter</button>
-
+  <button id="logout">Se déconnecter</button>
 </header>
 
 <section>
 
-  <!-- STATS -->
-
   <div class="stats-grid">
-    <div class="stat-card">
-      <span class="stat-number" id="statEnAttente">0</span>
-      <div class="stat-label">🕓 Commandes en attente</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number" id="statEnCours">0</span>
-      <div class="stat-label">🚴 En livraison</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number" id="statLivrees">0</span>
-      <div class="stat-label">✅ Livrées aujourd'hui</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number" id="statCA">0€</span>
-      <div class="stat-label">💰 CA produits aujourd'hui</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number" id="statPartCommerce">0€</span>
-      <div class="stat-label" id="statLabelPart">🏦 Votre part</div>
-    </div>
+    <div class="stat-card"><span class="stat-number" id="statEnAttente">0</span><div class="stat-label">🕓 Commandes en attente</div></div>
+    <div class="stat-card"><span class="stat-number" id="statEnCours">0</span><div class="stat-label">🚴 En livraison</div></div>
+    <div class="stat-card"><span class="stat-number" id="statLivrees">0</span><div class="stat-label">✅ Livrées aujourd'hui</div></div>
+    <div class="stat-card"><span class="stat-number" id="statCA">0€</span><div class="stat-label">💰 CA produits aujourd'hui</div></div>
+    <div class="stat-card"><span class="stat-number" id="statPartCommerce">0€</span><div class="stat-label" id="statLabelPart">🏦 Votre part</div></div>
   </div>
-
-  <!-- TABS -->
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('produits', event)">🍷 Mes Produits</button>
@@ -555,12 +301,6 @@ header h1 { font-size: 1.8rem; }
   <div class="tabContent active" id="tab-produits">
 
 ```
-<!-- ============================================
-     SOUS-CATÉGORIES
-     Le commerçant crée ses propres sous-cats.
-     Elles sont stockées dans commerces/{uid}/sousCats
-     Chaque produit peut être assigné à une sous-cat.
-     ============================================ -->
 <div id="subCatSection">
   <h3>📂 Mes sous-catégories</h3>
   <div id="subCatList">
@@ -579,10 +319,24 @@ header h1 { font-size: 1.8rem; }
   <textarea id="productDescription" placeholder="Description du produit (cépage, origine, accord mets/vins...)"></textarea>
   <input type="text" id="productPrice" placeholder="Prix (€) *" required>
   <input type="number" id="productStock" placeholder="Stock initial *" min="0" required>
-  <!-- Sélecteur sous-catégorie dans le formulaire d'ajout -->
   <select id="productSubCat">
     <option value="">— Aucune sous-catégorie —</option>
   </select>
+
+  <!-- ============================================
+       CASE ÂGE RESTREINT — FORMULAIRE AJOUT
+       Cocher si le produit est de l'alcool ou
+       tout autre produit à vente réservée aux +18.
+       Écrit ageRestricted: true dans Firestore.
+       ============================================ -->
+  <div class="age-check-row" onclick="document.getElementById('productAgeRestricted').click(); event.preventDefault();">
+    <input type="checkbox" id="productAgeRestricted">
+    <div class="age-check-label">
+      🔞 Produit alcoolisé — vente réservée aux +18 ans
+      <span>Le client devra certifier sa majorité à la commande. Une pièce d'identité pourra être demandée à la livraison.</span>
+    </div>
+  </div>
+
   <button type="submit">➕ Ajouter le produit</button>
 </form>
 
@@ -620,19 +374,33 @@ header h1 { font-size: 1.8rem; }
     <textarea id="editProductDescription" placeholder="Description du produit"></textarea>
     <input type="text" id="editProductPrice" placeholder="Prix (€) *">
     <input type="number" id="editProductStock" placeholder="Stock" min="0">
-    <!-- Sélecteur sous-catégorie dans la modal d'édition -->
     <label style="font-weight:600;color:#6B2C3E;font-size:0.9rem;display:block;margin-bottom:0.4rem;">Sous-catégorie</label>
     <select id="editProductSubCat">
       <option value="">— Aucune sous-catégorie —</option>
     </select>
-    <div class="modal-buttons">
-      <button class="modal-btn-cancel" onclick="closeEditModal()">Annuler</button>
-      <button onclick="saveProductEdit()">💾 Enregistrer</button>
-    </div>
+
+```
+<!-- ============================================
+     CASE ÂGE RESTREINT — MODAL ÉDITION
+     Pré-cochée si le produit a déjà ageRestricted: true.
+     La modification est sauvegardée dans Firestore.
+     ============================================ -->
+<div class="age-check-row" style="margin-bottom:0;" onclick="document.getElementById('editProductAgeRestricted').click(); event.preventDefault();">
+  <input type="checkbox" id="editProductAgeRestricted">
+  <div class="age-check-label">
+    🔞 Produit alcoolisé — vente réservée aux +18 ans
+    <span>Le client devra certifier sa majorité à la commande.</span>
   </div>
 </div>
 
-<!-- TOAST -->
+<div class="modal-buttons">
+  <button class="modal-btn-cancel" onclick="closeEditModal()">Annuler</button>
+  <button onclick="saveProductEdit()">💾 Enregistrer</button>
+</div>
+```
+
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -640,30 +408,11 @@ header h1 { font-size: 1.8rem; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  deleteDoc,
-  onSnapshot,
-  updateDoc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  writeBatch,
-  serverTimestamp
+  getFirestore, collection, addDoc, doc, deleteDoc,
+  onSnapshot, updateDoc, getDoc, getDocs, query, where, writeBatch, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
 
-// ============================================
-// CONFIG FIREBASE
-// ============================================
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
   authDomain: "livraison-sablaise.firebaseapp.com",
@@ -683,27 +432,17 @@ const EMAILJS_SERVICE_ID  = "service_6hc6ql8";
 const EMAILJS_TEMPLATE_ID = "template_vmnrowe";
 const EMAIL_ADMIN         = "cedric.huet.pro@gmail.com";
 
-// ============================================
-// VARIABLES GLOBALES
-// ============================================
 let uid             = null;
 let currentProducts = {};
 let commerceData    = {};
-let subCategories   = []; // liste des sous-cats du commerce
+let subCategories   = [];
 
-// ============================================
-// TOAST
-// ============================================
 function showToast(msg, duration = 3500){
   const t = document.getElementById("toast");
-  t.innerText = msg;
-  t.classList.add("show");
+  t.innerText = msg; t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), duration);
 }
 
-// ============================================
-// TABS
-// ============================================
 window.showTab = function(tab, e){
   document.querySelectorAll('.tabContent').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -711,33 +450,17 @@ window.showTab = function(tab, e){
   if(e?.target) e.target.classList.add('active');
 }
 
-// ============================================
-// AUTH
-// ============================================
 onAuthStateChanged(auth, async user => {
   if(!user){ window.location.href = "login.html"; return; }
-
   uid = user.uid;
   const snap = await getDoc(doc(db, "commerces", uid));
-
-  if(!snap.exists()){
-    await signOut(auth);
-    alert("Accès refusé");
-    window.location.href = "index.html";
-    return;
-  }
-
+  if(!snap.exists()){ await signOut(auth); alert("Accès refusé"); window.location.href = "index.html"; return; }
   commerceData = snap.data();
-
   window.commissionTaux = commerceData.commission || 15;
   window.commissionRate = window.commissionTaux / 100;
-
   const labelPart = document.getElementById('statLabelPart');
   if(labelPart) labelPart.innerText = '🏦 Votre part (' + (100 - window.commissionTaux) + '%)';
-
-  // Bouton ouvert/fermé — état initial depuis Firestore
   updateOpenButton(commerceData.isOpen !== false);
-
   loadSubCategories();
   loadProducts();
   loadOrders();
@@ -747,39 +470,24 @@ onAuthStateChanged(auth, async user => {
 document.getElementById("logout").onclick = () =>
   signOut(auth).then(() => window.location.href = "login.html");
 
-// ============================================
-// BOUTON OUVERT / FERMÉ
-// Met à jour isOpen dans Firestore (commerces/{uid})
-// L'index.html lit ce champ en temps réel
-// ============================================
 function updateOpenButton(isOpen){
   const btn   = document.getElementById("toggleOpenBtn");
   const label = document.getElementById("statusLabel");
-  if(isOpen){
-    btn.className   = "ouvert";
-    label.innerText = "Commerce ouvert — cliquer pour fermer";
-  } else {
-    btn.className   = "ferme";
-    label.innerText = "Commerce fermé — cliquer pour ouvrir";
-  }
+  btn.className   = isOpen ? "ouvert" : "ferme";
+  label.innerText = isOpen ? "Commerce ouvert — cliquer pour fermer" : "Commerce fermé — cliquer pour ouvrir";
 }
 
 window.toggleOpen = async function(){
   if(!uid) return;
   const snap    = await getDoc(doc(db, "commerces", uid));
-  const current = snap.data()?.isOpen !== false; // true par défaut
+  const current = snap.data()?.isOpen !== false;
   const next    = !current;
-
   await updateDoc(doc(db, "commerces", uid), { isOpen: next });
   updateOpenButton(next);
   showToast(next ? "🟢 Votre commerce est maintenant ouvert !" : "🔴 Votre commerce est maintenant fermé.");
 }
 
-// ============================================
 // SOUS-CATÉGORIES
-// Stockées dans : commerces/{uid}/sousCats/{id} { name }
-// Chaque produit a un champ subCat (string, nom de la sous-cat)
-// ============================================
 function loadSubCategories(){
   onSnapshot(collection(db, "commerces", uid, "sousCats"), snapshot => {
     subCategories = [];
@@ -800,26 +508,20 @@ function renderSubCatList(){
   subCategories.forEach(sc => {
     const tag = document.createElement("span");
     tag.className = "subcat-tag";
-    tag.innerHTML = `
-      ${sc.name}
-      <button class="delete-subcat" onclick="deleteSubCategory('${sc.id}', '${sc.name.replace(/'/g, "\\'")}')" title="Supprimer">✕</button>
-    `;
+    tag.innerHTML = `${sc.name}<button class="delete-subcat" onclick="deleteSubCategory('${sc.id}','${sc.name.replace(/'/g,"\\'")}')">✕</button>`;
     container.appendChild(tag);
   });
 }
 
-// Met à jour tous les <select> de sous-catégorie dans la page
 function updateSubCatSelects(){
-  const selects = ['productSubCat', 'editProductSubCat'];
-  selects.forEach(id => {
+  ['productSubCat','editProductSubCat'].forEach(id => {
     const sel = document.getElementById(id);
     if(!sel) return;
     const current = sel.value;
     sel.innerHTML = `<option value="">— Aucune sous-catégorie —</option>`;
     subCategories.forEach(sc => {
       const opt = document.createElement("option");
-      opt.value     = sc.name;
-      opt.innerText = sc.name;
+      opt.value = sc.name; opt.innerText = sc.name;
       if(sc.name === current) opt.selected = true;
       sel.appendChild(opt);
     });
@@ -830,64 +532,57 @@ window.addSubCategory = async function(){
   const input = document.getElementById("newSubCatInput");
   const name  = input.value.trim();
   if(!name){ showToast("❌ Entrez un nom de sous-catégorie"); return; }
-  if(subCategories.find(sc => sc.name.toLowerCase() === name.toLowerCase())){
-    showToast("⚠️ Cette sous-catégorie existe déjà");
-    return;
-  }
+  if(subCategories.find(sc => sc.name.toLowerCase() === name.toLowerCase())){ showToast("⚠️ Cette sous-catégorie existe déjà"); return; }
   await addDoc(collection(db, "commerces", uid, "sousCats"), { name, createdAt: serverTimestamp() });
   input.value = "";
   showToast(`✅ Sous-catégorie "${name}" créée !`);
 }
 
-// Entrée clavier dans le champ sous-cat
 document.getElementById("newSubCatInput").addEventListener("keydown", e => {
   if(e.key === "Enter"){ e.preventDefault(); window.addSubCategory(); }
 });
 
 window.deleteSubCategory = async function(id, name){
-  if(!confirm(`Supprimer la sous-catégorie "${name}" ?\n\nLes produits assignés à cette sous-catégorie n'auront plus de sous-catégorie.`)) return;
+  if(!confirm(`Supprimer la sous-catégorie "${name}" ?\n\nLes produits assignés n'auront plus de sous-catégorie.`)) return;
   await deleteDoc(doc(db, "commerces", uid, "sousCats", id));
-  // On retire la sous-cat des produits qui l'avaient
   const prodSnap = await getDocs(collection(db, "commerces", uid, "produits"));
   const batch = writeBatch(db);
-  prodSnap.forEach(d => {
-    if(d.data().subCat === name) batch.update(d.ref, { subCat: "" });
-  });
+  prodSnap.forEach(d => { if(d.data().subCat === name) batch.update(d.ref, { subCat: "" }); });
   await batch.commit();
   showToast(`🗑️ Sous-catégorie "${name}" supprimée`);
 }
 
-// Met à jour la sous-cat d'un produit depuis la carte produit
 window.updateProductSubCat = async function(productId, value){
   await updateDoc(doc(db, "commerces", uid, "produits", productId), { subCat: value });
 };
 
 // ============================================
 // AJOUTER PRODUIT
+// Récupère la case ageRestricted et l'enregistre
 // ============================================
 document.getElementById("addProductForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.innerText = "Ajout en cours...";
-  btn.disabled  = true;
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.innerText = "Ajout en cours..."; btn.disabled = true;
 
-  const name        = document.getElementById("productName").value;
-  const description = document.getElementById("productDescription").value;
-  const price       = document.getElementById("productPrice").value.replace(",", ".");
-  const stock       = parseInt(document.getElementById("productStock").value);
-  const subCat      = document.getElementById("productSubCat").value;
-  const imageFile   = document.getElementById("productImage").files[0];
+  const name          = document.getElementById("productName").value;
+  const description   = document.getElementById("productDescription").value;
+  const price         = document.getElementById("productPrice").value.replace(",",".");
+  const stock         = parseInt(document.getElementById("productStock").value);
+  const subCat        = document.getElementById("productSubCat").value;
+  const ageRestricted = document.getElementById("productAgeRestricted").checked;
+  const imageFile     = document.getElementById("productImage").files[0];
 
   let imageUrl = null;
   if(imageFile){
     const r = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
-    await uploadBytes(r, imageFile);
-    imageUrl = await getDownloadURL(r);
+    await uploadBytes(r, imageFile); imageUrl = await getDownloadURL(r);
   }
 
   await addDoc(collection(db, "commerces", uid, "produits"), {
     name, description, price, stock,
     subCat: subCat || "",
+    ageRestricted,
     available: stock > 0,
     imageUrl,
     maxPerDelivery: 0,
@@ -895,33 +590,25 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
   });
 
   e.target.reset();
-  btn.innerText = "➕ Ajouter le produit";
-  btn.disabled  = false;
+  btn.innerText = "➕ Ajouter le produit"; btn.disabled = false;
   showToast("✅ Produit ajouté !");
 });
 
-// ============================================
 // MODIFIER STOCK
-// ============================================
 async function updateStock(productId, currentStock, delta){
   const newStock = Math.max(0, currentStock + delta);
-  await updateDoc(doc(db, "commerces", uid, "produits", productId), {
-    stock: newStock,
-    available: newStock > 0
-  });
+  await updateDoc(doc(db, "commerces", uid, "produits", productId), { stock: newStock, available: newStock > 0 });
 }
 window.updateStock = updateStock;
 
-// ============================================
 // MAX PAR CLIENT
-// ============================================
 window.updateMaxPerClient = async function(productId, value){
-  const max = Math.max(0, parseInt(value) || 0);
-  await updateDoc(doc(db, "commerces", uid, "produits", productId), { maxPerDelivery: max });
+  await updateDoc(doc(db, "commerces", uid, "produits", productId), { maxPerDelivery: Math.max(0, parseInt(value)||0) });
 };
 
 // ============================================
 // MODAL MODIFICATION
+// Pré-coche ageRestricted selon la valeur Firestore
 // ============================================
 window.openEditModal = function(productId){
   const p = currentProducts[productId];
@@ -931,12 +618,10 @@ window.openEditModal = function(productId){
   document.getElementById("editProductDescription").value = p.description || "";
   document.getElementById("editProductPrice").value       = p.price       || "";
   document.getElementById("editProductStock").value       = p.stock       || 0;
-
-  // Pré-sélectionne la sous-cat actuelle du produit
+  document.getElementById("editProductAgeRestricted").checked = p.ageRestricted === true;
   updateSubCatSelects();
   const editSel = document.getElementById("editProductSubCat");
   if(editSel) editSel.value = p.subCat || "";
-
   document.getElementById("editModal").classList.add("active");
 }
 
@@ -946,83 +631,68 @@ window.closeEditModal = function(){
 }
 
 window.saveProductEdit = async function(){
-  const productId   = document.getElementById("editProductId").value;
-  const name        = document.getElementById("editProductName").value;
-  const description = document.getElementById("editProductDescription").value;
-  const price       = document.getElementById("editProductPrice").value.replace(",", ".");
-  const stock       = parseInt(document.getElementById("editProductStock").value);
-  const subCat      = document.getElementById("editProductSubCat").value;
-  const imageFile   = document.getElementById("editProductImage").files[0];
+  const productId     = document.getElementById("editProductId").value;
+  const name          = document.getElementById("editProductName").value;
+  const description   = document.getElementById("editProductDescription").value;
+  const price         = document.getElementById("editProductPrice").value.replace(",",".");
+  const stock         = parseInt(document.getElementById("editProductStock").value);
+  const subCat        = document.getElementById("editProductSubCat").value;
+  const ageRestricted = document.getElementById("editProductAgeRestricted").checked;
+  const imageFile     = document.getElementById("editProductImage").files[0];
 
   const btn = document.querySelector('.modal-buttons button:last-child');
-  btn.innerText = "Sauvegarde...";
-  btn.disabled  = true;
+  btn.innerText = "Sauvegarde..."; btn.disabled = true;
 
-  let updateData = { name, description, price, stock, subCat: subCat || "", available: stock > 0 };
+  let updateData = { name, description, price, stock, subCat: subCat||"", ageRestricted, available: stock > 0 };
 
   if(imageFile){
     const r = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
-    await uploadBytes(r, imageFile);
-    updateData.imageUrl = await getDownloadURL(r);
+    await uploadBytes(r, imageFile); updateData.imageUrl = await getDownloadURL(r);
   }
 
   await updateDoc(doc(db, "commerces", uid, "produits", productId), updateData);
-  btn.innerText = "💾 Enregistrer";
-  btn.disabled  = false;
-  closeEditModal();
-  showToast("✅ Produit modifié !");
+  btn.innerText = "💾 Enregistrer"; btn.disabled = false;
+  closeEditModal(); showToast("✅ Produit modifié !");
 }
 
 // ============================================
 // AFFICHAGE PRODUITS
+// Badge 🔞 si ageRestricted: true
 // ============================================
 const productList = document.getElementById("productList");
 
 function loadProducts(){
   onSnapshot(collection(db, "commerces", uid, "produits"), snapshot => {
-    productList.innerHTML = "";
-    currentProducts = {};
-
-    if(snapshot.empty){
-      productList.innerHTML = `<div class="empty-state">Aucun produit pour le moment 🍷</div>`;
-      return;
-    }
-
+    productList.innerHTML = ""; currentProducts = {};
+    if(snapshot.empty){ productList.innerHTML = `<div class="empty-state">Aucun produit pour le moment 🍷</div>`; return; }
     snapshot.forEach(docSnap => {
       const p = docSnap.data();
       currentProducts[docSnap.id] = p;
-
       const div = document.createElement("div");
       div.className = "productCard";
-
-      // Construction du select sous-cat pour la carte produit
       const subCatOptions = subCategories.map(sc =>
         `<option value="${sc.name}" ${p.subCat === sc.name ? 'selected' : ''}>${sc.name}</option>`
       ).join("");
-
       div.innerHTML = `
         ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : ""}
-        ${p.subCat ? `<span class="product-subcat-badge">📂 ${p.subCat}</span>` : ""}
+        ${p.subCat        ? `<span class="product-subcat-badge">📂 ${p.subCat}</span>` : ""}
+        ${p.ageRestricted ? `<span class="badge-age-restricted">🔞 +18</span>` : ""}
         <h3>${p.name}</h3>
         ${p.description ? `<p class="description">${p.description}</p>` : ""}
         <p class="price">💰 ${p.price} €</p>
         <p class="stock">📦 Stock : <strong>${p.stock}</strong></p>
         <div class="stockControls">
-          <button onclick="updateStock('${docSnap.id}', ${p.stock}, -1)">➖</button>
+          <button onclick="updateStock('${docSnap.id}',${p.stock},-1)">➖</button>
           <span style="font-weight:700;font-size:1.1rem;">${p.stock}</span>
-          <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
+          <button onclick="updateStock('${docSnap.id}',${p.stock},1)">➕</button>
         </div>
         <label>Sous-catégorie :</label>
-        <select onchange="updateProductSubCat('${docSnap.id}', this.value)">
-          <option value="" ${!p.subCat ? 'selected' : ''}>— Aucune —</option>
-          ${subCatOptions}
+        <select onchange="updateProductSubCat('${docSnap.id}',this.value)">
+          <option value="" ${!p.subCat?'selected':''}>— Aucune —</option>${subCatOptions}
         </select>
         <label>Max par client :</label>
-        <input type="number" min="0" value="${p.maxPerDelivery ?? 0}"
-               onchange="updateMaxPerClient('${docSnap.id}', this.value)">
-        <p style="margin-top:0.8rem;" class="${p.available ? '' : 'unavailable'}">
-          ${p.available ? '✅ Disponible' : '❌ Indisponible'}
-        </p>
+        <input type="number" min="0" value="${p.maxPerDelivery??0}" onchange="updateMaxPerClient('${docSnap.id}',this.value)">
+        <p style="margin-top:0.8rem;" class="${p.available?'':'unavailable'}">${p.available?'✅ Disponible':'❌ Indisponible'}</p>
         <button class="btn-edit" onclick="openEditModal('${docSnap.id}')">✏️ Modifier</button>
         <button class="btn-delete" onclick="deleteProduct('${docSnap.id}')">🗑️ Supprimer</button>
       `;
@@ -1038,75 +708,54 @@ window.deleteProduct = async id => {
   }
 };
 
-// ============================================
-// CALCUL CA SANS LIVRAISON
-// ============================================
 function calcCACommerce(commande){
-  const total         = commande.total        || 0;
-  const deliveryPrice = commande.deliveryPrice || 0;
-  return Math.max(0, total - deliveryPrice);
+  return Math.max(0, (commande.total||0) - (commande.deliveryPrice||0));
 }
 
 // ============================================
 // AFFICHAGE COMMANDES
+// Badge "Majorité certifiée" si ageVerified: true
 // ============================================
 function loadOrders(){
   const ordersList    = document.getElementById("ordersList");
   const ordersHistory = document.getElementById("ordersHistory");
-  const q = query(collection(db, "commandes"), where("commerceId", "==", uid));
-
+  const q = query(collection(db, "commandes"), where("commerceId","==",uid));
   onSnapshot(q, snapshot => {
-    ordersList.innerHTML    = "";
-    ordersHistory.innerHTML = "";
-
-    let statsEnAttente = 0, statsEnCours = 0, statsLivrees = 0;
-    let statsCA = 0, statsPartCommerce = 0;
-
-    const debutJour = new Date();
-    debutJour.setHours(0, 0, 0, 0);
-
+    ordersList.innerHTML = ""; ordersHistory.innerHTML = "";
+    let statsEnAttente=0, statsEnCours=0, statsLivrees=0, statsCA=0, statsPartCommerce=0;
+    const debutJour = new Date(); debutJour.setHours(0,0,0,0);
     if(snapshot.empty){
       ordersList.innerHTML    = `<div class="empty-state">Aucune commande pour le moment 📭</div>`;
       ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
-      updateStats(0,0,0,0,0);
-      return;
+      updateStats(0,0,0,0,0); return;
     }
-
     snapshot.docs.reverse().forEach(docSnap => {
       const o           = docSnap.data();
       const createdDate = o.createdAt?.toDate?.();
       const estDuJour   = createdDate && createdDate >= debutJour;
       const estActive   = ["en_attente","prete","en_livraison"].includes(o.status);
-
       if(!estActive && !estDuJour) return;
-
       if(o.status === "en_attente")   statsEnAttente++;
       if(o.status === "en_livraison") statsEnCours++;
       if(o.status === "livree" && estDuJour){
         statsLivrees++;
         const ca = calcCACommerce(o);
-        statsCA           += ca;
-        statsPartCommerce += ca * (1 - window.commissionRate);
+        statsCA += ca; statsPartCommerce += ca*(1-window.commissionRate);
       }
-
       const div = document.createElement("div");
-      div.className      = "orderCard";
-      div.dataset.status = o.status;
-
+      div.className = "orderCard"; div.dataset.status = o.status;
       const caCommande    = calcCACommerce(o);
-      const partCommande  = (caCommande * (1 - window.commissionRate)).toFixed(2);
-      const deliveryPrice = (o.deliveryPrice || 0).toFixed(2);
+      const partCommande  = (caCommande*(1-window.commissionRate)).toFixed(2);
+      const deliveryPrice = (o.deliveryPrice||0).toFixed(2);
       const itemsList     = o.items?.map(item =>
-        `<div>• ${item.name} × ${item.qty} — ${(item.price * item.qty).toFixed(2)} €</div>`
+        `<div>• ${item.name} × ${item.qty} — ${(item.price*item.qty).toFixed(2)} €</div>`
       ).join("") || "";
-
       let action = "";
       if(o.status === "en_attente"){
-        action = `
-          <div class="order-actions">
-            <button onclick="markReady('${docSnap.id}')">✅ Marquer prête</button>
-            <button class="btn-cancel-order" onclick="cancelOrder('${docSnap.id}')">❌ Annuler</button>
-          </div>`;
+        action = `<div class="order-actions">
+          <button onclick="markReady('${docSnap.id}')">✅ Marquer prête</button>
+          <button class="btn-cancel-order" onclick="cancelOrder('${docSnap.id}')">❌ Annuler</button>
+        </div>`;
       } else if(o.status === "prete"){
         action = `<p style="color:#FB8500;font-weight:600;margin-top:0.8rem;">🟠 En attente de livreur...</p>`;
       } else if(o.status === "en_livraison"){
@@ -1114,10 +763,8 @@ function loadOrders(){
       } else {
         action = `<p style="color:#6B6B6B;font-style:italic;margin-top:0.8rem;">Commande terminée</p>`;
       }
-
-      const createdAt = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) || "";
+      const createdAt = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) || "";
       const dateStr   = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
-
       div.innerHTML = `
         <div class="order-header">
           <span class="order-title">📦 Commande</span>
@@ -1131,50 +778,41 @@ function loadOrders(){
         <p class="order-total">🛒 CA produits : ${caCommande.toFixed(2)} €</p>
         <p class="order-total">🚴 Livraison : ${deliveryPrice} €</p>
         <p class="order-total" style="color:#8B9D83;">💳 Votre part : ${partCommande} €</p>
+        ${o.ageVerified ? `<span class="badge-age-order">✅ Majorité certifiée par le client</span>` : ""}
         ${action}
       `;
-
-      if(o.status === "livree" || o.status === "annulee"){
-        ordersHistory.appendChild(div);
-      } else {
-        ordersList.appendChild(div);
-      }
+      if(o.status === "livree" || o.status === "annulee") ordersHistory.appendChild(div);
+      else ordersList.appendChild(div);
     });
-
-    updateStats(statsEnAttente, statsEnCours, statsLivrees, statsCA, statsPartCommerce);
-
+    updateStats(statsEnAttente,statsEnCours,statsLivrees,statsCA,statsPartCommerce);
     if(!ordersList.innerHTML)    ordersList.innerHTML    = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
     if(!ordersHistory.innerHTML) ordersHistory.innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
   });
 }
 
-function updateStats(enAttente, enCours, livrees, ca, partCommerce){
+function updateStats(enAttente,enCours,livrees,ca,partCommerce){
   document.getElementById("statEnAttente").innerText    = enAttente;
   document.getElementById("statEnCours").innerText      = enCours;
   document.getElementById("statLivrees").innerText      = livrees;
-  document.getElementById("statCA").innerText           = ca.toFixed(2) + "€";
-  document.getElementById("statPartCommerce").innerText = partCommerce.toFixed(2) + "€";
+  document.getElementById("statCA").innerText           = ca.toFixed(2)+"€";
+  document.getElementById("statPartCommerce").innerText = partCommerce.toFixed(2)+"€";
 }
 
 window.markReady = async function(orderId){
-  const r    = doc(db, "commandes", orderId);
-  const snap = await getDoc(r);
-  if(!snap.exists()) return;
+  const r = doc(db,"commandes",orderId);
+  const snap = await getDoc(r); if(!snap.exists()) return;
   const data = snap.data();
   if(data.commerceId !== uid || data.status !== "en_attente"){ alert("Action interdite"); return; }
-  await updateDoc(r, { status: "prete" });
-  showToast("🟠 Commande marquée prête !");
+  await updateDoc(r, { status:"prete" }); showToast("🟠 Commande marquée prête !");
 }
 
 window.cancelOrder = async function(orderId){
   if(!confirm("Annuler cette commande ?")) return;
-  const r    = doc(db, "commandes", orderId);
-  const snap = await getDoc(r);
-  if(!snap.exists()) return;
+  const r = doc(db,"commandes",orderId);
+  const snap = await getDoc(r); if(!snap.exists()) return;
   const data = snap.data();
   if(data.commerceId !== uid || data.status !== "en_attente"){ alert("Action interdite"); return; }
-  await updateDoc(r, { status: "annulee", cancelledAt: new Date() });
-  showToast("❌ Commande annulée");
+  await updateDoc(r, { status:"annulee", cancelledAt: new Date() }); showToast("❌ Commande annulée");
 }
 
 function statusLabel(status){
@@ -1192,23 +830,17 @@ document.getElementById("editModal").addEventListener("click", function(e){
   if(e.target === this) closeEditModal();
 });
 
-// ============================================
 // ARCHIVAGE À MINUIT
-// ============================================
 async function archiverCommandesDuJour(){
   try {
-    const snapshot = await getDocs(
-      query(collection(db, "commandes"), where("commerceId", "==", uid))
-    );
-    const batch = writeBatch(db);
-    let count   = 0;
+    const snapshot = await getDocs(query(collection(db,"commandes"), where("commerceId","==",uid)));
+    const batch = writeBatch(db); let count = 0;
     snapshot.forEach(docSnap => {
       const o = docSnap.data();
       if(o.status === "livree" || o.status === "annulee"){
-        const archiveRef = doc(collection(db, "archives_commandes"));
+        const archiveRef = doc(collection(db,"archives_commandes"));
         batch.set(archiveRef, { ...o, archivedAt: new Date(), originalId: docSnap.id });
-        batch.delete(docSnap.ref);
-        count++;
+        batch.delete(docSnap.ref); count++;
       }
     });
     if(count > 0) await batch.commit();
@@ -1216,40 +848,35 @@ async function archiverCommandesDuJour(){
 }
 
 function resetDashboard(){
-  updateStats(0, 0, 0, 0, 0);
+  updateStats(0,0,0,0,0);
   document.getElementById("ordersList").innerHTML    = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
   document.getElementById("ordersHistory").innerHTML = `<div class="empty-state">Aucune commande dans l'historique 📋</div>`;
   showToast("🌙 Nouveau jour ! Dashboard réinitialisé.", 5000);
 }
 
-// ============================================
-// EMAILJS - RÉCAP
-// ============================================
-function formatDate(date){
-  return date.toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-}
-
+// EMAILJS
+function formatDate(date){ return date.toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); }
 function getLastRecapDate(){ return localStorage.getItem(`lastRecap_${uid}`); }
 function setLastRecapDate(){ localStorage.setItem(`lastRecap_${uid}`, new Date().toDateString()); }
 function dejaEnvoyeAujourdhui(){ return getLastRecapDate() === new Date().toDateString(); }
 
 function buildDetailCommandes(commandes){
-  if(commandes.length === 0) return "Aucune commande aujourd'hui.";
-  return commandes.map((o, index) => {
-    const items    = o.items?.map(i => `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`).join('\n') || "—";
+  if(!commandes.length) return "Aucune commande aujourd'hui.";
+  return commandes.map((o,index) => {
+    const items    = o.items?.map(i => `   • ${i.name} x${i.qty} = ${(i.price*i.qty).toFixed(2)}€`).join('\n') || "—";
     const ca       = calcCACommerce(o);
-    const partComm = (ca * (1 - window.commissionRate)).toFixed(2);
-    const delivery = (o.deliveryPrice || 0).toFixed(2);
-    return `Commande ${index + 1}
-👤 ${o.client?.nom     || "—"}
-📍 ${o.client?.adresse || "—"}
-📞 ${o.client?.tel     || "—"}
-🛒 Produits :
-${items}
+    const partComm = (ca*(1-window.commissionRate)).toFixed(2);
+    const delivery = (o.deliveryPrice||0).toFixed(2);
+    const age      = o.ageVerified ? "\n✅ Majorité certifiée par le client" : "";
+    return `Commande ${index+1}
+👤 ${o.client?.nom||"—"}
+📍 ${o.client?.adresse||"—"}
+📞 ${o.client?.tel||"—"}
+🛒 Produits :\n${items}
 🚴 Livraison : ${delivery}€ (pour le livreur)
 🛒 CA produits : ${ca.toFixed(2)}€
-💳 Votre part (${100 - window.commissionTaux}%) : ${partComm}€
-📦 Statut : ${statusLabel(o.status)}`;
+💳 Votre part (${100-window.commissionTaux}%) : ${partComm}€
+📦 Statut : ${statusLabel(o.status)}${age}`;
   }).join('\n\n────────────────────\n\n');
 }
 
@@ -1259,59 +886,40 @@ window.envoyerRecapEmail = async function(){
     showToast("📧 Envoi du récap...", 5000);
     const emailCommerce = commerceData.email || EMAIL_ADMIN;
     const nomCommerce   = commerceData.name  || "Commerçant";
-    const aujourd_hui   = new Date();
-    aujourd_hui.setHours(0, 0, 0, 0);
-
-    const snapshot = await getDocs(
-      query(collection(db, "commandes"), where("commerceId", "==", uid))
-    );
-
-    const commandesDuJour  = [];
+    const aujourd_hui   = new Date(); aujourd_hui.setHours(0,0,0,0);
+    const snapshot = await getDocs(query(collection(db,"commandes"), where("commerceId","==",uid)));
+    const commandesDuJour = [];
     snapshot.forEach(docSnap => {
       const o = docSnap.data();
       const createdAt = o.createdAt?.toDate?.();
       if(createdAt && createdAt >= aujourd_hui) commandesDuJour.push(o);
     });
-
     const commandesValides  = commandesDuJour.filter(o => o.status !== "annulee");
     const commandesAnnulees = commandesDuJour.filter(o => o.status === "annulee");
     const commandesLivrees  = commandesDuJour.filter(o => o.status === "livree");
-    const caTotal           = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
-    const totalLivraison    = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
-    const partCommerce      = caTotal * (1 - window.commissionRate);
-    const partTerroir       = caTotal * window.commissionRate;
-
+    const caTotal        = commandesValides.reduce((sum,o) => sum+calcCACommerce(o), 0);
+    const totalLivraison = commandesValides.reduce((sum,o) => sum+(o.deliveryPrice||0), 0);
+    const partCommerce   = caTotal*(1-window.commissionRate);
+    const partTerroir    = caTotal*window.commissionRate;
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      email_commerce:   emailCommerce,
-      nom_commerce:     nomCommerce,
-      date:             formatDate(new Date()),
-      nb_commandes:     commandesDuJour.length,
-      nb_livrees:       commandesLivrees.length,
-      nb_annulees:      commandesAnnulees.length,
-      ca_total:         caTotal.toFixed(2),
-      total_livraison:  totalLivraison.toFixed(2),
-      part_commerce:    partCommerce.toFixed(2),
-      part_terroir:     partTerroir.toFixed(2),
+      email_commerce: emailCommerce, nom_commerce: nomCommerce,
+      date: formatDate(new Date()),
+      nb_commandes: commandesDuJour.length, nb_livrees: commandesLivrees.length, nb_annulees: commandesAnnulees.length,
+      ca_total: caTotal.toFixed(2), total_livraison: totalLivraison.toFixed(2),
+      part_commerce: partCommerce.toFixed(2), part_terroir: partTerroir.toFixed(2),
       detail_commandes: buildDetailCommandes(commandesValides)
     });
-
-    setLastRecapDate();
-    showToast("✅ Récap envoyé !");
-  } catch(error){
-    console.error("❌ Erreur récap :", error);
-    showToast("❌ Erreur lors de l'envoi");
-  }
+    setLastRecapDate(); showToast("✅ Récap envoyé !");
+  } catch(error){ console.error("❌ Erreur récap :", error); showToast("❌ Erreur lors de l'envoi"); }
 }
 
 function demarrerVerificationMinuit(){
   setInterval(async () => {
     const now = new Date();
-    if(now.getHours() === 0 && now.getMinutes() === 0){
-      if(!dejaEnvoyeAujourdhui()){
-        await window.envoyerRecapEmail();
-        await archiverCommandesDuJour();
-        resetDashboard();
-      }
+    if(now.getHours() === 0 && now.getMinutes() === 0 && !dejaEnvoyeAujourdhui()){
+      await window.envoyerRecapEmail();
+      await archiverCommandesDuJour();
+      resetDashboard();
     }
   }, 60000);
 }
