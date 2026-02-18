@@ -109,17 +109,16 @@ cursor: pointer;
 transition: border-color 0.2s ease;
 user-select: none;
 box-sizing: border-box;
-width: 100%;
-overflow: hidden;
 }
 .age-check-row:hover { border-color: rgba(199,123,0,0.45); }
 .age-check-row input[type=“checkbox”] {
-width: 20px; height: 20px; min-width: 20px; flex-shrink: 0;
+flex-shrink: 0;
+width: 20px; height: 20px;
 margin-top: 2px; accent-color: #C77B00; cursor: pointer;
 }
 .age-check-row .age-check-label {
 font-weight: 600; font-size: 0.95rem; color: #7A4D00; line-height: 1.4;
-flex: 1; min-width: 0; word-break: break-word;
+display: block; overflow-wrap: break-word; word-break: break-word;
 }
 .age-check-row .age-check-label span {
 display: block; font-weight: 400; font-size: 0.82rem; color: #A07030; margin-top: 0.15rem;
