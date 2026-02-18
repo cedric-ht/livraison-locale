@@ -82,46 +82,25 @@ margin-bottom:1.5rem; font-size:0.9rem; color:#6B6B6B; box-shadow:0 4px 12px rgb
 .badge-ouvert{ background:#8B9D83; color:white; border-radius:8px; padding:2px 8px; font-size:0.75rem; margin-left:8px; font-weight:600; }
 .badge-ferme{ background:#D64545; color:white; border-radius:8px; padding:2px 8px; font-size:0.75rem; margin-left:8px; font-weight:600; }
 
-/* ============================================
-FILTRES SOUS-CATÉGORIES
-Rangée de pills/onglets, masquée si aucune
-sous-cat n’existe pour ce commerce.
-============================================ */
+/* FILTRES SOUS-CATÉGORIES */
 #subCatFilters{
-display:none;
-grid-column:1/-1;
-flex-wrap:wrap;
-gap:0.6rem;
-margin-bottom:1.4rem;
-padding-bottom:0.4rem;
+display:none; grid-column:1/-1; flex-wrap:wrap;
+gap:0.6rem; margin-bottom:1.4rem; padding-bottom:0.4rem;
 }
 #subCatFilters.visible{ display:flex; }
-
 .subcat-pill{
-padding:0.45rem 1.1rem;
-border:2px solid #E5E0D6;
-border-radius:50px;
-background:#FEFEFE;
-color:#6B6B6B;
-font-weight:600;
-font-size:0.85rem;
-cursor:pointer;
-transition:all 0.22s ease;
-font-family:‘Inter’,sans-serif;
-white-space:nowrap;
+padding:0.45rem 1.1rem; border:2px solid #E5E0D6; border-radius:50px;
+background:#FEFEFE; color:#6B6B6B; font-weight:600; font-size:0.85rem;
+cursor:pointer; transition:all 0.22s ease; font-family:‘Inter’,sans-serif; white-space:nowrap;
 }
 .subcat-pill:hover{ border-color:#8B9D83; color:#6B2C3E; transform:translateY(-2px); }
 .subcat-pill.active{
-background:linear-gradient(135deg,#6B2C3E,#8B4C5E);
-color:white; border-color:transparent;
-box-shadow:0 4px 14px rgba(107,44,62,0.25);
+background:linear-gradient(135deg,#6B2C3E,#8B4C5E); color:white;
+border-color:transparent; box-shadow:0 4px 14px rgba(107,44,62,0.25);
 }
-
-/* Badge sous-cat sur les cartes produit */
 .product-subcat-badge{
 display:inline-block; background:rgba(107,44,62,0.07); color:#6B2C3E;
-border-radius:20px; padding:0.15rem 0.7rem; font-size:0.78rem;
-font-weight:600; margin-bottom:0.4rem;
+border-radius:20px; padding:0.15rem 0.7rem; font-size:0.78rem; font-weight:600; margin-bottom:0.4rem;
 }
 
 /* MINI PANIER */
@@ -165,7 +144,8 @@ box-shadow:0 15px 50px rgba(107,44,62,0.3); z-index:1001;
 max-width:450px; width:90%; max-height:90vh; overflow-y:auto;
 }
 #checkoutForm h3{ font-family:‘Playfair Display’,serif; color:#6B2C3E; margin-bottom:1.5rem; }
-#checkoutForm input{
+#checkoutForm input[type=“text”],
+#checkoutForm input[type=“tel”]{
 width:100%; padding:0.9rem; margin-bottom:1rem; border-radius:14px;
 border:2px solid #F5F1E8; font-family:‘Inter’,sans-serif; transition:border 0.2s ease;
 }
@@ -182,12 +162,59 @@ background:rgba(44,44,44,0.5); z-index:1000;
 }
 
 /* ============================================
-POPUP CONNEXION REQUISE
-Apparaît quand le client essaie de valider
-une commande sans être connecté.
-Son panier est conservé — il peut se connecter
-ou créer un compte directement ici.
+BLOC VÉRIFICATION ÂGE +18
+Affiché uniquement si le commerce a
+ageVerification: true dans Firestore.
+Doit être coché pour valider la commande.
+La case cochée est sauvegardée dans Firestore
+(champ ageVerified: true) pour traçabilité légale.
 ============================================ */
+#ageVerificationBlock{
+display:none; /* affiché dynamiquement si nécessaire */
+background:linear-gradient(135deg,rgba(107,44,62,0.06),rgba(139,157,131,0.06));
+border:2px solid rgba(107,44,62,0.2);
+border-radius:16px;
+padding:1rem 1.2rem;
+margin-bottom:1.2rem;
+}
+#ageVerificationBlock.visible{ display:block; }
+
+#ageVerificationBlock .age-header{
+font-size:1.1rem;
+margin-bottom:0.5rem;
+color:#6B2C3E;
+font-family:‘Playfair Display’,serif;
+}
+
+#ageVerificationBlock .age-label{
+display:flex;
+align-items:flex-start;
+gap:0.8rem;
+cursor:pointer;
+font-size:0.9rem;
+color:#2C2C2C;
+line-height:1.5;
+}
+
+#ageVerificationBlock .age-label input[type=“checkbox”]{
+width:20px;
+height:20px;
+min-width:20px;
+margin-top:2px;
+accent-color:#6B2C3E;
+cursor:pointer;
+border-radius:6px;
+}
+
+#ageVerificationBlock .age-note{
+margin-top:0.6rem;
+font-size:0.8rem;
+color:#6B6B6B;
+font-style:italic;
+padding-left:28px;
+}
+
+/* POPUP CONNEXION REQUISE */
 #loginPromptOverlay{
 display:none; position:fixed; top:0;left:0;right:0;bottom:0;
 background:rgba(44,44,44,0.55); z-index:1001; backdrop-filter:blur(3px);
@@ -199,10 +226,7 @@ background:#FEFEFE; border-radius:24px; padding:2rem;
 box-shadow:0 20px 60px rgba(107,44,62,0.3); border:2px solid #F5F1E8;
 }
 #loginPrompt .prompt-icon{ text-align:center; font-size:2.5rem; margin-bottom:0.5rem; }
-#loginPrompt .prompt-title{
-font-family:‘Playfair Display’,serif; color:#6B2C3E;
-font-size:1.4rem; margin-bottom:0.4rem; text-align:center;
-}
+#loginPrompt .prompt-title{ font-family:‘Playfair Display’,serif; color:#6B2C3E; font-size:1.4rem; margin-bottom:0.4rem; text-align:center; }
 #loginPrompt .prompt-sub{ color:#6B6B6B; font-size:0.9rem; text-align:center; margin-bottom:1.5rem; }
 #loginPrompt input{
 width:100%; padding:0.9rem; margin-bottom:0.9rem; border-radius:14px;
@@ -358,17 +382,30 @@ header h1{ font-size:1.4rem; }
   <p id="deliveryPrice" style="margin-bottom:0.5rem;font-weight:600;color:#6B6B6B;"></p>
   <p id="deliveryTime" style="margin-bottom:0.5rem;font-size:0.9rem;color:#8B9D83;font-weight:600;"></p>
   <p id="checkoutTotal" style="font-weight:700;font-size:1.2rem;color:#6B2C3E;margin-bottom:1rem;"></p>
-  <button onclick="confirmOrder()">Confirmer la commande</button>
+
+  <!-- ============================================
+       BLOC VÉRIFICATION ÂGE +18
+       Visible uniquement si le commerce a
+       ageVerification: true dans Firestore.
+       Bloque la commande si non coché.
+       Trace légale : ageVerified: true sauvegardé
+       dans chaque commande concernée.
+       ============================================ -->
+
+  <div id="ageVerificationBlock">
+    <p class="age-header">🍷 Vente de boissons alcoolisées</p>
+    <label class="age-label">
+      <input type="checkbox" id="ageCheckbox">
+      <span>Je certifie avoir <strong>18 ans ou plus</strong> et être en droit d'acheter des boissons alcoolisées.</span>
+    </label>
+    <p class="age-note">📄 Une pièce d'identité peut vous être demandée à la livraison.</p>
+  </div>
+
+<button onclick="confirmOrder()">Confirmer la commande</button>
+
 </div>
 
-<!-- ============================================
-     POPUP CONNEXION REQUISE
-     Remplace le simple message d'erreur.
-     Le panier est préservé, le client peut
-     se connecter ou créer un compte ici.
-     Après connexion → le form de livraison
-     se rouvre automatiquement.
-     ============================================ -->
+<!-- POPUP CONNEXION REQUISE -->
 
 <div id="loginPromptOverlay" onclick="closeLoginPrompt()"></div>
 <div id="loginPrompt">
@@ -386,9 +423,6 @@ header h1{ font-size:1.4rem; }
 <div id="addedMessage">Produit ajouté ✅</div>
 
 <script>
-// ============================================
-// CONSTANTES TARIFICATION
-// ============================================
 const ZONE_MAX_KM    = 5;
 const TARIF_COURT    = 3.49;
 const TARIF_LONG     = 4.49;
@@ -400,9 +434,6 @@ function getDeliveryPrice(distanceKm){
 }
 function getDeliveryTime(distanceKm){ return distanceKm <= 3 ? "~20 min" : "~30 min"; }
 
-// ============================================
-// NAVIGATION
-// ============================================
 function toggleMenu(){
   const m = document.getElementById("mobileMenu");
   const o = document.getElementById("mobileMenuOverlay");
@@ -420,9 +451,6 @@ function showPage(p){
   if(p === 'mesCommandes' && window.renderClientOrders) window.renderClientOrders();
 }
 
-// ============================================
-// MESSAGES
-// ============================================
 function showMessage(msg){
   const el = document.getElementById("errorMessage");
   el.innerText = msg; el.classList.add("show");
@@ -434,9 +462,6 @@ function showAddedMessage(){
   setTimeout(() => el.classList.remove("show"), 1500);
 }
 
-// ============================================
-// PANIER
-// ============================================
 let selectedCommerceId = null;
 function getCart(){ return JSON.parse(localStorage.getItem("panier")) || []; }
 function saveCart(cart){ localStorage.setItem("panier", JSON.stringify(cart)); renderCart(); }
@@ -537,11 +562,13 @@ function openCheckoutForm(){
   if(cart.length === 0){ showMessage("Panier vide"); return; }
   const itemsTotal = cart.reduce((s,i) => s+i.price*i.quantity, 0);
   if(itemsTotal < PANIER_MINIMUM){ showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`); return; }
-  document.getElementById("checkoutForm").style.display  = "block";
+  // Réinitialise la case à cocher à chaque ouverture
+  document.getElementById("ageCheckbox").checked = false;
+  document.getElementById("checkoutForm").style.display   = "block";
   document.getElementById("checkoutOverlay").style.display = "block";
 }
 function closeCheckoutForm(){
-  document.getElementById("checkoutForm").style.display  = "none";
+  document.getElementById("checkoutForm").style.display   = "none";
   document.getElementById("checkoutOverlay").style.display = "none";
 }
 
@@ -557,6 +584,21 @@ function closeLoginPrompt(){
   document.getElementById("loginPromptOverlay").style.display = "none";
   document.getElementById("promptEmail").value    = "";
   document.getElementById("promptPassword").value = "";
+}
+
+// ============================================
+// AFFICHAGE BLOC ÂGE
+// Appelé quand on ouvre le form de livraison,
+// selon que le commerce a ageVerification ou pas
+// ============================================
+function setAgeVerificationVisible(visible){
+  const block = document.getElementById("ageVerificationBlock");
+  if(visible){
+    block.classList.add("visible");
+  } else {
+    block.classList.remove("visible");
+    document.getElementById("ageCheckbox").checked = false;
+  }
 }
 </script>
 
@@ -592,15 +634,13 @@ const productList  = document.getElementById("productList");
 let unsubscribeProducts = null;
 let categoriesSet       = new Set();
 
-// Mémo pour les re-renders depuis les filtres
-let _allProducts      = [];
-let _activeFilter     = "tous";
-let _currentIsOpen    = true;
+let _allProducts       = [];
+let _activeFilter      = "tous";
+let _currentIsOpen     = true;
 let _currentCommerceId = null;
+let _currentAgeVerif   = false; // true si le commerce actuel requiert vérif d'âge
 
-// ============================================
 // AUTH FIABLE
-// ============================================
 window.currentUser = undefined;
 function waitForAuth(){
   return new Promise(resolve => {
@@ -609,9 +649,7 @@ function waitForAuth(){
   });
 }
 
-// ============================================
 // CATÉGORIES
-// ============================================
 async function loadCategories(){
   const snapshot = await getDocs(collection(db, "commerces"));
   snapshot.forEach(docSnap => categoriesSet.add(docSnap.data().category || "Autres"));
@@ -633,9 +671,7 @@ async function loadCategories(){
   });
 }
 
-// ============================================
 // COMMERCES PAR CATÉGORIE
-// ============================================
 function showCommercesByCategory(cat){
   productList.innerHTML  = "";
   commerceList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Commerces</h3>";
@@ -643,52 +679,55 @@ function showCommercesByCategory(cat){
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       if((data.category || "Autres") !== cat) return;
-      const isOpen = data.isOpen !== false;
+      const isOpen    = data.isOpen !== false;
+      const ageVerif  = data.ageVerification === true;
       const div = document.createElement("div");
       div.className = "commerce"; div.dataset.opened = "false";
-      div.innerHTML = `${data.name}<span class="${isOpen?'badge-ouvert':'badge-ferme'}">${isOpen?'Ouvert':'Fermé'}</span><span style="float:right">▼</span>`;
+      div.innerHTML = `
+        ${data.name}
+        ${ageVerif ? '<span style="font-size:0.75rem;margin-left:6px;opacity:0.8;">🔞</span>' : ''}
+        <span class="${isOpen?'badge-ouvert':'badge-ferme'}">${isOpen?'Ouvert':'Fermé'}</span>
+        <span style="float:right">▼</span>`;
       div.onclick = () => {
         if(div.dataset.opened === "true"){
           productList.innerHTML = ""; div.dataset.opened = "false"; div.classList.remove("selected"); return;
         }
         [...commerceList.children].forEach(c => { c.dataset.opened="false"; c.classList.remove("selected"); });
         div.dataset.opened = "true"; div.classList.add("selected");
-        showProducts(docSnap.id, isOpen);
+        showProducts(docSnap.id, isOpen, ageVerif);
       };
       commerceList.appendChild(div);
     });
   });
 }
 
-// ============================================
 // PRODUITS + FILTRES SOUS-CATÉGORIES
-// ============================================
-function showProducts(commerceId, isOpen = true){
-  _currentIsOpen    = isOpen;
+function showProducts(commerceId, isOpen = true, ageVerif = false){
+  _currentIsOpen     = isOpen;
   _currentCommerceId = commerceId;
-  _activeFilter     = "tous";
+  _currentAgeVerif   = ageVerif;
+  _activeFilter      = "tous";
 
   productList.innerHTML = `
     <h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>
     ${!isOpen ? `<div style="grid-column:1/-1;background:#fff3f3;border:2px solid #D64545;border-radius:16px;
       padding:1rem;text-align:center;color:#D64545;font-weight:700;margin-bottom:1rem;">
       ❌ Ce commerce est actuellement fermé — revenez plus tard !</div>` : ""}
+    ${ageVerif ? `<div style="grid-column:1/-1;background:rgba(107,44,62,0.05);border:2px solid rgba(107,44,62,0.2);
+      border-radius:16px;padding:0.8rem 1rem;font-size:0.88rem;color:#6B2C3E;margin-bottom:0.5rem;">
+      🔞 <strong>Vente réservée aux majeurs</strong> — Une pièce d'identité pourra être demandée à la livraison.</div>` : ""}
   `;
 
-  // Barre de filtres (sera remplie une fois les produits chargés)
   const filterBar = document.createElement("div");
   filterBar.id = "subCatFilters";
-  productList.insertBefore(filterBar, productList.children[productList.children.length > 1 ? 1 : 0]);
+  productList.appendChild(filterBar);
 
   if(unsubscribeProducts) unsubscribeProducts();
 
   unsubscribeProducts = onSnapshot(collection(db, "commerces", commerceId, "produits"), snapshot => {
     _allProducts = [];
     snapshot.forEach(d => _allProducts.push({ id:d.id, ...d.data() }));
-
-    // Sous-cats disponibles
     const subCats = [...new Set(_allProducts.filter(p => p.subCat).map(p => p.subCat))].sort();
-
     if(subCats.length > 0){
       filterBar.classList.add("visible");
       buildFilterBar(filterBar, subCats);
@@ -696,20 +735,17 @@ function showProducts(commerceId, isOpen = true){
       filterBar.classList.remove("visible");
       filterBar.innerHTML = "";
     }
-
     renderFilteredProducts();
   });
 }
 
 function buildFilterBar(filterBar, subCats){
   filterBar.innerHTML = "";
-  // Bouton "Tous"
   const btnAll = document.createElement("button");
   btnAll.className = "subcat-pill" + (_activeFilter === "tous" ? " active" : "");
   btnAll.innerText = "Tous";
   btnAll.onclick   = () => applyFilter("tous", filterBar);
   filterBar.appendChild(btnAll);
-  // Un bouton par sous-cat
   subCats.forEach(sc => {
     const btn = document.createElement("button");
     btn.className = "subcat-pill" + (_activeFilter === sc ? " active" : "");
@@ -728,27 +764,19 @@ function applyFilter(value, filterBar){
 }
 
 function renderFilteredProducts(){
-  // Supprimer les anciennes cartes produit uniquement
   productList.querySelectorAll(".product, .empty-filter").forEach(el => el.remove());
-
-  const list = _activeFilter === "tous"
-    ? _allProducts
-    : _allProducts.filter(p => p.subCat === _activeFilter);
-
+  const list = _activeFilter === "tous" ? _allProducts : _allProducts.filter(p => p.subCat === _activeFilter);
   if(list.length === 0){
     const empty = document.createElement("div");
     empty.className = "empty-filter";
     empty.style.cssText = "grid-column:1/-1;text-align:center;padding:2rem;color:#6B6B6B;font-style:italic;";
     empty.innerText = "Aucun produit dans cette sous-catégorie";
-    productList.appendChild(empty);
-    return;
+    productList.appendChild(empty); return;
   }
-
   list.forEach(p => {
     const stock    = p.stock || 0;
     const price    = p.price.toString().replace(".",",");
     const canOrder = p.available && stock > 0 && _currentIsOpen;
-
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
@@ -768,9 +796,7 @@ function renderFilteredProducts(){
   });
 }
 
-// ============================================
 // AUTOCOMPLÉTION ADRESSE
-// ============================================
 let selectedAddressLatLng = null;
 let addressTimeout        = null;
 
@@ -811,6 +837,9 @@ document.getElementById("custAddress").addEventListener("input", e => {
         const itemsTotal = getCart().reduce((s,i) => s+i.price*i.quantity, 0);
         document.getElementById("checkoutTotal").innerText = `💳 Total : ${(itemsTotal+dp).toFixed(2).replace(".",",")} €`;
         box.style.display = "none";
+
+        // Affiche ou cache le bloc +18 selon le commerce
+        setAgeVerificationVisible(commerce.ageVerification === true);
       };
       box.appendChild(div);
     });
@@ -822,8 +851,6 @@ document.getElementById("custAddress").addEventListener("input", e => {
 // ============================================
 window.confirmOrder = async function(){
 
-  // Pas connecté → on ferme le form de livraison,
-  // message flash + popup de connexion avec panier préservé
   const user = await waitForAuth();
   if(!user){
     closeCheckoutForm();
@@ -836,11 +863,13 @@ window.confirmOrder = async function(){
   if(!cart.length){ showMessage("Panier vide"); return; }
   const itemsTotal = cart.reduce((s,i) => s+i.price*i.quantity, 0);
   if(itemsTotal < PANIER_MINIMUM){ showMessage(`Minimum ${PANIER_MINIMUM}€ requis`); return; }
+
   for(const item of cart){
     if(item.maxPerDelivery > 0 && item.quantity > item.maxPerDelivery){
       showMessage(`${item.name} : maximum ${item.maxPerDelivery} par commande`); return;
     }
   }
+
   if(!selectedAddressLatLng){ showMessage("Veuillez sélectionner une adresse valide"); return; }
 
   const commerceSnap = await getDoc(doc(db,"commerces",cart[0].commerceId));
@@ -857,6 +886,23 @@ window.confirmOrder = async function(){
   const address = document.getElementById("custAddress").value.trim();
   if(!name || !phone || !address){ showMessage("Veuillez remplir tous les champs"); return; }
 
+  // ============================================
+  // VÉRIFICATION ÂGE +18
+  // Si le commerce requiert ageVerification et que
+  // la case n'est pas cochée → on bloque la commande
+  // ============================================
+  const requiresAge = commerce.ageVerification === true;
+  const ageChecked  = document.getElementById("ageCheckbox").checked;
+  if(requiresAge && !ageChecked){
+    showMessage("⚠️ Vous devez certifier avoir 18 ans ou plus pour commander");
+    // Fait vibrer le bloc pour attirer l'attention
+    const block = document.getElementById("ageVerificationBlock");
+    block.style.animation = "none";
+    block.style.border = "2px solid #D64545";
+    setTimeout(() => { block.style.border = "2px solid rgba(107,44,62,0.2)"; }, 2000);
+    return;
+  }
+
   const deliveryPrice    = getDeliveryPrice(distance);
   const commission       = commerce.commission || 15;
   const commissionAmount = itemsTotal * (commission/100);
@@ -869,19 +915,22 @@ window.confirmOrder = async function(){
       items:cart.map(i => ({ productId:i.productId, name:i.name, price:i.price, qty:i.quantity })),
       itemsTotal, deliveryPrice, distanceKm:parseFloat(distance.toFixed(2)),
       commission, commissionAmount:parseFloat(commissionAmount.toFixed(2)),
-      total, status:"en_attente", createdAt:serverTimestamp()
+      total, status:"en_attente", createdAt:serverTimestamp(),
+      // Trace légale : sauvegardé uniquement si la vérif était requise
+      ...(requiresAge && { ageVerified:true, ageVerifiedAt:serverTimestamp() })
     });
+
     for(const item of cart){
       await updateDoc(doc(db,"commerces",item.commerceId,"produits",item.productId), { stock:increment(-item.quantity) });
     }
+
     showMessage("✅ Commande envoyée !");
     clearCart(); closeCheckoutForm(); showPage('mesCommandes');
+
   } catch(e){ showMessage("Erreur : "+e.message); }
 };
 
-// ============================================
 // AUTH
-// ============================================
 window.login = async function(){
   try { await signInWithEmailAndPassword(auth, document.getElementById("email").value, document.getElementById("password").value); }
   catch(e){ showMessage("Email ou mot de passe incorrect"); }
@@ -895,16 +944,12 @@ window.register = async function(){
     showMessage("Compte créé ✅");
   } catch(e){ showMessage("Erreur inscription"); }
 }
-
-// Connexion depuis le popup "commande sans compte"
-// Après succès → rouvre automatiquement le formulaire de livraison
 window.loginFromPrompt = async function(){
   const email = document.getElementById("promptEmail").value;
   const pass  = document.getElementById("promptPassword").value;
   try {
     await signInWithEmailAndPassword(auth, email, pass);
-    closeLoginPrompt();
-    showMessage("✅ Connecté !");
+    closeLoginPrompt(); showMessage("✅ Connecté !");
     setTimeout(() => openCheckoutForm(), 350);
   } catch(e){ showMessage("Email ou mot de passe incorrect"); }
 }
@@ -914,12 +959,10 @@ window.registerFromPrompt = async function(){
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db,"users",cred.user.uid), { email, role:"client", createdAt:new Date() });
-    closeLoginPrompt();
-    showMessage("✅ Compte créé !");
+    closeLoginPrompt(); showMessage("✅ Compte créé !");
     setTimeout(() => openCheckoutForm(), 350);
   } catch(e){ showMessage("Erreur lors de la création du compte"); }
 }
-
 window.openLoginMenu = function(){
   toggleMenu();
   const box = document.getElementById("authBox");
@@ -929,25 +972,19 @@ window.openLoginMenu = function(){
 window.logout = function(){
   auth.signOut().then(() => showMessage("Déconnecté ✅")).catch(() => showMessage("Erreur déconnexion"));
 }
-
 onAuthStateChanged(auth, user => {
   window.currentUser = user;
   const authBox   = document.getElementById("authBox");
   const loginBtn  = document.getElementById("menuLoginBtn");
   const logoutBtn = document.getElementById("menuLogoutBtn");
   if(user){
-    authBox.style.display = "none";
-    loginBtn.style.display  = "none";
-    logoutBtn.style.display = "block";
+    authBox.style.display = "none"; loginBtn.style.display = "none"; logoutBtn.style.display = "block";
   } else {
-    loginBtn.style.display  = "block";
-    logoutBtn.style.display = "none";
+    loginBtn.style.display = "block"; logoutBtn.style.display = "none";
   }
 });
 
-// ============================================
 // MES COMMANDES CLIENT
-// ============================================
 window.renderClientOrders = function(){
   const container = document.getElementById("ordersClient");
   if(!window.currentUser){ container.innerHTML = "<p>Veuillez vous connecter</p>"; return; }
@@ -971,14 +1008,13 @@ window.renderClientOrders = function(){
             ${steps.map((s,i)=>`<div class="status-step ${i<=idx?"active":""}"></div>`).join("")}
           </div>
           <small style="color:#6B6B6B;">📦 ${o.status.replace(/_/g," ")}</small>
+          ${o.ageVerified ? `<br><small style="color:#8B9D83;">✅ Majorité vérifiée</small>` : ""}
         </div>`;
     });
   });
 }
 
-// ============================================
 // CALCUL DISTANCE (Haversine)
-// ============================================
 function getDistanceKm(lat1,lng1,lat2,lng2){
   const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
   const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
