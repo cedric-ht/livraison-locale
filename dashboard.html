@@ -97,9 +97,7 @@ panier a ageRestricted: true → affiche le bloc
 de certification +18 dans le formulaire de commande.
 ============================================ */
 .age-check-row {
-display: flex;
-align-items: flex-start;
-gap: 0.8rem;
+display: block;
 background: rgba(199,123,0,0.06);
 border: 2px solid rgba(199,123,0,0.2);
 border-radius: 14px;
@@ -107,21 +105,22 @@ padding: 0.9rem 1.1rem;
 margin-bottom: 1rem;
 cursor: pointer;
 transition: border-color 0.2s ease;
-user-select: none;
 box-sizing: border-box;
+width: 100%;
 }
 .age-check-row:hover { border-color: rgba(199,123,0,0.45); }
 .age-check-row input[type=“checkbox”] {
-flex-shrink: 0;
-width: 20px; height: 20px;
-margin-top: 2px; accent-color: #C77B00; cursor: pointer;
+width: 18px; height: 18px;
+accent-color: #C77B00; cursor: pointer;
+vertical-align: middle; margin-right: 0.6rem; flex-shrink: 0;
 }
 .age-check-row .age-check-label {
-font-weight: 600; font-size: 0.95rem; color: #7A4D00; line-height: 1.4;
-display: block; overflow-wrap: break-word; word-break: break-word;
+font-weight: 600; font-size: 0.95rem; color: #7A4D00; line-height: 1.5;
+display: inline; vertical-align: middle;
 }
 .age-check-row .age-check-label span {
-display: block; font-weight: 400; font-size: 0.82rem; color: #A07030; margin-top: 0.15rem;
+display: block; font-weight: 400; font-size: 0.82rem; color: #A07030;
+margin-top: 0.4rem; padding-left: 26px;
 }
 
 /* Badge +18 sur les cartes produit dashboard */
