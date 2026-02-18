@@ -82,6 +82,13 @@ margin-bottom:1.5rem; font-size:0.9rem; color:#6B6B6B; box-shadow:0 4px 12px rgb
 .badge-ouvert{ background:#8B9D83; color:white; border-radius:8px; padding:2px 8px; font-size:0.75rem; margin-left:8px; font-weight:600; }
 .badge-ferme{ background:#D64545; color:white; border-radius:8px; padding:2px 8px; font-size:0.75rem; margin-left:8px; font-weight:600; }
 
+/* Badge +18 sur les cartes produit */
+.badge-age-product{
+display:inline-block; background:rgba(199,123,0,0.1); border:1px solid rgba(199,123,0,0.35);
+color:#7A4D00; border-radius:20px; padding:0.15rem 0.6rem;
+font-size:0.75rem; font-weight:700; margin-bottom:0.3rem;
+}
+
 /* FILTRES SOUS-CATÉGORIES */
 #subCatFilters{
 display:none; grid-column:1/-1; flex-wrap:wrap;
@@ -163,55 +170,43 @@ background:rgba(44,44,44,0.5); z-index:1000;
 
 /* ============================================
 BLOC VÉRIFICATION ÂGE +18
-Affiché uniquement si le commerce a
-ageVerification: true dans Firestore.
+Affiché si au moins un produit du panier
+a ageRestricted: true dans Firestore.
 Doit être coché pour valider la commande.
-La case cochée est sauvegardée dans Firestore
-(champ ageVerified: true) pour traçabilité légale.
+Trace légale : ageVerified: true sauvegardé.
 ============================================ */
 #ageVerificationBlock{
-display:none; /* affiché dynamiquement si nécessaire */
+display:none;
 background:linear-gradient(135deg,rgba(107,44,62,0.06),rgba(139,157,131,0.06));
 border:2px solid rgba(107,44,62,0.2);
 border-radius:16px;
 padding:1rem 1.2rem;
 margin-bottom:1.2rem;
+transition:border 0.3s ease;
 }
 #ageVerificationBlock.visible{ display:block; }
 
 #ageVerificationBlock .age-header{
-font-size:1.1rem;
-margin-bottom:0.5rem;
-color:#6B2C3E;
+font-size:1.05rem; margin-bottom:0.6rem; color:#6B2C3E;
 font-family:‘Playfair Display’,serif;
 }
 
+/* display:block pour éviter le bug iOS Safari flex */
 #ageVerificationBlock .age-label{
-display:flex;
-align-items:flex-start;
-gap:0.8rem;
+display:block;
 cursor:pointer;
 font-size:0.9rem;
 color:#2C2C2C;
 line-height:1.5;
 }
-
 #ageVerificationBlock .age-label input[type=“checkbox”]{
-width:20px;
-height:20px;
-min-width:20px;
-margin-top:2px;
-accent-color:#6B2C3E;
-cursor:pointer;
-border-radius:6px;
+width:18px; height:18px;
+accent-color:#6B2C3E; cursor:pointer;
+vertical-align:middle; margin-right:0.5rem;
 }
-
 #ageVerificationBlock .age-note{
-margin-top:0.6rem;
-font-size:0.8rem;
-color:#6B6B6B;
-font-style:italic;
-padding-left:28px;
+display:block; margin-top:0.5rem; font-size:0.8rem;
+color:#6B6B6B; font-style:italic; padding-left:26px;
 }
 
 /* POPUP CONNEXION REQUISE */
@@ -385,20 +380,19 @@ header h1{ font-size:1.4rem; }
 
   <!-- ============================================
        BLOC VÉRIFICATION ÂGE +18
-       Visible uniquement si le commerce a
-       ageVerification: true dans Firestore.
+       Visible si au moins un produit du panier
+       a ageRestricted: true dans Firestore.
        Bloque la commande si non coché.
-       Trace légale : ageVerified: true sauvegardé
-       dans chaque commande concernée.
+       Trace légale : ageVerified: true sauvegardé.
        ============================================ -->
 
   <div id="ageVerificationBlock">
     <p class="age-header">🍷 Vente de boissons alcoolisées</p>
     <label class="age-label">
       <input type="checkbox" id="ageCheckbox">
-      <span>Je certifie avoir <strong>18 ans ou plus</strong> et être en droit d'acheter des boissons alcoolisées.</span>
+      Je certifie avoir <strong>18 ans ou plus</strong> et être en droit d'acheter des boissons alcoolisées.
     </label>
-    <p class="age-note">📄 Une pièce d'identité peut vous être demandée à la livraison.</p>
+    <span class="age-note">📄 Une pièce d'identité peut vous être demandée à la livraison.</span>
   </div>
 
 <button onclick="confirmOrder()">Confirmer la commande</button>
@@ -471,7 +465,12 @@ function clearCart(){
   window.currentDeliveryPrice = null;
   renderCart();
 }
-function addToCart(commerceId, productId, name, price, stock, maxPerDelivery){
+
+// ============================================
+// addToCart — stocke ageRestricted dans le panier
+// pour pouvoir interroger localement sans Firestore
+// ============================================
+function addToCart(commerceId, productId, name, price, stock, maxPerDelivery, ageRestricted){
   if(selectedCommerceId && selectedCommerceId !== commerceId){
     showMessage("Vous ne pouvez commander que chez un seul commerce à la fois"); return;
   }
@@ -485,10 +484,11 @@ function addToCart(commerceId, productId, name, price, stock, maxPerDelivery){
     existing.quantity += 1;
   } else {
     if(stock < 1){ showMessage("Produit non disponible"); return; }
-    cart.push({ commerceId, productId, name, price, quantity:1, stock, maxPerDelivery });
+    cart.push({ commerceId, productId, name, price, quantity:1, stock, maxPerDelivery, ageRestricted: ageRestricted === true });
   }
   saveCart(cart); showAddedMessage();
 }
+
 function removeFromCart(productId){
   let cart = getCart().filter(p => p.productId !== productId);
   if(cart.length === 0) selectedCommerceId = null;
@@ -508,6 +508,15 @@ function updateQuantity(productId, qty){
   if(cart.length === 0) selectedCommerceId = null;
   saveCart(cart);
 }
+
+// ============================================
+// Retourne true si au moins un produit du panier
+// a ageRestricted: true
+// ============================================
+function cartHasAgeRestricted(){
+  return getCart().some(item => item.ageRestricted === true);
+}
+
 function renderCart(){
   const cartBox   = document.getElementById("cart");
   const container = document.getElementById("cartContent");
@@ -524,7 +533,7 @@ function renderCart(){
     itemsTotal += item.price * item.quantity;
     container.innerHTML += `
       <div>
-        <strong>${item.name}</strong> — ${item.price.toFixed(2).replace(".",",")}€<br>
+        <strong>${item.name}</strong>${item.ageRestricted ? ' <span style="font-size:0.75rem;color:#8B5500;">🔞</span>' : ''} — ${item.price.toFixed(2).replace(".",",")}€<br>
         Qté :
         <button onclick="updateQuantity('${item.productId}',${item.quantity-1})">−</button>
         <strong>${item.quantity}</strong>
@@ -554,27 +563,26 @@ if(cartHeader){
   };
 }
 
-// ============================================
 // FORMULAIRE LIVRAISON
-// ============================================
 function openCheckoutForm(){
   const cart = getCart();
   if(cart.length === 0){ showMessage("Panier vide"); return; }
   const itemsTotal = cart.reduce((s,i) => s+i.price*i.quantity, 0);
   if(itemsTotal < PANIER_MINIMUM){ showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`); return; }
-  // Réinitialise la case à cocher à chaque ouverture
   document.getElementById("ageCheckbox").checked = false;
-  document.getElementById("checkoutForm").style.display   = "block";
+  // ============================================
+  // Affiche le bloc +18 si panier contient produit
+  // avec ageRestricted: true — sans appel Firestore
+  // ============================================
+  setAgeVerificationVisible(cartHasAgeRestricted());
+  document.getElementById("checkoutForm").style.display    = "block";
   document.getElementById("checkoutOverlay").style.display = "block";
 }
 function closeCheckoutForm(){
-  document.getElementById("checkoutForm").style.display   = "none";
+  document.getElementById("checkoutForm").style.display    = "none";
   document.getElementById("checkoutOverlay").style.display = "none";
 }
 
-// ============================================
-// POPUP CONNEXION REQUISE
-// ============================================
 function openLoginPrompt(){
   document.getElementById("loginPrompt").style.display        = "block";
   document.getElementById("loginPromptOverlay").style.display = "block";
@@ -586,11 +594,6 @@ function closeLoginPrompt(){
   document.getElementById("promptPassword").value = "";
 }
 
-// ============================================
-// AFFICHAGE BLOC ÂGE
-// Appelé quand on ouvre le form de livraison,
-// selon que le commerce a ageVerification ou pas
-// ============================================
 function setAgeVerificationVisible(visible){
   const block = document.getElementById("ageVerificationBlock");
   if(visible){
@@ -633,14 +636,11 @@ const productList  = document.getElementById("productList");
 
 let unsubscribeProducts = null;
 let categoriesSet       = new Set();
+let _allProducts        = [];
+let _activeFilter       = "tous";
+let _currentIsOpen      = true;
+let _currentCommerceId  = null;
 
-let _allProducts       = [];
-let _activeFilter      = "tous";
-let _currentIsOpen     = true;
-let _currentCommerceId = null;
-let _currentAgeVerif   = false; // true si le commerce actuel requiert vérif d'âge
-
-// AUTH FIABLE
 window.currentUser = undefined;
 function waitForAuth(){
   return new Promise(resolve => {
@@ -672,20 +672,19 @@ async function loadCategories(){
 }
 
 // COMMERCES PAR CATÉGORIE
+// Plus de badge 🔞 au niveau commerce — c'est géré produit par produit
 function showCommercesByCategory(cat){
   productList.innerHTML  = "";
   commerceList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Commerces</h3>";
   getDocs(collection(db, "commerces")).then(snapshot => {
     snapshot.forEach(docSnap => {
-      const data = docSnap.data();
+      const data   = docSnap.data();
       if((data.category || "Autres") !== cat) return;
-      const isOpen    = data.isOpen !== false;
-      const ageVerif  = data.ageVerification === true;
-      const div = document.createElement("div");
+      const isOpen = data.isOpen !== false;
+      const div    = document.createElement("div");
       div.className = "commerce"; div.dataset.opened = "false";
       div.innerHTML = `
         ${data.name}
-        ${ageVerif ? '<span style="font-size:0.75rem;margin-left:6px;opacity:0.8;">🔞</span>' : ''}
         <span class="${isOpen?'badge-ouvert':'badge-ferme'}">${isOpen?'Ouvert':'Fermé'}</span>
         <span style="float:right">▼</span>`;
       div.onclick = () => {
@@ -694,39 +693,56 @@ function showCommercesByCategory(cat){
         }
         [...commerceList.children].forEach(c => { c.dataset.opened="false"; c.classList.remove("selected"); });
         div.dataset.opened = "true"; div.classList.add("selected");
-        showProducts(docSnap.id, isOpen, ageVerif);
+        showProducts(docSnap.id, isOpen);
       };
       commerceList.appendChild(div);
     });
   });
 }
 
-// PRODUITS + FILTRES SOUS-CATÉGORIES
-function showProducts(commerceId, isOpen = true, ageVerif = false){
-  _currentIsOpen     = isOpen;
+// ============================================
+// PRODUITS
+// Bandeau +18 affiché dynamiquement si au moins
+// un produit a ageRestricted: true.
+// Badge 🔞 sur chaque carte produit concernée.
+// ageRestricted transmis à addToCart → stocké panier.
+// ============================================
+function showProducts(commerceId, isOpen = true){
+  _currentIsOpen    = isOpen;
   _currentCommerceId = commerceId;
-  _currentAgeVerif   = ageVerif;
-  _activeFilter      = "tous";
+  _activeFilter     = "tous";
 
   productList.innerHTML = `
     <h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>
     ${!isOpen ? `<div style="grid-column:1/-1;background:#fff3f3;border:2px solid #D64545;border-radius:16px;
       padding:1rem;text-align:center;color:#D64545;font-weight:700;margin-bottom:1rem;">
       ❌ Ce commerce est actuellement fermé — revenez plus tard !</div>` : ""}
-    ${ageVerif ? `<div style="grid-column:1/-1;background:rgba(107,44,62,0.05);border:2px solid rgba(107,44,62,0.2);
-      border-radius:16px;padding:0.8rem 1rem;font-size:0.88rem;color:#6B2C3E;margin-bottom:0.5rem;">
-      🔞 <strong>Vente réservée aux majeurs</strong> — Une pièce d'identité pourra être demandée à la livraison.</div>` : ""}
   `;
 
   const filterBar = document.createElement("div");
   filterBar.id = "subCatFilters";
   productList.appendChild(filterBar);
 
+  // Bandeau +18 injecté dynamiquement selon les produits
+  const ageBanner = document.createElement("div");
+  ageBanner.id = "ageBanner";
+  ageBanner.style.cssText = "display:none;grid-column:1/-1;";
+  ageBanner.innerHTML = `<div style="background:rgba(199,123,0,0.07);border:2px solid rgba(199,123,0,0.25);
+    border-radius:16px;padding:0.8rem 1rem;font-size:0.88rem;color:#7A4D00;margin-bottom:0.5rem;">
+    🔞 <strong>Certains produits sont réservés aux majeurs (+18 ans)</strong> — Une pièce d'identité pourra être demandée à la livraison.
+  </div>`;
+  productList.appendChild(ageBanner);
+
   if(unsubscribeProducts) unsubscribeProducts();
 
   unsubscribeProducts = onSnapshot(collection(db, "commerces", commerceId, "produits"), snapshot => {
     _allProducts = [];
     snapshot.forEach(d => _allProducts.push({ id:d.id, ...d.data() }));
+
+    // Affiche le bandeau uniquement si nécessaire
+    const hasRestricted = _allProducts.some(p => p.ageRestricted === true);
+    ageBanner.style.display = hasRestricted ? "block" : "none";
+
     const subCats = [...new Set(_allProducts.filter(p => p.subCat).map(p => p.subCat))].sort();
     if(subCats.length > 0){
       filterBar.classList.add("visible");
@@ -780,17 +796,19 @@ function renderFilteredProducts(){
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
-      ${p.imageUrl ? `<img src="${p.imageUrl}" class="productImg" alt="${p.name}">` : ""}
-      ${p.subCat   ? `<span class="product-subcat-badge">📂 ${p.subCat}</span>` : ""}
+      ${p.imageUrl       ? `<img src="${p.imageUrl}" class="productImg" alt="${p.name}">` : ""}
+      ${p.subCat         ? `<span class="product-subcat-badge">📂 ${p.subCat}</span>` : ""}
+      ${p.ageRestricted  ? `<span class="badge-age-product">🔞 +18</span>` : ""}
       <span>${p.name} — ${price}€</span>
-      ${p.description ? `<p class="product-description">${p.description}</p>` : ""}
+      ${p.description    ? `<p class="product-description">${p.description}</p>` : ""}
       <span class="stock">📦 Stock : ${stock}</span>
       ${p.maxPerDelivery > 0 ? `<span class="panier-min-badge">Max ${p.maxPerDelivery}/commande</span>` : ""}
     `;
     const btn = document.createElement("button");
     btn.innerText = !_currentIsOpen ? "Commerce fermé" : (canOrder ? "Ajouter au panier" : "Indisponible");
     btn.disabled  = !canOrder;
-    btn.onclick   = () => addToCart(_currentCommerceId, p.id, p.name, p.price, stock, p.maxPerDelivery || 0);
+    // Transmet ageRestricted du produit → stocké dans le panier localStorage
+    btn.onclick   = () => addToCart(_currentCommerceId, p.id, p.name, p.price, stock, p.maxPerDelivery || 0, p.ageRestricted === true);
     div.appendChild(btn);
     productList.appendChild(div);
   });
@@ -837,9 +855,6 @@ document.getElementById("custAddress").addEventListener("input", e => {
         const itemsTotal = getCart().reduce((s,i) => s+i.price*i.quantity, 0);
         document.getElementById("checkoutTotal").innerText = `💳 Total : ${(itemsTotal+dp).toFixed(2).replace(".",",")} €`;
         box.style.display = "none";
-
-        // Affiche ou cache le bloc +18 selon le commerce
-        setAgeVerificationVisible(commerce.ageVerification === true);
       };
       box.appendChild(div);
     });
@@ -848,9 +863,10 @@ document.getElementById("custAddress").addEventListener("input", e => {
 
 // ============================================
 // CONFIRMER COMMANDE
+// requiresAge basé sur le panier (ageRestricted),
+// plus sur le champ ageVerification du commerce
 // ============================================
 window.confirmOrder = async function(){
-
   const user = await waitForAuth();
   if(!user){
     closeCheckoutForm();
@@ -887,17 +903,15 @@ window.confirmOrder = async function(){
   if(!name || !phone || !address){ showMessage("Veuillez remplir tous les champs"); return; }
 
   // ============================================
-  // VÉRIFICATION ÂGE +18
-  // Si le commerce requiert ageVerification et que
-  // la case n'est pas cochée → on bloque la commande
+  // VÉRIFICATION ÂGE — basée sur le panier
+  // Si au moins un produit a ageRestricted: true
+  // et que la case n'est pas cochée → bloque
   // ============================================
-  const requiresAge = commerce.ageVerification === true;
+  const requiresAge = cartHasAgeRestricted();
   const ageChecked  = document.getElementById("ageCheckbox").checked;
   if(requiresAge && !ageChecked){
     showMessage("⚠️ Vous devez certifier avoir 18 ans ou plus pour commander");
-    // Fait vibrer le bloc pour attirer l'attention
     const block = document.getElementById("ageVerificationBlock");
-    block.style.animation = "none";
     block.style.border = "2px solid #D64545";
     setTimeout(() => { block.style.border = "2px solid rgba(107,44,62,0.2)"; }, 2000);
     return;
@@ -916,7 +930,7 @@ window.confirmOrder = async function(){
       itemsTotal, deliveryPrice, distanceKm:parseFloat(distance.toFixed(2)),
       commission, commissionAmount:parseFloat(commissionAmount.toFixed(2)),
       total, status:"en_attente", createdAt:serverTimestamp(),
-      // Trace légale : sauvegardé uniquement si la vérif était requise
+      // Trace légale uniquement si le panier contenait des produits +18
       ...(requiresAge && { ageVerified:true, ageVerifiedAt:serverTimestamp() })
     });
 
