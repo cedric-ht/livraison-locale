@@ -435,41 +435,6 @@ font-size: 0.8rem;
 font-weight: 600;
 margin-top: 0.5rem;
 }
-
-/* CHECKBOX ALCOOL */
-.alcohol-consent {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-  margin: 1.2rem 0;
-  padding: 1rem 1.2rem;
-  background: rgba(214,69,69,0.08);
-  border: 1.5px solid rgba(214,69,69,0.25);
-  border-radius: 14px;
-}
-.alcohol-consent input[type="checkbox"] {
-  width: auto !important;
-  margin: 0.3rem 0 0 0 !important;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.alcohol-consent label {
-  font-size: 0.85rem;
-  color: #2C2C2C;
-  line-height: 1.6;
-  cursor: pointer;
-  margin: 0;
-}
-.alcohol-consent label strong { color: #D64545; font-weight: 700; }
-.alcohol-consent .warning { 
-  display: block; 
-  margin-top: 0.5rem; 
-  font-size: 0.78rem; 
-  color: #D64545;
-  font-weight: 600;
-}
-
-
 </style>
 
 </head>
@@ -565,15 +530,6 @@ margin-top: 0.5rem;
   <p id="deliveryPrice" style="margin-bottom:0.5rem;font-weight:600;color:#6B6B6B;"></p>
   <p id="deliveryTime" style="margin-bottom:0.5rem;font-size:0.9rem;color:#8B9D83;font-weight:600;"></p>
   <p id="checkoutTotal" style="font-weight:700;font-size:1.2rem;color:#6B2C3E;margin-bottom:1rem;"></p>
-    <div id="alcoholConsent" style="display:none" class="alcohol-consent">
-    <input type="checkbox" id="alcoholCheck">
-    <label for="alcoholCheck">
-      Je certifie avoir <strong>plus de 18 ans</strong> et être majeur selon la loi de mon pays. 
-      Je suis conscient(e) que la vente d'alcool aux mineurs est interdite.
-      <span class="warning">⚠️ Une pièce d'identité pourra vous être demandée à la livraison.</span>
-    </label>
-  </div>
-
   <button onclick="confirmOrder()">Confirmer la commande</button>
 </div>
 
@@ -776,7 +732,7 @@ if(cartHeader){
 // ============================================
 // FORMULAIRE LIVRAISON
 // ============================================
-async function openCheckoutForm(){
+function openCheckoutForm(){
   const cart = getCart();
   if(cart.length === 0){ showMessage("Panier vide"); return; }
 
@@ -785,20 +741,6 @@ async function openCheckoutForm(){
     showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
     return;
   }
-
-  // Vérifier si commerce vend alcool
-  const cart = getCart();
-  if(cart.length > 0){
-    const commerceSnap = await getDoc(doc(db, "commerces", cart[0].commerceId));
-    if(commerceSnap.exists() && commerceSnap.data().venteAlcool === true){
-      document.getElementById("alcoholConsent").style.display = "flex";
-      window.commerceVendAlcool = true;
-    } else {
-      document.getElementById("alcoholConsent").style.display = "none";
-      window.commerceVendAlcool = false;
-    }
-  }
-
 
   document.getElementById("checkoutForm").style.display = "block";
   document.getElementById("checkoutOverlay").style.display = "block";
@@ -844,12 +786,6 @@ const firebaseConfig = {
 const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
-
-// Exposer pour accès global
-window.db = db;
-window.getDoc = getDoc;
-window.doc = doc;
-
 
 const categoryList = document.getElementById("categoryList");
 const commerceList = document.getElementById("commerceList");
@@ -1068,8 +1004,7 @@ document.getElementById("custAddress").addEventListener("input", e => {
 // ============================================
 window.confirmOrder = async function(){
   const user = window.currentUser;
-  if(!user){ window.openLoginMenu(); showMessage("Connectez-vous pour continuer"); return; }
-
+  if(!user){ showMessage("Vous devez être connecté"); return; }
 
   const cart = getCart();
   if(cart.length === 0){ showMessage("Panier vide"); return; }
@@ -1088,16 +1023,6 @@ window.confirmOrder = async function(){
       return;
     }
   }
-
-  // Vérif checkbox alcool
-  if(window.commerceVendAlcool === true){
-    const alcoholCheck = document.getElementById("alcoholCheck");
-    if(!alcoholCheck.checked){
-      showMessage("Vous devez certifier avoir plus de 18 ans pour continuer");
-      return;
-    }
-  }
-
 
   if(!selectedAddressLatLng){
     showMessage("Veuillez sélectionner une adresse valide");
