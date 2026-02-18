@@ -515,7 +515,7 @@ font-weight: 600;
 
 <section id="contact" style="display:none">
   <h2>Contact</h2>
-  <p>📧 cedric.huet.pro@gmail.com</p>
+  <p>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fa999f9e889399d4928f9f8ed48a8895ba9d979b9396d4999597">[email&#160;protected]</a></p>
 </section>
 
 <section id="commander" style="display:none">
@@ -588,7 +588,8 @@ font-weight: 600;
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 // ============================================
 // CONSTANTES TARIFICATION
 // ============================================
@@ -598,52 +599,52 @@ const TARIF_LONG       = 4.49; // 3-5km
 const PANIER_MINIMUM   = 10;
 
 function getDeliveryPrice(distanceKm){
-  if(distanceKm > ZONE_MAX_KM) return null; // Hors zone
-  if(distanceKm <= 3) return TARIF_COURT;
-  return TARIF_LONG;
+if(distanceKm > ZONE_MAX_KM) return null; // Hors zone
+if(distanceKm <= 3) return TARIF_COURT;
+return TARIF_LONG;
 }
 
 function getDeliveryTime(distanceKm){
-  if(distanceKm <= 3) return "~20 min";
-  return "~30 min";
+if(distanceKm <= 3) return “~20 min”;
+return “~30 min”;
 }
 
 // ============================================
 // NAVIGATION
 // ============================================
 function toggleMenu(){
-  const m = document.getElementById("mobileMenu");
-  const o = document.getElementById("mobileMenuOverlay");
-  const show = m.style.display === "block";
-  m.style.display = show ? "none" : "block";
-  o.style.display = show ? "none" : "block";
+const m = document.getElementById(“mobileMenu”);
+const o = document.getElementById(“mobileMenuOverlay”);
+const show = m.style.display === “block”;
+m.style.display = show ? “none” : “block”;
+o.style.display = show ? “none” : “block”;
 }
 
 function nav(p){ toggleMenu(); showPage(p); }
 
 function showPage(p){
-  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.style.display = 'none';
-  });
-  document.getElementById(p).style.display = 'block';
-  if(p === 'mesCommandes' && window.renderClientOrders) window.renderClientOrders();
+[‘accueil’,‘apropos’,‘contact’,‘commander’,‘mesCommandes’].forEach(id => {
+const el = document.getElementById(id);
+if(el) el.style.display = ‘none’;
+});
+document.getElementById(p).style.display = ‘block’;
+if(p === ‘mesCommandes’ && window.renderClientOrders) window.renderClientOrders();
 }
 
 // ============================================
 // MESSAGES
 // ============================================
 function showMessage(msg){
-  const el = document.getElementById("errorMessage");
-  el.innerText = msg;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 2500);
+const el = document.getElementById(“errorMessage”);
+el.innerText = msg;
+el.classList.add(“show”);
+setTimeout(() => el.classList.remove(“show”), 2500);
 }
 
 function showAddedMessage(){
-  const el = document.getElementById("addedMessage");
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 1500);
+const el = document.getElementById(“addedMessage”);
+el.classList.add(“show”);
+setTimeout(() => el.classList.remove(“show”), 1500);
 }
 
 // ============================================
@@ -651,171 +652,155 @@ function showAddedMessage(){
 // ============================================
 let selectedCommerceId = null;
 
-function getCart(){ return JSON.parse(localStorage.getItem("panier")) || []; }
-function saveCart(cart){ localStorage.setItem("panier", JSON.stringify(cart)); renderCart(); }
+function getCart(){ return JSON.parse(localStorage.getItem(“panier”)) || []; }
+function saveCart(cart){ localStorage.setItem(“panier”, JSON.stringify(cart)); renderCart(); }
 
 function clearCart(){
-  localStorage.removeItem("panier");
-  selectedCommerceId = null;
-  window.currentDeliveryPrice = null;
-  renderCart();
+localStorage.removeItem(“panier”);
+selectedCommerceId = null;
+window.currentDeliveryPrice = null;
+renderCart();
 }
 
 function addToCart(commerceId, productId, name, price, stock, maxPerDelivery){
-  // Vérif commerce unique
-  if(selectedCommerceId && selectedCommerceId !== commerceId){
-    showMessage("Vous ne pouvez commander que chez un seul commerce à la fois");
-    return;
-  }
+// Vérif commerce unique
+if(selectedCommerceId && selectedCommerceId !== commerceId){
+showMessage(“Vous ne pouvez commander que chez un seul commerce à la fois”);
+return;
+}
 
-  selectedCommerceId = commerceId;
-  let cart = getCart();
-  price = parseFloat(price.toString().replace(",", "."));
+selectedCommerceId = commerceId;
+let cart = getCart();
+price = parseFloat(price.toString().replace(”,”, “.”));
 
-  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
+const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
 
-  if(existing){
-    if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
-      showMessage(`Maximum ${maxPerDelivery} par commande`);
-      return;
-    }
-    if(existing.quantity >= stock){
-      showMessage("Stock insuffisant");
-      return;
-    }
-    existing.quantity += 1;
-  } else {
-    if(stock < 1){ showMessage("Produit non disponible"); return; }
-    cart.push({ commerceId, productId, name, price, quantity: 1, stock, maxPerDelivery });
-  }
+if(existing){
+if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){
+showMessage(`Maximum ${maxPerDelivery} par commande`);
+return;
+}
+if(existing.quantity >= stock){
+showMessage(“Stock insuffisant”);
+return;
+}
+existing.quantity += 1;
+} else {
+if(stock < 1){ showMessage(“Produit non disponible”); return; }
+cart.push({ commerceId, productId, name, price, quantity: 1, stock, maxPerDelivery });
+}
 
-  saveCart(cart);
-  showAddedMessage();
+saveCart(cart);
+showAddedMessage();
 }
 
 function removeFromCart(productId){
-  let cart = getCart();
-  cart = cart.filter(p => p.productId !== productId);
-  if(cart.length === 0) selectedCommerceId = null;
-  saveCart(cart);
+let cart = getCart();
+cart = cart.filter(p => p.productId !== productId);
+if(cart.length === 0) selectedCommerceId = null;
+saveCart(cart);
 }
 
 function updateQuantity(productId, qty){
-  let cart = getCart();
-  const index = cart.findIndex(p => p.productId === productId);
-  if(index === -1) return;
+let cart = getCart();
+const index = cart.findIndex(p => p.productId === productId);
+if(index === -1) return;
 
-  const item = cart[index];
+const item = cart[index];
 
-  if(qty > item.stock){ showMessage("Stock insuffisant"); return; }
+if(qty > item.stock){ showMessage(“Stock insuffisant”); return; }
 
-  if(qty <= 0){
-    cart.splice(index, 1);
-  } else {
-    if(item.maxPerDelivery > 0 && qty > item.maxPerDelivery){
-      showMessage(`Maximum ${item.maxPerDelivery} par commande`);
-      return;
-    }
-    item.quantity = qty;
-  }
+if(qty <= 0){
+cart.splice(index, 1);
+} else {
+if(item.maxPerDelivery > 0 && qty > item.maxPerDelivery){
+showMessage(`Maximum ${item.maxPerDelivery} par commande`);
+return;
+}
+item.quantity = qty;
+}
 
-  if(cart.length === 0) selectedCommerceId = null;
-  saveCart(cart);
+if(cart.length === 0) selectedCommerceId = null;
+saveCart(cart);
 }
 
 function renderCart(){
-  const cartBox   = document.getElementById("cart");
-  const container = document.getElementById("cartContent");
-  const cart      = getCart();
+const cartBox   = document.getElementById(“cart”);
+const container = document.getElementById(“cartContent”);
+const cart      = getCart();
 
-  container.innerHTML = "";
+container.innerHTML = “”;
 
-  if(cart.length === 0){
-    cartBox.classList.remove("expanded");
-    container.innerHTML = "<p style='color:#6B6B6B;font-style:italic;'>Panier vide</p>";
-    return;
-  }
-
-  cartBox.classList.add("expanded");
-
-  let itemsTotal = 0;
-
-  cart.forEach(item => {
-    itemsTotal += item.price * item.quantity;
-    container.innerHTML += `
-      <div>
-        <strong>${item.name}</strong> — ${item.price.toFixed(2).replace(".", ",")}€<br>
-        Qté :
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">−</button>
-        <strong>${item.quantity}</strong>
-        <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button>
-        <button onclick="removeFromCart('${item.productId}')" style="background:#D64545;margin-left:0.5rem;">Suppr.</button>
-      </div>
-    `;
-  });
-
-  // Vérif panier minimum
-  const panierOK = itemsTotal >= PANIER_MINIMUM;
-  const delivery = window.currentDeliveryPrice;
-
-  container.innerHTML += `
-    <div style="background:transparent;box-shadow:none;padding:0.5rem 0;">
-      <h3 style="text-align:right;">Sous-total : ${itemsTotal.toFixed(2).replace(".", ",")} €</h3>
-      ${!panierOK ? `<p style="color:#D64545;font-size:0.85rem;text-align:right;">⚠️ Minimum ${PANIER_MINIMUM}€ requis</p>` : ""}
-      <h3 style="text-align:right;">Livraison : ${delivery ? delivery.toFixed(2).replace(".", ",") + " €" : "—"}</h3>
-      <h3 style="text-align:right;">Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".", ",")} €</h3>
-    </div>
-  `;
+if(cart.length === 0){
+cartBox.classList.remove(“expanded”);
+container.innerHTML = “<p style='color:#6B6B6B;font-style:italic;'>Panier vide</p>”;
+return;
 }
 
-document.addEventListener("DOMContentLoaded", renderCart);
+cartBox.classList.add(“expanded”);
+
+let itemsTotal = 0;
+
+cart.forEach(item => {
+itemsTotal += item.price * item.quantity;
+container.innerHTML += `<div> <strong>${item.name}</strong> — ${item.price.toFixed(2).replace(".", ",")}€<br> Qté : <button onclick="updateQuantity('${item.productId}', ${item.quantity - 1})">−</button> <strong>${item.quantity}</strong> <button onclick="updateQuantity('${item.productId}', ${item.quantity + 1})">+</button> <button onclick="removeFromCart('${item.productId}')" style="background:#D64545;margin-left:0.5rem;">Suppr.</button> </div>`;
+});
+
+// Vérif panier minimum
+const panierOK = itemsTotal >= PANIER_MINIMUM;
+const delivery = window.currentDeliveryPrice;
+
+container.innerHTML += `<div style="background:transparent;box-shadow:none;padding:0.5rem 0;"> <h3 style="text-align:right;">Sous-total : ${itemsTotal.toFixed(2).replace(".", ",")} €</h3> ${!panierOK ?`<p style="color:#D64545;font-size:0.85rem;text-align:right;">⚠️ Minimum ${PANIER_MINIMUM}€ requis</p>`: ""} <h3 style="text-align:right;">Livraison : ${delivery ? delivery.toFixed(2).replace(".", ",") + " €" : "—"}</h3> <h3 style="text-align:right;">Total : ${(itemsTotal + (delivery || 0)).toFixed(2).replace(".", ",")} €</h3> </div>`;
+}
+
+document.addEventListener(“DOMContentLoaded”, renderCart);
 
 // TOGGLE PANIER
-const cartHeader = document.getElementById("cartHeader");
+const cartHeader = document.getElementById(“cartHeader”);
 if(cartHeader){
-  cartHeader.onclick = () => {
-    const cart  = document.getElementById("cart");
-    const arrow = document.getElementById("toggleCart");
-    cart.classList.toggle("expanded");
-    arrow.innerHTML = cart.classList.contains("expanded") ? "&#9660;" : "&#9650;";
-  }
+cartHeader.onclick = () => {
+const cart  = document.getElementById(“cart”);
+const arrow = document.getElementById(“toggleCart”);
+cart.classList.toggle(“expanded”);
+arrow.innerHTML = cart.classList.contains(“expanded”) ? “▼” : “▲”;
+}
 }
 
 // ============================================
 // FORMULAIRE LIVRAISON
 // ============================================
-// ========================================== 
+// ==========================================
 // MODIFICATION 2: openCheckoutForm ASYNC + vérif alcool
 // ==========================================
 async function openCheckoutForm(){
-  const cart = getCart();
-  if(cart.length === 0){ showMessage("Panier vide"); return; }
+const cart = getCart();
+if(cart.length === 0){ showMessage(“Panier vide”); return; }
 
-  const itemsTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  if(itemsTotal < PANIER_MINIMUM){
-    showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
-    return;
-  }
+const itemsTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+if(itemsTotal < PANIER_MINIMUM){
+showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
+return;
+}
 
-  // Vérifier si le commerce vend de l'alcool
-  if(cart.length > 0){
-    const commerceSnap = await getDoc(doc(db, "commerces", cart[0].commerceId));
-    if(commerceSnap.exists() && commerceSnap.data().venteAlcool === true){
-      document.getElementById("alcoholConsent").style.display = "flex";
-      window.commerceVendAlcool = true;
-    } else {
-      document.getElementById("alcoholConsent").style.display = "none";
-      window.commerceVendAlcool = false;
-    }
-  }
+// Vérifier si le commerce vend de l’alcool
+if(cart.length > 0){
+const commerceSnap = await window.getDoc(window.doc(window.db, “commerces”, cart[0].commerceId));
+if(commerceSnap.exists() && commerceSnap.data().venteAlcool === true){
+document.getElementById(“alcoholConsent”).style.display = “flex”;
+window.commerceVendAlcool = true;
+} else {
+document.getElementById(“alcoholConsent”).style.display = “none”;
+window.commerceVendAlcool = false;
+}
+}
 
-  document.getElementById("checkoutForm").style.display = "block";
-  document.getElementById("checkoutOverlay").style.display = "block";
+document.getElementById(“checkoutForm”).style.display = “block”;
+document.getElementById(“checkoutOverlay”).style.display = “block”;
 }
 
 function closeCheckoutForm(){
-  document.getElementById("checkoutForm").style.display = "none";
-  document.getElementById("checkoutOverlay").style.display = "none";
+document.getElementById(“checkoutForm”).style.display = “none”;
+document.getElementById(“checkoutOverlay”).style.display = “none”;
 }
 </script>
 
@@ -853,6 +838,11 @@ const firebaseConfig = {
 const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
+
+// Exposer getDoc et doc pour utilisation hors module
+window.getDoc = getDoc;
+window.doc = doc;
+window.db = db;
 
 const categoryList = document.getElementById("categoryList");
 const commerceList = document.getElementById("commerceList");
@@ -1295,15 +1285,4 @@ function getDistanceKm(lat1, lng1, lat2, lng2){
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLng = (lng2 - lng1) * Math.PI / 180;
   const a    =
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng/2) * Math.sin(dLng/2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-loadCategories();
-</script>
-
-</body>
-</html>
+    Math.sin(dLat/2) * Math.
