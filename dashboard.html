@@ -33,6 +33,56 @@ position: relative;
 header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; font-weight: 700; }
 header p { opacity: 0.92; font-size: 1rem; margin-bottom: 1.5rem; }
 
+/* ============================================
+BOUTON OUVERT / FERMÉ
+============================================ */
+#toggleOpenBtn {
+display: inline-flex;
+align-items: center;
+gap: 0.6rem;
+padding: 0.85rem 2rem;
+border: none;
+border-radius: 50px;
+font-size: 1rem;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.3s ease;
+font-family: ‘Inter’, sans-serif;
+margin-bottom: 1rem;
+box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+#toggleOpenBtn.ouvert {
+background: linear-gradient(135deg, #2A9D8F, #3DB8A8);
+color: white;
+}
+
+#toggleOpenBtn.ferme {
+background: linear-gradient(135deg, #D64545, #E86060);
+color: white;
+}
+
+#toggleOpenBtn:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#statusDot {
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: white;
+display: inline-block;
+box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
+70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
 .tabs {
 display: flex;
 gap: 0;
@@ -42,6 +92,7 @@ border-radius: 20px;
 padding: 0.5rem;
 box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
 border: 2px solid #F5F1E8;
+flex-wrap: wrap;
 }
 
 .tab {
@@ -57,9 +108,10 @@ transition: all 0.3s ease;
 font-family: ‘Inter’, sans-serif;
 font-size: 0.95rem;
 text-align: center;
+min-width: 120px;
 }
 
-.tab:hover { transform: none; box-shadow: none; background: #F5F1E8; }
+.tab:hover { background: #F5F1E8; }
 
 .tab.active {
 background: linear-gradient(135deg, #6B2C3E, #8B4C5E);
@@ -104,7 +156,6 @@ position: absolute;
 top: 1.5rem;
 right: 1.5rem;
 }
-
 #logout:hover { background: #B03030; }
 
 form {
@@ -116,7 +167,7 @@ box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
 margin-bottom: 2rem;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
 width: 100%;
 padding: 0.9rem;
 margin-bottom: 1rem;
@@ -128,9 +179,90 @@ transition: border 0.2s ease;
 background: #FEFEFE;
 }
 
-form input:focus, form textarea:focus { outline: none; border-color: #8B9D83; }
+form input:focus, form textarea:focus, form select:focus { outline: none; border-color: #8B9D83; }
 form textarea { resize: vertical; min-height: 100px; }
 form button { width: 100%; padding: 1rem; font-size: 1rem; }
+
+/* ============================================
+SOUS-CATÉGORIES
+============================================ */
+#subCatSection {
+background: #FEFEFE;
+border-radius: 20px;
+border: 2px solid #F5F1E8;
+box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
+padding: 1.5rem;
+margin-bottom: 2rem;
+}
+
+#subCatSection h3 {
+color: #6B2C3E;
+margin-bottom: 1rem;
+font-size: 1.2rem;
+}
+
+#subCatList {
+display: flex;
+flex-wrap: wrap;
+gap: 0.6rem;
+margin-bottom: 1rem;
+}
+
+.subcat-tag {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+background: rgba(107, 44, 62, 0.08);
+border: 2px solid rgba(107, 44, 62, 0.15);
+border-radius: 50px;
+padding: 0.4rem 1rem;
+font-size: 0.9rem;
+font-weight: 600;
+color: #6B2C3E;
+}
+
+.subcat-tag .delete-subcat {
+background: none;
+border: none;
+color: #D64545;
+cursor: pointer;
+padding: 0;
+font-size: 1rem;
+font-weight: 700;
+line-height: 1;
+transform: none;
+box-shadow: none;
+}
+
+.subcat-tag .delete-subcat:hover {
+transform: scale(1.2);
+box-shadow: none;
+color: #B03030;
+}
+
+#newSubCatRow {
+display: flex;
+gap: 0.8rem;
+align-items: center;
+}
+
+#newSubCatInput {
+flex: 1;
+padding: 0.8rem 1rem;
+border-radius: 14px;
+border: 2px solid #F5F1E8;
+font-family: ‘Inter’, sans-serif;
+font-size: 0.95rem;
+transition: border 0.2s ease;
+}
+
+#newSubCatInput:focus { outline: none; border-color: #8B9D83; }
+
+#addSubCatBtn {
+padding: 0.8rem 1.5rem;
+white-space: nowrap;
+flex-shrink: 0;
+}
 
 #productList {
 display: grid;
@@ -168,6 +300,19 @@ box-shadow: 0 6px 15px rgba(107, 44, 62, 0.1);
 .productCard .price { font-weight: 700; color: #2C2C2C; font-size: 1.1rem; }
 .productCard .stock { color: #6B6B6B; font-size: 0.9rem; margin: 0.3rem 0; }
 
+/* Badge sous-catégorie sur la carte produit */
+.product-subcat-badge {
+display: inline-block;
+background: rgba(139, 157, 131, 0.15);
+border: 1px solid #8B9D83;
+color: #5a7a52;
+border-radius: 20px;
+padding: 0.2rem 0.8rem;
+font-size: 0.78rem;
+font-weight: 600;
+margin-bottom: 0.6rem;
+}
+
 .stockControls {
 display: flex;
 gap: 10px;
@@ -192,29 +337,24 @@ color: #6B2C3E;
 font-size: 0.9rem;
 }
 
-.productCard input[type=“number”] {
+.productCard input[type=“number”],
+.productCard select {
 width: 100%;
 padding: 0.6rem;
 border-radius: 10px;
 border: 2px solid #F5F1E8;
 font-family: ‘Inter’, sans-serif;
 margin-bottom: 0;
+background: #FEFEFE;
+font-size: 0.9rem;
 }
+
+.productCard select:focus { outline: none; border-color: #8B9D83; }
 
 .unavailable { color: #D64545; font-style: italic; font-weight: 600; }
 
-.btn-edit {
-width: 100%;
-margin-top: 0.8rem;
-background: linear-gradient(135deg, #8B9D83, #A4B89C);
-}
-
-.btn-delete {
-width: 100%;
-margin-top: 0.5rem;
-background: #D64545;
-}
-
+.btn-edit   { width: 100%; margin-top: 0.8rem; background: linear-gradient(135deg, #8B9D83, #A4B89C); }
+.btn-delete { width: 100%; margin-top: 0.5rem; background: #D64545; }
 .btn-delete:hover { background: #B03030; transform: translateY(-3px); }
 
 .modal-overlay {
@@ -225,7 +365,6 @@ background: rgba(44, 44, 44, 0.6);
 z-index: 1000;
 backdrop-filter: blur(4px);
 }
-
 .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
 
 .modal {
@@ -239,14 +378,9 @@ max-height: 90vh;
 overflow-y: auto;
 }
 
-.modal h3 {
-color: #6B2C3E;
-margin-bottom: 1.5rem;
-font-size: 1.6rem;
-text-align: center;
-}
+.modal h3 { color: #6B2C3E; margin-bottom: 1.5rem; font-size: 1.6rem; text-align: center; }
 
-.modal input, .modal textarea {
+.modal input, .modal textarea, .modal select {
 width: 100%;
 padding: 0.9rem;
 margin-bottom: 1rem;
@@ -254,11 +388,11 @@ border-radius: 14px;
 border: 2px solid #F5F1E8;
 font-family: ‘Inter’, sans-serif;
 font-size: 1rem;
+background: #FEFEFE;
 }
 
-.modal input:focus, .modal textarea:focus { outline: none; border-color: #8B9D83; }
+.modal input:focus, .modal textarea:focus, .modal select:focus { outline: none; border-color: #8B9D83; }
 .modal textarea { resize: vertical; min-height: 100px; }
-
 .modal-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
 .modal-buttons button { flex: 1; padding: 1rem; }
 .modal-btn-cancel { background: #ADB5BD; }
@@ -281,45 +415,18 @@ transition: all 0.3s ease;
 }
 
 .orderCard:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(107, 44, 62, 0.12); }
-.orderCard[data-status=“en_attente”]   { border-left: 6px solid #FFB703; background: rgba(255, 183, 3, 0.04); }
-.orderCard[data-status=“prete”]        { border-left: 6px solid #FB8500; background: rgba(251, 133, 0, 0.04); }
-.orderCard[data-status=“en_livraison”] { border-left: 6px solid #8B9D83; background: rgba(139, 157, 131, 0.04); }
-.orderCard[data-status=“livree”]       { border-left: 6px solid #2A9D8F; background: rgba(42, 157, 143, 0.04); }
+.orderCard[data-status=“en_attente”]   { border-left: 6px solid #FFB703; background: rgba(255,183,3,0.04); }
+.orderCard[data-status=“prete”]        { border-left: 6px solid #FB8500; background: rgba(251,133,0,0.04); }
+.orderCard[data-status=“en_livraison”] { border-left: 6px solid #8B9D83; background: rgba(139,157,131,0.04); }
+.orderCard[data-status=“livree”]       { border-left: 6px solid #2A9D8F; background: rgba(42,157,143,0.04); }
 .orderCard[data-status=“annulee”]      { border-left: 6px solid #D64545; opacity: 0.6; }
 
-.orderCard .order-header {
-display: flex;
-justify-content: space-between;
-align-items: flex-start;
-margin-bottom: 1rem;
-}
-
-.orderCard .order-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.2rem;
-color: #6B2C3E;
-font-weight: 700;
-}
-
-.orderCard .order-status {
-font-size: 0.85rem;
-font-weight: 600;
-padding: 0.3rem 0.8rem;
-border-radius: 20px;
-background: #F5F1E8;
-}
-
-.orderCard .order-info  { color: #6B6B6B; font-size: 0.95rem; margin: 0.3rem 0; }
-.orderCard .order-total { font-weight: 700; font-size: 1.1rem; color: #2C2C2C; margin: 0.8rem 0; }
-
-.orderCard .order-items {
-background: #F5F1E8;
-border-radius: 12px;
-padding: 0.8rem;
-margin: 0.8rem 0;
-font-size: 0.9rem;
-}
-
+.orderCard .order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+.orderCard .order-title  { font-family: ‘Playfair Display’, serif; font-size: 1.2rem; color: #6B2C3E; font-weight: 700; }
+.orderCard .order-status { font-size: 0.85rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 20px; background: #F5F1E8; }
+.orderCard .order-info   { color: #6B6B6B; font-size: 0.95rem; margin: 0.3rem 0; }
+.orderCard .order-total  { font-weight: 700; font-size: 1.1rem; color: #2C2C2C; margin: 0.8rem 0; }
+.orderCard .order-items  { background: #F5F1E8; border-radius: 12px; padding: 0.8rem; margin: 0.8rem 0; font-size: 0.9rem; }
 .orderCard .order-items div { padding: 0.2rem 0; color: #2C2C2C; }
 .orderCard .order-actions { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
 .orderCard .order-actions button { flex: 1; padding: 0.8rem; font-size: 0.9rem; }
@@ -352,18 +459,8 @@ box-shadow: 0 8px 20px rgba(107, 44, 62, 0.08);
 text-align: center;
 }
 
-.stat-card .stat-number {
-font-family: ‘Playfair Display’, serif;
-font-size: 2.5rem;
-color: #6B2C3E;
-font-weight: 700;
-display: block;
-}
-
-.stat-card .stat-label { color: #6B6B6B; font-size: 0.9rem; margin-top: 0.3rem; }
-
-#ordersHistory .orderCard { opacity: 0.8; }
-#ordersHistory .orderCard:hover { opacity: 1; }
+.stat-card .stat-number { font-family: ‘Playfair Display’, serif; font-size: 2.5rem; color: #6B2C3E; font-weight: 700; display: block; }
+.stat-card .stat-label  { color: #6B6B6B; font-size: 0.9rem; margin-top: 0.3rem; }
 
 .toast {
 position: fixed;
@@ -390,6 +487,8 @@ header h1 { font-size: 1.8rem; }
 #productList, #ordersList, #ordersHistory { grid-template-columns: 1fr; }
 .tabs { flex-direction: column; }
 .modal { padding: 1.5rem; }
+#newSubCatRow { flex-direction: column; }
+#addSubCatBtn { width: 100%; }
 }
 </style>
 
@@ -399,7 +498,21 @@ header h1 { font-size: 1.8rem; }
 <header>
   <h1>🇫🇷 Dashboard Commerçant</h1>
   <p>Gestion des produits et commandes - Terroir Sables</p>
-  <button id="logout">Se déconnecter</button>
+
+  <!-- ============================================
+       BOUTON OUVERT / FERMÉ
+       Un seul clic pour basculer l'état du commerce.
+       Met à jour isOpen dans Firestore → l'index.html
+       le lit en temps réel via onSnapshot.
+       ============================================ -->
+
+  <button id="toggleOpenBtn" class="ferme" onclick="toggleOpen()">
+    <span id="statusDot"></span>
+    <span id="statusLabel">Commerce fermé</span>
+  </button>
+
+<button id="logout">Se déconnecter</button>
+
 </header>
 
 <section>
@@ -440,17 +553,43 @@ header h1 { font-size: 1.8rem; }
   <!-- TAB PRODUITS -->
 
   <div class="tabContent active" id="tab-produits">
-    <h2>Ajouter un produit</h2>
-    <form id="addProductForm">
-      <input type="file" id="productImage" accept="image/*">
-      <input type="text" id="productName" placeholder="Nom du produit *" required>
-      <textarea id="productDescription" placeholder="Description du produit (cépage, origine, accord mets/vins...)"></textarea>
-      <input type="text" id="productPrice" placeholder="Prix (€) *" required>
-      <input type="number" id="productStock" placeholder="Stock initial *" min="0" required>
-      <button type="submit">➕ Ajouter le produit</button>
-    </form>
-    <h2>Mes produits</h2>
-    <div id="productList"></div>
+
+```
+<!-- ============================================
+     SOUS-CATÉGORIES
+     Le commerçant crée ses propres sous-cats.
+     Elles sont stockées dans commerces/{uid}/sousCats
+     Chaque produit peut être assigné à une sous-cat.
+     ============================================ -->
+<div id="subCatSection">
+  <h3>📂 Mes sous-catégories</h3>
+  <div id="subCatList">
+    <span style="color:#6B6B6B;font-style:italic;font-size:0.9rem;">Aucune sous-catégorie pour le moment</span>
+  </div>
+  <div id="newSubCatRow">
+    <input type="text" id="newSubCatInput" placeholder="Ex : Vins frais, Vins rouges, Rosés…" maxlength="40">
+    <button id="addSubCatBtn" onclick="addSubCategory()">➕ Ajouter</button>
+  </div>
+</div>
+
+<h2>Ajouter un produit</h2>
+<form id="addProductForm">
+  <input type="file" id="productImage" accept="image/*">
+  <input type="text" id="productName" placeholder="Nom du produit *" required>
+  <textarea id="productDescription" placeholder="Description du produit (cépage, origine, accord mets/vins...)"></textarea>
+  <input type="text" id="productPrice" placeholder="Prix (€) *" required>
+  <input type="number" id="productStock" placeholder="Stock initial *" min="0" required>
+  <!-- Sélecteur sous-catégorie dans le formulaire d'ajout -->
+  <select id="productSubCat">
+    <option value="">— Aucune sous-catégorie —</option>
+  </select>
+  <button type="submit">➕ Ajouter le produit</button>
+</form>
+
+<h2>Mes produits</h2>
+<div id="productList"></div>
+```
+
   </div>
 
   <!-- TAB COMMANDES -->
@@ -481,6 +620,11 @@ header h1 { font-size: 1.8rem; }
     <textarea id="editProductDescription" placeholder="Description du produit"></textarea>
     <input type="text" id="editProductPrice" placeholder="Prix (€) *">
     <input type="number" id="editProductStock" placeholder="Stock" min="0">
+    <!-- Sélecteur sous-catégorie dans la modal d'édition -->
+    <label style="font-weight:600;color:#6B2C3E;font-size:0.9rem;display:block;margin-bottom:0.4rem;">Sous-catégorie</label>
+    <select id="editProductSubCat">
+      <option value="">— Aucune sous-catégorie —</option>
+    </select>
     <div class="modal-buttons">
       <button class="modal-btn-cancel" onclick="closeEditModal()">Annuler</button>
       <button onclick="saveProductEdit()">💾 Enregistrer</button>
@@ -507,7 +651,8 @@ import {
   getDocs,
   query,
   where,
-  writeBatch
+  writeBatch,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import {
   getStorage,
@@ -517,7 +662,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
 
 // ============================================
-// CONFIG
+// CONFIG FIREBASE
 // ============================================
 const firebaseConfig = {
   apiKey: "AIzaSyB1mljASb5TevqJ1ucDqgXsYQZqEnNxQts",
@@ -539,11 +684,12 @@ const EMAILJS_TEMPLATE_ID = "template_vmnrowe";
 const EMAIL_ADMIN         = "cedric.huet.pro@gmail.com";
 
 // ============================================
-// VARIABLES
+// VARIABLES GLOBALES
 // ============================================
-let uid          = null;
+let uid             = null;
 let currentProducts = {};
-let commerceData = {};
+let commerceData    = {};
+let subCategories   = []; // liste des sous-cats du commerce
 
 // ============================================
 // TOAST
@@ -583,14 +729,16 @@ onAuthStateChanged(auth, async user => {
 
   commerceData = snap.data();
 
-  // Commission dynamique depuis Firestore (10% Cave Nicolas, 15% autres)
   window.commissionTaux = commerceData.commission || 15;
   window.commissionRate = window.commissionTaux / 100;
 
-  // Mettre à jour le label stat
   const labelPart = document.getElementById('statLabelPart');
   if(labelPart) labelPart.innerText = '🏦 Votre part (' + (100 - window.commissionTaux) + '%)';
 
+  // Bouton ouvert/fermé — état initial depuis Firestore
+  updateOpenButton(commerceData.isOpen !== false);
+
+  loadSubCategories();
   loadProducts();
   loadOrders();
   demarrerVerificationMinuit();
@@ -598,6 +746,121 @@ onAuthStateChanged(auth, async user => {
 
 document.getElementById("logout").onclick = () =>
   signOut(auth).then(() => window.location.href = "login.html");
+
+// ============================================
+// BOUTON OUVERT / FERMÉ
+// Met à jour isOpen dans Firestore (commerces/{uid})
+// L'index.html lit ce champ en temps réel
+// ============================================
+function updateOpenButton(isOpen){
+  const btn   = document.getElementById("toggleOpenBtn");
+  const label = document.getElementById("statusLabel");
+  if(isOpen){
+    btn.className   = "ouvert";
+    label.innerText = "Commerce ouvert — cliquer pour fermer";
+  } else {
+    btn.className   = "ferme";
+    label.innerText = "Commerce fermé — cliquer pour ouvrir";
+  }
+}
+
+window.toggleOpen = async function(){
+  if(!uid) return;
+  const snap    = await getDoc(doc(db, "commerces", uid));
+  const current = snap.data()?.isOpen !== false; // true par défaut
+  const next    = !current;
+
+  await updateDoc(doc(db, "commerces", uid), { isOpen: next });
+  updateOpenButton(next);
+  showToast(next ? "🟢 Votre commerce est maintenant ouvert !" : "🔴 Votre commerce est maintenant fermé.");
+}
+
+// ============================================
+// SOUS-CATÉGORIES
+// Stockées dans : commerces/{uid}/sousCats/{id} { name }
+// Chaque produit a un champ subCat (string, nom de la sous-cat)
+// ============================================
+function loadSubCategories(){
+  onSnapshot(collection(db, "commerces", uid, "sousCats"), snapshot => {
+    subCategories = [];
+    snapshot.forEach(d => subCategories.push({ id: d.id, name: d.data().name }));
+    subCategories.sort((a, b) => a.name.localeCompare(b.name));
+    renderSubCatList();
+    updateSubCatSelects();
+  });
+}
+
+function renderSubCatList(){
+  const container = document.getElementById("subCatList");
+  if(subCategories.length === 0){
+    container.innerHTML = `<span style="color:#6B6B6B;font-style:italic;font-size:0.9rem;">Aucune sous-catégorie pour le moment</span>`;
+    return;
+  }
+  container.innerHTML = "";
+  subCategories.forEach(sc => {
+    const tag = document.createElement("span");
+    tag.className = "subcat-tag";
+    tag.innerHTML = `
+      ${sc.name}
+      <button class="delete-subcat" onclick="deleteSubCategory('${sc.id}', '${sc.name.replace(/'/g, "\\'")}')" title="Supprimer">✕</button>
+    `;
+    container.appendChild(tag);
+  });
+}
+
+// Met à jour tous les <select> de sous-catégorie dans la page
+function updateSubCatSelects(){
+  const selects = ['productSubCat', 'editProductSubCat'];
+  selects.forEach(id => {
+    const sel = document.getElementById(id);
+    if(!sel) return;
+    const current = sel.value;
+    sel.innerHTML = `<option value="">— Aucune sous-catégorie —</option>`;
+    subCategories.forEach(sc => {
+      const opt = document.createElement("option");
+      opt.value     = sc.name;
+      opt.innerText = sc.name;
+      if(sc.name === current) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+window.addSubCategory = async function(){
+  const input = document.getElementById("newSubCatInput");
+  const name  = input.value.trim();
+  if(!name){ showToast("❌ Entrez un nom de sous-catégorie"); return; }
+  if(subCategories.find(sc => sc.name.toLowerCase() === name.toLowerCase())){
+    showToast("⚠️ Cette sous-catégorie existe déjà");
+    return;
+  }
+  await addDoc(collection(db, "commerces", uid, "sousCats"), { name, createdAt: serverTimestamp() });
+  input.value = "";
+  showToast(`✅ Sous-catégorie "${name}" créée !`);
+}
+
+// Entrée clavier dans le champ sous-cat
+document.getElementById("newSubCatInput").addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); window.addSubCategory(); }
+});
+
+window.deleteSubCategory = async function(id, name){
+  if(!confirm(`Supprimer la sous-catégorie "${name}" ?\n\nLes produits assignés à cette sous-catégorie n'auront plus de sous-catégorie.`)) return;
+  await deleteDoc(doc(db, "commerces", uid, "sousCats", id));
+  // On retire la sous-cat des produits qui l'avaient
+  const prodSnap = await getDocs(collection(db, "commerces", uid, "produits"));
+  const batch = writeBatch(db);
+  prodSnap.forEach(d => {
+    if(d.data().subCat === name) batch.update(d.ref, { subCat: "" });
+  });
+  await batch.commit();
+  showToast(`🗑️ Sous-catégorie "${name}" supprimée`);
+}
+
+// Met à jour la sous-cat d'un produit depuis la carte produit
+window.updateProductSubCat = async function(productId, value){
+  await updateDoc(doc(db, "commerces", uid, "produits", productId), { subCat: value });
+};
 
 // ============================================
 // AJOUTER PRODUIT
@@ -612,6 +875,7 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
   const description = document.getElementById("productDescription").value;
   const price       = document.getElementById("productPrice").value.replace(",", ".");
   const stock       = parseInt(document.getElementById("productStock").value);
+  const subCat      = document.getElementById("productSubCat").value;
   const imageFile   = document.getElementById("productImage").files[0];
 
   let imageUrl = null;
@@ -623,6 +887,7 @@ document.getElementById("addProductForm").addEventListener("submit", async e => 
 
   await addDoc(collection(db, "commerces", uid, "produits"), {
     name, description, price, stock,
+    subCat: subCat || "",
     available: stock > 0,
     imageUrl,
     maxPerDelivery: 0,
@@ -666,6 +931,12 @@ window.openEditModal = function(productId){
   document.getElementById("editProductDescription").value = p.description || "";
   document.getElementById("editProductPrice").value       = p.price       || "";
   document.getElementById("editProductStock").value       = p.stock       || 0;
+
+  // Pré-sélectionne la sous-cat actuelle du produit
+  updateSubCatSelects();
+  const editSel = document.getElementById("editProductSubCat");
+  if(editSel) editSel.value = p.subCat || "";
+
   document.getElementById("editModal").classList.add("active");
 }
 
@@ -680,13 +951,14 @@ window.saveProductEdit = async function(){
   const description = document.getElementById("editProductDescription").value;
   const price       = document.getElementById("editProductPrice").value.replace(",", ".");
   const stock       = parseInt(document.getElementById("editProductStock").value);
+  const subCat      = document.getElementById("editProductSubCat").value;
   const imageFile   = document.getElementById("editProductImage").files[0];
 
   const btn = document.querySelector('.modal-buttons button:last-child');
   btn.innerText = "Sauvegarde...";
   btn.disabled  = true;
 
-  let updateData = { name, description, price, stock, available: stock > 0 };
+  let updateData = { name, description, price, stock, subCat: subCat || "", available: stock > 0 };
 
   if(imageFile){
     const r = ref(storage, `produits/${uid}/${Date.now()}_${imageFile.name}`);
@@ -704,6 +976,8 @@ window.saveProductEdit = async function(){
 // ============================================
 // AFFICHAGE PRODUITS
 // ============================================
+const productList = document.getElementById("productList");
+
 function loadProducts(){
   onSnapshot(collection(db, "commerces", uid, "produits"), snapshot => {
     productList.innerHTML = "";
@@ -720,8 +994,15 @@ function loadProducts(){
 
       const div = document.createElement("div");
       div.className = "productCard";
+
+      // Construction du select sous-cat pour la carte produit
+      const subCatOptions = subCategories.map(sc =>
+        `<option value="${sc.name}" ${p.subCat === sc.name ? 'selected' : ''}>${sc.name}</option>`
+      ).join("");
+
       div.innerHTML = `
         ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : ""}
+        ${p.subCat ? `<span class="product-subcat-badge">📂 ${p.subCat}</span>` : ""}
         <h3>${p.name}</h3>
         ${p.description ? `<p class="description">${p.description}</p>` : ""}
         <p class="price">💰 ${p.price} €</p>
@@ -731,6 +1012,11 @@ function loadProducts(){
           <span style="font-weight:700;font-size:1.1rem;">${p.stock}</span>
           <button onclick="updateStock('${docSnap.id}', ${p.stock}, 1)">➕</button>
         </div>
+        <label>Sous-catégorie :</label>
+        <select onchange="updateProductSubCat('${docSnap.id}', this.value)">
+          <option value="" ${!p.subCat ? 'selected' : ''}>— Aucune —</option>
+          ${subCatOptions}
+        </select>
         <label>Max par client :</label>
         <input type="number" min="0" value="${p.maxPerDelivery ?? 0}"
                onchange="updateMaxPerClient('${docSnap.id}', this.value)">
@@ -756,7 +1042,6 @@ window.deleteProduct = async id => {
 // CALCUL CA SANS LIVRAISON
 // ============================================
 function calcCACommerce(commande){
-  // CA = total - frais de livraison
   const total         = commande.total        || 0;
   const deliveryPrice = commande.deliveryPrice || 0;
   return Math.max(0, total - deliveryPrice);
@@ -777,7 +1062,6 @@ function loadOrders(){
     let statsEnAttente = 0, statsEnCours = 0, statsLivrees = 0;
     let statsCA = 0, statsPartCommerce = 0;
 
-    // ✅ FIX : debutJour correctement déclaré
     const debutJour = new Date();
     debutJour.setHours(0, 0, 0, 0);
 
@@ -789,17 +1073,13 @@ function loadOrders(){
     }
 
     snapshot.docs.reverse().forEach(docSnap => {
-      const o = docSnap.data();
-
-      // Filtrer : commandes actives OU commandes du jour seulement
+      const o           = docSnap.data();
       const createdDate = o.createdAt?.toDate?.();
       const estDuJour   = createdDate && createdDate >= debutJour;
       const estActive   = ["en_attente","prete","en_livraison"].includes(o.status);
 
-      // On ignore les commandes terminées d'un autre jour
       if(!estActive && !estDuJour) return;
 
-      // STATS (uniquement commandes du jour, non annulées)
       if(o.status === "en_attente")   statsEnAttente++;
       if(o.status === "en_livraison") statsEnCours++;
       if(o.status === "livree" && estDuJour){
@@ -816,8 +1096,7 @@ function loadOrders(){
       const caCommande    = calcCACommerce(o);
       const partCommande  = (caCommande * (1 - window.commissionRate)).toFixed(2);
       const deliveryPrice = (o.deliveryPrice || 0).toFixed(2);
-
-      const itemsList = o.items?.map(item =>
+      const itemsList     = o.items?.map(item =>
         `<div>• ${item.name} × ${item.qty} — ${(item.price * item.qty).toFixed(2)} €</div>`
       ).join("") || "";
 
@@ -836,8 +1115,8 @@ function loadOrders(){
         action = `<p style="color:#6B6B6B;font-style:italic;margin-top:0.8rem;">Commande terminée</p>`;
       }
 
-      const createdAt   = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) || "";
-      const dateStr     = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
+      const createdAt = o.createdAt?.toDate?.()?.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) || "";
+      const dateStr   = o.createdAt?.toDate?.()?.toLocaleDateString('fr-FR') || "";
 
       div.innerHTML = `
         <div class="order-header">
@@ -870,11 +1149,11 @@ function loadOrders(){
 }
 
 function updateStats(enAttente, enCours, livrees, ca, partCommerce){
-  document.getElementById("statEnAttente").innerText     = enAttente;
-  document.getElementById("statEnCours").innerText       = enCours;
-  document.getElementById("statLivrees").innerText       = livrees;
-  document.getElementById("statCA").innerText            = ca.toFixed(2) + "€";
-  document.getElementById("statPartCommerce").innerText  = partCommerce.toFixed(2) + "€";
+  document.getElementById("statEnAttente").innerText    = enAttente;
+  document.getElementById("statEnCours").innerText      = enCours;
+  document.getElementById("statLivrees").innerText      = livrees;
+  document.getElementById("statCA").innerText           = ca.toFixed(2) + "€";
+  document.getElementById("statPartCommerce").innerText = partCommerce.toFixed(2) + "€";
 }
 
 window.markReady = async function(orderId){
@@ -918,43 +1197,24 @@ document.getElementById("editModal").addEventListener("click", function(e){
 // ============================================
 async function archiverCommandesDuJour(){
   try {
-    const q = query(
-      collection(db, "commandes"),
-      where("commerceId", "==", uid)
+    const snapshot = await getDocs(
+      query(collection(db, "commandes"), where("commerceId", "==", uid))
     );
-
-    const snapshot = await getDocs(q);
-    const batch    = writeBatch(db);
-    let   count    = 0;
-
+    const batch = writeBatch(db);
+    let count   = 0;
     snapshot.forEach(docSnap => {
       const o = docSnap.data();
-      // Archiver uniquement les commandes terminées (livrées ou annulées)
       if(o.status === "livree" || o.status === "annulee"){
         const archiveRef = doc(collection(db, "archives_commandes"));
-        batch.set(archiveRef, {
-          ...o,
-          archivedAt: new Date(),
-          originalId: docSnap.id
-        });
+        batch.set(archiveRef, { ...o, archivedAt: new Date(), originalId: docSnap.id });
         batch.delete(docSnap.ref);
         count++;
       }
     });
-
-    if(count > 0){
-      await batch.commit();
-      console.log(`✅ ${count} commandes archivées`);
-    }
-
-  } catch(error){
-    console.error("❌ Erreur archivage :", error);
-  }
+    if(count > 0) await batch.commit();
+  } catch(error){ console.error("❌ Erreur archivage :", error); }
 }
 
-// ============================================
-// RESET DASHBOARD À MINUIT
-// ============================================
 function resetDashboard(){
   updateStats(0, 0, 0, 0, 0);
   document.getElementById("ordersList").innerHTML    = `<div class="empty-state">Aucune commande en cours 🎉</div>`;
@@ -966,9 +1226,7 @@ function resetDashboard(){
 // EMAILJS - RÉCAP
 // ============================================
 function formatDate(date){
-  return date.toLocaleDateString('fr-FR', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
+  return date.toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 }
 
 function getLastRecapDate(){ return localStorage.getItem(`lastRecap_${uid}`); }
@@ -977,15 +1235,11 @@ function dejaEnvoyeAujourdhui(){ return getLastRecapDate() === new Date().toDate
 
 function buildDetailCommandes(commandes){
   if(commandes.length === 0) return "Aucune commande aujourd'hui.";
-
   return commandes.map((o, index) => {
-    const items     = o.items?.map(i =>
-      `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`
-    ).join('\n') || "—";
-    const ca        = calcCACommerce(o);
-    const partComm  = (ca * (1 - window.commissionRate)).toFixed(2);
-    const delivery  = (o.deliveryPrice || 0).toFixed(2);
-
+    const items    = o.items?.map(i => `   • ${i.name} x${i.qty} = ${(i.price * i.qty).toFixed(2)}€`).join('\n') || "—";
+    const ca       = calcCACommerce(o);
+    const partComm = (ca * (1 - window.commissionRate)).toFixed(2);
+    const delivery = (o.deliveryPrice || 0).toFixed(2);
     return `Commande ${index + 1}
 👤 ${o.client?.nom     || "—"}
 📍 ${o.client?.adresse || "—"}
@@ -1001,21 +1255,18 @@ ${items}
 
 window.envoyerRecapEmail = async function(){
   if(!uid) return;
-
   try {
     showToast("📧 Envoi du récap...", 5000);
-
     const emailCommerce = commerceData.email || EMAIL_ADMIN;
     const nomCommerce   = commerceData.name  || "Commerçant";
-
-    const aujourd_hui = new Date();
+    const aujourd_hui   = new Date();
     aujourd_hui.setHours(0, 0, 0, 0);
 
     const snapshot = await getDocs(
       query(collection(db, "commandes"), where("commerceId", "==", uid))
     );
 
-    const commandesDuJour = [];
+    const commandesDuJour  = [];
     snapshot.forEach(docSnap => {
       const o = docSnap.data();
       const createdAt = o.createdAt?.toDate?.();
@@ -1025,53 +1276,45 @@ window.envoyerRecapEmail = async function(){
     const commandesValides  = commandesDuJour.filter(o => o.status !== "annulee");
     const commandesAnnulees = commandesDuJour.filter(o => o.status === "annulee");
     const commandesLivrees  = commandesDuJour.filter(o => o.status === "livree");
-
-    // CA = produits uniquement (sans livraison)
-    const caTotal        = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
-    const totalLivraison = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
-    const partCommerce   = caTotal * (1 - window.commissionRate);
-    const partTerroir    = caTotal * window.commissionRate;
+    const caTotal           = commandesValides.reduce((sum, o) => sum + calcCACommerce(o), 0);
+    const totalLivraison    = commandesValides.reduce((sum, o) => sum + (o.deliveryPrice || 0), 0);
+    const partCommerce      = caTotal * (1 - window.commissionRate);
+    const partTerroir       = caTotal * window.commissionRate;
 
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      email_commerce:    emailCommerce,
-      nom_commerce:      nomCommerce,
-      date:              formatDate(new Date()),
-      nb_commandes:      commandesDuJour.length,
-      nb_livrees:        commandesLivrees.length,
-      nb_annulees:       commandesAnnulees.length,
-      ca_total:          caTotal.toFixed(2),
-      total_livraison:   totalLivraison.toFixed(2),
-      part_commerce:     partCommerce.toFixed(2),
-      part_terroir:      partTerroir.toFixed(2),
-      detail_commandes:  buildDetailCommandes(commandesValides)
+      email_commerce:   emailCommerce,
+      nom_commerce:     nomCommerce,
+      date:             formatDate(new Date()),
+      nb_commandes:     commandesDuJour.length,
+      nb_livrees:       commandesLivrees.length,
+      nb_annulees:      commandesAnnulees.length,
+      ca_total:         caTotal.toFixed(2),
+      total_livraison:  totalLivraison.toFixed(2),
+      part_commerce:    partCommerce.toFixed(2),
+      part_terroir:     partTerroir.toFixed(2),
+      detail_commandes: buildDetailCommandes(commandesValides)
     });
 
     setLastRecapDate();
     showToast("✅ Récap envoyé !");
-
   } catch(error){
     console.error("❌ Erreur récap :", error);
     showToast("❌ Erreur lors de l'envoi");
   }
 }
 
-// ============================================
-// VÉRIFICATION MINUIT (toutes les 60 secondes)
-// ============================================
 function demarrerVerificationMinuit(){
   setInterval(async () => {
     const now = new Date();
     if(now.getHours() === 0 && now.getMinutes() === 0){
       if(!dejaEnvoyeAujourdhui()){
-        console.log("🕛 Minuit ! Récap + archivage...");
-        await window.envoyerRecapEmail(); // 1. Envoyer le récap
-        await archiverCommandesDuJour();       // 2. Archiver les commandes
-        resetDashboard();                      // 3. Reset le dashboard
+        await window.envoyerRecapEmail();
+        await archiverCommandesDuJour();
+        resetDashboard();
       }
     }
   }, 60000);
 }
-
 </script>
 
 </body>
