@@ -194,8 +194,27 @@ font-size: 0.9rem;
 color: #6B6B6B;
 box-shadow: 0 4px 12px rgba(107, 44, 62, 0.06);
 }
-
 .zone-info strong { color: #6B2C3E; }
+
+/* BADGE OUVERT/FERMÉ */
+.badge-ouvert {
+background: #8B9D83;
+color: white;
+border-radius: 8px;
+padding: 2px 8px;
+font-size: 0.75rem;
+margin-left: 8px;
+font-weight: 600;
+}
+.badge-ferme {
+background: #D64545;
+color: white;
+border-radius: 8px;
+padding: 2px 8px;
+font-size: 0.75rem;
+margin-left: 8px;
+font-weight: 600;
+}
 
 /* MINI PANIER */
 #cart {
@@ -485,8 +504,6 @@ margin-top: 0.5rem;
 
 <section id="commander" style="display:none">
 
-  <!-- INFO ZONE ET TARIFS -->
-
   <div class="zone-info">
     🚴 <strong>Livraison à vélo</strong> — Zone : <strong>5 km max</strong><br>
     💰 <strong>0 à 3 km : 3,49 €</strong> &nbsp;|&nbsp; <strong>3 à 5 km : 4,49 €</strong><br>
@@ -540,13 +557,13 @@ margin-top: 0.5rem;
 // ============================================
 // CONSTANTES TARIFICATION
 // ============================================
-const ZONE_MAX_KM      = 5;
-const TARIF_COURT      = 3.49; // 0-3km
-const TARIF_LONG       = 4.49; // 3-5km
-const PANIER_MINIMUM   = 10;
+const ZONE_MAX_KM    = 5;
+const TARIF_COURT    = 3.49;
+const TARIF_LONG     = 4.49;
+const PANIER_MINIMUM = 10;
 
 function getDeliveryPrice(distanceKm){
-  if(distanceKm > ZONE_MAX_KM) return null; // Hors zone
+  if(distanceKm > ZONE_MAX_KM) return null;
   if(distanceKm <= 3) return TARIF_COURT;
   return TARIF_LONG;
 }
@@ -610,7 +627,6 @@ function clearCart(){
 }
 
 function addToCart(commerceId, productId, name, price, stock, maxPerDelivery){
-  // Vérif commerce unique
   if(selectedCommerceId && selectedCommerceId !== commerceId){
     showMessage("Vous ne pouvez commander que chez un seul commerce à la fois");
     return;
@@ -702,7 +718,6 @@ function renderCart(){
     `;
   });
 
-  // Vérif panier minimum
   const panierOK = itemsTotal >= PANIER_MINIMUM;
   const delivery = window.currentDeliveryPrice;
 
@@ -763,6 +778,8 @@ import {
   setDoc,
   getDoc,
   addDoc,
+  updateDoc,
+  increment,
   serverTimestamp,
   query,
   where
@@ -794,6 +811,29 @@ const productList  = document.getElementById("productList");
 let unsubscribeProducts = null;
 let categoriesSet       = new Set();
 let commerceCategories  = {};
+
+// ============================================
+// BUG 3 FIX — Auth fiable : on attend que Firebase
+// confirme l'état de connexion avant de continuer.
+// window.currentUser reste "undefined" jusqu'à la
+// réponse de Firebase, puis passe à null ou à l'user.
+// ============================================
+window.currentUser = undefined; // undefined = pas encore résolu
+
+function waitForAuth(){
+  return new Promise((resolve) => {
+    // Déjà résolu (null ou user)
+    if(window.currentUser !== undefined){
+      resolve(window.currentUser);
+      return;
+    }
+    // On attend le premier événement Firebase
+    const unsub = onAuthStateChanged(auth, (user) => {
+      unsub();
+      resolve(user);
+    });
+  });
+}
 
 // ============================================
 // CATÉGORIES
@@ -833,6 +873,7 @@ async function loadCategories(){
 
 // ============================================
 // COMMERCES PAR CATÉGORIE
+// BUG 2 FIX — Badge ouvert/fermé visible sur la carte
 // ============================================
 function showCommercesByCategory(cat){
   productList.innerHTML  = "";
@@ -840,11 +881,20 @@ function showCommercesByCategory(cat){
 
   getDocs(collection(db, "commerces")).then(snapshot => {
     snapshot.forEach(docSnap => {
-      if((docSnap.data().category || "Autres") === cat){
+      const data = docSnap.data();
+      if((data.category || "Autres") === cat){
+        const isOpen = data.isOpen !== false; // true par défaut si le champ n'existe pas
+
         const div = document.createElement("div");
         div.className      = "commerce";
         div.dataset.opened = "false";
-        div.innerHTML      = `${docSnap.data().name} <span style="float:right">▼</span>`;
+
+        // BUG 2 FIX — Badge visuel ouvert/fermé
+        div.innerHTML = `
+          ${data.name}
+          <span class="${isOpen ? 'badge-ouvert' : 'badge-ferme'}">${isOpen ? 'Ouvert' : 'Fermé'}</span>
+          <span style="float:right">▼</span>
+        `;
 
         div.onclick = () => {
           if(div.dataset.opened === "true"){
@@ -856,7 +906,7 @@ function showCommercesByCategory(cat){
           [...commerceList.children].forEach(c => { c.dataset.opened = "false"; c.classList.remove("selected"); });
           div.dataset.opened = "true";
           div.classList.add("selected");
-          showProducts(docSnap.id);
+          showProducts(docSnap.id, isOpen);
         };
         commerceList.appendChild(div);
       }
@@ -866,14 +916,35 @@ function showCommercesByCategory(cat){
 
 // ============================================
 // PRODUITS
+// On passe isOpen pour griser les boutons si fermé
 // ============================================
-function showProducts(commerceId){
+function showProducts(commerceId, isOpen = true){
   productList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>";
+
+  // BUG 2 FIX — Bandeau si commerce fermé
+  if(!isOpen){
+    productList.innerHTML += `
+      <div style="grid-column:1/-1;background:#fff3f3;border:2px solid #D64545;border-radius:16px;
+                  padding:1rem;text-align:center;color:#D64545;font-weight:700;margin-bottom:1rem;">
+        ❌ Ce commerce est actuellement fermé — revenez plus tard !
+      </div>
+    `;
+  }
 
   if(unsubscribeProducts) unsubscribeProducts();
 
   unsubscribeProducts = onSnapshot(collection(db, "commerces", commerceId, "produits"), snapshot => {
+    // On re-crée juste les produits, on garde le bandeau fermé s'il existe
+    const existingBanner = productList.querySelector('.banner-ferme');
     productList.innerHTML = "<h3 style='grid-column:1/-1;color:#6B2C3E;margin-bottom:0.5rem;'>Produits</h3>";
+    if(!isOpen){
+      productList.innerHTML += `
+        <div class="banner-ferme" style="grid-column:1/-1;background:#fff3f3;border:2px solid #D64545;
+                    border-radius:16px;padding:1rem;text-align:center;color:#D64545;font-weight:700;margin-bottom:1rem;">
+          ❌ Ce commerce est actuellement fermé — revenez plus tard !
+        </div>
+      `;
+    }
 
     snapshot.forEach(docSnap => {
       const p     = docSnap.data();
@@ -891,8 +962,10 @@ function showProducts(commerceId){
       `;
 
       const btn       = document.createElement("button");
-      btn.innerText   = p.available && stock > 0 ? "Ajouter au panier" : "Indisponible";
-      btn.disabled    = !p.available || stock < 1;
+      // BUG 2 FIX — Bouton désactivé si commerce fermé
+      const canOrder  = p.available && stock > 0 && isOpen;
+      btn.innerText   = !isOpen ? "Commerce fermé" : (p.available && stock > 0 ? "Ajouter au panier" : "Indisponible");
+      btn.disabled    = !canOrder;
 
       btn.onclick = () => addToCart(
         commerceId,
@@ -965,7 +1038,6 @@ document.getElementById("custAddress").addEventListener("input", e => {
           selectedAddressLatLng.lat, selectedAddressLatLng.lng
         );
 
-        // Vérif zone 5km
         if(distance > ZONE_MAX_KM){
           showMessage(`❌ Adresse hors zone de livraison (${ZONE_MAX_KM} km max)`);
           document.getElementById("deliveryPrice").innerText = "";
@@ -1001,22 +1073,25 @@ document.getElementById("custAddress").addEventListener("input", e => {
 
 // ============================================
 // CONFIRMER COMMANDE
+// BUG 1 FIX — Décrémente le stock après commande
+// BUG 2 FIX — Vérifie que le commerce est ouvert
+// BUG 3 FIX — Utilise waitForAuth() au lieu de window.currentUser direct
 // ============================================
 window.confirmOrder = async function(){
-  const user = window.currentUser;
+
+  // BUG 3 FIX — On attend que Firebase ait résolu l'auth
+  const user = await waitForAuth();
   if(!user){ showMessage("Vous devez être connecté"); return; }
 
   const cart = getCart();
   if(cart.length === 0){ showMessage("Panier vide"); return; }
 
-  // Vérif panier minimum
   const itemsTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
   if(itemsTotal < PANIER_MINIMUM){
     showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`);
     return;
   }
 
-  // Vérif max par commande
   for(const item of cart){
     if(item.maxPerDelivery > 0 && item.quantity > item.maxPerDelivery){
       showMessage(`${item.name} : maximum ${item.maxPerDelivery} par commande`);
@@ -1033,6 +1108,12 @@ window.confirmOrder = async function(){
   if(!commerceSnap.exists()){ showMessage("Commerce introuvable"); return; }
 
   const commerce = commerceSnap.data();
+
+  // BUG 2 FIX — Vérifie que le commerce est bien ouvert au moment de confirmer
+  if(commerce.isOpen === false){
+    showMessage("❌ Ce commerce est actuellement fermé");
+    return;
+  }
 
   if(!commerce.lat || !commerce.lng){
     showMessage("Position du commerce non définie");
@@ -1058,18 +1139,16 @@ window.confirmOrder = async function(){
     return;
   }
 
-  const deliveryPrice = getDeliveryPrice(distance);
-
-  // Commission dynamique depuis Firestore
-  const commission    = commerce.commission || 15; // 15% par défaut, 10% pour Cave Nicolas
+  const deliveryPrice    = getDeliveryPrice(distance);
+  const commission       = commerce.commission || 15;
   const commissionAmount = itemsTotal * (commission / 100);
-
-  const total = itemsTotal + deliveryPrice;
+  const total            = itemsTotal + deliveryPrice;
 
   try {
+    // Création de la commande
     await addDoc(collection(db, "commandes"), {
-      commerceId:        cart[0].commerceId,
-      clientId:          user.uid,
+      commerceId:       cart[0].commerceId,
+      clientId:         user.uid,
       client: {
         nom:     name,
         tel:     phone,
@@ -1083,13 +1162,21 @@ window.confirmOrder = async function(){
       })),
       itemsTotal,
       deliveryPrice,
-      distanceKm:        parseFloat(distance.toFixed(2)),
+      distanceKm:       parseFloat(distance.toFixed(2)),
       commission,
-      commissionAmount:  parseFloat(commissionAmount.toFixed(2)),
+      commissionAmount: parseFloat(commissionAmount.toFixed(2)),
       total,
-      status:            "en_attente",
-      createdAt:         serverTimestamp()
+      status:           "en_attente",
+      createdAt:        serverTimestamp()
     });
+
+    // BUG 1 FIX — Décrémente le stock de chaque produit commandé
+    for(const item of cart){
+      const prodRef = doc(db, "commerces", item.commerceId, "produits", item.productId);
+      await updateDoc(prodRef, {
+        stock: increment(-item.quantity)
+      });
+    }
 
     showMessage("✅ Commande envoyée !");
     clearCart();
@@ -1142,17 +1229,19 @@ window.logout = function(){
     .catch(() => showMessage("Erreur déconnexion"));
 }
 
+// BUG 3 FIX — onAuthStateChanged met window.currentUser à jour de manière fiable
 onAuthStateChanged(auth, user => {
   const authBox   = document.getElementById("authBox");
   const loginBtn  = document.getElementById("menuLoginBtn");
   const logoutBtn = document.getElementById("menuLogoutBtn");
+
+  window.currentUser = user; // null si déconnecté, objet user si connecté
+
   if(user){
     authBox.style.display   = "none";
-    window.currentUser      = user;
     loginBtn.style.display  = "none";
     logoutBtn.style.display = "block";
   } else {
-    window.currentUser      = null;
     loginBtn.style.display  = "block";
     logoutBtn.style.display = "none";
   }
