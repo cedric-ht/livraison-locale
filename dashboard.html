@@ -108,14 +108,18 @@ margin-bottom: 1rem;
 cursor: pointer;
 transition: border-color 0.2s ease;
 user-select: none;
+box-sizing: border-box;
+width: 100%;
+overflow: hidden;
 }
 .age-check-row:hover { border-color: rgba(199,123,0,0.45); }
 .age-check-row input[type=“checkbox”] {
-width: 20px; height: 20px; min-width: 20px; margin-top: 2px;
-accent-color: #C77B00; cursor: pointer;
+width: 20px; height: 20px; min-width: 20px; flex-shrink: 0;
+margin-top: 2px; accent-color: #C77B00; cursor: pointer;
 }
 .age-check-row .age-check-label {
 font-weight: 600; font-size: 0.95rem; color: #7A4D00; line-height: 1.4;
+flex: 1; min-width: 0; word-break: break-word;
 }
 .age-check-row .age-check-label span {
 display: block; font-weight: 400; font-size: 0.82rem; color: #A07030; margin-top: 0.15rem;
@@ -329,7 +333,7 @@ header h1 { font-size: 1.8rem; }
        tout autre produit à vente réservée aux +18.
        Écrit ageRestricted: true dans Firestore.
        ============================================ -->
-  <div class="age-check-row" onclick="document.getElementById('productAgeRestricted').click(); event.preventDefault();">
+  <div class="age-check-row" onclick="if(event.target.type!=='checkbox') document.getElementById('productAgeRestricted').click()">
     <input type="checkbox" id="productAgeRestricted">
     <div class="age-check-label">
       🔞 Produit alcoolisé — vente réservée aux +18 ans
@@ -385,7 +389,7 @@ header h1 { font-size: 1.8rem; }
      Pré-cochée si le produit a déjà ageRestricted: true.
      La modification est sauvegardée dans Firestore.
      ============================================ -->
-<div class="age-check-row" style="margin-bottom:0;" onclick="document.getElementById('editProductAgeRestricted').click(); event.preventDefault();">
+<div class="age-check-row" style="margin-bottom:0;" onclick="if(event.target.type!=='checkbox') document.getElementById('editProductAgeRestricted').click()">
   <input type="checkbox" id="editProductAgeRestricted">
   <div class="age-check-label">
     🔞 Produit alcoolisé — vente réservée aux +18 ans
