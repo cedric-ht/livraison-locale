@@ -153,21 +153,16 @@ max-width:450px; width:90%; max-height:90vh; overflow-y:auto;
 #checkoutForm h3{ font-family:‘Playfair Display’,serif; color:#6B2C3E; margin-bottom:1.5rem; }
 #checkoutForm input[type=“text”],
 #checkoutForm input[type=“tel”]{
-width:100%; padding:0.95rem 1.1rem; margin-bottom:1rem; border-radius:16px;
-border:2px solid #F0EBE1; font-family:‘Inter’,sans-serif; font-size:1rem;
-transition:border 0.2s ease; background:#FAFAF8;
-box-shadow:0 2px 8px rgba(107,44,62,0.05);
+width:100%; padding:0.9rem; margin-bottom:1rem; border-radius:14px;
+border:2px solid #F5F1E8; font-family:‘Inter’,sans-serif; transition:border 0.2s ease;
 }
-#checkoutForm input[type=“text”]:focus,
-#checkoutForm input[type=“tel”]:focus{ outline:none; border-color:#8B9D83; background:#FEFEFE; box-shadow:0 4px 12px rgba(139,157,131,0.15); }
-#checkoutForm input::placeholder{ color:#B0A898; }
+#checkoutForm input:focus{ outline:none; border-color:#8B9D83; }
 #checkoutForm button{
-width:100%; padding:1.1rem; border:none; border-radius:18px;
+width:100%; padding:1rem; border:none; border-radius:16px;
 background:linear-gradient(135deg,#6B2C3E,#8B4C5E); color:white; font-weight:700;
-cursor:pointer; font-family:‘Inter’,sans-serif; font-size:1.05rem;
-transition:all 0.3s ease; box-shadow:0 6px 20px rgba(107,44,62,0.3); margin-top:0.5rem;
+cursor:pointer; font-family:‘Inter’,sans-serif; transition:all 0.3s ease;
 }
-#checkoutForm button:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(107,44,62,0.4); }
+#checkoutForm button:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(107,44,62,0.3); }
 #checkoutOverlay{
 display:none; position:fixed; top:0;left:0;right:0;bottom:0;
 background:rgba(44,44,44,0.5); z-index:1000;
@@ -336,7 +331,7 @@ header h1{ font-size:1.4rem; }
 </section>
 <section id="contact" style="display:none">
   <h2>Contact</h2>
-  <p>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="34575150465d571a5c4151401a44465b745359555d581a575b59">[email&#160;protected]</a></p>
+  <p>📧 cedric.huet.pro@gmail.com</p>
 </section>
 
 <section id="commander" style="display:none">
@@ -421,55 +416,54 @@ header h1{ font-size:1.4rem; }
 <div id="errorMessage"></div>
 <div id="addedMessage">Produit ajouté ✅</div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-
+<script>
 const ZONE_MAX_KM    = 5;
 const TARIF_COURT    = 3.49;
 const TARIF_LONG     = 4.49;
 const PANIER_MINIMUM = 10;
 
 function getDeliveryPrice(distanceKm){
-if(distanceKm > ZONE_MAX_KM) return null;
-return distanceKm <= 3 ? TARIF_COURT : TARIF_LONG;
+  if(distanceKm > ZONE_MAX_KM) return null;
+  return distanceKm <= 3 ? TARIF_COURT : TARIF_LONG;
 }
-function getDeliveryTime(distanceKm){ return distanceKm <= 3 ? “~20 min” : “~30 min”; }
+function getDeliveryTime(distanceKm){ return distanceKm <= 3 ? "~20 min" : "~30 min"; }
 
 function toggleMenu(){
-const m = document.getElementById(“mobileMenu”);
-const o = document.getElementById(“mobileMenuOverlay”);
-const show = m.style.display === “block”;
-m.style.display = show ? “none” : “block”;
-o.style.display = show ? “none” : “block”;
+  const m = document.getElementById("mobileMenu");
+  const o = document.getElementById("mobileMenuOverlay");
+  const show = m.style.display === "block";
+  m.style.display = show ? "none" : "block";
+  o.style.display = show ? "none" : "block";
 }
 function nav(p){ toggleMenu(); showPage(p); }
 function showPage(p){
-[‘accueil’,‘apropos’,‘contact’,‘commander’,‘mesCommandes’].forEach(id => {
-const el = document.getElementById(id);
-if(el) el.style.display = ‘none’;
-});
-document.getElementById(p).style.display = ‘block’;
-if(p === ‘mesCommandes’ && window.renderClientOrders) window.renderClientOrders();
+  ['accueil','apropos','contact','commander','mesCommandes'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  document.getElementById(p).style.display = 'block';
+  if(p === 'mesCommandes' && window.renderClientOrders) window.renderClientOrders();
 }
 
 function showMessage(msg){
-const el = document.getElementById(“errorMessage”);
-el.innerText = msg; el.classList.add(“show”);
-setTimeout(() => el.classList.remove(“show”), 2500);
+  const el = document.getElementById("errorMessage");
+  el.innerText = msg; el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2500);
 }
 function showAddedMessage(){
-const el = document.getElementById(“addedMessage”);
-el.classList.add(“show”);
-setTimeout(() => el.classList.remove(“show”), 1500);
+  const el = document.getElementById("addedMessage");
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1500);
 }
 
 let selectedCommerceId = null;
-function getCart(){ return JSON.parse(localStorage.getItem(“panier”)) || []; }
-function saveCart(cart){ localStorage.setItem(“panier”, JSON.stringify(cart)); renderCart(); }
+function getCart(){ return JSON.parse(localStorage.getItem("panier")) || []; }
+function saveCart(cart){ localStorage.setItem("panier", JSON.stringify(cart)); renderCart(); }
 function clearCart(){
-localStorage.removeItem(“panier”);
-selectedCommerceId = null;
-window.currentDeliveryPrice = null;
-renderCart();
+  localStorage.removeItem("panier");
+  selectedCommerceId = null;
+  window.currentDeliveryPrice = null;
+  renderCart();
 }
 
 // ============================================
@@ -477,42 +471,42 @@ renderCart();
 // pour pouvoir interroger localement sans Firestore
 // ============================================
 function addToCart(commerceId, productId, name, price, stock, maxPerDelivery, ageRestricted){
-if(selectedCommerceId && selectedCommerceId !== commerceId){
-showMessage(“Vous ne pouvez commander que chez un seul commerce à la fois”); return;
-}
-selectedCommerceId = commerceId;
-let cart = getCart();
-price = parseFloat(price.toString().replace(”,”,”.”));
-const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
-if(existing){
-if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){ showMessage(`Maximum ${maxPerDelivery} par commande`); return; }
-if(existing.quantity >= stock){ showMessage(“Stock insuffisant”); return; }
-existing.quantity += 1;
-} else {
-if(stock < 1){ showMessage(“Produit non disponible”); return; }
-cart.push({ commerceId, productId, name, price, quantity:1, stock, maxPerDelivery, ageRestricted: ageRestricted === true });
-}
-saveCart(cart); showAddedMessage();
+  if(selectedCommerceId && selectedCommerceId !== commerceId){
+    showMessage("Vous ne pouvez commander que chez un seul commerce à la fois"); return;
+  }
+  selectedCommerceId = commerceId;
+  let cart = getCart();
+  price = parseFloat(price.toString().replace(",","."));
+  const existing = cart.find(p => p.productId === productId && p.commerceId === commerceId);
+  if(existing){
+    if(maxPerDelivery > 0 && existing.quantity + 1 > maxPerDelivery){ showMessage(`Maximum ${maxPerDelivery} par commande`); return; }
+    if(existing.quantity >= stock){ showMessage("Stock insuffisant"); return; }
+    existing.quantity += 1;
+  } else {
+    if(stock < 1){ showMessage("Produit non disponible"); return; }
+    cart.push({ commerceId, productId, name, price, quantity:1, stock, maxPerDelivery, ageRestricted: ageRestricted === true });
+  }
+  saveCart(cart); showAddedMessage();
 }
 
 function removeFromCart(productId){
-let cart = getCart().filter(p => p.productId !== productId);
-if(cart.length === 0) selectedCommerceId = null;
-saveCart(cart);
+  let cart = getCart().filter(p => p.productId !== productId);
+  if(cart.length === 0) selectedCommerceId = null;
+  saveCart(cart);
 }
 function updateQuantity(productId, qty){
-let cart = getCart();
-const index = cart.findIndex(p => p.productId === productId);
-if(index === -1) return;
-const item = cart[index];
-if(qty > item.stock){ showMessage(“Stock insuffisant”); return; }
-if(qty <= 0){ cart.splice(index,1); }
-else {
-if(item.maxPerDelivery > 0 && qty > item.maxPerDelivery){ showMessage(`Maximum ${item.maxPerDelivery} par commande`); return; }
-item.quantity = qty;
-}
-if(cart.length === 0) selectedCommerceId = null;
-saveCart(cart);
+  let cart = getCart();
+  const index = cart.findIndex(p => p.productId === productId);
+  if(index === -1) return;
+  const item = cart[index];
+  if(qty > item.stock){ showMessage("Stock insuffisant"); return; }
+  if(qty <= 0){ cart.splice(index,1); }
+  else {
+    if(item.maxPerDelivery > 0 && qty > item.maxPerDelivery){ showMessage(`Maximum ${item.maxPerDelivery} par commande`); return; }
+    item.quantity = qty;
+  }
+  if(cart.length === 0) selectedCommerceId = null;
+  saveCart(cart);
 }
 
 // ============================================
@@ -520,80 +514,94 @@ saveCart(cart);
 // a ageRestricted: true
 // ============================================
 function cartHasAgeRestricted(){
-return getCart().some(item => item.ageRestricted === true);
+  return getCart().some(item => item.ageRestricted === true);
 }
 
 function renderCart(){
-const cartBox   = document.getElementById(“cart”);
-const container = document.getElementById(“cartContent”);
-const cart      = getCart();
-container.innerHTML = “”;
-if(cart.length === 0){
-cartBox.classList.remove(“expanded”);
-container.innerHTML = “<p style='color:#6B6B6B;font-style:italic;'>Panier vide</p>”;
-return;
+  const cartBox   = document.getElementById("cart");
+  const container = document.getElementById("cartContent");
+  const cart      = getCart();
+  container.innerHTML = "";
+  if(cart.length === 0){
+    cartBox.classList.remove("expanded");
+    container.innerHTML = "<p style='color:#6B6B6B;font-style:italic;'>Panier vide</p>";
+    return;
+  }
+  cartBox.classList.add("expanded");
+  let itemsTotal = 0;
+  cart.forEach(item => {
+    itemsTotal += item.price * item.quantity;
+    container.innerHTML += `
+      <div>
+        <strong>${item.name}</strong>${item.ageRestricted ? ' <span style="font-size:0.75rem;color:#8B5500;">🔞</span>' : ''} — ${item.price.toFixed(2).replace(".",",")}€<br>
+        Qté :
+        <button onclick="updateQuantity('${item.productId}',${item.quantity-1})">−</button>
+        <strong>${item.quantity}</strong>
+        <button onclick="updateQuantity('${item.productId}',${item.quantity+1})">+</button>
+        <button onclick="removeFromCart('${item.productId}')" style="background:#D64545;margin-left:0.5rem;">Suppr.</button>
+      </div>`;
+  });
+  const panierOK = itemsTotal >= PANIER_MINIMUM;
+  const delivery = window.currentDeliveryPrice;
+  container.innerHTML += `
+    <div style="background:transparent;box-shadow:none;padding:0.5rem 0;">
+      <h3 style="text-align:right;">Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3>
+      ${!panierOK ? `<p style="color:#D64545;font-size:0.85rem;text-align:right;">⚠️ Minimum ${PANIER_MINIMUM}€ requis</p>` : ""}
+      <h3 style="text-align:right;">Livraison : ${delivery ? delivery.toFixed(2).replace(".",",")+' €' : '—'}</h3>
+      <h3 style="text-align:right;">Total : ${(itemsTotal+(delivery||0)).toFixed(2).replace(".",",")} €</h3>
+    </div>`;
 }
-cartBox.classList.add(“expanded”);
-let itemsTotal = 0;
-cart.forEach(item => {
-itemsTotal += item.price * item.quantity;
-container.innerHTML += ` <div> <strong>${item.name}</strong>${item.ageRestricted ? ' <span style="font-size:0.75rem;color:#8B5500;">🔞</span>' : ''} — ${item.price.toFixed(2).replace(".",",")}€<br> Qté : <button onclick="updateQuantity('${item.productId}',${item.quantity-1})">−</button> <strong>${item.quantity}</strong> <button onclick="updateQuantity('${item.productId}',${item.quantity+1})">+</button> <button onclick="removeFromCart('${item.productId}')" style="background:#D64545;margin-left:0.5rem;">Suppr.</button> </div>`;
-});
-const panierOK = itemsTotal >= PANIER_MINIMUM;
-const delivery = window.currentDeliveryPrice;
-container.innerHTML += `<div style="background:transparent;box-shadow:none;padding:0.5rem 0;"> <h3 style="text-align:right;">Sous-total : ${itemsTotal.toFixed(2).replace(".",",")} €</h3> ${!panierOK ?`<p style="color:#D64545;font-size:0.85rem;text-align:right;">⚠️ Minimum ${PANIER_MINIMUM}€ requis</p>` : ""} <h3 style="text-align:right;">Livraison : ${delivery ? delivery.toFixed(2).replace(".",",")+' €' : '—'}</h3> <h3 style="text-align:right;">Total : ${(itemsTotal+(delivery||0)).toFixed(2).replace(".",",")} €</h3> </div>`;
-}
-document.addEventListener(“DOMContentLoaded”, renderCart);
+document.addEventListener("DOMContentLoaded", renderCart);
 
-const cartHeader = document.getElementById(“cartHeader”);
+const cartHeader = document.getElementById("cartHeader");
 if(cartHeader){
-cartHeader.onclick = () => {
-const cart  = document.getElementById(“cart”);
-const arrow = document.getElementById(“toggleCart”);
-cart.classList.toggle(“expanded”);
-arrow.innerHTML = cart.classList.contains(“expanded”) ? “▼” : “▲”;
-};
+  cartHeader.onclick = () => {
+    const cart  = document.getElementById("cart");
+    const arrow = document.getElementById("toggleCart");
+    cart.classList.toggle("expanded");
+    arrow.innerHTML = cart.classList.contains("expanded") ? "&#9660;" : "&#9650;";
+  };
 }
 
 // FORMULAIRE LIVRAISON
 function openCheckoutForm(){
-const cart = getCart();
-if(cart.length === 0){ showMessage(“Panier vide”); return; }
-const itemsTotal = cart.reduce((s,i) => s+i.price*i.quantity, 0);
-if(itemsTotal < PANIER_MINIMUM){ showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`); return; }
-document.getElementById(“ageCheckbox”).checked = false;
-// ============================================
-// Affiche le bloc +18 si panier contient produit
-// avec ageRestricted: true — sans appel Firestore
-// ============================================
-setAgeVerificationVisible(cartHasAgeRestricted());
-document.getElementById(“checkoutForm”).style.display    = “block”;
-document.getElementById(“checkoutOverlay”).style.display = “block”;
+  const cart = getCart();
+  if(cart.length === 0){ showMessage("Panier vide"); return; }
+  const itemsTotal = cart.reduce((s,i) => s+i.price*i.quantity, 0);
+  if(itemsTotal < PANIER_MINIMUM){ showMessage(`Minimum ${PANIER_MINIMUM}€ requis pour commander`); return; }
+  document.getElementById("ageCheckbox").checked = false;
+  // ============================================
+  // Affiche le bloc +18 si panier contient produit
+  // avec ageRestricted: true — sans appel Firestore
+  // ============================================
+  setAgeVerificationVisible(cartHasAgeRestricted());
+  document.getElementById("checkoutForm").style.display    = "block";
+  document.getElementById("checkoutOverlay").style.display = "block";
 }
 function closeCheckoutForm(){
-document.getElementById(“checkoutForm”).style.display    = “none”;
-document.getElementById(“checkoutOverlay”).style.display = “none”;
+  document.getElementById("checkoutForm").style.display    = "none";
+  document.getElementById("checkoutOverlay").style.display = "none";
 }
 
 function openLoginPrompt(){
-document.getElementById(“loginPrompt”).style.display        = “block”;
-document.getElementById(“loginPromptOverlay”).style.display = “block”;
+  document.getElementById("loginPrompt").style.display        = "block";
+  document.getElementById("loginPromptOverlay").style.display = "block";
 }
 function closeLoginPrompt(){
-document.getElementById(“loginPrompt”).style.display        = “none”;
-document.getElementById(“loginPromptOverlay”).style.display = “none”;
-document.getElementById(“promptEmail”).value    = “”;
-document.getElementById(“promptPassword”).value = “”;
+  document.getElementById("loginPrompt").style.display        = "none";
+  document.getElementById("loginPromptOverlay").style.display = "none";
+  document.getElementById("promptEmail").value    = "";
+  document.getElementById("promptPassword").value = "";
 }
 
 function setAgeVerificationVisible(visible){
-const block = document.getElementById(“ageVerificationBlock”);
-if(visible){
-block.classList.add(“visible”);
-} else {
-block.classList.remove(“visible”);
-document.getElementById(“ageCheckbox”).checked = false;
-}
+  const block = document.getElementById("ageVerificationBlock");
+  if(visible){
+    block.classList.add("visible");
+  } else {
+    block.classList.remove("visible");
+    document.getElementById("ageCheckbox").checked = false;
+  }
 }
 </script>
 
