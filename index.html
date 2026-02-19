@@ -338,7 +338,7 @@ header h1{ font-size:1.4rem; }
   <div class="zone-info">
     🚴 <strong>Livraison à vélo</strong> — Zone : <strong>5 km max</strong><br>
     💰 <strong>0 à 3 km : 3,49 €</strong> &nbsp;|&nbsp; <strong>3 à 5 km : 4,49 €</strong><br>
-    🛒 Panier minimum : <strong>10 €</strong>
+    🛒 Panier minimum : <strong>25 €</strong>
   </div>
   <h2>Choisir une catégorie</h2>
   <div id="categoryList"></div>
@@ -420,7 +420,7 @@ header h1{ font-size:1.4rem; }
 const ZONE_MAX_KM    = 5;
 const TARIF_COURT    = 3.49;
 const TARIF_LONG     = 4.49;
-const PANIER_MINIMUM = 10;
+const PANIER_MINIMUM = 25;
 
 function getDeliveryPrice(distanceKm){
   if(distanceKm > ZONE_MAX_KM) return null;
